@@ -1,5 +1,6 @@
 import React from 'react';
 import { SectionHeader } from '../common/SectionHeader';
+import { MotionReveal } from '../common/MotionReveal';
 import { howItWorksSteps } from '../../data/howItWorks';
 import { Link2, Cpu, Sparkles, Rocket } from 'lucide-react';
 
@@ -14,12 +15,14 @@ export function HowItWorks() {
   return (
     <section id="how-it-works" className="py-24 md:py-36 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeader
-          eyebrow="The 4-Step Journey"
-          title="From Initial Integration to"
-          titleHighlight="Autonomous Mastery"
-          description="Seamlessly onboard your entire engineering organization in under three minutes without disrupting active sprints."
-        />
+        <MotionReveal animation="fade-up">
+          <SectionHeader
+            eyebrow="The 4-Step Journey"
+            title="From Initial Integration to"
+            titleHighlight="Autonomous Mastery"
+            description="Seamlessly onboard your entire engineering organization in under three minutes without disrupting active sprints."
+          />
+        </MotionReveal>
 
         {/* 4 Steps Grid with Interactive Hover States */}
         <div className="relative">
@@ -30,10 +33,10 @@ export function HowItWorks() {
             {howItWorksSteps.map((stepItem, index) => {
               const Icon = iconMap[stepItem.iconName] || Sparkles;
               return (
-                <div
-                  key={stepItem.step}
-                  className="group bg-white/90 dark:bg-[#0b0c33]/60 p-7 sm:p-8 rounded-3xl border border-slate-200/80 dark:border-white/10 shadow-md dark:shadow-xl hover:border-[#a1741a] dark:hover:border-[#D8B452] hover:shadow-2xl hover:shadow-[#D8B452]/20 transition-all duration-300 flex flex-col justify-between backdrop-blur-xl hover:-translate-y-2.5 hover:scale-[1.02] cursor-default"
-                >
+                <MotionReveal key={stepItem.step} delay={index * 120} animation="fade-up" className="h-full">
+                  <div
+                    className="group bg-white/90 dark:bg-[#0b0c33]/60 p-7 sm:p-8 rounded-3xl border border-slate-200/80 dark:border-white/10 shadow-md dark:shadow-xl hover:border-[#a1741a] dark:hover:border-[#D8B452] hover:shadow-2xl hover:shadow-[#D8B452]/20 transition-all duration-300 flex flex-col justify-between backdrop-blur-xl hover:-translate-y-2.5 hover:scale-[1.02] cursor-default h-full"
+                  >
                   <div>
                     {/* Step Number & Icon */}
                     <div className="flex items-center justify-between mb-8">
@@ -62,8 +65,9 @@ export function HowItWorks() {
                     Phase {index + 1} of 4
                   </div>
                 </div>
-              );
-            })}
+              </MotionReveal>
+            );
+          })}
           </div>
         </div>
       </div>

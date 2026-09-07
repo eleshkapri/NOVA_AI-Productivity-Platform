@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { SectionHeader } from '../common/SectionHeader';
+import { MotionReveal } from '../common/MotionReveal';
 import { testimonialsData } from '../../data/testimonials';
 import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 
@@ -41,15 +42,18 @@ export function Testimonials() {
       onMouseLeave={() => setIsPaused(false)}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeader
-          eyebrow="Industry Endorsements"
-          title="Acclaimed by High-Growth"
-          titleHighlight="Engineering Organizations"
-          description="Discover how technical leaders accelerate their release cadences and cultivate deep developer focus with NOVA."
-        />
+        <MotionReveal animation="fade-up">
+          <SectionHeader
+            eyebrow="Industry Endorsements"
+            title="Acclaimed by High-Growth"
+            titleHighlight="Engineering Organizations"
+            description="Discover how technical leaders accelerate their release cadences and cultivate deep developer focus with NOVA."
+          />
+        </MotionReveal>
 
         {/* Carousel Container */}
-        <div className="max-w-4xl mx-auto relative">
+        <MotionReveal animation="fade-up" delay={120}>
+          <div className="max-w-4xl mx-auto relative">
           <div className="group bg-white/95 dark:bg-[#0b0c33]/70 rounded-3xl p-8 sm:p-14 border border-slate-200/90 dark:border-[#D8B452]/25 shadow-xl dark:shadow-2xl backdrop-blur-2xl transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#D8B452]/20 hover:border-[#a1741a]/60 dark:hover:border-[#D8B452]/60">
             {/* Top Stars & Gold Quote Icon */}
             <div className="flex items-center justify-between mb-8">
@@ -129,6 +133,7 @@ export function Testimonials() {
             </div>
           </div>
         </div>
+        </MotionReveal>
       </div>
     </section>
   );

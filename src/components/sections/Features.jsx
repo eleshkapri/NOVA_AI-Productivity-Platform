@@ -1,6 +1,7 @@
 import React from 'react';
 import { SectionHeader } from '../common/SectionHeader';
 import { Badge } from '../common/Badge';
+import { MotionReveal } from '../common/MotionReveal';
 import { featuresData } from '../../data/features';
 import {
   Bot,
@@ -24,22 +25,24 @@ export function Features() {
   return (
     <section id="features" className="py-24 md:py-36 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeader
-          eyebrow="Autonomous Capabilities"
-          title="Master Every Dimension of"
-          titleHighlight="Modern Engineering"
-          description="Eradicate tedious backlog grooming, chaotic sync meetings, and stale pull requests with our autonomous AI intelligence layer."
-        />
+        <MotionReveal animation="fade-up">
+          <SectionHeader
+            eyebrow="Autonomous Capabilities"
+            title="Master Every Dimension of"
+            titleHighlight="Modern Engineering"
+            description="Eradicate tedious backlog grooming, chaotic sync meetings, and stale pull requests with our autonomous AI intelligence layer."
+          />
+        </MotionReveal>
 
         {/* 6 Luxury Feature Cards Grid with Next-Gen Hover Interactions */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {featuresData.map((feature) => {
+          {featuresData.map((feature, i) => {
             const Icon = iconMap[feature.iconName] || Bot;
             return (
-              <div
-                key={feature.id}
-                className="group relative bg-white/90 dark:bg-[#0b0c33]/50 rounded-3xl p-8 sm:p-9 border border-slate-200/80 dark:border-white/10 hover:border-[#a1741a] dark:hover:border-[#D8B452] shadow-md dark:shadow-xl hover:shadow-2xl hover:shadow-[#D8B452]/20 transition-all duration-300 hover:-translate-y-2.5 hover:scale-[1.02] flex flex-col justify-between backdrop-blur-xl cursor-default"
-              >
+              <MotionReveal key={feature.id} delay={i * 80} animation="fade-up" className="h-full">
+                <div
+                  className="group relative bg-white/90 dark:bg-[#0b0c33]/50 rounded-3xl p-8 sm:p-9 border border-slate-200/80 dark:border-white/10 hover:border-[#a1741a] dark:hover:border-[#D8B452] shadow-md dark:shadow-xl hover:shadow-2xl hover:shadow-[#D8B452]/20 transition-all duration-300 hover:-translate-y-2.5 hover:scale-[1.02] flex flex-col justify-between backdrop-blur-xl cursor-default h-full"
+                >
                 <div>
                   {/* Top Bar: Icon + Badge */}
                   <div className="flex items-center justify-between mb-8">
@@ -59,13 +62,14 @@ export function Features() {
                 </div>
 
                 {/* Bottom Metric Pill */}
-                <div className="mt-8 pt-5 border-t border-slate-100 dark:border-white/10 flex items-center justify-between text-xs">
-                  <span className="font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Impact Metric</span>
-                  <span className="font-bold text-[#a1741a] dark:text-[#D8B452] bg-amber-50 dark:bg-[#D8B452]/10 px-3 py-1 rounded-full border border-[#a1741a]/20 dark:border-[#D8B452]/30 group-hover:bg-[#D8B452] group-hover:text-black group-hover:border-[#D8B452] transition-all duration-300">
-                    {feature.metric}
-                  </span>
+                  <div className="mt-8 pt-5 border-t border-slate-100 dark:border-white/10 flex items-center justify-between text-xs">
+                    <span className="font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Impact Metric</span>
+                    <span className="font-bold text-[#a1741a] dark:text-[#D8B452] bg-amber-50 dark:bg-[#D8B452]/10 px-3 py-1 rounded-full border border-[#a1741a]/20 dark:border-[#D8B452]/30 group-hover:bg-[#D8B452] group-hover:text-black group-hover:border-[#D8B452] transition-all duration-300">
+                      {feature.metric}
+                    </span>
+                  </div>
                 </div>
-              </div>
+              </MotionReveal>
             );
           })}
         </div>

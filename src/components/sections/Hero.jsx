@@ -95,7 +95,7 @@ export function Hero({ onOpenDemo }) {
         </div>
 
         {/* Interactive Platform Mockup (Soufflet Midnight & Gold Console) */}
-        <div className="mt-16 md:mt-22 max-w-5xl mx-auto">
+        <div className="mt-16 md:mt-22 max-w-5xl mx-auto animate-float-subtle">
           <div className="relative rounded-3xl p-2 sm:p-3 bg-gradient-to-b from-[#D8B452]/40 via-[#0b0c33]/80 to-[#050614] shadow-2xl shadow-[#D8B452]/10 border border-[#D8B452]/30 backdrop-blur-2xl">
             {/* Top Mockup Title Bar */}
             <div className="bg-[#0b0c33] rounded-t-2xl px-5 py-3.5 flex items-center justify-between border-b border-white/10">

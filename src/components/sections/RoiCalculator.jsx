@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { SectionHeader } from '../common/SectionHeader';
 import { Button } from '../common/Button';
+import { MotionReveal } from '../common/MotionReveal';
 import { Calculator, ArrowRight, TrendingUp, Clock, DollarSign } from 'lucide-react';
 
 export function RoiCalculator({ onOpenDemo }) {
@@ -15,14 +16,17 @@ export function RoiCalculator({ onOpenDemo }) {
   return (
     <section id="roi-calculator" className="py-24 md:py-36 bg-amber-50/25 dark:bg-[#07081e]/90 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeader
-          eyebrow="Interactive Economics"
-          title="Calculate Your Team's"
-          titleHighlight="Productivity Dividend"
-          description="Adjust your engineering headcount and benchmark compensation to preview the quantifiable velocity gains unlocked by NOVA."
-        />
+        <MotionReveal animation="fade-up">
+          <SectionHeader
+            eyebrow="Interactive Economics"
+            title="Calculate Your Team's"
+            titleHighlight="Productivity Dividend"
+            description="Adjust your engineering headcount and benchmark compensation to preview the quantifiable velocity gains unlocked by NOVA."
+          />
+        </MotionReveal>
 
-        <div className="max-w-5xl mx-auto bg-white/95 dark:bg-[#0b0c33]/70 rounded-3xl p-8 sm:p-12 border border-slate-200/90 dark:border-[#D8B452]/30 shadow-xl dark:shadow-2xl backdrop-blur-2xl">
+        <MotionReveal animation="fade-up" delay={120}>
+          <div className="max-w-5xl mx-auto bg-white/95 dark:bg-[#0b0c33]/70 rounded-3xl p-8 sm:p-12 border border-slate-200/90 dark:border-[#D8B452]/30 shadow-xl dark:shadow-2xl backdrop-blur-2xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             {/* Sliders Input Column */}
             <div className="lg:col-span-6 space-y-8">
@@ -161,6 +165,7 @@ export function RoiCalculator({ onOpenDemo }) {
             </div>
           </div>
         </div>
+        </MotionReveal>
       </div>
     </section>
   );

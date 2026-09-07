@@ -146,3 +146,52 @@
 .animate-spin-slow {
   animation: spinSlow 12s linear infinite;
 }
+
+/* Infinite Smooth Motion Marquee Ticker */
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 25s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Gentle Floating Breathing Motion */
+@keyframes floatMotion {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-float-subtle {
+  animation: floatMotion 6s ease-in-out infinite;
+}
+
+/* Shimmer Light Sweep Motion */
+@keyframes shimmerSweep {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer-sweep {
+  background-size: 200% 100%;
+  animation: shimmerSweep 4s linear infinite;
+}

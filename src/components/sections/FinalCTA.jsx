@@ -1,12 +1,14 @@
 import React from 'react';
 import { Button } from '../common/Button';
+import { MotionReveal } from '../common/MotionReveal';
 import { ArrowRight, Play, Sparkles, CheckCircle2, Shield } from 'lucide-react';
 
 export function FinalCTA({ onOpenDemo }) {
   return (
     <section className="py-24 md:py-36 relative overflow-hidden bg-noise">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative rounded-3xl overflow-hidden bg-gradient-to-b from-[#0b0c33] via-[#07081e] to-[#050614] text-white p-10 sm:p-16 md:p-20 shadow-2xl border border-[#D8B452]/40 transition-all duration-500 hover:border-[#D8B452] hover:shadow-2xl hover:shadow-[#D8B452]/25 group">
+        <MotionReveal animation="zoom-in" duration={900}>
+          <div className="relative rounded-3xl overflow-hidden bg-gradient-to-b from-[#0b0c33] via-[#07081e] to-[#050614] text-white p-10 sm:p-16 md:p-20 shadow-2xl border border-[#D8B452]/40 transition-all duration-500 hover:border-[#D8B452] hover:shadow-2xl hover:shadow-[#D8B452]/25 group">
           {/* Ambient Gold Radial Glow */}
           <div className="absolute top-0 right-0 -mr-24 -mt-24 w-96 h-96 rounded-full bg-[#D8B452]/20 blur-3xl pointer-events-none group-hover:opacity-80 transition-opacity duration-700" />
           <div className="absolute bottom-0 left-0 -ml-24 -mb-24 w-96 h-96 rounded-full bg-[#D8B452]/15 blur-3xl pointer-events-none group-hover:opacity-80 transition-opacity duration-700" />
@@ -68,6 +70,7 @@ export function FinalCTA({ onOpenDemo }) {
             </div>
           </div>
         </div>
+        </MotionReveal>
       </div>
     </section>
   );

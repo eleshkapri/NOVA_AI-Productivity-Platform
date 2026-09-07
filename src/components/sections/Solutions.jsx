@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { SectionHeader } from '../common/SectionHeader';
 import { Badge } from '../common/Badge';
 import { Button } from '../common/Button';
+import { MotionReveal } from '../common/MotionReveal';
 import { solutionsData } from '../../data/solutions';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
 
@@ -14,35 +15,40 @@ export function Solutions() {
   return (
     <section id="solutions" className="py-24 md:py-36 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeader
-          eyebrow="Bespoke Architecture"
-          title="Engineered for Every Discipline"
-          titleHighlight="Across Your Technical Stack"
-          description="Whether you are an individual developer, a sprint leader, or a Chief Technology Officer, NOVA molds to your exact operational parameters."
-        />
+        <MotionReveal animation="fade-up">
+          <SectionHeader
+            eyebrow="Bespoke Architecture"
+            title="Engineered for Every Discipline"
+            titleHighlight="Across Your Technical Stack"
+            description="Whether you are an individual developer, a sprint leader, or a Chief Technology Officer, NOVA molds to your exact operational parameters."
+          />
+        </MotionReveal>
 
         {/* Persona Selector Tabs with Magnetic Hover */}
-        <div className="flex flex-wrap items-center justify-center gap-3 mb-16">
-          {solutionsData.map((sol) => {
-            const isActive = sol.id === activePersonaId;
-            return (
-              <button
-                key={sol.id}
-                onClick={() => setActivePersonaId(sol.id)}
-                className={`px-6 py-3 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95 ${
-                  isActive
-                    ? 'bg-gradient-to-r from-[#D8B452] to-[#B88A23] text-black shadow-lg shadow-[#D8B452]/25 scale-102'
-                    : 'bg-white/80 dark:bg-[#0b0c33]/70 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10 hover:border-[#a1741a] dark:hover:border-[#D8B452] hover:text-black dark:hover:text-white shadow-xs hover:shadow-md'
-                }`}
-              >
-                {sol.title}
-              </button>
-            );
-          })}
-        </div>
+        <MotionReveal animation="fade-up" delay={100}>
+          <div className="flex flex-wrap items-center justify-center gap-3 mb-16">
+            {solutionsData.map((sol) => {
+              const isActive = sol.id === activePersonaId;
+              return (
+                <button
+                  key={sol.id}
+                  onClick={() => setActivePersonaId(sol.id)}
+                  className={`px-6 py-3 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95 ${
+                    isActive
+                      ? 'bg-gradient-to-r from-[#D8B452] to-[#B88A23] text-black shadow-lg shadow-[#D8B452]/25 scale-102'
+                      : 'bg-white/80 dark:bg-[#0b0c33]/70 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10 hover:border-[#a1741a] dark:hover:border-[#D8B452] hover:text-black dark:hover:text-white shadow-xs hover:shadow-md'
+                  }`}
+                >
+                  {sol.title}
+                </button>
+              );
+            })}
+          </div>
+        </MotionReveal>
 
         {/* Active Persona Showcase Card with Glow Hover */}
-        <div className="max-w-4xl mx-auto bg-white/95 dark:bg-[#0b0c33]/70 rounded-3xl p-8 sm:p-12 border border-slate-200/90 dark:border-[#D8B452]/30 hover:border-[#a1741a] dark:hover:border-[#D8B452] shadow-xl dark:shadow-2xl hover:shadow-2xl hover:shadow-[#D8B452]/15 relative overflow-hidden backdrop-blur-2xl transition-all duration-300 animate-fade-in">
+        <MotionReveal animation="zoom-in" delay={150}>
+          <div className="max-w-4xl mx-auto bg-white/95 dark:bg-[#0b0c33]/70 rounded-3xl p-8 sm:p-12 border border-slate-200/90 dark:border-[#D8B452]/30 hover:border-[#a1741a] dark:hover:border-[#D8B452] shadow-xl dark:shadow-2xl hover:shadow-2xl hover:shadow-[#D8B452]/15 relative overflow-hidden backdrop-blur-2xl transition-all duration-300 animate-fade-in">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
             {/* Left Column: Details */}
             <div className="md:col-span-7 space-y-5">
@@ -90,6 +96,7 @@ export function Solutions() {
             </div>
           </div>
         </div>
+        </MotionReveal>
       </div>
     </section>
   );
