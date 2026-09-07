@@ -15,6 +15,7 @@ import {
   Activity,
   Send,
 } from 'lucide-react';
+import { securityService } from '../../services/SecurityService';
 
 export function CommandPalette({ isOpen, onClose, onToggleTheme, isDark, onOpenDemo }) {
   const [query, setQuery] = useState('');
@@ -207,7 +208,8 @@ export function CommandPalette({ isOpen, onClose, onToggleTheme, isDark, onOpenD
             type="text"
             value={query}
             onChange={(e) => {
-              setQuery(e.target.value);
+              const clean = securityService.sanitizeString(e.target.value, 100);
+              setQuery(clean);
               setSelectedIndex(0);
             }}
             placeholder="Type a command or search sections..."

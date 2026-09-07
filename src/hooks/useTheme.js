@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react';
+import { storageService } from '../services/StorageService';
 
 export function useTheme() {
   const [theme, setTheme] = useState(() => {
-    // Check saved theme in localStorage
     if (typeof window !== 'undefined') {
-      const savedTheme = localStorage.getItem('nova_theme');
-      if (savedTheme) {
+      const savedTheme = storageService.get('theme', null);
+      if (savedTheme === 'dark' || savedTheme === 'light') {
         return savedTheme;
       }
-      // Check system preference
       return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
     return 'dark';
@@ -23,7 +22,7 @@ export function useTheme() {
       root.classList.remove('dark');
       root.classList.add('light');
     }
-    localStorage.setItem('nova_theme', theme);
+    storageService.set('theme', theme);
   }, [theme]);
 
   const toggleTheme = () => {

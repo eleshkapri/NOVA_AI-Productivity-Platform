@@ -260,7 +260,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
       {isOpen && (
         <div
           id="mobile-menu"
-          className="md:hidden bg-white/98 dark:bg-[#050614]/98 backdrop-blur-2xl border-b border-slate-200 dark:border-[#D8B452]/20 shadow-2xl px-5 pt-5 pb-8 mt-3 space-y-4"
+          className="md:hidden bg-white/98 dark:bg-[#050614]/98 backdrop-blur-2xl border-b border-slate-200 dark:border-[#D8B452]/20 shadow-2xl px-5 pt-5 pb-8 mt-3 space-y-4 max-h-[calc(100vh-80px)] overflow-y-auto"
         >
           <div className="flex flex-col space-y-1">
             {navLinks.map((link) => (

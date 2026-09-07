@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Sparkles, X, ArrowRight } from 'lucide-react';
+import { ActivityModel } from '../../models/ActivityModel';
+import { soundService } from '../../services/SoundService';
 
 const activities = [
-  {
+  new ActivityModel({
     id: 'backlog',
     company: 'HyperScale Cloud',
     action: 'auto-triaged 28 backlog user stories',
@@ -12,8 +14,8 @@ const activities = [
     stage: 0,
     targetSection: '#features',
     actionBadge: 'Inspect Backlog AI',
-  },
-  {
+  }),
+  new ActivityModel({
     id: 'pr',
     company: 'Vertex AI Systems',
     action: 'approved PR with zero regression diffs',
@@ -23,8 +25,8 @@ const activities = [
     stage: 2,
     targetSection: '#features',
     actionBadge: 'Inspect PR Copilot',
-  },
-  {
+  }),
+  new ActivityModel({
     id: 'velocity',
     company: 'Pulse Dynamics',
     action: 'forecasted sprint delivery date with 98% confidence',
@@ -34,8 +36,8 @@ const activities = [
     stage: 3,
     targetSection: '#stats',
     actionBadge: 'Inspect Velocity Radar',
-  },
-  {
+  }),
+  new ActivityModel({
     id: 'pricing',
     company: 'FinTech Flow',
     action: 'upgraded 45 engineering seats to Pro tier',
@@ -45,30 +47,8 @@ const activities = [
     plan: 'pro',
     targetSection: '#pricing',
     actionBadge: 'Explore Pro Tier',
-  },
+  }),
 ];
-
-const playToastChime = () => {
-  try {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (AudioContext) {
-      const ctx = new AudioContext();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(659.25, ctx.currentTime); // E5
-      osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.12); // A5
-      gain.gain.setValueAtTime(0.06, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.28);
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start();
-      osc.stop(ctx.currentTime + 0.28);
-    }
-  } catch {
-    // Audio optional
-  }
-};
 
 export function LiveActivityToast({ onOpenDemo }) {
   const [index, setIndex] = useState(0);
@@ -108,40 +88,15 @@ export function LiveActivityToast({ onOpenDemo }) {
   const current = activities[index];
 
   const handleClick = () => {
-    playToastChime();
-
-    // 1. Smoothly scroll page to the respected section
-    if (current.targetSection) {
-      try {
-        const targetElement = document.querySelector(current.targetSection);
-        if (targetElement) {
-          const offset = 80;
-          const bodyRect = document.body.getBoundingClientRect().top;
-          const elementRect = targetElement.getBoundingClientRect().top;
-          const elementPosition = elementRect - bodyRect;
-          const offsetPosition = elementPosition - offset;
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth',
-          });
-        }
-      } catch {
-        // Fallback
-      }
-    }
-
-    // 2. Open interactive demo modal focused on the respective feature & stage
-    if (onOpenDemo) {
-      onOpenDemo(current.tab, {
-        plan: current.plan || 'pro',
-        stage: current.stage !== undefined ? current.stage : 0,
-      });
-    }
+    current.executeRedirection({
+      onOpenDemo,
+      playAudio: () => soundService.playChime('actionClick'),
+    });
   };
 
   return (
     <div
-      className="fixed bottom-6 right-20 sm:right-24 z-30 max-w-xs sm:max-w-sm animate-fade-in pointer-events-auto"
+      className="fixed bottom-20 left-4 right-4 sm:left-auto sm:right-24 sm:bottom-6 sm:max-w-sm z-30 animate-fade-in pointer-events-auto"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >

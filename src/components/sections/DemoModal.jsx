@@ -24,6 +24,9 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 
+import { soundService } from '../../services/SoundService';
+import { securityService } from '../../services/SecurityService';
+
 const CHAPTER_LOGS = [
   'Stage 01: Ingesting PRD specifications & architecture AST graph.',
   'Stage 02: Fibonacci velocity calibrated across engineering squads.',
@@ -31,27 +34,8 @@ const CHAPTER_LOGS = [
   'Stage 04: Predictive release radar online — canary deployment gates ready.',
 ];
 
-const playChime = () => {
-  try {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContext) return;
-    const ctx = new AudioContext();
-    const now = ctx.currentTime;
-    [523.25, 659.25, 783.99].forEach((freq, i) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, now + i * 0.04);
-      gain.gain.setValueAtTime(0.04, now + i * 0.04);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.35 + i * 0.04);
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start(now + i * 0.04);
-      osc.stop(now + 0.4 + i * 0.04);
-    });
-  } catch {
-    // Audio optional / non-blocking
-  }
+const playChime = (type = 'stepAdvance') => {
+  soundService.playChime(type);
 };
 
 function DemoModalContent({ isOpen, onClose, initialTab, selectedPlan, selectedTask, initialStage = 0 }) {
@@ -222,6 +206,8 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
 
   const handleLaunchTrial = (e) => {
     e.preventDefault();
+    const cleanWorkspace = securityService.sanitizeString(workspaceName, 50);
+    setWorkspaceName(cleanWorkspace || 'nova-demo-workspace');
     setIsDeploying(true);
     setTimeout(() => {
       setIsDeploying(false);
@@ -231,11 +217,13 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
 
   const handleContactSubmit = (e) => {
     e.preventDefault();
+    const cleanContact = securityService.sanitizePayload(contactForm);
+    setContactForm(cleanContact);
     setContactSubmitted(true);
   };
 
   const handleInteractiveTrigger = (command, logMessage) => {
-    playChime();
+    playChime('actionClick');
     setActiveSimulationLog(logMessage);
     if (command === 'patch') setPatchApplied(true);
     if (command === 'canary') setCanaryPromoted(true);
@@ -295,8 +283,8 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
           </div>
         </div>
 
-        {/* Feature Selector Tabs */}
-        <div className="flex flex-wrap gap-2 border-b border-slate-200 dark:border-white/10 pb-4">
+        {/* Feature Selector Tabs with Mobile Horizontal Swipe */}
+        <div className="flex items-center gap-2 border-b border-slate-200 dark:border-white/10 pb-4 overflow-x-auto no-scrollbar sm:flex-wrap">
           <button
             onClick={() => {
               setActiveFeature('walkthrough');

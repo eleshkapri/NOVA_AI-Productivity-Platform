@@ -32,7 +32,7 @@ export function RoiCalculator({ onOpenDemo }) {
             <div className="lg:col-span-6 space-y-8">
               {/* Slider 1: Team Size */}
               <div className="space-y-3">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                   <label htmlFor="team-size-slider" className="text-sm font-bold uppercase tracking-wider text-slate-800 dark:text-slate-300">
                     Engineering Team Size
                   </label>
@@ -59,7 +59,7 @@ export function RoiCalculator({ onOpenDemo }) {
 
               {/* Slider 2: Average Salary */}
               <div className="space-y-3">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                   <label htmlFor="salary-slider" className="text-sm font-bold uppercase tracking-wider text-slate-800 dark:text-slate-300">
                     Avg Annual Compensation
                   </label>
@@ -93,7 +93,7 @@ export function RoiCalculator({ onOpenDemo }) {
             </div>
 
             {/* Live Calculated Output Column */}
-            <div className="lg:col-span-6 bg-[#0b0c33] dark:bg-[#050614] p-8 rounded-3xl border border-[#D8B452]/40 shadow-xl space-y-6 text-white">
+            <div className="lg:col-span-6 bg-[#0b0c33] dark:bg-[#050614] p-5 sm:p-8 rounded-3xl border border-[#D8B452]/40 shadow-xl space-y-6 text-white">
               <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#D8B452]">
                 Projected Annual Dividend
               </span>

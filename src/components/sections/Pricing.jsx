@@ -4,10 +4,14 @@ import { Badge } from '../common/Badge';
 import { Button } from '../common/Button';
 import { MotionReveal } from '../common/MotionReveal';
 import { pricingPlans } from '../../data/pricing';
+import { PricingPlanModel } from '../../models/PricingPlanModel';
 import { Check, X, Sparkles, ArrowRight } from 'lucide-react';
+
+const planModels = pricingPlans.map((p) => new PricingPlanModel(p));
 
 export function Pricing({ onOpenDemo }) {
   const [isAnnual, setIsAnnual] = useState(true);
+  const proSavings = planModels[1]?.getAnnualSavingsPercent() || 20;
 
   return (
     <section id="pricing" className="py-24 md:py-36 relative">
@@ -58,7 +62,7 @@ export function Pricing({ onOpenDemo }) {
                 Annual Billing
               </span>
               <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-100 text-[#a1741a] border border-[#a1741a]/30 dark:bg-[#D8B452]/20 dark:text-[#D8B452] dark:border-[#D8B452]/40 animate-pulse hover:scale-105 transition-transform cursor-default">
-                Save 20%
+                Save {proSavings}%
               </span>
             </div>
           </div>
@@ -66,8 +70,8 @@ export function Pricing({ onOpenDemo }) {
 
         {/* 3 Luxury Pricing Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
-          {pricingPlans.map((plan, idx) => {
-            const price = isAnnual ? plan.annualPrice : plan.monthlyPrice;
+          {planModels.map((plan, idx) => {
+            const price = plan.getEffectivePrice(isAnnual);
 
             return (
               <MotionReveal key={plan.id} animation="fade-up" delay={150 + idx * 100} className="h-full">

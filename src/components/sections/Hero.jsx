@@ -109,20 +109,20 @@ export function Hero({ onOpenDemo }) {
 
           <div className="relative rounded-3xl p-2 sm:p-3 bg-gradient-to-b from-[#6833FF]/25 via-[#0b0c33]/90 to-[#050614] shadow-2xl shadow-[#6833FF]/20 border border-[#8E6FFF]/35 backdrop-blur-2xl orchid-card">
             {/* Top Mockup Title Bar */}
-            <div className="bg-[#0b0c33] rounded-t-2xl px-5 py-3.5 flex items-center justify-between border-b border-white/10">
-              <div className="flex items-center gap-2.5">
-                <span className="w-3 h-3 rounded-full bg-rose-500/80 inline-block" />
-                <span className="w-3 h-3 rounded-full bg-amber-500/80 inline-block" />
-                <span className="w-3 h-3 rounded-full bg-emerald-500/80 inline-block" />
-                <span className="ml-3 text-xs font-semibold tracking-wider text-slate-300 flex items-center gap-2">
-                  <Bot className="w-3.5 h-3.5 text-[#D8B452]" />
-                  nova-command-center &bull; sprint-48-active
+            <div className="bg-[#0b0c33] rounded-t-2xl px-3 sm:px-5 py-2.5 sm:py-3.5 flex items-center justify-between border-b border-white/10 gap-2">
+              <div className="flex items-center gap-2 shrink-0">
+                <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-rose-500/80 inline-block" />
+                <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-amber-500/80 inline-block" />
+                <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-emerald-500/80 inline-block" />
+                <span className="ml-1 sm:ml-3 text-[11px] sm:text-xs font-semibold tracking-wider text-slate-300 hidden xs:flex items-center gap-1.5 truncate max-w-[140px] sm:max-w-none">
+                  <Bot className="w-3.5 h-3.5 text-[#D8B452] shrink-0" />
+                  <span className="truncate">nova-command-center</span>
                 </span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 sm:gap-2">
                 <button
                   onClick={() => setActiveTab('sprint')}
-                  className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer hover:scale-105 active:scale-95 ${
+                  className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all cursor-pointer hover:scale-105 active:scale-95 whitespace-nowrap ${
                     activeTab === 'sprint'
                       ? 'bg-[#D8B452] text-black shadow-xs'
                       : 'text-slate-400 hover:text-white'
@@ -132,7 +132,7 @@ export function Hero({ onOpenDemo }) {
                 </button>
                 <button
                   onClick={() => setActiveTab('copilot')}
-                  className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer hover:scale-105 active:scale-95 ${
+                  className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all cursor-pointer hover:scale-105 active:scale-95 whitespace-nowrap ${
                     activeTab === 'copilot'
                       ? 'bg-[#D8B452] text-black shadow-xs'
                       : 'text-slate-400 hover:text-white'
@@ -143,7 +143,7 @@ export function Hero({ onOpenDemo }) {
                 <button
                   onClick={() => onOpenDemo('walkthrough')}
                   title="Launch full interactive demo studio"
-                  className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer hover:scale-105 active:scale-95 bg-gradient-to-r from-[#D8B452] to-[#B38722] text-black shadow-sm"
+                  className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer hover:scale-105 active:scale-95 bg-gradient-to-r from-[#D8B452] to-[#B38722] text-black shadow-sm whitespace-nowrap"
                 >
                   <Play className="w-3 h-3 fill-current" /> Interactive Studio
                 </button>

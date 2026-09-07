@@ -3,6 +3,7 @@ import { SectionHeader } from '../common/SectionHeader';
 import { Badge } from '../common/Badge';
 import { MotionReveal } from '../common/MotionReveal';
 import { featuresData } from '../../data/features';
+import { FeatureModel } from '../../models/FeatureModel';
 import {
   Bot,
   Code2,
@@ -21,25 +22,9 @@ const iconMap = {
   ShieldCheck,
 };
 
+const featureModels = featuresData.map((data, index) => new FeatureModel({ ...data, index }));
+
 export function Features({ onOpenDemo }) {
-  const getFeatureTab = (idx) => {
-    switch (idx) {
-      case 0:
-        return 'backlog';
-      case 1:
-        return 'pr';
-      case 2:
-        return 'velocity';
-      case 3:
-        return 'pr';
-      case 4:
-        return 'status';
-      case 5:
-        return 'docs';
-      default:
-        return 'backlog';
-    }
-  };
 
   return (
     <section id="features" className="py-24 md:py-36 relative">
@@ -55,9 +40,9 @@ export function Features({ onOpenDemo }) {
 
         {/* 6 Luxury Feature Cards Grid with Orchid Holographic Border Hover */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 relative z-10">
-          {featuresData.map((feature, i) => {
+          {featureModels.map((feature, i) => {
             const Icon = iconMap[feature.iconName] || Bot;
-            const targetTab = getFeatureTab(i);
+            const targetTab = feature.getTargetTab();
             return (
               <MotionReveal key={feature.id} delay={i * 80} animation="fade-up" className="h-full">
                 <div
