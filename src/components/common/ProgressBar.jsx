@@ -1,67 +1,53 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export function ProgressBar() {
-  const barRef = useRef(null);
-  const targetProgress = useRef(0);
-  const currentProgress = useRef(0);
-  const isRunning = useRef(false);
-  const animId = useRef(null);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const updateTarget = () => {
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-      if (totalHeight > 0) {
-        targetProgress.current = Math.min(Math.max(window.scrollY / totalHeight, 0), 1);
-      } else {
-        targetProgress.current = 0;
-      }
-      startLerp();
-    };
+    let animId = null;
 
-    const loop = () => {
-      const diff = targetProgress.current - currentProgress.current;
-      // Continue interpolation while there is meaningful distance
-      if (Math.abs(diff) > 0.0004) {
-        // Silky smooth dampening factor
-        currentProgress.current += diff * 0.14;
-        if (barRef.current) {
-          barRef.current.style.transform = `scaleX(${currentProgress.current})`;
+    const handleScroll = () => {
+      if (animId) return;
+
+      animId = requestAnimationFrame(() => {
+        const scrollElement = document.scrollingElement || document.documentElement;
+        const totalHeight = scrollElement.scrollHeight - window.innerHeight;
+        if (totalHeight > 0) {
+          const currentScroll = window.scrollY || scrollElement.scrollTop || 0;
+          const currentProgress = Math.min(Math.max((currentScroll / totalHeight) * 100, 0), 100);
+          setProgress(currentProgress);
+        } else {
+          setProgress(0);
         }
-        animId.current = requestAnimationFrame(loop);
-      } else {
-        currentProgress.current = targetProgress.current;
-        if (barRef.current) {
-          barRef.current.style.transform = `scaleX(${currentProgress.current})`;
-        }
-        isRunning.current = false;
-      }
+        animId = null;
+      });
     };
 
-    const startLerp = () => {
-      if (!isRunning.current) {
-        isRunning.current = true;
-        animId.current = requestAnimationFrame(loop);
-      }
-    };
-
-    window.addEventListener('scroll', updateTarget, { passive: true });
-    window.addEventListener('resize', updateTarget, { passive: true });
-    updateTarget();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll, { passive: true });
+    handleScroll(); // Initial computation on mount
 
     return () => {
-      window.removeEventListener('scroll', updateTarget);
-      window.removeEventListener('resize', updateTarget);
-      if (animId.current) cancelAnimationFrame(animId.current);
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+      if (animId) cancelAnimationFrame(animId);
     };
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 right-0 h-[3px] z-50 pointer-events-none bg-transparent overflow-hidden">
+    <div
+      className="fixed top-0 left-0 right-0 h-1 z-[100] pointer-events-none bg-black/10 dark:bg-white/5"
+      aria-hidden="true"
+    >
       <div
-        ref={barRef}
-        className="h-full w-full bg-gradient-to-r from-[#D8B452] via-[#F3D887] to-[#D8B452] shadow-[0_0_12px_rgba(216,180,82,0.9)] origin-left will-change-transform"
-        style={{ transform: 'scaleX(0)' }}
-      />
+        className="h-full bg-gradient-to-r from-[#a1741a] via-[#D8B452] to-[#F3D887] shadow-[0_0_12px_rgba(216,180,82,0.9)] transition-[width] duration-150 ease-out will-change-[width] relative"
+        style={{ width: `${progress}%` }}
+      >
+        {/* Luminous Leading Glow Head at the leading tip */}
+        {progress > 0 && (
+          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-white shadow-[0_0_8px_#D8B452,0_0_14px_#D8B452]" />
+        )}
+      </div>
     </div>
   );
 }
