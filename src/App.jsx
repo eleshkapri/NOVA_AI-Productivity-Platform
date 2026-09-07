@@ -3,6 +3,7 @@ import { useTheme } from './hooks/useTheme';
 import { useScrollPosition } from './hooks/useScrollPosition';
 
 // Soufflet Malt Luxury & Interactive Experience Components
+import { CustomCursor } from './components/common/CustomCursor';
 import { ProgressBar } from './components/common/ProgressBar';
 import { Preloader } from './components/common/Preloader';
 import { SoundToggle } from './components/common/SoundToggle';
@@ -44,6 +45,9 @@ export function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#fcfbfa] dark:bg-[#050614] text-[#0f172a] dark:text-[#f1f2f6] transition-colors duration-300 font-sans selection:bg-[#D8B452] selection:text-black relative">
+      {/* Soufflet Malt Luxury Custom Mouse Cursor */}
+      <CustomCursor />
+
       {/* 0. Ambient Floating Background & Grid Matrix */}
       <AmbientBackground />
 
