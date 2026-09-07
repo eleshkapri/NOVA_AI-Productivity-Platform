@@ -195,3 +195,98 @@
   background-size: 200% 100%;
   animation: shimmerSweep 4s linear infinite;
 }
+
+/* ========================================================
+   LUXURY MOTION BACKGROUND ANIMATIONS (PURE CSS / NO CANVAS)
+   ======================================================== */
+
+@keyframes meshDrift1 {
+  0% {
+    transform: translate3d(0px, 0px, 0px) rotate(0deg) scale(1);
+  }
+  33% {
+    transform: translate3d(60px, -45px, 0px) rotate(20deg) scale(1.14);
+  }
+  66% {
+    transform: translate3d(-40px, 35px, 0px) rotate(-15deg) scale(0.92);
+  }
+  100% {
+    transform: translate3d(0px, 0px, 0px) rotate(0deg) scale(1);
+  }
+}
+
+@keyframes meshDrift2 {
+  0% {
+    transform: translate3d(0px, 0px, 0px) rotate(0deg) scale(1);
+  }
+  33% {
+    transform: translate3d(-70px, 50px, 0px) rotate(-25deg) scale(1.18);
+  }
+  66% {
+    transform: translate3d(45px, -30px, 0px) rotate(18deg) scale(0.88);
+  }
+  100% {
+    transform: translate3d(0px, 0px, 0px) rotate(0deg) scale(1);
+  }
+}
+
+@keyframes meshDrift3 {
+  0% {
+    transform: translate3d(0px, 0px, 0px) scale(1);
+  }
+  50% {
+    transform: translate3d(45px, -60px, 0px) scale(1.2);
+  }
+  100% {
+    transform: translate3d(0px, 0px, 0px) scale(1);
+  }
+}
+
+@keyframes auroraBeamSway {
+  0%, 100% {
+    transform: rotate(-20deg) translateY(0px) scaleY(1);
+    opacity: 0.35;
+  }
+  50% {
+    transform: rotate(-10deg) translateY(-25px) scaleY(1.15);
+    opacity: 0.65;
+  }
+}
+
+@keyframes floatingLightMote {
+  0% {
+    transform: translateY(0px) scale(0.7);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.75;
+  }
+  75% {
+    opacity: 0.75;
+  }
+  100% {
+    transform: translateY(-140px) scale(1.2);
+    opacity: 0;
+  }
+}
+
+.animate-mesh-1 {
+  animation: meshDrift1 20s ease-in-out infinite;
+}
+
+.animate-mesh-2 {
+  animation: meshDrift2 24s ease-in-out infinite;
+}
+
+.animate-mesh-3 {
+  animation: meshDrift3 18s ease-in-out infinite;
+}
+
+.animate-aurora-beam {
+  animation: auroraBeamSway 14s ease-in-out infinite;
+}
+
+.animate-mote {
+  animation: floatingLightMote 10s ease-in-out infinite;
+}
+
