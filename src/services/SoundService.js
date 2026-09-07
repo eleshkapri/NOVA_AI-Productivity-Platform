@@ -1,14 +1,41 @@
 import { storageService } from './StorageService';
 
 /**
- * SoundService provides an OOP singleton controller for Web Audio synthesis & ambient soundtrack playback:
+ * Curated list of relaxing, feel-good ambient soundtracks for the NOVA platform.
+ */
+export const RELAXING_TRACKS = Object.freeze([
+  {
+    id: 'feel-good',
+    name: 'Feel Good Chill',
+    mood: 'Warm & Uplifting',
+    src: '/audio/nova-theme.mp3',
+    icon: '🌿'
+  },
+  {
+    id: 'serene',
+    name: 'Serene Ambient',
+    mood: 'Deep Calm & Peace',
+    src: '/audio/relaxing.mp3',
+    icon: '🌊'
+  },
+  {
+    id: 'piano',
+    name: 'Peaceful Piano',
+    mood: 'Mindful Focus',
+    src: '/audio/piano.mp3',
+    icon: '🎹'
+  }
+]);
+
+/**
+ * SoundService provides an OOP singleton controller for Web Audio synthesis & relaxing soundtrack playback:
  * - Encapsulation: Audio element (#audio), AudioContext (#ctx), and synthesis nodes are strictly encapsulated.
  * - Resource Safety: Reuses single AudioContext and Audio instances, cleans up intervals and nodes safely.
  * - Autoplay Compliance: Initiates audio on explicit user interaction with smooth fade-in/fade-out ramps.
- * - Observer Pattern: Dispatches state updates (playing, volume, mute) to subscribers without polling.
+ * - Observer Pattern: Dispatches state updates (playing, volume, track) to subscribers without polling.
  * - Dual-Engine Architecture:
- *    Primary: High-fidelity 320kbps Cyberpunk Ambient soundtrack (/audio/nova-theme.mp3).
- *    Fallback: Procedural Web Audio API generative synthesizer.
+ *    Primary: High-fidelity relaxing feel-good soundtrack library.
+ *    Fallback: Procedural Web Audio API peaceful generative synthesizer.
  * - Tab Visibility Awareness: Automatically suspends playback when tab is hidden, resumes when active.
  */
 export class SoundService {
@@ -18,6 +45,7 @@ export class SoundService {
   #isEnabled;
   #isPlaying;
   #volume;
+  #currentTrackId;
   #fadeInterval;
   #synthInterval;
   #synthNodes;
@@ -31,6 +59,7 @@ export class SoundService {
     this.#isEnabled = storageService.get('sound_enabled', false);
     this.#isPlaying = false;
     this.#volume = storageService.get('sound_volume', 0.35);
+    this.#currentTrackId = storageService.get('sound_track_id', 'feel-good');
     this.#fadeInterval = null;
     this.#synthInterval = null;
     this.#synthNodes = [];
@@ -78,6 +107,49 @@ export class SoundService {
     this.#notify();
   }
 
+  get currentTrackId() {
+    return this.#currentTrackId;
+  }
+
+  get currentTrack() {
+    return (
+      RELAXING_TRACKS.find((t) => t.id === this.#currentTrackId) || RELAXING_TRACKS[0]
+    );
+  }
+
+  get tracks() {
+    return RELAXING_TRACKS;
+  }
+
+  /**
+   * Switches the active soundtrack. Smoothly transitions if already playing.
+   * @param {string} trackId
+   */
+  setTrack(trackId) {
+    const track = RELAXING_TRACKS.find((t) => t.id === trackId);
+    if (!track || track.id === this.#currentTrackId) return;
+
+    this.#currentTrackId = track.id;
+    storageService.set('sound_track_id', track.id);
+
+    if (this.#audio) {
+      const wasPlaying = !this.#audio.paused && this.#isEnabled;
+      if (wasPlaying) {
+        this.#fadeOutAudio(this.#audio, () => {
+          if (this.#audio) {
+            this.#audio.src = track.src;
+            this.#audio.load();
+            this.#fadeInAudio(this.#audio, this.#volume);
+          }
+        });
+      } else {
+        this.#audio.src = track.src;
+        this.#audio.load();
+      }
+    }
+    this.#notify();
+  }
+
   /**
    * Subscribes a listener to audio state changes.
    * @param {() => void} listener
@@ -97,7 +169,10 @@ export class SoundService {
         listener({
           isEnabled: this.#isEnabled,
           isPlaying: this.#isPlaying,
-          volume: this.#volume
+          volume: this.#volume,
+          currentTrackId: this.#currentTrackId,
+          currentTrack: this.currentTrack,
+          tracks: RELAXING_TRACKS
         });
       } catch {
         // Observer listener failure non-blocking
@@ -113,7 +188,8 @@ export class SoundService {
     if (typeof window === 'undefined') return null;
     if (!this.#audio) {
       try {
-        this.#audio = new Audio('/audio/nova-theme.mp3');
+        const activeTrack = this.currentTrack;
+        this.#audio = new Audio(activeTrack.src);
         this.#audio.loop = true;
         this.#audio.preload = 'auto';
         this.#audio.volume = 0;
@@ -170,7 +246,7 @@ export class SoundService {
   }
 
   /**
-   * Starts playback of the NOVA ambient theme soundtrack.
+   * Starts playback of the relaxing feel-good ambient soundtrack.
    */
   startTheme() {
     this.#isEnabled = true;
@@ -181,6 +257,10 @@ export class SoundService {
 
     const audio = this.#getOrCreateAudio();
     if (audio && !this.#isUsingSynthFallback) {
+      const activeTrack = this.currentTrack;
+      if (!audio.src.endsWith(activeTrack.src)) {
+        audio.src = activeTrack.src;
+      }
       this.#fadeInAudio(audio, this.#volume);
     } else {
       this.#startSynthTheme();
@@ -200,19 +280,6 @@ export class SoundService {
     }
     this.#stopSynthTheme();
     this.#notify();
-  }
-
-  /**
-   * Toggles theme music playback.
-   * @returns {boolean} New isEnabled state
-   */
-  toggleTheme() {
-    if (this.#isEnabled) {
-      this.stopTheme();
-    } else {
-      this.startTheme();
-    }
-    return this.#isEnabled;
   }
 
   #fadeInAudio(audio, targetVolume) {
@@ -245,13 +312,13 @@ export class SoundService {
     }, stepInterval);
   }
 
-  #fadeOutAudio(audio) {
+  #fadeOutAudio(audio, onComplete = null) {
     if (!audio) return;
     this.#clearFade();
 
     const startVol = audio.volume;
     const steps = 10;
-    const stepInterval = 50; // 500ms total
+    const stepInterval = 40; // 400ms total
     let step = 0;
 
     this.#fadeInterval = setInterval(() => {
@@ -267,6 +334,9 @@ export class SoundService {
         }
         this.#isPlaying = false;
         this.#notify();
+        if (typeof onComplete === 'function') {
+          onComplete();
+        }
       }
     }, stepInterval);
   }
@@ -279,7 +349,7 @@ export class SoundService {
   }
 
   /**
-   * Web Audio API generative ambient synth fallback.
+   * Web Audio API generative peaceful feel-good major ambient fallback.
    */
   #startSynthTheme() {
     this.#stopSynthTheme();
@@ -289,12 +359,12 @@ export class SoundService {
     this.#isPlaying = true;
     this.#notify();
 
-    // Chords: Am9 -> Fmaj7 -> Cmaj9 -> Em7
+    // Warm, peaceful feel-good major pentatonic progressions
     const chordProgression = [
-      [220, 261.63, 329.63, 392.00, 493.88], // Am9
-      [174.61, 220, 261.63, 329.63, 369.99], // Fmaj7#11
-      [130.81, 196.00, 246.94, 329.63, 440], // Cmaj9
-      [164.81, 246.94, 293.66, 392.00, 440]  // Em7
+      [130.81, 196.00, 261.63, 329.63, 392.00], // Cmaj9 (Bright & peaceful)
+      [174.61, 220.00, 261.63, 329.63, 392.00], // Fmaj7 (Gentle comfort)
+      [220.00, 261.63, 329.63, 392.00, 440.00], // Am7 (Cozy warmth)
+      [196.00, 246.94, 293.66, 392.00, 493.88]  // Gsus4 / G (Feel-good resolution)
     ];
 
     let chordIndex = 0;
@@ -311,23 +381,23 @@ export class SoundService {
           const gain = ctx.createGain();
           const filter = ctx.createBiquadFilter();
 
-          osc.type = idx % 2 === 0 ? 'sine' : 'triangle';
+          osc.type = 'sine';
           osc.frequency.setValueAtTime(freq, now);
 
           filter.type = 'lowpass';
-          filter.frequency.setValueAtTime(450 + (idx * 70), now);
-          filter.frequency.exponentialRampToValueAtTime(300, now + 4.5);
+          filter.frequency.setValueAtTime(380 + idx * 50, now);
+          filter.frequency.exponentialRampToValueAtTime(260, now + 4.8);
 
           gain.gain.setValueAtTime(0.001, now);
-          gain.gain.exponentialRampToValueAtTime(0.02 * this.#volume, now + 1.2);
-          gain.gain.exponentialRampToValueAtTime(0.0001, now + 5.8);
+          gain.gain.exponentialRampToValueAtTime(0.025 * this.#volume, now + 1.5);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + 5.5);
 
           osc.connect(filter);
           filter.connect(gain);
           gain.connect(this.#masterGain || ctx.destination);
 
           osc.start(now);
-          osc.stop(now + 6.0);
+          osc.stop(now + 5.8);
 
           this.#synthNodes.push({ osc, gain });
         } catch {
@@ -337,6 +407,7 @@ export class SoundService {
     };
 
     playChordStep();
+
     this.#synthInterval = setInterval(playChordStep, 5000);
   }
 
