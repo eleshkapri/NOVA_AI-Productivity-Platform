@@ -102,11 +102,12 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform ${
+      style={{ borderBottom: 'none' }}
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform border-none ${
         isVisible || isOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'
       } ${
         isScrolled
-          ? 'bg-white/85 dark:bg-[#050614]/90 backdrop-blur-xl shadow-md dark:shadow-2xl border-b border-slate-200/50 dark:border-transparent py-3'
+          ? 'bg-white/90 dark:bg-[#050614]/95 backdrop-blur-xl shadow-lg dark:shadow-2xl dark:shadow-black/70 py-3'
           : 'bg-transparent py-5'
       }`}
     >
