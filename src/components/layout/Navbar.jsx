@@ -6,15 +6,43 @@ import { Sun, Moon, Menu, X, ArrowRight, Search } from 'lucide-react';
 export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenCommandPalette }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
   // Magnetic Nav Pill / Active-Item Halo state
   const navContainerRef = useRef(null);
   const [haloStyle, setHaloStyle] = useState({ left: 0, width: 0, opacity: 0 });
 
   useEffect(() => {
+    let lastScrollY = window.scrollY;
+    let ticking = false;
+    const scrollThreshold = 8;
+
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          setIsScrolled(currentScrollY > 20);
+
+          if (currentScrollY > 60) {
+            if (currentScrollY > lastScrollY + scrollThreshold) {
+              // Scrolling down the page -> navbar appears
+              setIsVisible(true);
+            } else if (currentScrollY < lastScrollY - scrollThreshold) {
+              // Scrolling up the page -> navbar hides
+              setIsVisible(false);
+            }
+          } else {
+            // At the top of the page -> always visible
+            setIsVisible(true);
+          }
+
+          lastScrollY = Math.max(0, currentScrollY);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -66,7 +94,9 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenCommandPalette }
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform ${
+        isVisible || isOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'
+      } ${
         isScrolled
           ? 'bg-white/85 dark:bg-[#050614]/90 backdrop-blur-xl shadow-md dark:shadow-xl border-b border-slate-200/80 dark:border-[#D8B452]/15 py-3'
           : 'bg-transparent py-5'
