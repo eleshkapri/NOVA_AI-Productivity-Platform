@@ -24,7 +24,8 @@ This project was built from scratch to meet and exceed all specifications define
 
 ## 🛠️ Technologies Used
 - **Core Framework**: React 19 (Functional Components, Hooks, declarative state)
-- **Bundler & Tooling**: Vite 8 (Ultra-fast HMR, sub-250ms production builds)
+- **3D Graphics & WebGL**: Three.js (Interactive 3D Neural Core, dynamic cursor parallax, constellation lattice, procedural wave simulation)
+- **Bundler & Tooling**: Vite 8 (Ultra-fast HMR, sub-300ms production builds with dynamic code-splitting)
 - **Styling & Design System**: Tailwind CSS v4 (Custom dark/light mode tokens, glassmorphism, responsive utilities)
 - **Iconography**: `lucide-react` (Crisp, modern SVG icons)
 - **Linter & Code Quality**: `oxlint` (Zero warnings, clean ESLint-compatible rules)
