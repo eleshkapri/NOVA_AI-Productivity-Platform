@@ -483,4 +483,35 @@
   will-change: transform, opacity;
 }
 
+/* 7. Sound Equalizer Visualizer Bars */
+@keyframes soundBarPulse1 {
+  0%, 100% { height: 4px; }
+  50% { height: 14px; }
+}
+@keyframes soundBarPulse2 {
+  0%, 100% { height: 12px; }
+  50% { height: 5px; }
+}
+@keyframes soundBarPulse3 {
+  0%, 100% { height: 6px; }
+  50% { height: 15px; }
+}
+@keyframes soundBarPulse4 {
+  0%, 100% { height: 13px; }
+  50% { height: 4px; }
+}
+
+.animate-sound-bar-1 {
+  animation: soundBarPulse1 0.8s ease-in-out infinite;
+}
+.animate-sound-bar-2 {
+  animation: soundBarPulse2 0.95s ease-in-out infinite 0.15s;
+}
+.animate-sound-bar-3 {
+  animation: soundBarPulse3 0.75s ease-in-out infinite 0.3s;
+}
+.animate-sound-bar-4 {
+  animation: soundBarPulse4 1.05s ease-in-out infinite 0.1s;
+}
+
 
