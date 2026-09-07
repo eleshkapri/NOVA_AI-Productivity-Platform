@@ -251,15 +251,17 @@ export class SoundService {
   startTheme() {
     this.#isEnabled = true;
     storageService.set('sound_enabled', true);
+    this.#isUsingSynthFallback = false;
 
     // Play golden confirmation chime
     this.playChime('goldChord');
 
     const audio = this.#getOrCreateAudio();
-    if (audio && !this.#isUsingSynthFallback) {
+    if (audio) {
       const activeTrack = this.currentTrack;
-      if (!audio.src.endsWith(activeTrack.src)) {
+      if (!audio.src || !audio.src.endsWith(activeTrack.src)) {
         audio.src = activeTrack.src;
+        audio.load();
       }
       this.#fadeInAudio(audio, this.#volume);
     } else {
@@ -281,6 +283,16 @@ export class SoundService {
     this.#stopSynthTheme();
     this.#notify();
   }
+
+  /**
+   * Toggles theme music playback.
+   * @returns {boolean} New isEnabled state
+   */
+  toggleTheme() {
+    this.isEnabled = !this.#isEnabled;
+    return this.#isEnabled;
+  }
+
 
   #fadeInAudio(audio, targetVolume) {
     if (!audio) return;

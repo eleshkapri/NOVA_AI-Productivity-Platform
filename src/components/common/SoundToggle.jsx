@@ -7,7 +7,6 @@ export function SoundToggle() {
   const [isPlaying, setIsPlaying] = useState(() => soundService.isPlaying);
   const [volume, setVolume] = useState(() => soundService.volume);
   const [currentTrackId, setCurrentTrackId] = useState(() => soundService.currentTrackId);
-  const [showControls, setShowControls] = useState(false);
 
   useEffect(() => {
     const unsubscribe = soundService.subscribe((state) => {
@@ -19,12 +18,10 @@ export function SoundToggle() {
     return unsubscribe;
   }, []);
 
-  const handleToggle = () => {
+  const handleToggle = (e) => {
+    e?.stopPropagation?.();
     const nextState = soundService.toggleTheme();
     setIsAudioEnabled(nextState);
-    if (!nextState) {
-      setShowControls(false);
-    }
   };
 
   const handleVolumeChange = (e) => {
@@ -43,13 +40,10 @@ export function SoundToggle() {
     RELAXING_TRACKS.find((t) => t.id === currentTrackId) || RELAXING_TRACKS[0];
 
   return (
-    <div
-      className="fixed bottom-6 left-4 sm:left-6 z-40 flex flex-col sm:flex-row items-start sm:items-center gap-2 select-none"
-      onMouseEnter={() => isAudioEnabled && setShowControls(true)}
-      onMouseLeave={() => setShowControls(false)}
-    >
+    <div className="fixed bottom-6 left-4 sm:left-6 z-40 flex flex-col sm:flex-row items-start sm:items-center gap-2 select-none">
       {/* Main Sound ON/OFF Button */}
       <button
+        type="button"
         onClick={handleToggle}
         aria-label={isAudioEnabled ? 'Pause relaxing theme music' : 'Play relaxing feel-good theme music'}
         title={isAudioEnabled ? `Playing: ${activeTrack.name} • Click to pause` : 'Click to play relaxing feel-good music'}
@@ -83,19 +77,14 @@ export function SoundToggle() {
 
       {/* Relaxing Soundtrack Mood Controls & Volume Slider */}
       {isAudioEnabled && (
-        <div
-          className={`flex items-center gap-2.5 px-3 py-2 rounded-full bg-[#0b0c33]/90 backdrop-blur-md border border-[#D8B452]/30 shadow-lg shadow-[#D8B452]/10 transition-all duration-300 ${
-            showControls
-              ? 'opacity-100 translate-y-0 sm:translate-x-0 pointer-events-auto'
-              : 'opacity-0 translate-y-1 sm:translate-y-0 sm:-translate-x-2 pointer-events-none hidden sm:flex sm:opacity-100 sm:translate-x-0 sm:pointer-events-auto'
-          }`}
-        >
+        <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-full bg-[#0b0c33]/95 backdrop-blur-md border border-[#D8B452]/40 shadow-lg shadow-[#D8B452]/15">
           {/* Mood Track Selector */}
           <div className="flex items-center gap-1">
             {RELAXING_TRACKS.map((track) => {
               const isSelected = track.id === currentTrackId;
               return (
                 <button
+                  type="button"
                   key={track.id}
                   onClick={(e) => handleTrackSelect(e, track.id)}
                   title={`${track.name} (${track.mood})`}
@@ -135,5 +124,6 @@ export function SoundToggle() {
     </div>
   );
 }
+
 
 
