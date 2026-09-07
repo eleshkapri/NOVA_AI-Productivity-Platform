@@ -5,18 +5,18 @@ import { storageService } from './StorageService';
  */
 export const RELAXING_TRACKS = Object.freeze([
   {
-    id: 'feel-good',
-    name: 'Feel Good Chill',
-    mood: 'Warm & Uplifting',
-    src: '/audio/nova-theme.mp3',
-    icon: '🌿'
-  },
-  {
     id: 'serene',
     name: 'Serene Ambient',
     mood: 'Deep Calm & Peace',
     src: '/audio/relaxing.mp3',
     icon: '🌊'
+  },
+  {
+    id: 'feel-good',
+    name: 'Feel Good Chill',
+    mood: 'Warm & Uplifting',
+    src: '/audio/nova-theme.mp3',
+    icon: '🌿'
   },
   {
     id: 'piano',
@@ -58,8 +58,14 @@ export class SoundService {
     this.#masterGain = null;
     this.#isEnabled = storageService.get('sound_enabled', false);
     this.#isPlaying = false;
-    this.#volume = storageService.get('sound_volume', 0.35);
-    this.#currentTrackId = storageService.get('sound_track_id', 'feel-good');
+    
+    // Default to 'serene' track and 20% volume when site opens
+    const savedVolume = storageService.get('sound_volume', null);
+    this.#volume = savedVolume !== null && savedVolume !== 0.35 ? savedVolume : 0.20;
+
+    const savedTrack = storageService.get('sound_track_id', null);
+    this.#currentTrackId = savedTrack && savedTrack !== 'feel-good' ? savedTrack : 'serene';
+
     this.#fadeInterval = null;
     this.#synthInterval = null;
     this.#synthNodes = [];
@@ -68,6 +74,7 @@ export class SoundService {
 
     this.#initVisibilityListener();
   }
+
 
   get isEnabled() {
     return this.#isEnabled;
