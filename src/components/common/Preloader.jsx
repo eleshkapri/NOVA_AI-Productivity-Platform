@@ -138,8 +138,8 @@ export function Preloader() {
         <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden p-[1px]">
           <div
             ref={progressBarRef}
-            className="h-full w-full bg-gradient-to-r from-[#D8B452] via-[#F3D887] to-[#D8B452] rounded-full origin-left will-change-transform shadow-[0_0_10px_rgba(216,180,82,0.8)]"
-            style={{ transform: 'scaleX(0)' }}
+            className="h-full w-full bg-gradient-to-r from-[#D8B452] via-[#F3D887] to-[#D8B452] rounded-full will-change-transform shadow-[0_0_10px_rgba(216,180,82,0.8)]"
+            style={{ transform: 'scaleX(0)', transformOrigin: 'left' }}
           />
         </div>
         <div className="flex items-center justify-between w-full text-[11px] text-slate-400 font-mono">
