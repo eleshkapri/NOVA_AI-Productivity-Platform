@@ -91,12 +91,13 @@ export function Preloader() {
         {/* Animated Totem with Glowing Aura */}
         <div className="relative">
           <div className="absolute inset-0 bg-[#D8B452]/25 blur-3xl rounded-full scale-150 animate-pulse" />
-          <div className="w-20 h-20 relative z-10 transition-transform duration-500 hover:rotate-180">
+          <div className="w-20 h-20 relative z-10 flex items-center justify-center">
             <svg
               viewBox="0 0 32 32"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className="w-full h-full drop-shadow-[0_0_20px_rgba(216,180,82,0.7)] animate-totem"
+              className="w-full h-full drop-shadow-[0_0_24px_rgba(216,180,82,0.85)] animate-totem"
+              style={{ transformOrigin: 'center center' }}
             >
               <path
                 d="M4.919 20.0389L6.967 17.9751H13.918V24.9797L11.87 27.0435C8.72 30.2174 4.453 31.9999 0 31.9999C0 27.5126 1.769 23.2129 4.919 20.0389Z"
