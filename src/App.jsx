@@ -36,13 +36,13 @@ export function App() {
   const { showBackToTop, scrollToTop } = useScrollPosition();
   const [modalConfig, setModalConfig] = useState({
     isOpen: false,
-    tab: 'backlog',
+    tab: 'walkthrough',
     plan: 'pro',
     task: null,
   });
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
 
-  const handleOpenModal = (tab = 'backlog', extra = {}) => {
+  const handleOpenModal = (tab = 'walkthrough', extra = {}) => {
     setModalConfig({
       isOpen: true,
       tab,

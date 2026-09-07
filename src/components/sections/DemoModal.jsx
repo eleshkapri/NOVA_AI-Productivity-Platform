@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal } from '../common/Modal';
 import { Button } from '../common/Button';
 import {
@@ -13,11 +13,52 @@ import {
   Copy,
   Check,
   Send,
+  Play,
+  Pause,
+  RotateCcw,
+  Sparkles,
+  Zap,
+  Terminal,
+  ChevronRight,
+  ArrowRight,
+  CheckCircle2,
 } from 'lucide-react';
 
-export function DemoModal({ isOpen, onClose, initialTab = 'backlog', selectedPlan = 'pro', selectedTask = null }) {
+const playChime = () => {
+  try {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) return;
+    const ctx = new AudioContext();
+    const now = ctx.currentTime;
+    [523.25, 659.25, 783.99].forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, now + i * 0.04);
+      gain.gain.setValueAtTime(0.04, now + i * 0.04);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.35 + i * 0.04);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now + i * 0.04);
+      osc.stop(now + 0.4 + i * 0.04);
+    });
+  } catch {
+    // Audio optional / non-blocking
+  }
+};
+
+export function DemoModal({ isOpen, onClose, initialTab = 'walkthrough', selectedPlan = 'pro', selectedTask = null }) {
   const [activeFeature, setActiveFeature] = useState(initialTab);
   const [copiedCode, setCopiedCode] = useState(false);
+
+  // Walkthrough Interactive Simulator State
+  const [walkthroughStage, setWalkthroughStage] = useState(0);
+  const [isWalkthroughPlaying, setIsWalkthroughPlaying] = useState(true);
+  const [walkthroughProgress, setWalkthroughProgress] = useState(0);
+  const [walkthroughSpeed, setWalkthroughSpeed] = useState(1);
+  const [patchApplied, setPatchApplied] = useState(false);
+  const [canaryPromoted, setCanaryPromoted] = useState(false);
+  const [activeSimulationLog, setActiveSimulationLog] = useState('Simulation initialized.');
 
   // Trial Workspace Creator state
   const [workspaceName, setWorkspaceName] = useState('');
@@ -30,7 +71,7 @@ export function DemoModal({ isOpen, onClose, initialTab = 'backlog', selectedPla
   const [contactForm, setContactForm] = useState({ name: '', email: '', teamSize: '25-50', message: '' });
   const [contactSubmitted, setContactSubmitted] = useState(false);
 
-  // Synchronize state when modal is opened with new parameters without cascading effects
+  // Synchronize state when modal is opened with new parameters
   const [prevProps, setPrevProps] = useState({ isOpen, initialTab, selectedPlan });
   if (isOpen && (!prevProps.isOpen || prevProps.initialTab !== initialTab || prevProps.selectedPlan !== selectedPlan)) {
     setPrevProps({ isOpen, initialTab, selectedPlan });
@@ -39,9 +80,66 @@ export function DemoModal({ isOpen, onClose, initialTab = 'backlog', selectedPla
     setDeploySuccess(false);
     setIsDeploying(false);
     setContactSubmitted(false);
+    if (initialTab === 'walkthrough') {
+      setWalkthroughStage(0);
+      setWalkthroughProgress(0);
+      setIsWalkthroughPlaying(true);
+      setPatchApplied(false);
+      setCanaryPromoted(false);
+    }
   } else if (!isOpen && prevProps.isOpen) {
     setPrevProps({ isOpen, initialTab, selectedPlan });
   }
+
+  // Automatic Progression of Walkthrough Simulation
+  useEffect(() => {
+    if (!isOpen || activeFeature !== 'walkthrough' || !isWalkthroughPlaying) return;
+
+    const interval = setInterval(() => {
+      setWalkthroughProgress((prev) => {
+        const stepInc = (1.5 * walkthroughSpeed);
+        if (prev + stepInc >= 100) {
+          setWalkthroughStage((s) => (s + 1) % 4);
+          playChime();
+          return 0;
+        }
+        return prev + stepInc;
+      });
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [isOpen, activeFeature, isWalkthroughPlaying, walkthroughSpeed]);
+
+  const walkthroughChapters = [
+    {
+      id: 0,
+      badge: 'Step 01 • Backlog Ingestion',
+      title: 'Autonomous PRD & Architecture Ingestion',
+      description: 'NOVA connects directly to Jira, Figma, and GitHub to parse unstructured specifications into actionable engineering requirements.',
+      actionTitle: 'Trigger Live Re-Parse',
+    },
+    {
+      id: 1,
+      badge: 'Step 02 • Story Estimation',
+      title: 'Fibonacci Velocity Calibration & Task Synthesis',
+      description: 'AI model evaluates 50,000+ past historical team commits to assign story points (3, 5, 8) and assign balanced workloads.',
+      actionTitle: 'Auto-Assign to Sprint 48',
+    },
+    {
+      id: 2,
+      badge: 'Step 03 • Code Review',
+      title: 'Self-Healing Pull Request Review & AST Fixes',
+      description: 'Detects architectural bottlenecks and memory leaks in real time, drafting unit-tested git commits directly into your PR.',
+      actionTitle: 'Apply Fix Patch & Merge',
+    },
+    {
+      id: 3,
+      badge: 'Step 04 • Release Radar',
+      title: 'Predictive Velocity & Zero-Downtime Rollout',
+      description: 'Foresees sprint spillovers 4 days early, automatically generating canary deployment gates with zero regressions.',
+      actionTitle: 'Promote Canary to 100%',
+    },
+  ];
 
   const demoFeatures = {
     backlog: {
@@ -118,29 +216,45 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
     setContactSubmitted(true);
   };
 
+  const handleInteractiveTrigger = (command, logMessage) => {
+    playChime();
+    setActiveSimulationLog(logMessage);
+    if (command === 'patch') setPatchApplied(true);
+    if (command === 'canary') setCanaryPromoted(true);
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="NOVA Command Center" maxWidth="max-w-4xl">
       <div className="space-y-6">
         {/* Top Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-slate-200 dark:border-white/10">
           <div>
-            <h4 className="text-xl font-extrabold text-slate-900 dark:text-white">
-              {activeFeature === 'trial'
-                ? 'Launch Your Autonomous Workspace'
-                : activeFeature === 'contact'
-                ? 'Connect with Architecture Specialists'
-                : activeFeature === 'docs'
-                ? 'Developer Documentation & API'
-                : activeFeature === 'status'
-                ? 'Global System Infrastructure Health'
-                : activeFeature === 'changelog'
-                ? 'Product Release Changelog'
-                : activeFeature === 'task'
-                ? 'Task Intelligence Inspector'
-                : 'Interactive Product Demonstration'}
+            <h4 className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+              {activeFeature === 'walkthrough' ? (
+                <>
+                  <Sparkles className="w-5 h-5 text-[#a1741a] dark:text-[#D8B452]" />
+                  Interactive Demo Studio
+                </>
+              ) : activeFeature === 'trial' ? (
+                'Launch Your Autonomous Workspace'
+              ) : activeFeature === 'contact' ? (
+                'Connect with Architecture Specialists'
+              ) : activeFeature === 'docs' ? (
+                'Developer Documentation & API'
+              ) : activeFeature === 'status' ? (
+                'Global System Infrastructure Health'
+              ) : activeFeature === 'changelog' ? (
+                'Product Release Changelog'
+              ) : activeFeature === 'task' ? (
+                'Task Intelligence Inspector'
+              ) : (
+                'Interactive Product Demonstration'
+              )}
             </h4>
             <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-              {activeFeature === 'trial'
+              {activeFeature === 'walkthrough'
+                ? 'Experience real-time autonomous backlog ingestion, automated PR code review, and predictive sprint analytics.'
+                : activeFeature === 'trial'
                 ? 'Initialize your 14-day full access trial with instant GitHub/GitLab integration.'
                 : activeFeature === 'contact'
                 ? 'Consult with our principal systems engineers for enterprise SLAs and custom SOC2 compliance.'
@@ -159,12 +273,25 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
           {/* Quick status pill */}
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[11px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 self-start sm:self-auto shrink-0">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            Cluster Active &bull; v2.4.0
+            Simulator Active &bull; v2.4.0
           </div>
         </div>
 
         {/* Feature Selector Tabs */}
         <div className="flex flex-wrap gap-2 border-b border-slate-200 dark:border-white/10 pb-4">
+          <button
+            onClick={() => {
+              setActiveFeature('walkthrough');
+              playChime();
+            }}
+            className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer hover:scale-105 active:scale-95 ${
+              activeFeature === 'walkthrough'
+                ? 'bg-gradient-to-r from-[#D8B452] to-[#B88A23] text-black shadow-md shadow-[#D8B452]/25 font-black'
+                : 'bg-amber-500/15 border border-[#D8B452]/40 text-[#a1741a] dark:text-[#D8B452] hover:bg-[#D8B452]/25'
+            }`}
+          >
+            <Play className="w-3.5 h-3.5 fill-current" /> Interactive Studio
+          </button>
           <button
             onClick={() => setActiveFeature('backlog')}
             className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer hover:scale-105 active:scale-95 ${
@@ -236,6 +363,265 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
             <Activity className="w-3.5 h-3.5" /> Status
           </button>
         </div>
+
+        {/* ========================================================
+            FEATURE TAB 0: LIVE INTERACTIVE WALKTHROUGH STUDIO
+            ======================================================== */}
+        {activeFeature === 'walkthrough' && (
+          <div className="space-y-6 animate-fade-in">
+            {/* Walkthrough Player Controller Bar */}
+            <div className="p-4 rounded-2xl bg-slate-100 dark:bg-[#07081e] border border-slate-200 dark:border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+              {/* Left: Playback controls */}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setIsWalkthroughPlaying(!isWalkthroughPlaying)}
+                  title={isWalkthroughPlaying ? 'Pause Simulation' : 'Resume Simulation'}
+                  className="w-10 h-10 rounded-full bg-[#D8B452] hover:bg-[#E5C773] text-black flex items-center justify-center font-bold shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                >
+                  {isWalkthroughPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-current ml-0.5" />}
+                </button>
+                <button
+                  onClick={() => {
+                    setWalkthroughStage(0);
+                    setWalkthroughProgress(0);
+                    setPatchApplied(false);
+                    setCanaryPromoted(false);
+                    playChime();
+                  }}
+                  title="Restart Walkthrough"
+                  className="p-2.5 rounded-full bg-white dark:bg-[#0b0c33] border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:text-[#D8B452] cursor-pointer hover:scale-105 active:scale-95 transition-all"
+                >
+                  <RotateCcw className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => setWalkthroughSpeed(walkthroughSpeed === 1 ? 2 : 1)}
+                  title="Playback Speed"
+                  className="px-2.5 py-1.5 rounded-lg bg-white dark:bg-[#0b0c33] border border-slate-200 dark:border-white/10 text-xs font-mono font-bold text-[#a1741a] dark:text-[#D8B452] hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                >
+                  {walkthroughSpeed}x Speed
+                </button>
+              </div>
+
+              {/* Center: Stage Chapter Badges */}
+              <div className="flex items-center gap-1.5 overflow-x-auto max-w-full py-1">
+                {walkthroughChapters.map((ch, idx) => (
+                  <button
+                    key={ch.id}
+                    onClick={() => {
+                      setWalkthroughStage(idx);
+                      setWalkthroughProgress(0);
+                      playChime();
+                    }}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
+                      walkthroughStage === idx
+                        ? 'bg-[#D8B452] text-black shadow-sm scale-102 font-black'
+                        : 'bg-white/80 dark:bg-[#0b0c33] text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200/60 dark:border-white/5'
+                    }`}
+                  >
+                    0{idx + 1}. {ch.badge.split('• ')[1]}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Scrubber Progress Bar for current stage */}
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-slate-400">
+                <span className="font-bold text-[#a1741a] dark:text-[#D8B452] uppercase">
+                  {walkthroughChapters[walkthroughStage].badge}
+                </span>
+                <span>Auto-Advancing: {Math.round(walkthroughProgress)}%</span>
+              </div>
+              <div className="w-full h-1.5 rounded-full bg-slate-200 dark:bg-white/10 overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-[#a1741a] via-[#D8B452] to-[#B38722] rounded-full transition-all duration-100 ease-linear shadow-[0_0_8px_#D8B452]"
+                  style={{ width: `${walkthroughProgress}%` }}
+                />
+              </div>
+            </div>
+
+            {/* Chapter Display Screen (Mac-style terminal / console) */}
+            <div className="bg-[#050614] rounded-3xl p-6 md:p-8 border border-[#D8B452]/30 shadow-2xl text-white relative overflow-hidden group">
+              {/* Ambient Glow */}
+              <div className="absolute top-0 right-0 w-80 h-80 rounded-full bg-[#D8B452]/10 blur-3xl pointer-events-none" />
+
+              {/* Stage Header */}
+              <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-6 border-b border-white/10">
+                <div>
+                  <span className="text-xs font-bold uppercase tracking-widest text-[#D8B452] flex items-center gap-1.5">
+                    <Zap className="w-3.5 h-3.5" /> Stage 0{walkthroughStage + 1} of 04
+                  </span>
+                  <h3 className="text-xl md:text-2xl font-black mt-1 text-white tracking-tight">
+                    {walkthroughChapters[walkthroughStage].title}
+                  </h3>
+                  <p className="text-xs md:text-sm text-slate-300 mt-1 max-w-2xl font-light leading-relaxed">
+                    {walkthroughChapters[walkthroughStage].description}
+                  </p>
+                </div>
+
+                <Button
+                  variant="primary"
+                  size="sm"
+                  icon={Sparkles}
+                  onClick={() => handleInteractiveTrigger('action', `User triggered action on Stage ${walkthroughStage + 1}`)}
+                  className="shrink-0"
+                >
+                  {walkthroughChapters[walkthroughStage].actionTitle}
+                </Button>
+              </div>
+
+              {/* Interactive Visual Stage Payload */}
+              <div className="relative z-10 pt-6">
+                {walkthroughStage === 0 && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="p-4 rounded-2xl bg-[#0b0c33]/90 border border-white/10 space-y-3 font-mono text-xs">
+                      <div className="text-[#D8B452] flex items-center justify-between font-bold">
+                        <span>&gt; Ingesting Jira / PRD Payload...</span>
+                        <span className="text-emerald-400">● 100% Parsed</span>
+                      </div>
+                      <div className="space-y-1.5 text-slate-300 text-[11px]">
+                        <p className="text-white font-semibold">PRD-409: "Multi-Region Auth Token Rotation"</p>
+                        <p className="text-slate-400">&bull; Target SLA: Sub-200ms failover switch</p>
+                        <p className="text-slate-400">&bull; Touched Repos: auth-core, gateway, web-client</p>
+                        <p className="text-[#D8B452]">&bull; Dependencies: Zero cyclic locks detected</p>
+                      </div>
+                    </div>
+
+                    <div className="p-4 rounded-2xl bg-[#0b0c33]/90 border border-white/10 space-y-2 text-xs">
+                      <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Generated Task Graph</span>
+                      <div className="space-y-2 pt-1">
+                        <div className="p-2 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between text-xs">
+                          <span className="text-slate-200">NOV-249: OAuth token failover hook</span>
+                          <span className="px-2 py-0.5 rounded-full bg-[#D8B452]/20 text-[#D8B452] font-bold text-[10px]">3 pts</span>
+                        </div>
+                        <div className="p-2 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between text-xs">
+                          <span className="text-slate-200">NOV-250: Redis cluster multi-write mirror</span>
+                          <span className="px-2 py-0.5 rounded-full bg-[#D8B452]/20 text-[#D8B452] font-bold text-[10px]">5 pts</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {walkthroughStage === 1 && (
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 font-mono text-xs">
+                    <div className="p-4 rounded-2xl bg-[#0b0c33]/80 border border-white/10 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[#D8B452] font-bold">Frontend Squad</span>
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold">8 pts</span>
+                      </div>
+                      <p className="text-[11px] text-slate-300 font-sans">Auth refresh hook + fallback toast matrix</p>
+                      <p className="text-[10px] text-slate-500 font-mono">Assigned: @alex &bull; 99% velocity match</p>
+                    </div>
+
+                    <div className="p-4 rounded-2xl bg-[#0b0c33]/80 border border-white/10 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[#D8B452] font-bold">Backend Squad</span>
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold">13 pts</span>
+                      </div>
+                      <p className="text-[11px] text-slate-300 font-sans">Session revocation endpoint & JWT replication</p>
+                      <p className="text-[10px] text-slate-500 font-mono">Assigned: @sarah &bull; 97% velocity match</p>
+                    </div>
+
+                    <div className="p-4 rounded-2xl bg-[#0b0c33]/80 border border-white/10 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[#D8B452] font-bold">QA & E2E</span>
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold">5 pts</span>
+                      </div>
+                      <p className="text-[11px] text-slate-300 font-sans">Simulated multi-region latency chaos testing</p>
+                      <p className="text-[10px] text-slate-500 font-mono">Assigned: @david &bull; 100% velocity match</p>
+                    </div>
+                  </div>
+                )}
+
+                {walkthroughStage === 2 && (
+                  <div className="space-y-3 font-mono text-xs">
+                    <div className="p-4 rounded-2xl bg-[#0b0c33]/90 border border-white/10 space-y-2">
+                      <div className="flex items-center justify-between text-[11px] text-slate-400">
+                        <span className="text-[#D8B452] font-bold">PR #192: src/auth/TokenManager.ts</span>
+                        <span className={patchApplied ? 'text-emerald-400 font-bold' : 'text-amber-400 font-bold'}>
+                          {patchApplied ? '✓ Memory Leak Fixed & Merged' : '⚠️ 1 Memory Leak Detected'}
+                        </span>
+                      </div>
+
+                      <div className="p-3 bg-black/60 rounded-xl space-y-1 font-mono text-[11px]">
+                        <div className="text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded">
+                          - window.addEventListener('sessionExpired', onExpire); // Memory leak: never unsubscribed
+                        </div>
+                        <div className="text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">
+                          + useEffect(() =&gt; &#123; window.addEventListener('sessionExpired', onExpire); return () =&gt; window.removeEventListener('sessionExpired', onExpire); &#125;, []);
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between pt-1 text-[11px]">
+                        <span className="text-slate-400">Automated AST reasoning: Unit tests passing (24/24)</span>
+                        <button
+                          onClick={() => handleInteractiveTrigger('patch', 'Auto-patch staged and verified by NOVA bot.')}
+                          className="px-3 py-1 rounded-lg bg-[#D8B452] hover:bg-[#F3D887] text-black font-bold text-xs cursor-pointer hover:scale-105 active:scale-95 transition-all"
+                        >
+                          {patchApplied ? '✓ Fix Staged in Git' : '⚡ Auto-Apply Fix Patch'}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {walkthroughStage === 3 && (
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
+                    <div className="p-4 rounded-2xl bg-[#0b0c33]/80 border border-white/10 space-y-1 text-center">
+                      <span className="text-2xl font-black text-gold-gradient font-sans">4.2x</span>
+                      <p className="text-slate-300 font-bold font-sans text-xs">Sprint Velocity Boost</p>
+                      <p className="text-[10px] text-slate-500">vs historical baseline</p>
+                    </div>
+
+                    <div className="p-4 rounded-2xl bg-[#0b0c33]/80 border border-white/10 space-y-1 text-center">
+                      <span className="text-2xl font-black text-emerald-400 font-sans">0.00%</span>
+                      <p className="text-slate-300 font-bold font-sans text-xs">Regression Rate</p>
+                      <p className="text-[10px] text-slate-500">99.98% PR test precision</p>
+                    </div>
+
+                    <div className="p-4 rounded-2xl bg-[#0b0c33]/80 border border-white/10 space-y-1 text-center">
+                      <span className="text-2xl font-black text-[#D8B452] font-sans">2.5 Days</span>
+                      <p className="text-slate-300 font-bold font-sans text-xs">Ahead of Deadline</p>
+                      <button
+                        onClick={() => handleInteractiveTrigger('canary', 'Canary rollout promoted to 100% traffic.')}
+                        className="mt-1 px-3 py-1 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-[10px] cursor-pointer hover:scale-105 transition-all"
+                      >
+                        {canaryPromoted ? '✓ 100% Traffic Live' : '🚀 Promote Canary'}
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Live Terminal Activity Stream */}
+              <div className="mt-6 pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] font-mono text-slate-400">
+                <div className="flex items-center gap-2">
+                  <Terminal className="w-3.5 h-3.5 text-[#D8B452]" />
+                  <span>Log: <strong className="text-white">{activeSimulationLog}</strong></span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => {
+                      setWalkthroughStage((s) => (s + 1) % 4);
+                      setWalkthroughProgress(0);
+                      playChime();
+                    }}
+                    className="px-3 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white font-sans font-semibold text-xs flex items-center gap-1 cursor-pointer transition-all hover:scale-105"
+                  >
+                    Next Stage <ChevronRight className="w-3 h-3" />
+                  </button>
+                  <button
+                    onClick={() => setActiveFeature('trial')}
+                    className="px-3 py-1 rounded-lg bg-[#D8B452] text-black font-sans font-bold text-xs flex items-center gap-1 cursor-pointer hover:bg-[#F3D887] transition-all hover:scale-105"
+                  >
+                    Start 14-Day Trial <ArrowRight className="w-3 h-3" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* TAB 1, 2, 3: Interactive Tour (Backlog, PR, Velocity) */}
         {demoFeatures[activeFeature] && (
@@ -348,75 +734,130 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                     >
                       <option value="github">GitHub Organization</option>
                       <option value="gitlab">GitLab Cloud / Self-Hosted</option>
-                      <option value="linear">Linear Sync</option>
                       <option value="bitbucket">Bitbucket Cloud</option>
                     </select>
                   </div>
                 </div>
 
-                {/* Plan Selector */}
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-2">
-                    Select Your Starting Plan (All Include 14-Day Full Trial)
+                    Select Target Plan Tier
                   </label>
                   <div className="grid grid-cols-3 gap-3">
-                    {['developer', 'pro', 'enterprise'].map((p) => (
-                      <button
+                    {['starter', 'pro', 'enterprise'].map((p) => (
+                      <div
                         key={p}
-                        type="button"
                         onClick={() => setActivePlan(p)}
-                        className={`p-3 rounded-2xl border text-center transition-all cursor-pointer capitalize font-bold text-xs ${
+                        className={`p-3 rounded-xl border text-center cursor-pointer transition-all ${
                           activePlan === p
-                            ? 'bg-[#D8B452]/20 border-[#D8B452] text-[#a1741a] dark:text-[#D8B452] shadow-sm'
-                            : 'bg-slate-50 dark:bg-[#050614] border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400'
+                            ? 'border-[#D8B452] bg-[#D8B452]/10 font-bold text-slate-900 dark:text-white scale-102 shadow-xs'
+                            : 'border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 hover:border-slate-300'
                         }`}
                       >
-                        {p}
-                        <div className="text-[10px] font-normal text-slate-500 dark:text-slate-400 mt-0.5">
-                          {p === 'developer' ? 'Free tier' : p === 'pro' ? '$29 / user' : 'Custom'}
-                        </div>
-                      </button>
+                        <span className="capitalize text-xs tracking-wider">{p}</span>
+                      </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-amber-500/10 border border-[#D8B452]/30 text-xs text-slate-700 dark:text-slate-300 flex items-center gap-3">
-                  <ShieldCheck className="w-5 h-5 text-[#a1741a] dark:text-[#D8B452] shrink-0" />
-                  <span>No credit card required. Immediate automated OAuth hook for your engineering repos.</span>
+                <div className="p-4 rounded-xl bg-slate-100 dark:bg-[#07081e] border border-slate-200 dark:border-white/10 flex items-center justify-between text-xs text-slate-600 dark:text-slate-400">
+                  <div className="flex items-center gap-2">
+                    <ShieldCheck className="w-4 h-4 text-[#a1741a] dark:text-[#D8B452]" />
+                    <span>No credit card required. 14 days unrestricted access.</span>
+                  </div>
+                  <span className="font-bold text-[#a1741a] dark:text-[#D8B452]">SOC2 Compliant</span>
                 </div>
 
-                <div className="flex justify-end gap-3 pt-2">
-                  <Button variant="outline" size="sm" onClick={onClose}>
-                    Cancel
-                  </Button>
-                  <Button variant="primary" size="md" type="submit" disabled={isDeploying}>
-                    {isDeploying ? 'Configuring Pipeline...' : 'Create & Connect Workspace →'}
-                  </Button>
-                </div>
+                <Button
+                  type="submit"
+                  variant="primary"
+                  size="lg"
+                  icon={Rocket}
+                  iconPosition="right"
+                  className="w-full justify-center"
+                  disabled={isDeploying}
+                >
+                  {isDeploying ? 'Configuring Cloud Environment...' : 'Launch Instant Trial Workspace'}
+                </Button>
               </form>
             )}
           </div>
         )}
 
-        {/* TAB 5: Architecture Consultation */}
+        {/* TAB 5: Documentation & API Reference */}
+        {activeFeature === 'docs' && (
+          <div className="space-y-4 animate-fade-in">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="p-4 rounded-2xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 space-y-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#a1741a] dark:text-[#D8B452]">
+                  REST API Endpoint
+                </span>
+                <p className="text-xs text-slate-600 dark:text-slate-400">
+                  Trigger autonomous backlog synthesis programmatically via webhooks.
+                </p>
+                <div className="p-2.5 bg-black/80 rounded-xl font-mono text-[11px] text-[#D8B452] flex items-center justify-between">
+                  <span>POST /v2/backlog/synthesize</span>
+                  <button
+                    onClick={() => handleCopyCode('curl -X POST https://api.nova.ai/v2/backlog/synthesize -H "Authorization: Bearer $NOVA_KEY"')}
+                    className="hover:text-white"
+                  >
+                    <Copy className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 space-y-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#a1741a] dark:text-[#D8B452]">
+                  Developer CLI
+                </span>
+                <p className="text-xs text-slate-600 dark:text-slate-400">
+                  Run diff analysis and velocity checks directly in your local terminal.
+                </p>
+                <div className="p-2.5 bg-black/80 rounded-xl font-mono text-[11px] text-[#D8B452] flex items-center justify-between">
+                  <span>npx nova-cli review --strict</span>
+                  <button
+                    onClick={() => handleCopyCode('npx nova-cli review --strict')}
+                    className="hover:text-white"
+                  >
+                    <Copy className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-amber-50 dark:bg-[#0b0c33] border border-[#D8B452]/30 flex items-center justify-between">
+              <div>
+                <h6 className="text-sm font-bold text-slate-900 dark:text-white">
+                  Need Custom Webhook Integration?
+                </h6>
+                <p className="text-xs text-slate-600 dark:text-slate-300">
+                  Full OpenAPI 3.1 specifications and Postman collections are available.
+                </p>
+              </div>
+              <Button variant="secondary" size="sm" onClick={() => setActiveFeature('contact')}>
+                Contact Engineering
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/* TAB 6: Consultation / Enterprise Contact Form */}
         {activeFeature === 'contact' && (
-          <div className="space-y-6 animate-fade-in">
+          <div className="space-y-4 animate-fade-in">
             {contactSubmitted ? (
-              <div className="p-8 rounded-3xl bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-500/40 text-center space-y-3">
-                <div className="w-12 h-12 mx-auto rounded-full bg-emerald-500 text-black flex items-center justify-center font-bold">
+              <div className="p-8 rounded-3xl bg-amber-50 dark:bg-[#D8B452]/10 border border-[#D8B452]/40 text-center space-y-3">
+                <div className="w-12 h-12 mx-auto rounded-full bg-[#D8B452] text-black flex items-center justify-center font-bold">
                   <Check className="w-6 h-6" />
                 </div>
-                <h5 className="text-xl font-bold text-slate-900 dark:text-white">
-                  Consultation Request Dispatched
+                <h5 className="text-lg font-bold text-slate-900 dark:text-white">
+                  Consultation Request Received!
                 </h5>
-                <p className="text-sm text-slate-600 dark:text-slate-300 max-w-md mx-auto">
-                  Our Principal Solutions Architect will reach out within 2 business hours with a custom SOC2 compliance package and technical migration plan.
+                <p className="text-xs text-slate-600 dark:text-slate-300 max-w-sm mx-auto">
+                  A Principal Solutions Architect will reach out within 2 business hours to configure your customized enterprise trial.
                 </p>
-                <div className="pt-2">
-                  <Button variant="primary" size="sm" onClick={onClose}>
-                    Done
-                  </Button>
-                </div>
+                <Button variant="outline" size="sm" onClick={() => setContactSubmitted(false)}>
+                  Send Another Inquiry
+                </Button>
               </div>
             ) : (
               <form onSubmit={handleContactSubmit} className="space-y-4">
@@ -430,8 +871,8 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                       required
                       value={contactForm.name}
                       onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                      placeholder="Sarah Connor"
-                      className="w-full px-4 py-2.5 text-sm rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#D8B452]"
+                      placeholder="Jane Doe"
+                      className="w-full px-4 py-2.5 text-sm rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#D8B452]"
                     />
                   </div>
                   <div>
@@ -443,160 +884,123 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                       required
                       value={contactForm.email}
                       onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                      placeholder="sarah@enterprise.com"
-                      className="w-full px-4 py-2.5 text-sm rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#D8B452]"
+                      placeholder="jane@company.com"
+                      className="w-full px-4 py-2.5 text-sm rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#D8B452]"
                     />
                   </div>
                 </div>
 
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
-                    Engineering Headcount
+                    Engineering Team Size
                   </label>
                   <select
                     value={contactForm.teamSize}
                     onChange={(e) => setContactForm({ ...contactForm, teamSize: e.target.value })}
                     className="w-full px-4 py-2.5 text-sm rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#D8B452]"
                   >
-                    <option value="10-25">10 - 25 Engineers</option>
-                    <option value="25-50">25 - 50 Engineers</option>
-                    <option value="50-150">50 - 150 Engineers</option>
-                    <option value="150+">150+ Engineers (Global Enterprise)</option>
+                    <option value="10-25">10 - 25 Developers</option>
+                    <option value="25-50">25 - 50 Developers</option>
+                    <option value="50-200">50 - 200 Developers</option>
+                    <option value="200+">200+ Developers (Enterprise Custom)</option>
                   </select>
                 </div>
 
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
-                    Architecture Priorities / Security Requirements
+                    Specific Architecture / Compliance Needs
                   </label>
                   <textarea
                     rows={3}
                     value={contactForm.message}
                     onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-                    placeholder="We need on-prem deployment, custom data retention policies, and SOC2 Type II audit logs..."
-                    className="w-full px-4 py-2.5 text-sm rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#D8B452]"
+                    placeholder="Tell us about your CI/CD stack (GitHub Actions, GitLab, Jenkins) and compliance requirements..."
+                    className="w-full px-4 py-2.5 text-sm rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#D8B452]"
                   />
                 </div>
 
-                <div className="flex justify-end gap-3 pt-2">
-                  <Button variant="outline" size="sm" onClick={onClose}>
-                    Close
-                  </Button>
-                  <Button variant="primary" size="md" type="submit">
-                    Send Consultation Request
-                  </Button>
-                </div>
+                <Button type="submit" variant="primary" size="md" icon={Send} iconPosition="right" className="w-full justify-center">
+                  Request Executive Architecture Briefing
+                </Button>
               </form>
             )}
           </div>
         )}
 
-        {/* TAB 6: API & Developer Docs */}
-        {activeFeature === 'docs' && (
-          <div className="space-y-4 animate-fade-in">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#a1741a] dark:text-[#D8B452]">
-                REST Endpoint: Automated Sprint Ingestion
-              </span>
-              <button
-                onClick={() =>
-                  handleCopyCode(
-                    `curl -X POST https://api.nova.ai/v1/sprint/triage \\\n  -H "Authorization: Bearer nova_live_token" \\\n  -d '{"repo": "acme/backend", "sprint_id": 49}'`
-                  )
-                }
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/10 text-xs font-mono text-slate-700 dark:text-slate-200 hover:bg-[#D8B452] hover:text-black transition-colors cursor-pointer"
-              >
-                {copiedCode ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-                <span>{copiedCode ? 'Copied' : 'Copy cURL'}</span>
-              </button>
-            </div>
-
-            <div className="bg-[#050614] rounded-2xl p-5 border border-white/10 font-mono text-xs text-[#D8B452] overflow-x-auto">
-              <pre className="whitespace-pre">
-{`curl -X POST https://api.nova.ai/v1/sprint/triage \\
-  -H "Authorization: Bearer $NOVA_API_KEY" \\
-  -H "Content-Type: application/json" \\
-  -d '{
-    "organization": "acme-engineering",
-    "provider": "github",
-    "sprint_number": 49,
-    "auto_estimate": true,
-    "detect_bottlenecks": true
-  }'`}
-              </pre>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs">
-              <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10">
-                <p className="font-bold text-slate-900 dark:text-white">Webhook Sync</p>
-                <p className="text-slate-500 dark:text-slate-400 mt-1">Instant push updates on every PR merge.</p>
-              </div>
-              <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10">
-                <p className="font-bold text-slate-900 dark:text-white">CLI Toolchain</p>
-                <p className="text-slate-500 dark:text-slate-400 mt-1"><code className="text-[#D8B452]">npm i -g @nova/cli</code></p>
-              </div>
-              <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10">
-                <p className="font-bold text-slate-900 dark:text-white">SOC2 Vault</p>
-                <p className="text-slate-500 dark:text-slate-400 mt-1">End-to-end AES-256 GCM token storage.</p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* TAB 7: Global Status */}
+        {/* TAB 7: Status & Live Cluster Health */}
         {activeFeature === 'status' && (
-          <div className="space-y-4 animate-fade-in">
-            <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <span className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-sm font-bold text-emerald-600 dark:text-emerald-400">
-                  All Systems Fully Operational
-                </span>
-              </div>
-              <span className="text-xs font-mono font-bold text-slate-500 dark:text-slate-400">
-                99.992% 30-Day Uptime
-              </span>
-            </div>
-
-            <div className="space-y-2">
+          <div className="space-y-4 animate-fade-in font-mono text-xs">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {[
-                { name: 'US-East Autonomous Cluster (N. Virginia)', status: 'Operational', latency: '14ms' },
-                { name: 'EU-West Inference Engine (Frankfurt)', status: 'Operational', latency: '19ms' },
-                { name: 'AP-South API Gateway (Mumbai)', status: 'Operational', latency: '22ms' },
-                { name: 'GitHub Webhook Ingestion Pipeline', status: 'Operational', latency: '8ms' },
-              ].map((c) => (
+                { name: 'US-East (N. Virginia)', ping: '18ms', status: 'Operational' },
+                { name: 'EU-West (Frankfurt)', ping: '24ms', status: 'Operational' },
+                { name: 'AP-South (Mumbai)', ping: '31ms', status: 'Operational' },
+                { name: 'Global AI Inference', ping: '99.99%', status: 'Healthy' },
+              ].map((reg) => (
                 <div
-                  key={c.name}
-                  className="p-3 rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 flex items-center justify-between text-xs"
+                  key={reg.name}
+                  className="p-3.5 rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 space-y-1"
                 >
-                  <span className="font-medium text-slate-800 dark:text-slate-200">{c.name}</span>
-                  <div className="flex items-center gap-4">
-                    <span className="font-mono text-slate-400">{c.latency}</span>
-                    <span className="font-bold text-emerald-500">{c.status}</span>
+                  <span className="text-[10px] text-slate-400 block truncate">{reg.name}</span>
+                  <div className="text-sm font-bold text-slate-900 dark:text-white">{reg.ping}</div>
+                  <div className="text-[10px] text-emerald-500 font-bold flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> {reg.status}
                   </div>
                 </div>
               ))}
             </div>
+
+            <div className="p-4 rounded-xl bg-slate-900 text-slate-300 border border-white/10 space-y-1 text-[11px]">
+              <div className="text-[#D8B452] font-bold pb-1 border-b border-white/10 flex justify-between">
+                <span>Infrastructure Telemetry Stream</span>
+                <span>Active Nodes: 142</span>
+              </div>
+              <p className="pt-1">✓ Webhook ingestion latency: 8.4ms (p99)</p>
+              <p>✓ PR AI synthesis queue: 0 pending tasks</p>
+              <p>✓ Zero security incidents reported in past 365 days</p>
+            </div>
           </div>
         )}
 
-        {/* TAB 8: Task Inspector (When clicking any ticket in Hero console) */}
-        {activeFeature === 'task' && selectedTask && (
+        {/* TAB 8: Task Intelligence Inspector */}
+        {activeFeature === 'task' && (
           <div className="space-y-4 animate-fade-in">
-            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 space-y-3">
+            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-[#050614] border border-[#D8B452]/40 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="font-mono font-bold text-[#a1741a] dark:text-[#D8B452] text-sm">
-                  {selectedTask.id || 'NOV-244'}
+                <span className="px-2.5 py-1 rounded-full bg-[#D8B452]/20 text-[#a1741a] dark:text-[#D8B452] font-mono font-bold text-xs">
+                  {selectedTask?.id || 'NOV-249'}
                 </span>
-                <span className="px-2.5 py-0.5 rounded-full bg-[#D8B452]/20 text-[#a1741a] dark:text-[#D8B452] text-xs font-bold">
-                  {selectedTask.status || 'In Progress'}
+                <span className="text-xs text-emerald-500 font-bold flex items-center gap-1">
+                  <CheckCircle2 className="w-3.5 h-3.5" /> Auto-Triaged by AI
                 </span>
               </div>
+
               <h5 className="text-base font-bold text-slate-900 dark:text-white">
-                {selectedTask.title || 'Automate PR semantic changelogs & visual diff reports'}
+                {selectedTask?.title || 'Refactor OAuth token rotation for multi-region failover'}
               </h5>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                {selectedTask.details ||
+
+              <div className="grid grid-cols-3 gap-2 pt-2 border-t border-slate-200 dark:border-white/10 text-xs">
+                <div>
+                  <span className="text-slate-400 block text-[10px] uppercase">Story Points</span>
+                  <span className="font-bold text-slate-900 dark:text-white">5 Points</span>
+                </div>
+                <div>
+                  <span className="text-slate-400 block text-[10px] uppercase">Assignee</span>
+                  <span className="font-bold text-slate-900 dark:text-white">@alex (Frontend)</span>
+                </div>
+                <div>
+                  <span className="text-slate-400 block text-[10px] uppercase">Sprint Target</span>
+                  <span className="font-bold text-[#a1741a] dark:text-[#D8B452]">Sprint 48</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-xl bg-amber-50 dark:bg-[#0b0c33] border border-[#D8B452]/30 text-xs text-slate-700 dark:text-slate-300">
+              <p className="font-bold text-slate-900 dark:text-white mb-1">
+                AI Heuristic Summary:
+              </p>
+              <p>
+                {selectedTask?.summary ||
                   'Analyzed commits across 4 branches. Generated semantic changelog with zero regressions detected in unit test suite.'}
               </p>
             </div>
@@ -649,3 +1053,5 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
     </Modal>
   );
 }
+
+export default DemoModal;

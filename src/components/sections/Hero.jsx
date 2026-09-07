@@ -76,7 +76,7 @@ export function Hero({ onOpenDemo }) {
               size="lg"
               icon={Play}
               iconPosition="left"
-              onClick={() => onOpenDemo('backlog')}
+              onClick={() => onOpenDemo('walkthrough')}
               className="w-full sm:w-auto text-base"
             >
               Watch Interactive Demo
@@ -131,6 +131,13 @@ export function Hero({ onOpenDemo }) {
                   }`}
                 >
                   AI Copilot Feed
+                </button>
+                <button
+                  onClick={() => onOpenDemo('walkthrough')}
+                  title="Launch full interactive demo studio"
+                  className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer hover:scale-105 active:scale-95 bg-gradient-to-r from-[#D8B452] to-[#B38722] text-black shadow-sm"
+                >
+                  <Play className="w-3 h-3 fill-current" /> Interactive Studio
                 </button>
               </div>
             </div>
