@@ -1,41 +1,54 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 export function Preloader() {
   const [progress, setProgress] = useState(0);
   const [isDone, setIsDone] = useState(false);
   const [isMounted, setIsMounted] = useState(true);
+  const progressBarRef = useRef(null);
 
   useEffect(() => {
-    // Smooth progress count from 0 to 100%
     const startTime = performance.now();
-    const duration = 1200; // 1.2 seconds
+    const duration = 1400; // 1.4s silky smooth pace
 
     let timer1 = null;
     let timer2 = null;
     let animId = null;
 
+    // Smooth easeInOutCubic for organic, weighted acceleration & deceleration
+    const easeInOutCubic = (t) =>
+      t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
     const animateProgress = (currentTime) => {
       const elapsed = currentTime - startTime;
       const rawProgress = Math.min(elapsed / duration, 1);
-      // Ease out cubic
-      const easedProgress = Math.floor((1 - Math.pow(1 - rawProgress, 3)) * 100);
+      const eased = easeInOutCubic(rawProgress);
+      const currentPercent = Math.min(Math.round(eased * 100), 100);
 
-      setProgress(easedProgress);
+      setProgress(currentPercent);
+
+      if (progressBarRef.current) {
+        progressBarRef.current.style.transform = `scaleX(${eased})`;
+      }
 
       if (rawProgress < 1) {
         animId = requestAnimationFrame(animateProgress);
       } else {
         setProgress(100);
+        if (progressBarRef.current) {
+          progressBarRef.current.style.transform = 'scaleX(1)';
+        }
+        // Brief perceptible moment of 100% completion before lifting curtain
         timer1 = setTimeout(() => {
           setIsDone(true);
           timer2 = setTimeout(() => {
             setIsMounted(false);
-          }, 700); // Wait for curtain slide animation
-        }, 200);
+          }, 950); // Generous time for the silky curtain curve to finish
+        }, 180);
       }
     };
 
     animId = requestAnimationFrame(animateProgress);
+
     return () => {
       if (animId) cancelAnimationFrame(animId);
       if (timer1) clearTimeout(timer1);
@@ -47,30 +60,43 @@ export function Preloader() {
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-between bg-[#050614] text-white p-8 sm:p-12 transition-transform duration-700 ease-[cubic-bezier(0.85,0,0.15,1)] ${
-        isDone ? '-translate-y-full' : 'translate-y-0'
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-between bg-[#050614] text-white p-8 sm:p-12 transition-all duration-900 ease-[cubic-bezier(0.76,0,0.24,1)] will-change-[transform,opacity] ${
+        isDone ? '-translate-y-full opacity-90 pointer-events-none' : 'translate-y-0 opacity-100'
       }`}
     >
-      {/* Top Header of Preloader */}
-      <div className="w-full flex items-center justify-between text-xs font-bold tracking-[0.25em] uppercase text-slate-500">
+      {/* Background Ambience */}
+      <div className="absolute inset-0 bg-radial from-[#D8B452]/10 via-transparent to-transparent pointer-events-none" />
+
+      {/* Top Header */}
+      <div
+        className={`w-full flex items-center justify-between text-xs font-bold tracking-[0.25em] uppercase text-slate-500 transition-all duration-500 ${
+          isDone ? 'opacity-0 -translate-y-2' : 'opacity-100 translate-y-0'
+        }`}
+      >
         <span className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-[#D8B452] animate-ping" />
+          <span className="w-2 h-2 rounded-full bg-[#D8B452] animate-pulse shadow-[0_0_8px_#D8B452]" />
           Autonomous System Initializing
         </span>
-        <span className="font-mono text-[#D8B452]">{progress}%</span>
+        <span className="font-mono text-[#D8B452] text-sm tracking-normal">
+          {progress.toString().padStart(2, '0')}%
+        </span>
       </div>
 
-      {/* Center: Golden Totem & Masked Headline */}
-      <div className="flex flex-col items-center gap-8 text-center max-w-lg">
+      {/* Center Content with Depth Parallax Exit */}
+      <div
+        className={`flex flex-col items-center gap-8 text-center max-w-lg transition-all duration-700 delay-75 ${
+          isDone ? 'opacity-0 scale-95 -translate-y-6' : 'opacity-100 scale-100 translate-y-0'
+        }`}
+      >
         {/* Animated Totem with Glowing Aura */}
         <div className="relative">
-          <div className="absolute inset-0 bg-[#D8B452]/20 blur-2xl rounded-full scale-150 animate-pulse" />
+          <div className="absolute inset-0 bg-[#D8B452]/25 blur-3xl rounded-full scale-150 animate-pulse" />
           <div className="w-20 h-20 relative z-10 transition-transform duration-500 hover:rotate-180">
             <svg
               viewBox="0 0 32 32"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className="w-full h-full drop-shadow-[0_0_15px_rgba(216,180,82,0.6)] animate-totem"
+              className="w-full h-full drop-shadow-[0_0_20px_rgba(216,180,82,0.7)] animate-totem"
             >
               <path
                 d="M4.919 20.0389L6.967 17.9751H13.918V24.9797L11.87 27.0435C8.72 30.2174 4.453 31.9999 0 31.9999C0 27.5126 1.769 23.2129 4.919 20.0389Z"
@@ -103,17 +129,24 @@ export function Preloader() {
         </div>
       </div>
 
-      {/* Bottom Progress Bar */}
-      <div className="w-full max-w-md flex flex-col items-center gap-3">
-        <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+      {/* Bottom Progress Bar with GPU Scale */}
+      <div
+        className={`w-full max-w-md flex flex-col items-center gap-3 transition-all duration-500 ${
+          isDone ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'
+        }`}
+      >
+        <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden p-[1px]">
           <div
-            className="h-full bg-gradient-to-r from-[#D8B452] via-[#F3D887] to-[#D8B452] transition-all duration-100 ease-out"
-            style={{ width: `${progress}%` }}
+            ref={progressBarRef}
+            className="h-full w-full bg-gradient-to-r from-[#D8B452] via-[#F3D887] to-[#D8B452] rounded-full origin-left will-change-transform shadow-[0_0_10px_rgba(216,180,82,0.8)]"
+            style={{ transform: 'scaleX(0)' }}
           />
         </div>
         <div className="flex items-center justify-between w-full text-[11px] text-slate-400 font-mono">
           <span>Loading Engine Modules</span>
-          <span>{progress === 100 ? 'Ready' : 'Calibrating...'}</span>
+          <span className="text-[#D8B452] font-semibold">
+            {progress === 100 ? 'System Ready' : 'Calibrating...'}
+          </span>
         </div>
       </div>
     </div>
