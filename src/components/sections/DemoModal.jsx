@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Modal } from '../common/Modal';
 import { Button } from '../common/Button';
 import {
@@ -24,6 +24,13 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 
+const CHAPTER_LOGS = [
+  'Stage 01: Ingesting PRD specifications & architecture AST graph.',
+  'Stage 02: Fibonacci velocity calibrated across engineering squads.',
+  'Stage 03: PR analysis active — AST memory leak patch ready.',
+  'Stage 04: Predictive release radar online — canary deployment gates ready.',
+];
+
 const playChime = () => {
   try {
     const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -47,7 +54,7 @@ const playChime = () => {
   }
 };
 
-export function DemoModal({ isOpen, onClose, initialTab = 'walkthrough', selectedPlan = 'pro', selectedTask = null }) {
+function DemoModalContent({ isOpen, onClose, initialTab, selectedPlan, selectedTask }) {
   const [activeFeature, setActiveFeature] = useState(initialTab);
   const [copiedCode, setCopiedCode] = useState(false);
 
@@ -58,7 +65,7 @@ export function DemoModal({ isOpen, onClose, initialTab = 'walkthrough', selecte
   const [walkthroughSpeed, setWalkthroughSpeed] = useState(1);
   const [patchApplied, setPatchApplied] = useState(false);
   const [canaryPromoted, setCanaryPromoted] = useState(false);
-  const [activeSimulationLog, setActiveSimulationLog] = useState('Simulation initialized.');
+  const [customSimulationLog, setCustomSimulationLog] = useState(null);
 
   // Trial Workspace Creator state
   const [workspaceName, setWorkspaceName] = useState('');
@@ -71,44 +78,55 @@ export function DemoModal({ isOpen, onClose, initialTab = 'walkthrough', selecte
   const [contactForm, setContactForm] = useState({ name: '', email: '', teamSize: '25-50', message: '' });
   const [contactSubmitted, setContactSubmitted] = useState(false);
 
-  // Synchronize state when modal is opened with new parameters
-  const [prevProps, setPrevProps] = useState({ isOpen, initialTab, selectedPlan });
-  if (isOpen && (!prevProps.isOpen || prevProps.initialTab !== initialTab || prevProps.selectedPlan !== selectedPlan)) {
-    setPrevProps({ isOpen, initialTab, selectedPlan });
-    setActiveFeature(initialTab);
-    setActivePlan(selectedPlan);
-    setDeploySuccess(false);
-    setIsDeploying(false);
-    setContactSubmitted(false);
-    if (initialTab === 'walkthrough') {
-      setWalkthroughStage(0);
-      setWalkthroughProgress(0);
-      setIsWalkthroughPlaying(true);
-      setPatchApplied(false);
-      setCanaryPromoted(false);
-    }
-  } else if (!isOpen && prevProps.isOpen) {
-    setPrevProps({ isOpen, initialTab, selectedPlan });
-  }
+  const progressRef = useRef(0);
 
-  // Automatic Progression of Walkthrough Simulation
+  // Automatic Progression of Walkthrough Simulation Progress & Stages (1 -> 2 -> 3 -> 4 -> 1)
   useEffect(() => {
-    if (!isOpen || activeFeature !== 'walkthrough' || !isWalkthroughPlaying) return;
+    if (activeFeature !== 'walkthrough' || !isWalkthroughPlaying) return;
 
     const interval = setInterval(() => {
-      setWalkthroughProgress((prev) => {
-        const stepInc = (1.5 * walkthroughSpeed);
-        if (prev + stepInc >= 100) {
-          setWalkthroughStage((s) => (s + 1) % 4);
-          playChime();
-          return 0;
-        }
-        return prev + stepInc;
-      });
+      progressRef.current += 1.5 * walkthroughSpeed;
+      if (progressRef.current >= 100) {
+        progressRef.current = 0;
+        setWalkthroughProgress(0);
+        setWalkthroughStage((prevStage) => (prevStage + 1) % 4);
+        setCustomSimulationLog(null);
+        playChime();
+      } else {
+        setWalkthroughProgress(progressRef.current);
+      }
     }, 100);
 
     return () => clearInterval(interval);
-  }, [isOpen, activeFeature, isWalkthroughPlaying, walkthroughSpeed]);
+  }, [activeFeature, isWalkthroughPlaying, walkthroughSpeed]);
+
+  const activeSimulationLog = customSimulationLog || CHAPTER_LOGS[walkthroughStage];
+
+  const handleSelectStage = (idx) => {
+    progressRef.current = 0;
+    setWalkthroughStage(idx);
+    setWalkthroughProgress(0);
+    setCustomSimulationLog(null);
+    playChime();
+  };
+
+  const handleNextStage = () => {
+    progressRef.current = 0;
+    setWalkthroughStage((prev) => (prev + 1) % 4);
+    setWalkthroughProgress(0);
+    setCustomSimulationLog(null);
+    playChime();
+  };
+
+  const handleRestart = () => {
+    progressRef.current = 0;
+    setWalkthroughStage(0);
+    setWalkthroughProgress(0);
+    setPatchApplied(false);
+    setCanaryPromoted(false);
+    setCustomSimulationLog(null);
+    playChime();
+  };
 
   const walkthroughChapters = [
     {
@@ -381,13 +399,7 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                   {isWalkthroughPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-current ml-0.5" />}
                 </button>
                 <button
-                  onClick={() => {
-                    setWalkthroughStage(0);
-                    setWalkthroughProgress(0);
-                    setPatchApplied(false);
-                    setCanaryPromoted(false);
-                    playChime();
-                  }}
+                  onClick={handleRestart}
                   title="Restart Walkthrough"
                   className="p-2.5 rounded-full bg-white dark:bg-[#0b0c33] border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:text-[#D8B452] cursor-pointer hover:scale-105 active:scale-95 transition-all"
                 >
@@ -407,11 +419,7 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                 {walkthroughChapters.map((ch, idx) => (
                   <button
                     key={ch.id}
-                    onClick={() => {
-                      setWalkthroughStage(idx);
-                      setWalkthroughProgress(0);
-                      playChime();
-                    }}
+                    onClick={() => handleSelectStage(idx)}
                     className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
                       walkthroughStage === idx
                         ? 'bg-[#D8B452] text-black shadow-sm scale-102 font-black'
@@ -602,11 +610,7 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                 </div>
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() => {
-                      setWalkthroughStage((s) => (s + 1) % 4);
-                      setWalkthroughProgress(0);
-                      playChime();
-                    }}
+                    onClick={handleNextStage}
                     className="px-3 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white font-sans font-semibold text-xs flex items-center gap-1 cursor-pointer transition-all hover:scale-105"
                   >
                     Next Stage <ChevronRight className="w-3 h-3" />
@@ -1051,6 +1055,20 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
         )}
       </div>
     </Modal>
+  );
+}
+
+export function DemoModal({ isOpen, onClose, initialTab = 'walkthrough', selectedPlan = 'pro', selectedTask = null }) {
+  if (!isOpen) return null;
+
+  return (
+    <DemoModalContent
+      isOpen={isOpen}
+      onClose={onClose}
+      initialTab={initialTab}
+      selectedPlan={selectedPlan}
+      selectedTask={selectedTask}
+    />
   );
 }
 
