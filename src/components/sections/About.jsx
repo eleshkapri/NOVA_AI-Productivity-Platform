@@ -10,7 +10,7 @@ export function About() {
   const statIcons = [Clock, Target, Shuffle];
 
   return (
-    <section id="about" className="py-24 md:py-36 bg-amber-50/30 dark:bg-[#07081e]/80 relative">
+    <section id="about" className="py-24 md:py-36 bg-amber-50/15 dark:bg-[#07081e]/30 relative backdrop-blur-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <MotionReveal animation="fade-up">
           <SectionHeader

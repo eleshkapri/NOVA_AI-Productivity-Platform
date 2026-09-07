@@ -16,13 +16,13 @@ export function Hero({ onOpenDemo }) {
   const [activeTab, setActiveTab] = useState('sprint');
 
   return (
-    <section className="relative pt-36 pb-24 md:pt-44 md:pb-32 overflow-hidden bg-noise">
-      {/* Soufflet-style Ambient Golden Mesh Lighting */}
+    <section className="relative pt-36 pb-24 md:pt-44 md:pb-32 overflow-hidden">
+      {/* Soufflet-style Ambient Golden Halo (Subtle so motionable sky remains 100% visible) */}
       <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[650px] pointer-events-none opacity-50 dark:opacity-40 blur-3xl -z-10"
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[550px] pointer-events-none opacity-25 dark:opacity-20 blur-3xl -z-10"
         style={{
           background:
-            'radial-gradient(ellipse at center, rgba(216, 180, 82, 0.35) 0%, rgba(11, 12, 51, 0.6) 45%, transparent 75%)',
+            'radial-gradient(ellipse at center, rgba(216, 180, 82, 0.25) 0%, rgba(11, 12, 51, 0.2) 45%, transparent 75%)',
         }}
       />
 

@@ -74,7 +74,7 @@ export function Footer({ onOpenModal }) {
   };
 
   return (
-    <footer id="footer" className="bg-slate-100/90 dark:bg-[#050614] border-t border-slate-200 dark:border-white/10 pt-20 pb-14 text-slate-800 dark:text-white transition-colors">
+    <footer id="footer" className="bg-white/70 dark:bg-[#050614]/80 backdrop-blur-xl border-t border-slate-200/60 dark:border-white/10 pt-20 pb-14 text-slate-800 dark:text-white transition-colors relative z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top Section: Brand + Newsletter */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16 border-b border-slate-200 dark:border-white/10">

@@ -62,11 +62,11 @@ export function App() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#fcfbfa] dark:bg-[#050614] text-[#0f172a] dark:text-[#f1f2f6] transition-colors duration-300 font-sans selection:bg-[#D8B452] selection:text-black relative">
+    <div className="min-h-screen flex flex-col text-[#0f172a] dark:text-[#f1f2f6] transition-colors duration-300 font-sans selection:bg-[#D8B452] selection:text-black relative">
       {/* Soufflet Malt Luxury Custom Mouse Cursor */}
       <CustomCursor />
 
-      {/* 0. Ambient Floating Background & Grid Matrix */}
+      {/* 0. Ambient Floating Motionable Canvas & Sky Environment (z-0) */}
       <AmbientBackground />
 
       {/* 1. Liquid Gold Top Reading Progress Bar */}
@@ -100,7 +100,7 @@ export function App() {
       />
 
       {/* Main Content Area */}
-      <main className="flex-1">
+      <main className="flex-1 relative z-10">
         {/* 1. Hero Section with Interactive Dashboard Console */}
         <Hero onOpenDemo={(tab, extra) => handleOpenModal(tab || 'backlog', extra)} />
 

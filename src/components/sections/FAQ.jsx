@@ -12,7 +12,7 @@ export function FAQ({ onOpenDemo }) {
   };
 
   return (
-    <section id="faq" className="py-24 md:py-36 bg-amber-50/20 dark:bg-[#07081e]/80 relative">
+    <section id="faq" className="py-24 md:py-36 bg-amber-50/15 dark:bg-[#07081e]/30 relative backdrop-blur-xs">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <MotionReveal animation="fade-up">
           <SectionHeader
