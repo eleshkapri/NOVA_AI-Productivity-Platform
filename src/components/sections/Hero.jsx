@@ -17,31 +17,31 @@ export function Hero({ onOpenDemo }) {
 
   return (
     <section className="relative pt-36 pb-24 md:pt-44 md:pb-32 overflow-hidden">
-      {/* Soufflet-style Ambient Golden Halo (Subtle so motionable sky remains 100% visible) */}
+      {/* Soufflet & Orchid Ambient Atmospheric Glow */}
       <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[550px] pointer-events-none opacity-25 dark:opacity-20 blur-3xl -z-10"
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[550px] pointer-events-none opacity-30 dark:opacity-25 blur-3xl -z-10"
         style={{
           background:
-            'radial-gradient(ellipse at center, rgba(216, 180, 82, 0.25) 0%, rgba(11, 12, 51, 0.2) 45%, transparent 75%)',
+            'radial-gradient(ellipse at center, rgba(104, 51, 255, 0.25) 0%, rgba(216, 180, 82, 0.2) 35%, rgba(11, 12, 51, 0.2) 60%, transparent 80%)',
         }}
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Hero Copy */}
         <div className="text-center max-w-4xl mx-auto">
-          {/* Eyebrow Announcement Pill */}
+          {/* Eyebrow Announcement Pill with Orchid Radiant Border */}
           <button
             onClick={() => {
               const aboutSec = document.getElementById('about');
               aboutSec?.scrollIntoView({ behavior: 'smooth' });
             }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#D8B452]/40 bg-[#D8B452]/10 shadow-xs mb-8 hover:border-[#D8B452] hover:scale-105 active:scale-95 transition-all cursor-pointer group"
+            className="orchid-tag-pill mb-8 cursor-pointer group hover:scale-105 active:scale-95"
           >
-            <span className="flex h-2 w-2 rounded-full bg-[#D8B452] animate-pulse" />
-            <span className="text-xs font-bold tracking-widest uppercase text-[#D8B452]">
+            <span className="flex h-2 w-2 rounded-full bg-[#A78BFA] shadow-[0_0_8px_#A78BFA] animate-ping" />
+            <span className="text-xs font-bold tracking-widest uppercase text-[#C4B5FD] dark:text-[#E0E7FF]">
               NOVA 2.0 &bull; Autonomous AI Orchestration
             </span>
-            <span className="text-xs text-slate-300 font-medium hidden sm:inline group-hover:text-white transition-colors">
+            <span className="text-xs text-[#D8B452] font-semibold hidden sm:inline group-hover:text-white transition-colors">
               Read editorial &rarr;
             </span>
           </button>
@@ -62,7 +62,7 @@ export function Hero({ onOpenDemo }) {
           {/* Dual CTAs */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-10">
             <Button
-              variant="primary"
+              variant="orchid"
               size="lg"
               icon={ArrowRight}
               iconPosition="right"
@@ -77,7 +77,7 @@ export function Hero({ onOpenDemo }) {
               icon={Play}
               iconPosition="left"
               onClick={() => onOpenDemo('walkthrough')}
-              className="w-full sm:w-auto text-base"
+              className="w-full sm:w-auto text-base border-[#8E6FFF]/40 hover:border-[#8E6FFF]"
             >
               Watch Interactive Demo
             </Button>
@@ -89,17 +89,25 @@ export function Hero({ onOpenDemo }) {
               <Check className="w-4 h-4 text-[#D8B452]" /> No credit card required
             </span>
             <span className="flex items-center gap-2 hover:text-slate-900 dark:hover:text-white hover:scale-105 transition-all duration-200 cursor-default">
-              <Check className="w-4 h-4 text-[#D8B452]" /> 60-second GitHub setup
+              <Check className="w-4 h-4 text-[#A78BFA]" /> 60-second GitHub setup
             </span>
             <span className="flex items-center gap-2 hover:text-slate-900 dark:hover:text-white hover:scale-105 transition-all duration-200 cursor-default">
               <Check className="w-4 h-4 text-[#D8B452]" /> SOC2 Type II Certified
             </span>
           </div>
+
+          {/* Orchid Scanning Laser Beam Divider */}
+          <div className="mt-12 max-w-2xl mx-auto">
+            <div className="decor-laser-beam" />
+          </div>
         </div>
 
-        {/* Interactive Platform Mockup (Soufflet Midnight & Gold Console) */}
-        <div className="mt-16 md:mt-22 max-w-5xl mx-auto animate-float-subtle">
-          <div className="relative rounded-3xl p-2 sm:p-3 bg-gradient-to-b from-[#D8B452]/40 via-[#0b0c33]/80 to-[#050614] shadow-2xl shadow-[#D8B452]/10 border border-[#D8B452]/30 backdrop-blur-2xl">
+        {/* Interactive Platform Mockup (Orchid Cyber Console) */}
+        <div className="mt-16 md:mt-22 max-w-5xl mx-auto animate-float-subtle relative">
+          {/* Orchid-style Atmospheric Gradient Orb directly behind the Console */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] sm:w-[900px] h-[500px] rounded-full bg-gradient-to-tr from-[#6833FF]/30 via-[#8E6FFF]/20 to-[#D8B452]/15 blur-[120px] pointer-events-none -z-10 orchid-ambient-orb" />
+
+          <div className="relative rounded-3xl p-2 sm:p-3 bg-gradient-to-b from-[#6833FF]/25 via-[#0b0c33]/90 to-[#050614] shadow-2xl shadow-[#6833FF]/20 border border-[#8E6FFF]/35 backdrop-blur-2xl orchid-card">
             {/* Top Mockup Title Bar */}
             <div className="bg-[#0b0c33] rounded-t-2xl px-5 py-3.5 flex items-center justify-between border-b border-white/10">
               <div className="flex items-center gap-2.5">

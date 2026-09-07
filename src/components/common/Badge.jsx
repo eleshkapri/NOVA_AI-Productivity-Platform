@@ -9,6 +9,8 @@ export function Badge({
   const variants = {
     gold:
       'bg-[#D8B452]/10 text-[#D8B452] border-[#D8B452]/30',
+    orchid:
+      'bg-[#6833FF]/15 text-[#C4B5FD] dark:text-[#E0E7FF] border-[#8E6FFF]/40 shadow-[0_0_12px_rgba(104,51,255,0.25)] hover:border-[#8E6FFF]/80',
     navy:
       'bg-[#0b0c33] text-slate-200 border-white/10',
     indigo:
@@ -21,6 +23,7 @@ export function Badge({
 
   const dotColors = {
     gold: 'bg-[#D8B452]',
+    orchid: 'bg-[#A78BFA] shadow-[0_0_8px_#A78BFA]',
     navy: 'bg-indigo-400',
     indigo: 'bg-indigo-500',
     emerald: 'bg-emerald-500',

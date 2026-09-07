@@ -10,16 +10,16 @@ function StatCard({ stat }) {
   return (
     <div
       ref={ref}
-      className="group bg-white/90 dark:bg-[#0b0c33]/50 p-8 sm:p-9 rounded-3xl border border-slate-200/80 dark:border-white/10 shadow-md dark:shadow-xl hover:border-[#a1741a] dark:hover:border-[#D8B452] hover:shadow-2xl hover:shadow-[#D8B452]/20 hover:-translate-y-2 hover:scale-[1.03] transition-all duration-300 text-center flex flex-col justify-between backdrop-blur-xl cursor-default h-full"
+      className="group bg-white/90 dark:bg-[#07081e]/85 p-8 sm:p-9 rounded-3xl border border-slate-200/80 dark:border-white/10 shadow-md dark:shadow-xl hover:border-transparent transition-all duration-300 text-center flex flex-col justify-between backdrop-blur-xl cursor-default h-full orchid-card"
     >
       <div>
-        <div className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 dark:text-white mb-2 group-hover:scale-105 transition-transform duration-300">
-          <span className="text-gold-gradient font-serif italic">
+        <div className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight mb-2 group-hover:scale-105 transition-transform duration-300">
+          <span className="orchid-number-gradient font-sans">
             {displayValue}
           </span>
-          <span className="text-[#a1741a] dark:text-[#D8B452] font-sans ml-0.5">{stat.suffix}</span>
+          <span className="orchid-lavender-gradient font-sans font-extrabold ml-0.5">{stat.suffix}</span>
         </div>
-        <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2 tracking-wide group-hover:text-[#a1741a] dark:group-hover:text-[#D8B452] transition-colors">
+        <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2 tracking-wide group-hover:text-[#A78BFA] transition-colors">
           {stat.label}
         </h3>
         <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
@@ -27,8 +27,8 @@ function StatCard({ stat }) {
         </p>
       </div>
 
-      <div className="mt-8 pt-4 border-t border-slate-100 dark:border-white/10 flex items-center justify-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#a1741a] dark:text-[#D8B452]">
-        <span className="w-1.5 h-1.5 rounded-full bg-[#a1741a] dark:bg-[#D8B452] animate-pulse" /> Verified Metric
+      <div className="mt-8 pt-4 border-t border-slate-100 dark:border-white/10 flex items-center justify-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#8E6FFF] dark:text-[#C4B5FD]">
+        <span className="w-1.5 h-1.5 rounded-full bg-[#8E6FFF] dark:bg-[#A78BFA] animate-pulse" /> Verified Metric
       </div>
     </div>
   );

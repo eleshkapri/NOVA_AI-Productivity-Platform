@@ -209,13 +209,13 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
             </button>
 
             {/* Watch Demo CTA */}
-            <Button variant="ghost" size="sm" onClick={onOpenDemo} className="text-slate-700 dark:text-slate-300">
+            <Button variant="ghost" size="sm" onClick={onOpenDemo} className="text-slate-700 dark:text-slate-300 hover:text-[#8E6FFF] dark:hover:text-[#A78BFA]">
               Demo
             </Button>
 
-            {/* Primary CTA */}
+            {/* Primary CTA with Orchid Violet Style */}
             <Button
-              variant="primary"
+              variant="orchid"
               size="sm"
               icon={ArrowRight}
               iconPosition="right"

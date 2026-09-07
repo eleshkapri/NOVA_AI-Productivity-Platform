@@ -8,16 +8,16 @@ export function FinalCTA({ onOpenDemo }) {
     <section className="py-24 md:py-36 relative overflow-hidden bg-noise">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <MotionReveal animation="zoom-in" duration={900}>
-          <div className="relative rounded-3xl overflow-hidden bg-gradient-to-b from-[#0b0c33] via-[#07081e] to-[#050614] text-white p-10 sm:p-16 md:p-20 shadow-2xl border border-[#D8B452]/40 transition-all duration-500 hover:border-[#D8B452] hover:shadow-2xl hover:shadow-[#D8B452]/25 group">
-          {/* Ambient Gold Radial Glow */}
-          <div className="absolute top-0 right-0 -mr-24 -mt-24 w-96 h-96 rounded-full bg-[#D8B452]/20 blur-3xl pointer-events-none group-hover:opacity-80 transition-opacity duration-700" />
-          <div className="absolute bottom-0 left-0 -ml-24 -mb-24 w-96 h-96 rounded-full bg-[#D8B452]/15 blur-3xl pointer-events-none group-hover:opacity-80 transition-opacity duration-700" />
+          <div className="relative rounded-3xl overflow-hidden bg-gradient-to-b from-[#07081e] via-[#090a26] to-[#050614] text-white p-10 sm:p-16 md:p-20 shadow-2xl border border-[#8E6FFF]/30 transition-all duration-500 hover:border-transparent group orchid-card">
+          {/* Ambient Orchid Violet & Gold Radial Glow */}
+          <div className="absolute top-0 right-0 -mr-24 -mt-24 w-96 h-96 rounded-full bg-[#6833FF]/35 blur-3xl pointer-events-none group-hover:opacity-100 transition-opacity duration-700" />
+          <div className="absolute bottom-0 left-0 -ml-24 -mb-24 w-96 h-96 rounded-full bg-[#D8B452]/20 blur-3xl pointer-events-none group-hover:opacity-100 transition-opacity duration-700" />
 
           <div className="relative z-10 max-w-3xl mx-auto text-center">
-            {/* Top Pill */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#D8B452]/10 backdrop-blur-md border border-[#D8B452]/30 text-xs font-bold uppercase tracking-widest text-[#D8B452] mb-8 hover:scale-105 transition-transform cursor-default">
-              <Sparkles className="w-4 h-4 text-[#D8B452]" />
-              Elevate Your Engineering Cadence
+            {/* Top Pill with Orchid Radiant Border */}
+            <div className="orchid-tag-pill mb-8 cursor-default">
+              <Sparkles className="w-3.5 h-3.5 text-[#A78BFA]" />
+              <span>Elevate Your Engineering Cadence</span>
             </div>
 
             {/* Headline with Grand Editorial Typography */}
@@ -36,7 +36,7 @@ export function FinalCTA({ onOpenDemo }) {
             {/* Dual CTAs */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-10">
               <Button
-                variant="primary"
+                variant="orchid"
                 size="lg"
                 icon={ArrowRight}
                 iconPosition="right"
@@ -47,22 +47,22 @@ export function FinalCTA({ onOpenDemo }) {
               </Button>
               <button
                 onClick={() => onOpenDemo ? onOpenDemo('walkthrough') : null}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 text-base font-semibold tracking-wide rounded-full bg-[#0b0c33] hover:bg-[#12144b] border border-[#D8B452]/30 hover:border-[#D8B452] text-white hover:text-[#F3D887] hover:scale-105 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D8B452]/25 active:scale-95 transition-all duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D8B452] group/btn"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 text-base font-semibold tracking-wide rounded-full bg-[#07081e] hover:bg-[#0e1038] border border-[#8E6FFF]/40 hover:border-[#8E6FFF] text-white hover:text-[#E0E7FF] hover:scale-105 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#6833FF]/30 active:scale-95 transition-all duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8E6FFF] group/btn"
               >
-                <Play className="w-4 h-4 text-[#D8B452] transition-transform duration-300 group-hover/btn:scale-125 group-hover/btn:rotate-12" /> Watch Product Walkthrough
+                <Play className="w-4 h-4 text-[#A78BFA] transition-transform duration-300 group-hover/btn:scale-125 group-hover/btn:rotate-12" /> Watch Product Walkthrough
               </button>
             </div>
 
             {/* Trust Highlights */}
             <div className="flex flex-wrap items-center justify-center gap-8 text-xs font-semibold tracking-wider uppercase text-slate-400">
               <span className="flex items-center gap-2 hover:text-white hover:scale-105 transition-all duration-200 cursor-default">
-                <CheckCircle2 className="w-4 h-4 text-[#D8B452]" /> Complimentary 14-day trial
+                <CheckCircle2 className="w-4 h-4 text-[#A78BFA]" /> Complimentary 14-day trial
               </span>
               <span className="flex items-center gap-2 hover:text-white hover:scale-105 transition-all duration-200 cursor-default">
                 <CheckCircle2 className="w-4 h-4 text-[#D8B452]" /> Zero credit card required
               </span>
               <span className="flex items-center gap-2 hover:text-white hover:scale-105 transition-all duration-200 cursor-default">
-                <Shield className="w-4 h-4 text-[#D8B452]" /> SOC2 Type II Certified
+                <Shield className="w-4 h-4 text-[#A78BFA]" /> SOC2 Type II Certified
               </span>
             </div>
           </div>

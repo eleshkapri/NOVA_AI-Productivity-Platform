@@ -88,10 +88,11 @@ export function AmbientBackground() {
     window.addEventListener('mousemove', handleCanvasMouseMove, { passive: true });
     window.addEventListener('mouseleave', handleCanvasMouseLeave, { passive: true });
 
-    // 1. Neural Code Graph Nodes (Interconnected engineering modules / AI agents)
-    const nodeCount = isMobile ? 24 : 50;
+    // 1. Neural Code Graph Nodes (Interconnected engineering modules / Orchid security nodes)
+    const nodeCount = isMobile ? 26 : 56;
     const nodes = [];
     for (let i = 0; i < nodeCount; i++) {
+      const isOrchid = i % 3 === 0;
       nodes.push({
         x: Math.random() * width,
         y: Math.random() * height,
@@ -100,12 +101,13 @@ export function AmbientBackground() {
         radius: Math.random() * 2.2 + 1.8,
         pulseSpeed: Math.random() * 0.02 + 0.01,
         phase: Math.random() * Math.PI * 2,
-        isCore: i % 7 === 0, // Core hub nodes with glowing aura
+        isCore: i % 6 === 0, // Core hub nodes with glowing halo
+        type: isOrchid ? 'orchid' : 'gold', // Orchid cyber violet vs NOVA gold
       });
     }
 
-    // 2. High-Speed Synaptic Data Packets (Pulsing code commits / AI telemetry along edges)
-    const packetCount = isMobile ? 8 : 18;
+    // 2. High-Speed Synaptic Data Packets (Pulsing code commits / Orchid telemetry along edges)
+    const packetCount = isMobile ? 10 : 22;
     const packets = [];
     for (let i = 0; i < packetCount; i++) {
       packets.push({
@@ -114,6 +116,7 @@ export function AmbientBackground() {
         progress: Math.random(),
         speed: Math.random() * 0.008 + 0.005,
         size: Math.random() * 2 + 1.5,
+        type: i % 2 === 0 ? 'orchid' : 'gold',
       });
     }
 
@@ -218,6 +221,11 @@ export function AmbientBackground() {
       const nodeFill = isLight ? '#8c6012' : '#D8B452';
       const lineRgb = isLight ? '161, 116, 26' : '216, 180, 82';
       const cyanAccentRgb = isLight ? '14, 116, 144' : '34, 211, 238';
+
+      // Orchid Security Neon Violet / Dark-Matter Palette
+      const orchidViolet = isLight ? '#6833FF' : '#8E6FFF';
+      const orchidLavender = isLight ? '#7B42FF' : '#A78BFA';
+      const orchidRgb = isLight ? '104, 51, 255' : '142, 111, 255';
 
       // -------------------------------------------------------------
       // 1. Draw AI AST Radar Scanners (Background Tech Circles)
@@ -354,7 +362,11 @@ export function AmbientBackground() {
             const factor = 1 - dist / maxConnectDist;
             const lineAlpha = factor * (isLight ? 0.28 : 0.4);
 
-            ctx.strokeStyle = `rgba(${lineRgb}, ${lineAlpha})`;
+            // Orchid Security dual-frequency line blending
+            const isOrchidLine = na.type === 'orchid' || nb.type === 'orchid';
+            const strokeRgb = isOrchidLine ? orchidRgb : lineRgb;
+
+            ctx.strokeStyle = `rgba(${strokeRgb}, ${lineAlpha})`;
             ctx.beginPath();
             ctx.moveTo(na.x, na.y);
             ctx.lineTo(nb.x, nb.y);
@@ -414,9 +426,16 @@ export function AmbientBackground() {
         const px = na.x + (nb.x - na.x) * p.progress;
         const py = na.y + (nb.y - na.y) * p.progress;
 
-        ctx.fillStyle = secondaryGold;
-        ctx.shadowColor = primaryGold;
-        ctx.shadowBlur = isLight ? 4 : 8;
+        // Orchid purple packet vs NOVA gold packet
+        if (p.type === 'orchid') {
+          ctx.fillStyle = orchidLavender;
+          ctx.shadowColor = orchidViolet;
+          ctx.shadowBlur = isLight ? 5 : 10;
+        } else {
+          ctx.fillStyle = secondaryGold;
+          ctx.shadowColor = primaryGold;
+          ctx.shadowBlur = isLight ? 4 : 8;
+        }
         ctx.beginPath();
         ctx.arc(px, py, p.size, 0, Math.PI * 2);
         ctx.fill();
@@ -429,16 +448,18 @@ export function AmbientBackground() {
       for (let i = 0; i < nodeCount; i++) {
         const n = nodes[i];
         const pulseFactor = 0.8 + Math.sin(n.phase) * 0.2;
+        const isOrchidNode = n.type === 'orchid';
+        const haloColor = isOrchidNode ? orchidRgb : lineRgb;
 
         if (n.isCore) {
           // Core hub node with glowing halo
           const haloRad = n.radius * 2.8 * pulseFactor;
-          ctx.fillStyle = `rgba(${lineRgb}, ${isLight ? 0.16 : 0.22})`;
+          ctx.fillStyle = `rgba(${haloColor}, ${isLight ? 0.16 : 0.24})`;
           ctx.beginPath();
           ctx.arc(n.x, n.y, haloRad, 0, Math.PI * 2);
           ctx.fill();
 
-          ctx.fillStyle = primaryGold;
+          ctx.fillStyle = isOrchidNode ? orchidViolet : primaryGold;
           ctx.beginPath();
           ctx.arc(n.x, n.y, n.radius * 1.2, 0, Math.PI * 2);
           ctx.fill();
@@ -449,8 +470,8 @@ export function AmbientBackground() {
           ctx.arc(n.x, n.y, n.radius * 0.45, 0, Math.PI * 2);
           ctx.fill();
         } else {
-          // Standard neural graph node
-          ctx.fillStyle = nodeFill;
+          // Standard neural graph node (Orchid dark-matter or gold)
+          ctx.fillStyle = isOrchidNode ? (isLight ? '#7B42FF' : '#A78BFA') : nodeFill;
           ctx.beginPath();
           ctx.arc(n.x, n.y, n.radius * pulseFactor, 0, Math.PI * 2);
           ctx.fill();
@@ -531,15 +552,16 @@ export function AmbientBackground() {
       {/* 1. Subtle Engineering Matrix Grid */}
       <div className="absolute inset-0 bg-grid-pattern opacity-40 dark:opacity-25" />
 
-      {/* 2. Sweeping Luminous AI Neural Auroras */}
-      <div className="absolute -top-40 left-1/4 w-[750px] h-[1200px] bg-gradient-to-b from-[#D8B452]/20 via-[#F3D887]/10 to-transparent blur-[100px] animate-aurora-beam pointer-events-none" />
-      <div className="absolute -top-60 right-1/4 w-[650px] h-[1100px] bg-gradient-to-b from-indigo-500/15 via-[#D8B452]/8 to-transparent blur-[110px] animate-aurora-beam pointer-events-none [animation-delay:4s]" />
+      {/* 2. Sweeping Luminous Orchid Violet & AI Neural Auroras */}
+      <div className="absolute -top-40 left-1/4 w-[750px] h-[1200px] bg-gradient-to-b from-[#6833FF]/20 via-[#8E6FFF]/10 to-transparent blur-[120px] animate-aurora-beam pointer-events-none" />
+      <div className="absolute -top-60 right-1/4 w-[650px] h-[1100px] bg-gradient-to-b from-[#D8B452]/15 via-indigo-600/10 to-transparent blur-[110px] animate-aurora-beam pointer-events-none [animation-delay:4s]" />
 
-      {/* 3. Fluid Animated Ambient Gradient Orbs */}
-      <div className="absolute -top-32 -left-32 w-[720px] h-[720px] rounded-full bg-gradient-to-br from-[#D8B452]/20 via-[#F3D887]/10 to-transparent blur-[140px] animate-mesh-1" />
-      <div className="absolute top-1/3 -right-44 w-[780px] h-[780px] rounded-full bg-gradient-to-bl from-indigo-600/20 via-[#0b0c33]/40 dark:via-[#0b0c33]/70 to-transparent blur-[150px] animate-mesh-2" />
+      {/* 3. Fluid Animated Ambient Gradient Orbs (Orchid Deep Cosmic Violet & Gold) */}
+      <div className="absolute -top-32 -left-32 w-[720px] h-[720px] rounded-full bg-gradient-to-br from-[#6833FF]/25 via-[#8E6FFF]/10 to-transparent blur-[140px] animate-mesh-1" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[850px] h-[850px] rounded-full bg-gradient-to-tr from-[#6833FF]/20 via-[#4E29D4]/15 to-transparent blur-[160px] pointer-events-none orchid-ambient-orb" />
+      <div className="absolute top-1/3 -right-44 w-[780px] h-[780px] rounded-full bg-gradient-to-bl from-indigo-600/25 via-[#0b0c33]/40 dark:via-[#0b0c33]/70 to-transparent blur-[150px] animate-mesh-2" />
       <div className="absolute top-2/3 left-1/5 w-[620px] h-[620px] rounded-full bg-gradient-to-tr from-[#D8B452]/15 via-[#C49A32]/10 to-transparent blur-[130px] animate-mesh-3" />
-      <div className="absolute -bottom-40 right-1/3 w-[700px] h-[700px] rounded-full bg-gradient-to-tl from-amber-400/15 via-[#07081e]/35 dark:via-[#07081e]/65 to-transparent blur-[140px] animate-mesh-1" />
+      <div className="absolute -bottom-40 right-1/3 w-[700px] h-[700px] rounded-full bg-gradient-to-tl from-[#6833FF]/20 via-[#07081e]/35 dark:via-[#07081e]/65 to-transparent blur-[140px] animate-mesh-1" />
 
       {/* 4. Floating Golden Energy Motes */}
       <div className="absolute inset-0 pointer-events-none">

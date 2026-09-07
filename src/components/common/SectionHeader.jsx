@@ -3,7 +3,7 @@ import { Badge } from './Badge';
 
 export function SectionHeader({
   eyebrow,
-  eyebrowVariant = 'gold',
+  eyebrowVariant = 'orchid',
   title,
   titleHighlight,
   description,
@@ -18,8 +18,8 @@ export function SectionHeader({
   return (
     <div className={`flex flex-col max-w-3xl mb-16 md:mb-20 ${alignClasses[align]} ${className}`}>
       {eyebrow && (
-        <div className="mb-4">
-          <Badge variant={eyebrowVariant} dot>
+        <div className="mb-5">
+          <Badge variant={eyebrowVariant} dot className="shadow-sm">
             {eyebrow}
           </Badge>
         </div>

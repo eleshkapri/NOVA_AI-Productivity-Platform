@@ -291,3 +291,196 @@
   animation: floatingLightMote 10s ease-in-out infinite;
 }
 
+/* ========================================================
+   ORCHID.SECURITY CYBERNETIC VISUAL DESIGN SYSTEM & MOTIFS
+   ======================================================== */
+
+/* 1. Orchid Dark Matter Holographic Card Border Mask */
+.orchid-card {
+  position: relative;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+}
+
+.orchid-card::before {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  inset: 0;
+  padding: 1.5px;
+  border-radius: inherit;
+  background: linear-gradient(
+    to bottom,
+    rgba(142, 111, 255, 0.35) 0%,
+    rgba(142, 111, 255, 0.08) 50%,
+    rgba(216, 180, 82, 0.2) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: 0.85;
+  transition: opacity 0.3s ease, background 0.3s ease;
+}
+
+.orchid-card::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(142, 111, 255, 0.9) 45%,
+    rgba(216, 180, 82, 0.85) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.orchid-card:hover::after {
+  opacity: 1;
+}
+
+.orchid-card:hover {
+  box-shadow: 0 0 35px -5px rgba(104, 51, 255, 0.25), 0 0 25px -4px rgba(216, 180, 82, 0.18);
+  transform: translateY(-4px) scale(1.01);
+}
+
+/* 2. Orchid Tech Tag Pill with Radiant Neon Outline */
+.orchid-tag-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.875rem;
+  border-radius: 9999px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: rgba(104, 51, 255, 0.12);
+  color: #c4b5fd;
+  border: 1px solid rgba(142, 111, 255, 0.45);
+  box-shadow: 0 0 16px -2px rgba(104, 51, 255, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+}
+
+.dark .orchid-tag-pill {
+  color: #e0e7ff;
+}
+
+.orchid-tag-pill:hover {
+  border-color: rgba(142, 111, 255, 0.85);
+  box-shadow: 0 0 25px 0px rgba(104, 51, 255, 0.45);
+  transform: scale(1.03);
+}
+
+/* 3. Orchid Laser Divider Beam with Continuous Scanning Flare */
+@keyframes laserScanPulse {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(250%);
+  }
+}
+
+.decor-laser-beam {
+  position: relative;
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(142, 111, 255, 0.2) 20%,
+    rgba(237, 237, 237, 0.4) 50%,
+    rgba(216, 180, 82, 0.3) 80%,
+    transparent 100%
+  );
+  overflow: hidden;
+  mix-blend-mode: plus-lighter;
+}
+
+.decor-laser-beam::after {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 35%;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(142, 111, 255, 0.8),
+    #ffffff,
+    rgba(216, 180, 82, 0.9),
+    transparent
+  );
+  filter: blur(1px);
+  animation: laserScanPulse 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* 4. Orchid Pulsing Timeline Laser Line Conduit */
+@keyframes pulseLaserConduit {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-laser-conduit {
+  background: linear-gradient(
+    90deg,
+    rgba(142, 111, 255, 0.25) 0%,
+    rgba(142, 111, 255, 0.9) 35%,
+    #ffffff 50%,
+    rgba(216, 180, 82, 0.95) 65%,
+    rgba(142, 111, 255, 0.25) 100%
+  );
+  background-size: 200% 100%;
+  animation: pulseLaserConduit 4s linear infinite;
+}
+
+/* 5. Orchid Large Number & Gradient Text Utilities */
+.orchid-number-gradient {
+  background: linear-gradient(180deg, #ffffff 30%, rgba(220, 215, 254, 0.7) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.orchid-lavender-gradient {
+  background: linear-gradient(180deg, #A78BFA 0%, #6833FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 6. Orchid Atmospheric Glowing Orb */
+@keyframes orchidGlowBreath {
+  0%, 100% {
+    transform: scale(1) translate3d(0, 0, 0);
+    opacity: 0.45;
+  }
+  50% {
+    transform: scale(1.12) translate3d(15px, -20px, 0);
+    opacity: 0.7;
+  }
+}
+
+.orchid-ambient-orb {
+  animation: orchidGlowBreath 12s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+

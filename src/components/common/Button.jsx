@@ -26,6 +26,10 @@ export function Button({
       'bg-gradient-to-r from-[#D8B452] via-[#F3D887] to-[#C7992A] hover:from-[#F3D887] hover:to-[#D8B452] text-black shadow-lg shadow-[#D8B452]/25 hover:shadow-2xl hover:shadow-[#D8B452]/40 hover:-translate-y-1 active:translate-y-0.5 hover:scale-[1.02] border border-[#F3D887]/60',
     secondary:
       'bg-slate-900 text-white dark:bg-[#0b0c33] hover:bg-slate-800 dark:hover:bg-[#121554] shadow-md hover:shadow-xl hover:shadow-[#D8B452]/10 hover:-translate-y-1 active:translate-y-0.5 hover:scale-[1.02] border border-[#a1741a]/40 dark:border-[#D8B452]/30 hover:border-[#D8B452]',
+    orchid:
+      'bg-gradient-to-r from-[#6833FF] via-[#7B42FF] to-[#8E6FFF] hover:from-[#7B42FF] hover:to-[#6833FF] text-white shadow-lg shadow-[#6833FF]/35 hover:shadow-2xl hover:shadow-[#6833FF]/55 hover:-translate-y-1 active:translate-y-0.5 hover:scale-[1.02] border border-[#A78BFA]/50',
+    orchidSecondary:
+      'bg-slate-950/80 text-white dark:bg-[#07081e] hover:bg-slate-900 dark:hover:bg-[#0e1038] shadow-md hover:shadow-xl hover:shadow-[#6833FF]/25 hover:-translate-y-1 active:translate-y-0.5 hover:scale-[1.02] border border-[#8E6FFF]/40 hover:border-[#8E6FFF]',
     outline:
       'border-2 border-[#a1741a]/60 dark:border-[#D8B452]/50 text-[#a1741a] dark:text-[#D8B452] hover:bg-gradient-to-r hover:from-[#D8B452] hover:to-[#C7992A] hover:text-black hover:border-transparent hover:shadow-lg hover:shadow-[#D8B452]/20 hover:-translate-y-1 active:translate-y-0.5',
     ghost:
