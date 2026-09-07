@@ -38,30 +38,30 @@ export function Features() {
             return (
               <div
                 key={feature.id}
-                className="group relative bg-[#0b0c33]/50 rounded-3xl p-8 sm:p-9 border border-white/10 hover:border-[#D8B452]/60 shadow-xl hover:shadow-2xl hover:shadow-[#D8B452]/10 transition-all duration-400 hover:-translate-y-1.5 flex flex-col justify-between backdrop-blur-xl"
+                className="group relative bg-white/90 dark:bg-[#0b0c33]/50 rounded-3xl p-8 sm:p-9 border border-slate-200/80 dark:border-white/10 hover:border-[#a1741a]/50 dark:hover:border-[#D8B452]/60 shadow-md dark:shadow-xl hover:shadow-2xl hover:shadow-[#D8B452]/10 transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between backdrop-blur-xl"
               >
                 <div>
                   {/* Top Bar: Icon + Badge */}
                   <div className="flex items-center justify-between mb-8">
-                    <div className="w-13 h-13 rounded-2xl bg-[#050614] border border-[#D8B452]/30 flex items-center justify-center text-[#D8B452] group-hover:scale-110 group-hover:border-[#D8B452] group-hover:shadow-lg group-hover:shadow-[#D8B452]/20 transition-all duration-300">
+                    <div className="w-13 h-13 rounded-2xl bg-amber-50 dark:bg-[#050614] border border-[#a1741a]/30 dark:border-[#D8B452]/30 flex items-center justify-center text-[#a1741a] dark:text-[#D8B452] group-hover:scale-110 group-hover:border-[#D8B452] group-hover:shadow-md transition-all duration-300">
                       <Icon className="w-6 h-6" />
                     </div>
                     <Badge variant="gold">{feature.badge}</Badge>
                   </div>
 
                   {/* Title & Description */}
-                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#D8B452] transition-colors">
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-[#a1741a] dark:group-hover:text-[#D8B452] transition-colors">
                     {feature.title}
                   </h3>
-                  <p className="text-sm text-slate-300 leading-relaxed font-light">
+                  <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
                     {feature.description}
                   </p>
                 </div>
 
                 {/* Bottom Metric Pill */}
-                <div className="mt-8 pt-5 border-t border-white/10 flex items-center justify-between text-xs">
-                  <span className="font-semibold uppercase tracking-wider text-slate-400">Impact Metric</span>
-                  <span className="font-bold text-[#D8B452] bg-[#D8B452]/10 px-3 py-1 rounded-full border border-[#D8B452]/30">
+                <div className="mt-8 pt-5 border-t border-slate-100 dark:border-white/10 flex items-center justify-between text-xs">
+                  <span className="font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Impact Metric</span>
+                  <span className="font-bold text-[#a1741a] dark:text-[#D8B452] bg-amber-50 dark:bg-[#D8B452]/10 px-3 py-1 rounded-full border border-[#a1741a]/20 dark:border-[#D8B452]/30">
                     {feature.metric}
                   </span>
                 </div>

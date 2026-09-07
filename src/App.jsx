@@ -8,6 +8,7 @@ import { Preloader } from './components/common/Preloader';
 import { SoundToggle } from './components/common/SoundToggle';
 import { CommandPalette } from './components/common/CommandPalette';
 import { LiveActivityToast } from './components/common/LiveActivityToast';
+import { AmbientBackground } from './components/common/AmbientBackground';
 
 // Layout Components
 import { Navbar } from './components/layout/Navbar';
@@ -42,7 +43,10 @@ export function App() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#faf8f5] dark:bg-[#050614] text-[#1a1a2e] dark:text-[#f1f2f6] transition-colors duration-300 font-sans selection:bg-[#D8B452] selection:text-black relative">
+    <div className="min-h-screen flex flex-col bg-[#fcfbfa] dark:bg-[#050614] text-[#0f172a] dark:text-[#f1f2f6] transition-colors duration-300 font-sans selection:bg-[#D8B452] selection:text-black relative">
+      {/* 0. Ambient Floating Background & Grid Matrix */}
+      <AmbientBackground />
+
       {/* 1. Liquid Gold Top Reading Progress Bar */}
       <ProgressBar />
 

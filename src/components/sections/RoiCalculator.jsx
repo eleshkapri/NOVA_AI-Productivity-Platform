@@ -13,7 +13,7 @@ export function RoiCalculator({ onOpenDemo }) {
   const annualSavings = Math.round(weeklyHoursSaved * 48 * hourlyRate * 0.42);
 
   return (
-    <section id="roi-calculator" className="py-24 md:py-36 bg-[#07081e]/90 relative overflow-hidden">
+    <section id="roi-calculator" className="py-24 md:py-36 bg-amber-50/25 dark:bg-[#07081e]/90 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
           eyebrow="Interactive Economics"
@@ -22,17 +22,17 @@ export function RoiCalculator({ onOpenDemo }) {
           description="Adjust your engineering headcount and benchmark compensation to preview the quantifiable velocity gains unlocked by NOVA."
         />
 
-        <div className="max-w-5xl mx-auto bg-[#0b0c33]/70 rounded-3xl p-8 sm:p-12 border border-[#D8B452]/30 shadow-2xl backdrop-blur-2xl">
+        <div className="max-w-5xl mx-auto bg-white/95 dark:bg-[#0b0c33]/70 rounded-3xl p-8 sm:p-12 border border-slate-200/90 dark:border-[#D8B452]/30 shadow-xl dark:shadow-2xl backdrop-blur-2xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             {/* Sliders Input Column */}
             <div className="lg:col-span-6 space-y-8">
               {/* Slider 1: Team Size */}
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <label htmlFor="team-size-slider" className="text-sm font-bold uppercase tracking-wider text-slate-300">
+                  <label htmlFor="team-size-slider" className="text-sm font-bold uppercase tracking-wider text-slate-800 dark:text-slate-300">
                     Engineering Team Size
                   </label>
-                  <span className="text-xl font-mono font-bold text-[#D8B452]">
+                  <span className="text-xl font-mono font-bold text-[#a1741a] dark:text-[#D8B452]">
                     {teamSize} Engineers
                   </span>
                 </div>
@@ -44,7 +44,7 @@ export function RoiCalculator({ onOpenDemo }) {
                   step="5"
                   value={teamSize}
                   onChange={(e) => setTeamSize(Number(e.target.value))}
-                  className="w-full h-2 bg-[#050614] rounded-lg appearance-none cursor-pointer accent-[#D8B452]"
+                  className="w-full h-2 bg-slate-200 dark:bg-[#050614] rounded-lg appearance-none cursor-pointer accent-[#D8B452]"
                 />
                 <div className="flex justify-between text-[11px] text-slate-500 font-mono">
                   <span>5 devs</span>
@@ -56,10 +56,10 @@ export function RoiCalculator({ onOpenDemo }) {
               {/* Slider 2: Average Salary */}
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <label htmlFor="salary-slider" className="text-sm font-bold uppercase tracking-wider text-slate-300">
+                  <label htmlFor="salary-slider" className="text-sm font-bold uppercase tracking-wider text-slate-800 dark:text-slate-300">
                     Avg Annual Compensation
                   </label>
-                  <span className="text-xl font-mono font-bold text-[#D8B452]">
+                  <span className="text-xl font-mono font-bold text-[#a1741a] dark:text-[#D8B452]">
                     ${avgSalary.toLocaleString()} / yr
                   </span>
                 </div>
@@ -71,7 +71,7 @@ export function RoiCalculator({ onOpenDemo }) {
                   step="10000"
                   value={avgSalary}
                   onChange={(e) => setAvgSalary(Number(e.target.value))}
-                  className="w-full h-2 bg-[#050614] rounded-lg appearance-none cursor-pointer accent-[#D8B452]"
+                  className="w-full h-2 bg-slate-200 dark:bg-[#050614] rounded-lg appearance-none cursor-pointer accent-[#D8B452]"
                 />
                 <div className="flex justify-between text-[11px] text-slate-500 font-mono">
                   <span>$60,000</span>
@@ -80,8 +80,8 @@ export function RoiCalculator({ onOpenDemo }) {
                 </div>
               </div>
 
-              <div className="p-4 rounded-2xl bg-[#050614] border border-white/10 text-xs text-slate-400 flex items-start gap-3">
-                <Calculator className="w-5 h-5 text-[#D8B452] shrink-0 mt-0.5" />
+              <div className="p-4 rounded-2xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 text-xs text-slate-600 dark:text-slate-400 flex items-start gap-3">
+                <Calculator className="w-5 h-5 text-[#a1741a] dark:text-[#D8B452] shrink-0 mt-0.5" />
                 <span>
                   Model calibrated from empirical telemetry across 500+ engineering teams measuring PR merge latency, story estimation, and retrospective overhead.
                 </span>
@@ -89,7 +89,7 @@ export function RoiCalculator({ onOpenDemo }) {
             </div>
 
             {/* Live Calculated Output Column */}
-            <div className="lg:col-span-6 bg-[#050614] p-8 rounded-3xl border border-[#D8B452]/40 shadow-xl space-y-6">
+            <div className="lg:col-span-6 bg-[#0b0c33] dark:bg-[#050614] p-8 rounded-3xl border border-[#D8B452]/40 shadow-xl space-y-6 text-white">
               <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#D8B452]">
                 Projected Annual Dividend
               </span>
@@ -152,7 +152,7 @@ export function RoiCalculator({ onOpenDemo }) {
                 {onOpenDemo && (
                   <button
                     onClick={onOpenDemo}
-                    className="px-5 py-2.5 rounded-full border border-white/10 hover:border-[#D8B452]/40 text-xs font-semibold text-slate-300 hover:text-[#D8B452] transition-colors"
+                    className="px-5 py-2.5 rounded-full border border-white/10 hover:border-[#D8B452]/40 text-xs font-semibold text-slate-300 hover:text-[#D8B452] transition-colors cursor-pointer"
                   >
                     Custom Audit
                   </button>

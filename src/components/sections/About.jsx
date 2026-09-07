@@ -9,7 +9,7 @@ export function About() {
   const statIcons = [Clock, Target, Shuffle];
 
   return (
-    <section id="about" className="py-24 md:py-36 bg-[#07081e]/80 relative">
+    <section id="about" className="py-24 md:py-36 bg-amber-50/30 dark:bg-[#07081e]/80 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
           eyebrow="The NOVA Philosophy"
@@ -25,15 +25,15 @@ export function About() {
             return (
               <div
                 key={stat.label}
-                className="bg-[#0b0c33]/60 p-7 rounded-3xl border border-white/10 text-center shadow-lg hover:border-[#D8B452]/50 transition-all duration-300"
+                className="bg-white/90 dark:bg-[#0b0c33]/60 p-7 rounded-3xl border border-slate-200/80 dark:border-white/10 text-center shadow-md dark:shadow-lg hover:border-[#a1741a]/40 dark:hover:border-[#D8B452]/50 transition-all duration-300"
               >
-                <div className="w-12 h-12 mx-auto rounded-2xl bg-[#050614] border border-[#D8B452]/30 flex items-center justify-center text-[#D8B452] mb-4">
+                <div className="w-12 h-12 mx-auto rounded-2xl bg-amber-50 dark:bg-[#050614] border border-[#a1741a]/20 dark:border-[#D8B452]/30 flex items-center justify-center text-[#a1741a] dark:text-[#D8B452] mb-4">
                   <Icon className="w-5 h-5" />
                 </div>
-                <div className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+                <div className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
                   <span className="text-gold-gradient">{stat.value}</span>
                 </div>
-                <div className="text-xs font-bold uppercase tracking-wider text-slate-400 mt-2">
+                <div className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mt-2">
                   {stat.label}
                 </div>
               </div>
@@ -42,26 +42,26 @@ export function About() {
         </div>
 
         {/* Interactive Comparison Widget */}
-        <div className="max-w-4xl mx-auto bg-[#0b0c33]/70 rounded-3xl border border-[#D8B452]/30 shadow-2xl overflow-hidden backdrop-blur-2xl">
+        <div className="max-w-4xl mx-auto bg-white/95 dark:bg-[#0b0c33]/70 rounded-3xl border border-slate-200/90 dark:border-[#D8B452]/30 shadow-xl dark:shadow-2xl overflow-hidden backdrop-blur-2xl">
           <div className="p-7 sm:p-10">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5 pb-8 border-b border-white/10">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5 pb-8 border-b border-slate-200/80 dark:border-white/10">
               <div>
-                <h3 className="text-2xl font-bold text-white tracking-tight">
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
                   The Workflow Transformation
                 </h3>
-                <p className="text-sm text-slate-400 mt-1">
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
                   Contrast fragmented legacy task tracking against NOVA's autonomous intelligence.
                 </p>
               </div>
 
               {/* Toggle Pills */}
-              <div className="inline-flex p-1.5 bg-[#050614] rounded-full border border-white/10 self-start sm:self-auto">
+              <div className="inline-flex p-1.5 bg-slate-100 dark:bg-[#050614] rounded-full border border-slate-200 dark:border-white/10 self-start sm:self-auto">
                 <button
                   onClick={() => setActiveTab('before')}
                   className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
                     activeTab === 'before'
                       ? 'bg-rose-500 text-white shadow-md'
-                      : 'text-slate-400 hover:text-white'
+                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
                   Legacy Chaos
@@ -71,7 +71,7 @@ export function About() {
                   className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
                     activeTab === 'after'
                       ? 'bg-gradient-to-r from-[#D8B452] to-[#C49A32] text-black font-extrabold shadow-md'
-                      : 'text-slate-400 hover:text-white'
+                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
                   ✨ With NOVA
@@ -86,10 +86,10 @@ export function About() {
                   {aboutData.comparison.before.map((point, index) => (
                     <div
                       key={index}
-                      className="p-4.5 rounded-2xl bg-rose-950/20 border border-rose-900/40 flex items-start gap-3.5"
+                      className="p-4.5 rounded-2xl bg-rose-50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/40 flex items-start gap-3.5"
                     >
                       <XCircle className="w-5 h-5 text-rose-500 shrink-0 mt-0.5" />
-                      <span className="text-sm font-medium text-slate-200">
+                      <span className="text-sm font-medium text-slate-800 dark:text-slate-200">
                         {point}
                       </span>
                     </div>
@@ -100,10 +100,10 @@ export function About() {
                   {aboutData.comparison.after.map((point, index) => (
                     <div
                       key={index}
-                      className="p-4.5 rounded-2xl bg-[#D8B452]/10 border border-[#D8B452]/30 flex items-start gap-3.5"
+                      className="p-4.5 rounded-2xl bg-amber-50/70 dark:bg-[#D8B452]/10 border border-amber-200 dark:border-[#D8B452]/30 flex items-start gap-3.5"
                     >
-                      <CheckCircle2 className="w-5 h-5 text-[#D8B452] shrink-0 mt-0.5" />
-                      <span className="text-sm font-medium text-slate-100">
+                      <CheckCircle2 className="w-5 h-5 text-[#a1741a] dark:text-[#D8B452] shrink-0 mt-0.5" />
+                      <span className="text-sm font-medium text-slate-800 dark:text-slate-100">
                         {point}
                       </span>
                     </div>

@@ -11,7 +11,7 @@ export function FAQ() {
   };
 
   return (
-    <section id="faq" className="py-24 md:py-36 bg-[#07081e]/80 relative">
+    <section id="faq" className="py-24 md:py-36 bg-amber-50/20 dark:bg-[#07081e]/80 relative">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
           eyebrow="Direct Knowledge"
@@ -28,7 +28,7 @@ export function FAQ() {
             return (
               <div
                 key={item.id}
-                className="bg-[#0b0c33]/70 rounded-3xl border border-white/10 shadow-lg overflow-hidden transition-all duration-300 hover:border-[#D8B452]/40"
+                className="bg-white/95 dark:bg-[#0b0c33]/70 rounded-3xl border border-slate-200/90 dark:border-white/10 shadow-md dark:shadow-lg overflow-hidden transition-all duration-300 hover:border-[#a1741a]/40 dark:hover:border-[#D8B452]/40"
               >
                 <button
                   onClick={() => handleToggle(index)}
@@ -36,12 +36,12 @@ export function FAQ() {
                   aria-controls={`faq-answer-${item.id}`}
                   className="w-full px-7 py-6 flex items-center justify-between text-left gap-4 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D8B452]"
                 >
-                  <span className="text-base sm:text-lg font-bold text-white tracking-wide">
+                  <span className="text-base sm:text-lg font-bold text-slate-900 dark:text-white tracking-wide">
                     {item.question}
                   </span>
                   <div
-                    className={`p-2 rounded-full bg-[#050614] text-[#D8B452] border border-[#D8B452]/30 transition-transform duration-300 shrink-0 ${
-                      isOpen ? 'rotate-180 bg-[#D8B452] text-black' : ''
+                    className={`p-2 rounded-full bg-slate-100 dark:bg-[#050614] text-[#a1741a] dark:text-[#D8B452] border border-slate-200 dark:border-[#D8B452]/30 transition-transform duration-300 shrink-0 ${
+                      isOpen ? 'rotate-180 bg-[#D8B452] text-black border-transparent' : ''
                     }`}
                   >
                     <ChevronDown className="w-4 h-4" />
@@ -56,7 +56,7 @@ export function FAQ() {
                   }`}
                 >
                   <div className="overflow-hidden">
-                    <p className="px-7 pb-7 text-sm sm:text-base text-slate-300 leading-relaxed border-t border-white/10 pt-5 font-light">
+                    <p className="px-7 pb-7 text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-white/10 pt-5 font-normal">
                       {item.answer}
                     </p>
                   </div>
@@ -67,11 +67,11 @@ export function FAQ() {
         </div>
 
         {/* Support Prompt */}
-        <div className="mt-14 text-center text-sm text-slate-400">
+        <div className="mt-14 text-center text-sm text-slate-500 dark:text-slate-400">
           Have an inquiry not answered here?{' '}
           <a
             href="#footer"
-            className="text-[#D8B452] font-semibold underline hover:text-[#F3D887]"
+            className="text-[#a1741a] dark:text-[#D8B452] font-semibold underline hover:text-[#b8860b]"
           >
             Connect with our engineering specialists &rarr;
           </a>

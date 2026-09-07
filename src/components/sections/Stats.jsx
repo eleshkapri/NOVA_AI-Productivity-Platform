@@ -9,25 +9,25 @@ function StatCard({ stat }) {
   return (
     <div
       ref={ref}
-      className="bg-[#0b0c33]/50 p-8 sm:p-9 rounded-3xl border border-white/10 shadow-xl hover:border-[#D8B452]/50 hover:shadow-2xl hover:shadow-[#D8B452]/10 transition-all duration-300 text-center flex flex-col justify-between backdrop-blur-xl"
+      className="bg-white/90 dark:bg-[#0b0c33]/50 p-8 sm:p-9 rounded-3xl border border-slate-200/80 dark:border-white/10 shadow-md dark:shadow-xl hover:border-[#a1741a]/40 dark:hover:border-[#D8B452]/50 hover:shadow-xl transition-all duration-300 text-center flex flex-col justify-between backdrop-blur-xl"
     >
       <div>
-        <div className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white mb-2">
+        <div className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 dark:text-white mb-2">
           <span className="text-gold-gradient font-serif italic">
             {displayValue}
           </span>
-          <span className="text-[#D8B452] font-sans ml-0.5">{stat.suffix}</span>
+          <span className="text-[#a1741a] dark:text-[#D8B452] font-sans ml-0.5">{stat.suffix}</span>
         </div>
-        <h3 className="text-base font-bold text-white mb-2 tracking-wide">
+        <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2 tracking-wide">
           {stat.label}
         </h3>
-        <p className="text-xs sm:text-sm text-slate-400 leading-relaxed font-light">
+        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
           {stat.description}
         </p>
       </div>
 
-      <div className="mt-8 pt-4 border-t border-white/10 flex items-center justify-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#D8B452]">
-        <span className="w-1.5 h-1.5 rounded-full bg-[#D8B452] animate-pulse" /> Verified Metric
+      <div className="mt-8 pt-4 border-t border-slate-100 dark:border-white/10 flex items-center justify-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#a1741a] dark:text-[#D8B452]">
+        <span className="w-1.5 h-1.5 rounded-full bg-[#a1741a] dark:bg-[#D8B452] animate-pulse" /> Verified Metric
       </div>
     </div>
   );
@@ -35,7 +35,7 @@ function StatCard({ stat }) {
 
 export function Stats() {
   return (
-    <section className="py-24 md:py-36 bg-gradient-to-b from-transparent via-[#07081e] to-transparent relative">
+    <section className="py-24 md:py-36 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
           eyebrow="Measurable Business Scale"

@@ -9,9 +9,9 @@
   }
 
   body {
-    @apply antialiased transition-colors duration-300 selection:bg-[#D8B452] selection:text-black;
-    background-color: #faf8f5;
-    color: #1a1a2e;
+    @apply antialiased transition-colors duration-300;
+    background-color: #fcfbfa;
+    color: #0f172a;
     font-family: 'Inter', sans-serif;
     overflow-x: hidden;
   }
@@ -22,6 +22,17 @@
   }
 }
 
+/* Subtle Geometric Matrix Grid */
+.bg-grid-pattern {
+  background-image: radial-gradient(rgba(180, 137, 44, 0.12) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.dark .bg-grid-pattern {
+  background-image: radial-gradient(rgba(216, 180, 82, 0.12) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
 /* Filmic Luxury Noise Texture */
 .bg-noise {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
@@ -29,44 +40,32 @@
 
 /* Soufflet Malt Ambient Gold Lighting */
 .glow-mesh-gold {
-  background: radial-gradient(circle at 50% -10%, rgba(216, 180, 82, 0.22) 0%, rgba(11, 12, 51, 0.5) 45%, transparent 75%);
+  background: radial-gradient(circle at 50% -10%, rgba(216, 180, 82, 0.18) 0%, rgba(11, 12, 51, 0.4) 45%, transparent 75%);
 }
 
-.glow-ambient-navy {
-  background: radial-gradient(ellipse at 50% 20%, rgba(15, 17, 65, 0.8) 0%, rgba(5, 6, 20, 0.95) 70%, #050614 100%);
-}
-
-/* Gold Gradient Text */
+/* Gold Gradient Text: AAA contrast in light mode, luminous in dark mode */
 .text-gold-gradient {
+  background: linear-gradient(135deg, #a1741a 0%, #b8860b 50%, #8c6210 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dark .text-gold-gradient {
   background: linear-gradient(135deg, #F9E7B9 0%, #D8B452 50%, #C59A30 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .text-gold-bright {
-  background: linear-gradient(135deg, #FFFFFF 0%, #F5E5C9 40%, #D8B452 100%);
+  background: linear-gradient(135deg, #0f172a 0%, #a1741a 60%, #b8860b 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* Glassmorphism with Fine Gold Hairline Borders */
-.glass-gold-card {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(216, 180, 82, 0.25);
-}
-
-.dark .glass-gold-card {
-  background: rgba(11, 12, 51, 0.55);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(216, 180, 82, 0.18);
-}
-
-.dark .glass-gold-card:hover {
-  border-color: rgba(216, 180, 82, 0.45);
-  box-shadow: 0 12px 36px -8px rgba(216, 180, 82, 0.12);
+.dark .text-gold-bright {
+  background: linear-gradient(135deg, #FFFFFF 0%, #F5E5C9 40%, #D8B452 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Custom Scrollbar */
@@ -74,14 +73,44 @@
   width: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #050614;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(216, 180, 82, 0.4);
+  background: rgba(184, 134, 11, 0.35);
   border-radius: 9999px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(216, 180, 82, 0.4);
 }
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(216, 180, 82, 0.8);
+}
+
+/* Floating Orb Keyframes for Cool Background Effect */
+@keyframes floatOrb1 {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  50% {
+    transform: translate(40px, -30px) scale(1.08);
+  }
+}
+
+@keyframes floatOrb2 {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  50% {
+    transform: translate(-35px, 25px) scale(0.95);
+  }
+}
+
+.animate-orb-1 {
+  animation: floatOrb1 14s ease-in-out infinite;
+}
+
+.animate-orb-2 {
+  animation: floatOrb2 18s ease-in-out infinite;
 }
 
 /* Totem Spin Keyframe */
