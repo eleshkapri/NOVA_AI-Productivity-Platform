@@ -133,22 +133,16 @@
   animation: totemBloom 1.8s cubic-bezier(0.16, 1, 0.3, 1) infinite alternate;
 }
 
-/* Custom Cursor Complete Native Pointer Suppression */
-*,
-*::before,
-*::after,
-html,
-body,
-#root,
-a,
-button,
-[role="button"],
-.cursor-pointer {
-  cursor: none !important;
+/* Slow Smooth Radar Ring Rotation */
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-input,
-textarea,
-[contenteditable="true"] {
-  cursor: text !important;
+.animate-spin-slow {
+  animation: spinSlow 12s linear infinite;
 }
