@@ -2,37 +2,37 @@ import React from 'react';
 
 export function Badge({
   children,
-  variant = 'indigo',
+  variant = 'gold',
   dot = false,
   className = '',
 }) {
   const variants = {
+    gold:
+      'bg-[#D8B452]/10 text-[#D8B452] border-[#D8B452]/30',
+    navy:
+      'bg-[#0b0c33] text-slate-200 border-white/10',
     indigo:
-      'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border-indigo-200/80 dark:border-indigo-800/60',
-    violet:
-      'bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border-violet-200/80 dark:border-violet-800/60',
+      'bg-indigo-500/10 text-indigo-400 border-indigo-500/30',
     emerald:
-      'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-200/80 dark:border-emerald-800/60',
-    amber:
-      'bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border-amber-200/80 dark:border-amber-800/60',
+      'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
     slate:
-      'bg-slate-100 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700',
+      'bg-slate-800/80 text-slate-300 border-slate-700',
   };
 
   const dotColors = {
+    gold: 'bg-[#D8B452]',
+    navy: 'bg-indigo-400',
     indigo: 'bg-indigo-500',
-    violet: 'bg-violet-500',
     emerald: 'bg-emerald-500',
-    amber: 'bg-amber-500',
     slate: 'bg-slate-400',
   };
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold tracking-wide border shadow-xs transition-all duration-200 ${variants[variant]} ${className}`}
+      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold tracking-widest uppercase border shadow-xs transition-all duration-200 ${variants[variant] || variants.gold} ${className}`}
     >
       {dot && (
-        <span className={`w-1.5 h-1.5 rounded-full ${dotColors[variant]} animate-pulse`} />
+        <span className={`w-1.5 h-1.5 rounded-full ${dotColors[variant] || 'bg-[#D8B452]'} animate-pulse`} />
       )}
       {children}
     </span>

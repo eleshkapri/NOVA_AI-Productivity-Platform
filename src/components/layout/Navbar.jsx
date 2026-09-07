@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { navLinks } from '../../data/navigation';
 import { Button } from '../common/Button';
-import { Sun, Moon, Menu, X, Sparkles, ArrowRight } from 'lucide-react';
+import { Sun, Moon, Menu, X, ArrowRight } from 'lucide-react';
 
 export function Navbar({ isDark, toggleTheme, onOpenDemo }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,7 +15,6 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu on resize to desktop
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) {
@@ -48,38 +47,55 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo }) {
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         isScrolled
-          ? 'bg-white/80 dark:bg-slate-950/80 backdrop-blur-md shadow-xs border-b border-slate-200/80 dark:border-slate-800/80 py-3.5'
+          ? 'bg-[#050614]/90 dark:bg-[#050614]/90 backdrop-blur-xl shadow-xl border-b border-[#D8B452]/15 py-3.5'
           : 'bg-transparent py-5'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <nav className="flex items-center justify-between" aria-label="Main Navigation">
-          {/* Logo */}
+          {/* Logo with Soufflet-style Totem Emblem */}
           <a
             href="#"
-            className="flex items-center gap-2.5 group focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-lg p-1"
+            className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D8B452] rounded-lg p-1"
           >
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-purple-500 flex items-center justify-center shadow-md shadow-indigo-500/25 group-hover:scale-105 transition-transform">
-              <Sparkles className="w-5 h-5 text-white" />
+            <div className="w-9 h-9 flex items-center justify-center text-[#D8B452] transition-transform duration-500 group-hover:rotate-90">
+              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                <path
+                  d="M4.919 20.0389L6.967 17.9751H13.918V24.9797L11.87 27.0435C8.72 30.2174 4.453 31.9999 0 31.9999C0 27.5126 1.769 23.2129 4.919 20.0389Z"
+                  fill="#D8B452"
+                />
+                <path
+                  d="M11.87 4.95635L13.918 7.0202V14.0248H6.967L4.919 11.9609C1.769 8.78697 0 4.4873 0 0C4.453 0 8.72 1.78241 11.87 4.95635Z"
+                  fill="#D8B452"
+                />
+                <path
+                  d="M26.843 11.9609L24.795 14.0248H17.844V7.0202L19.892 4.95635C23.042 1.78241 27.308 0 31.761 0C31.761 4.4873 29.993 8.78697 26.848 11.9609"
+                  fill="#D8B452"
+                />
+                <path
+                  d="M19.892 27.0489L17.844 24.985V17.9805H24.795L26.843 20.0443C29.993 23.2183 31.761 27.5179 31.761 32.0052C27.308 32.0052 23.042 30.2228 19.892 27.0489Z"
+                  fill="#D8B452"
+                />
+              </svg>
             </div>
             <div className="flex flex-col">
-              <span className="text-xl font-extrabold tracking-tight bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-700 dark:from-white dark:via-slate-200 dark:to-indigo-200 bg-clip-text text-transparent">
+              <span className="text-xl font-black tracking-widest uppercase text-slate-900 dark:text-white">
                 NOVA
               </span>
-              <span className="text-[10px] uppercase font-bold tracking-widest text-indigo-600 dark:text-indigo-400 -mt-1">
-                AI Platform
+              <span className="text-[9px] uppercase tracking-[0.25em] text-[#D8B452] font-semibold -mt-1">
+                AI Intelligence
               </span>
             </div>
           </a>
 
           {/* Desktop Nav Links */}
-          <div className="hidden md:flex items-center gap-1 lg:gap-2">
+          <div className="hidden md:flex items-center gap-1 lg:gap-3">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className="text-sm font-medium px-3.5 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+                className="text-xs font-semibold uppercase tracking-wider px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:text-[#D8B452] dark:hover:text-[#D8B452] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D8B452]"
               >
                 {link.name}
               </a>
@@ -92,9 +108,9 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo }) {
             <button
               onClick={toggleTheme}
               aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-              className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+              className="p-2.5 rounded-full border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:text-[#D8B452] hover:border-[#D8B452]/40 transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D8B452]"
             >
-              {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-indigo-600" />}
+              {isDark ? <Sun className="w-4 h-4 text-[#D8B452]" /> : <Moon className="w-4 h-4 text-slate-800" />}
             </button>
 
             {/* Watch Demo CTA */}
@@ -122,9 +138,9 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo }) {
             <button
               onClick={toggleTheme}
               aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-              className="p-2 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="p-2 rounded-full border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300"
             >
-              {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-indigo-600" />}
+              {isDark ? <Sun className="w-4 h-4 text-[#D8B452]" /> : <Moon className="w-4 h-4" />}
             </button>
 
             <button
@@ -132,7 +148,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo }) {
               aria-expanded={isOpen}
               aria-controls="mobile-menu"
               aria-label="Toggle navigation menu"
-              className="p-2 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 cursor-pointer"
+              className="p-2 rounded-lg text-slate-700 dark:text-slate-200 hover:text-[#D8B452] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D8B452] cursor-pointer"
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -144,7 +160,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo }) {
       {isOpen && (
         <div
           id="mobile-menu"
-          className="md:hidden bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 shadow-xl px-4 pt-4 pb-6 mt-3 space-y-3 animate-fade-in"
+          className="md:hidden bg-[#050614]/98 backdrop-blur-2xl border-b border-[#D8B452]/20 shadow-2xl px-5 pt-5 pb-8 mt-3 space-y-4"
         >
           <div className="flex flex-col space-y-1">
             {navLinks.map((link) => (
@@ -152,14 +168,14 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo }) {
                 key={link.name}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className="px-4 py-3 rounded-xl text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/80 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                className="px-4 py-3 rounded-xl text-sm font-semibold tracking-wider uppercase text-slate-200 hover:text-[#D8B452] hover:bg-white/5 transition-colors"
               >
                 {link.name}
               </a>
             ))}
           </div>
 
-          <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-2.5">
+          <div className="pt-4 border-t border-white/10 flex flex-col gap-3">
             <Button
               variant="secondary"
               size="md"

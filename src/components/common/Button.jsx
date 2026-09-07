@@ -13,25 +13,25 @@ export function Button({
   ...props
 }) {
   const baseStyles =
-    'inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
+    'inline-flex items-center justify-center font-semibold tracking-wide rounded-full transition-all duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D8B452] focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
 
   const sizeStyles = {
-    sm: 'text-xs px-3.5 py-2 gap-1.5',
-    md: 'text-sm px-5 py-2.5 gap-2',
-    lg: 'text-base px-6 py-3.5 gap-2.5',
+    sm: 'text-xs px-4 py-2 gap-1.5',
+    md: 'text-sm px-6 py-2.5 gap-2',
+    lg: 'text-base px-8 py-3.5 gap-2.5',
   };
 
   const variantStyles = {
     primary:
-      'bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:-translate-y-0.5 active:translate-y-0 focus-visible:ring-indigo-500 border border-indigo-400/30',
+      'bg-gradient-to-r from-[#D8B452] via-[#E2C56F] to-[#C7992A] hover:from-[#E2C56F] hover:to-[#D8B452] text-black shadow-lg shadow-[#D8B452]/20 hover:shadow-[#D8B452]/40 hover:-translate-y-0.5 active:translate-y-0 border border-[#F3D887]/50',
     secondary:
-      'bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100 shadow-sm hover:-translate-y-0.5 active:translate-y-0 focus-visible:ring-slate-400 border border-slate-200/80 dark:border-slate-700',
+      'bg-[#0b0c33] hover:bg-[#11134a] text-white shadow-md hover:-translate-y-0.5 active:translate-y-0 border border-[#D8B452]/30 hover:border-[#D8B452]/60',
     outline:
-      'border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/80 focus-visible:ring-slate-400 hover:-translate-y-0.5 active:translate-y-0',
+      'border border-[#D8B452]/40 hover:border-[#D8B452] text-[#D8B452] hover:bg-[#D8B452]/10 hover:-translate-y-0.5 active:translate-y-0',
     ghost:
-      'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white focus-visible:ring-slate-400',
+      'text-slate-300 hover:text-[#D8B452] hover:bg-white/5',
     glow:
-      'relative group overflow-hidden bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-xl shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:scale-[1.02] active:scale-[0.98]',
+      'relative group overflow-hidden bg-gradient-to-r from-[#D8B452] via-[#F3D887] to-[#D8B452] text-black shadow-xl shadow-[#D8B452]/30 hover:scale-[1.02] active:scale-[0.98]',
   };
 
   return (

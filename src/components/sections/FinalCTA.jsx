@@ -4,34 +4,37 @@ import { ArrowRight, Play, Sparkles, CheckCircle2, Shield } from 'lucide-react';
 
 export function FinalCTA({ onOpenDemo }) {
   return (
-    <section className="py-20 md:py-28 relative overflow-hidden">
+    <section className="py-24 md:py-36 relative overflow-hidden bg-noise">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-indigo-900 via-indigo-800 to-purple-900 text-white p-8 sm:p-12 md:p-16 shadow-2xl border border-indigo-700/50">
-          {/* Subtle decorative background circles */}
-          <div className="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 rounded-full bg-indigo-500/20 blur-3xl pointer-events-none" />
-          <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-purple-500/20 blur-3xl pointer-events-none" />
+        <div className="relative rounded-3xl overflow-hidden bg-gradient-to-b from-[#0b0c33] via-[#07081e] to-[#050614] text-white p-10 sm:p-16 md:p-20 shadow-2xl border border-[#D8B452]/40">
+          {/* Ambient Gold Radial Glow */}
+          <div className="absolute top-0 right-0 -mr-24 -mt-24 w-96 h-96 rounded-full bg-[#D8B452]/20 blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 left-0 -ml-24 -mb-24 w-96 h-96 rounded-full bg-[#D8B452]/15 blur-3xl pointer-events-none" />
 
           <div className="relative z-10 max-w-3xl mx-auto text-center">
             {/* Top Pill */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-semibold text-indigo-200 mb-6">
-              <Sparkles className="w-4 h-4 text-amber-300" />
-              Empower Your Engineering Squad Today
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#D8B452]/10 backdrop-blur-md border border-[#D8B452]/30 text-xs font-bold uppercase tracking-widest text-[#D8B452] mb-8">
+              <Sparkles className="w-4 h-4 text-[#D8B452]" />
+              Elevate Your Engineering Cadence
             </div>
 
-            {/* Headline */}
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-[1.15] mb-6">
-              Ready to Accelerate Your Sprint Delivery by 4.2x?
+            {/* Headline with Grand Editorial Typography */}
+            <h2 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-white leading-[1.12] mb-8">
+              Ready to Accelerate Sprint Velocity by{' '}
+              <span className="text-gold-gradient font-serif italic font-normal">
+                4.2x?
+              </span>
             </h2>
 
             {/* Subtitle */}
-            <p className="text-base sm:text-lg text-indigo-100/90 leading-relaxed mb-10 max-w-2xl mx-auto">
-              Join over 500+ fast-moving engineering teams shipping higher-quality software with less overhead. Setup takes under 60 seconds.
+            <p className="text-base sm:text-xl text-slate-300 leading-relaxed mb-12 max-w-2xl mx-auto font-light">
+              Join 500+ forward-thinking engineering organizations achieving predictable delivery, reduced meeting fatigue, and supreme code quality.
             </p>
 
             {/* Dual CTAs */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-10">
               <Button
-                variant="glow"
+                variant="primary"
                 size="lg"
                 icon={ArrowRight}
                 iconPosition="right"
@@ -39,28 +42,28 @@ export function FinalCTA({ onOpenDemo }) {
                   const pricing = document.getElementById('pricing');
                   pricing?.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="w-full sm:w-auto bg-white text-indigo-950 hover:bg-slate-100 shadow-xl"
+                className="w-full sm:w-auto text-base"
               >
-                Start Free 14-Day Trial
+                Experience 14-Day Free Trial
               </Button>
               <button
                 onClick={onOpenDemo}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 text-base font-medium rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 text-base font-semibold tracking-wide rounded-full bg-[#0b0c33] hover:bg-[#12144b] border border-[#D8B452]/30 text-white transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D8B452]"
               >
-                <Play className="w-4 h-4 text-white" /> Watch Product Walkthrough
+                <Play className="w-4 h-4 text-[#D8B452]" /> Watch Product Walkthrough
               </button>
             </div>
 
-            {/* Trust highlights */}
-            <div className="flex flex-wrap items-center justify-center gap-6 text-xs text-indigo-200/80">
-              <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Free 14-day trial
+            {/* Trust Highlights */}
+            <div className="flex flex-wrap items-center justify-center gap-8 text-xs font-semibold tracking-wider uppercase text-slate-400">
+              <span className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-[#D8B452]" /> Complimentary 14-day trial
               </span>
-              <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" /> No credit card needed
+              <span className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-[#D8B452]" /> Zero credit card required
               </span>
-              <span className="flex items-center gap-1.5">
-                <Shield className="w-4 h-4 text-emerald-400" /> SOC2 Type II Certified
+              <span className="flex items-center gap-2">
+                <Shield className="w-4 h-4 text-[#D8B452]" /> SOC2 Type II Certified
               </span>
             </div>
           </div>

@@ -92,20 +92,8 @@
 > *"Because I architected this codebase with Next.js App Router isomorphism in mind, the migration is seamless:
 > 1. **Directory Restructuring**: Move the components into a Next.js project with the `app/` directory structure.
 > 2. **Server Components (RSC)**: Convert static marketing sections (`Hero`, `TrustedBy`, `Features`, `About`, `HowItWorks`, `Footer`) into React Server Components. Since they have no client-side hooks, they render on the server and transmit zero JavaScript to the browser.
-> 3. **Client Components**: Add the `'use client'` directive to interactive widgets (`Navbar`, `Pricing` with the annual billing toggle, `FAQ` accordion, `Testimonials` carousel, `DemoModal`, `BackToTop`, and the 3D WebGL canvas).
+> 3. **Client Components**: Add the `'use client'` directive to interactive widgets (`Navbar`, `Pricing` with the annual billing toggle, `FAQ` accordion, `Testimonials` carousel, `DemoModal`, `BackToTop`).
 > 4. **Backend API Routes**: Create Route Handlers (`app/api/newsletter/route.ts` and `app/api/demo/route.ts`) to securely connect the newsletter and demo requests to a service like Resend or SendGrid with database persistence in PostgreSQL/Prisma or Supabase."*
-
----
-
-### Q10: "How did you implement the Three.js / WebGL interactive experience, and how did you prevent it from degrading performance?"
-**Answer:**  
-> *"I built a custom Three.js component (`HeroBackground3D.jsx`) that renders an interactive 3D AI Neural Core with 750 floating constellation particles and dynamic connecting lattice lines:
-> 1. **Interactive Cursor Parallax**: Tracks normalized window pointer coordinates (`pointermove`) and smoothly interpolates (`lerp`) the camera and mesh rotation towards the user's cursor at 60 FPS.
-> 2. **Theme Adaptability**: Synchronizes automatically with the `isDark` state, transitioning from electric indigo/cyan particle shaders in dark mode to refined slate/indigo nodes in light mode.
-> 3. **Performance Safeguards**:
->    - Used dynamic code-splitting via `React.lazy()` and `Suspense` so Three.js is bundled into its own asynchronous chunk. The main page shell renders in under 85 KB without waiting for 3D assets.
->    - Clamped `devicePixelRatio` to `Math.min(window.devicePixelRatio, 2)` to eliminate GPU lag on high-DPI/Retina screens.
->    - Clean lifecycle cleanup: All geometries, materials, textures, render loops (`cancelAnimationFrame`), and event listeners are properly disposed of on component unmount to prevent memory leaks."*
 
 ---
 
