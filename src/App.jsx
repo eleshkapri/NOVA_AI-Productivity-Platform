@@ -1,35 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { useTheme } from './hooks/useTheme';
-import { useScrollPosition } from './hooks/useScrollPosition';
-
-// Soufflet Malt Luxury & Interactive Experience Components
-import { CustomCursor } from './components/common/CustomCursor';
-import { ProgressBar } from './components/common/ProgressBar';
-import { Preloader } from './components/common/Preloader';
-import { SoundToggle } from './components/common/SoundToggle';
-import { CommandPalette } from './components/common/CommandPalette';
-import { LiveActivityToast } from './components/common/LiveActivityToast';
-import { AmbientBackground } from './components/common/AmbientBackground';
-
-// Layout Components
-import { Navbar } from './components/layout/Navbar';
-import { Footer } from './components/layout/Footer';
-import { BackToTop } from './components/layout/BackToTop';
-
-// Section Components (13 Required Sections + User-Friendly Tools)
-import { Hero } from './components/sections/Hero';
-import { TrustedBy } from './components/sections/TrustedBy';
-import { Features } from './components/sections/Features';
-import { About } from './components/sections/About';
-import { HowItWorks } from './components/sections/HowItWorks';
-import { Stats } from './components/sections/Stats';
-import { Solutions } from './components/sections/Solutions';
-import { RoiCalculator } from './components/sections/RoiCalculator';
-import { Testimonials } from './components/sections/Testimonials';
-import { Pricing } from './components/sections/Pricing';
-import { FAQ } from './components/sections/FAQ';
-import { FinalCTA } from './components/sections/FinalCTA';
-import { DemoModal } from './components/sections/DemoModal';
+import { useTheme, useScrollPosition } from './hooks';
+import {
+  CustomCursor,
+  ProgressBar,
+  Preloader,
+  SoundToggle,
+  CommandPalette,
+  LiveActivityToast,
+  AmbientBackground,
+} from './components/common';
+import { Navbar, Footer, BackToTop } from './components/layout';
+import {
+  Hero,
+  TrustedBy,
+  Features,
+  About,
+  HowItWorks,
+  Stats,
+  Solutions,
+  RoiCalculator,
+  Testimonials,
+  Pricing,
+  FAQ,
+  FinalCTA,
+  DemoModal,
+} from './components/sections';
 
 export function App() {
   const { toggleTheme, isDark } = useTheme();

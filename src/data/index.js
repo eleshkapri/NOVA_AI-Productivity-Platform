@@ -1,0 +1,10 @@
+export { aboutData } from './about';
+export { faqData } from './faq';
+export { featuresData } from './features';
+export { stepsData } from './howItWorks';
+export { trustedCompanies } from './logos';
+export { navLinks, footerLinks } from './navigation';
+export { pricingPlans } from './pricing';
+export { solutionsData } from './solutions';
+export { statsData } from './stats';
+export { testimonialsData } from './testimonials';
