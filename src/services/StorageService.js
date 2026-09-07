@@ -14,6 +14,8 @@ export class StorageService {
       new Set([
         'theme',
         'sound_enabled',
+        'sound_volume',
+        'sound_track_id',
         'workspace_config',
         'trial_info',
         'activity_dismissed',

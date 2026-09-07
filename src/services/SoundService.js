@@ -56,16 +56,10 @@ export class SoundService {
     this.#audio = null;
     this.#ctx = null;
     this.#masterGain = null;
-    this.#isEnabled = storageService.get('sound_enabled', false);
+    this.#isEnabled = storageService.get('sound_enabled', true);
     this.#isPlaying = false;
-    
-    // Default to 'serene' track and 20% volume when site opens
-    const savedVolume = storageService.get('sound_volume', null);
-    this.#volume = savedVolume !== null && savedVolume !== 0.35 ? savedVolume : 0.20;
-
-    const savedTrack = storageService.get('sound_track_id', null);
-    this.#currentTrackId = savedTrack && savedTrack !== 'feel-good' ? savedTrack : 'serene';
-
+    this.#volume = storageService.get('sound_volume', 0.15);
+    this.#currentTrackId = storageService.get('sound_track_id', 'serene');
     this.#fadeInterval = null;
     this.#synthInterval = null;
     this.#synthNodes = [];
@@ -73,8 +67,8 @@ export class SoundService {
     this.#isUsingSynthFallback = false;
 
     this.#initVisibilityListener();
+    this.#initAutoPlayOnLoad();
   }
-
 
   get isEnabled() {
     return this.#isEnabled;
@@ -253,15 +247,72 @@ export class SoundService {
   }
 
   /**
-   * Starts playback of the relaxing feel-good ambient soundtrack.
+   * Initializes automatic playback on site load with browser autoplay policy fallback.
    */
-  startTheme() {
+  #initAutoPlayOnLoad() {
+    if (typeof window === 'undefined') return;
+
+    if (this.#isEnabled) {
+      const attemptAutoPlay = () => {
+        if (!this.#isEnabled) return;
+        const audio = this.#getOrCreateAudio();
+        if (!audio) return;
+
+        const activeTrack = this.currentTrack;
+        if (!audio.src || !audio.src.endsWith(activeTrack.src)) {
+          audio.src = activeTrack.src;
+          audio.load();
+        }
+
+        audio.volume = this.#volume;
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              this.#isPlaying = true;
+              this.#notify();
+            })
+            .catch(() => {
+              // Browser policy requires user gesture before playing unmuted audio
+              const onFirstInteraction = () => {
+                if (this.#isEnabled && audio.paused) {
+                  audio.volume = this.#volume;
+                  audio.play().catch(() => {});
+                }
+                window.removeEventListener('click', onFirstInteraction);
+                window.removeEventListener('keydown', onFirstInteraction);
+                window.removeEventListener('touchstart', onFirstInteraction);
+                window.removeEventListener('scroll', onFirstInteraction);
+              };
+
+              window.addEventListener('click', onFirstInteraction, { once: true, passive: true });
+              window.addEventListener('keydown', onFirstInteraction, { once: true, passive: true });
+              window.addEventListener('touchstart', onFirstInteraction, { once: true, passive: true });
+              window.addEventListener('scroll', onFirstInteraction, { once: true, passive: true });
+            });
+        }
+      };
+
+      if (document.readyState === 'complete') {
+        attemptAutoPlay();
+      } else {
+        window.addEventListener('DOMContentLoaded', attemptAutoPlay, { once: true });
+      }
+    }
+  }
+
+  /**
+   * Starts playback of the relaxing feel-good ambient soundtrack.
+   * @param {boolean} [withChime=true]
+   */
+  startTheme(withChime = true) {
     this.#isEnabled = true;
     storageService.set('sound_enabled', true);
     this.#isUsingSynthFallback = false;
 
-    // Play golden confirmation chime
-    this.playChime('goldChord');
+    if (withChime) {
+      this.playChime('goldChord');
+    }
 
     const audio = this.#getOrCreateAudio();
     if (audio) {
@@ -276,6 +327,7 @@ export class SoundService {
     }
     this.#notify();
   }
+
 
   /**
    * Stops playback with gentle fade-out.
