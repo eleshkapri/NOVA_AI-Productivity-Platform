@@ -210,13 +210,12 @@ export function HeroBackground3D({ isDark = true }) {
 
     window.addEventListener('resize', handleResize);
 
-    // 8. 60 FPS Render Loop
+    // 8. 60 FPS Render Loop using native high-resolution timer
     let animationFrameId;
-    let clock = new THREE.Clock();
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
-      const elapsedTime = clock.getElapsedTime();
+      const elapsedTime = performance.now() * 0.001;
 
       // Smooth mouse interpolation (Lerp)
       targetX += (mouseX * 0.8 - targetX) * 0.05;
