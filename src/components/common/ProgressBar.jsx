@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 
 export function ProgressBar() {
   const barRef = useRef(null);
+  const containerRef = useRef(null);
   const targetProgress = useRef(0);
   const currentProgress = useRef(0);
   const isRunning = useRef(false);
@@ -26,11 +27,14 @@ export function ProgressBar() {
     const animate = () => {
       const diff = targetProgress.current - currentProgress.current;
 
-      // Silky smooth dampening factor (0.085 creates a continuous liquid glide at 60fps/120fps)
+      // Silky smooth dampening factor
       currentProgress.current += diff * 0.085;
 
       if (barRef.current) {
         barRef.current.style.width = `${currentProgress.current}%`;
+      }
+      if (containerRef.current) {
+        containerRef.current.style.opacity = currentProgress.current > 0.2 ? '1' : '0';
       }
 
       // Continue animating until settled within sub-pixel threshold (0.01%)
@@ -40,6 +44,9 @@ export function ProgressBar() {
         currentProgress.current = targetProgress.current;
         if (barRef.current) {
           barRef.current.style.width = `${currentProgress.current}%`;
+        }
+        if (containerRef.current) {
+          containerRef.current.style.opacity = currentProgress.current > 0.2 ? '1' : '0';
         }
         isRunning.current = false;
       }
@@ -62,6 +69,9 @@ export function ProgressBar() {
     if (barRef.current) {
       barRef.current.style.width = `${initial}%`;
     }
+    if (containerRef.current) {
+      containerRef.current.style.opacity = initial > 0.2 ? '1' : '0';
+    }
 
     return () => {
       window.removeEventListener('scroll', updateTarget);
@@ -72,17 +82,20 @@ export function ProgressBar() {
 
   return (
     <div
-      className="fixed top-0 left-0 right-0 h-[3.5px] z-[100] pointer-events-none bg-black/10 dark:bg-white/5 overflow-visible"
+      ref={containerRef}
+      className="fixed top-0 left-0 right-0 h-[2.5px] z-[100] pointer-events-none bg-transparent transition-opacity duration-300 opacity-0 overflow-visible"
       aria-hidden="true"
     >
       <div
         ref={barRef}
-        className="h-full bg-gradient-to-r from-[#a1741a] via-[#D8B452] to-[#F3D887] shadow-[0_0_16px_rgba(216,180,82,1)] will-change-[width] relative rounded-r-full"
+        className="h-full bg-gradient-to-r from-[#a1741a] via-[#D8B452] to-[#B38722] shadow-[0_0_12px_rgba(216,180,82,0.8)] will-change-[width] relative rounded-r-full"
         style={{ width: '0%' }}
       >
-        {/* Luminous Leading Glowing Head with radiant aura */}
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-2.5 h-2.5 rounded-full bg-white shadow-[0_0_10px_#D8B452,0_0_20px_#D8B452] border border-[#F3D887]" />
+        {/* Sleek Pure Gold Leading Glow (No white dot, no white track) */}
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-2 h-2 rounded-full bg-[#D8B452] shadow-[0_0_8px_#D8B452,0_0_14px_#a1741a]" />
       </div>
     </div>
   );
 }
+
+export default ProgressBar;

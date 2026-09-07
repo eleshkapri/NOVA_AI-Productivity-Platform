@@ -5,7 +5,7 @@ export function TrustedBy() {
   const marqueeItems = [...trustedCompanies, ...trustedCompanies];
 
   return (
-    <section className="py-14 border-y border-slate-200/60 dark:border-white/10 bg-white/30 dark:bg-[#0b0c33]/30 backdrop-blur-sm transition-colors overflow-hidden relative">
+    <section className="py-14 border-y border-slate-200/50 dark:border-transparent bg-white/30 dark:bg-[#0b0c33]/30 backdrop-blur-sm transition-colors overflow-hidden relative">
       {/* Left and Right Fade Masks for Smooth Edge Dissolve */}
       <div className="pointer-events-none absolute inset-y-0 left-0 w-20 sm:w-32 bg-gradient-to-r from-[#FFF7ED]/80 dark:from-[#080a1d]/80 to-transparent z-10" />
       <div className="pointer-events-none absolute inset-y-0 right-0 w-20 sm:w-32 bg-gradient-to-l from-[#FFF7ED]/80 dark:from-[#080a1d]/80 to-transparent z-10" />
