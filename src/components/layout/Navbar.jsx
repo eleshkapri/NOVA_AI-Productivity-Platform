@@ -25,11 +25,11 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenCommandPalette }
 
           if (currentScrollY > 60) {
             if (currentScrollY > lastScrollY + scrollThreshold) {
-              // Scrolling down the page -> navbar appears
-              setIsVisible(true);
-            } else if (currentScrollY < lastScrollY - scrollThreshold) {
-              // Scrolling up the page -> navbar hides
+              // Scrolling down the page -> hide navbar with smooth slide up
               setIsVisible(false);
+            } else if (currentScrollY < lastScrollY - scrollThreshold) {
+              // Scrolling up the page -> reveal navbar with smooth slide down
+              setIsVisible(true);
             }
           } else {
             // At the top of the page -> always visible
