@@ -5,6 +5,7 @@ import { soundService, RELAXING_TRACKS } from '../../services/SoundService';
 export function SoundToggle() {
   const [isAudioEnabled, setIsAudioEnabled] = useState(() => soundService.isEnabled);
   const [isPlaying, setIsPlaying] = useState(() => soundService.isPlaying);
+  const [isBlockedByAutoplay, setIsBlockedByAutoplay] = useState(() => soundService.isBlockedByAutoplay);
   const [volume, setVolume] = useState(() => soundService.volume);
   const [currentTrackId, setCurrentTrackId] = useState(() => soundService.currentTrackId);
 
@@ -12,6 +13,7 @@ export function SoundToggle() {
     const unsubscribe = soundService.subscribe((state) => {
       setIsAudioEnabled(state.isEnabled);
       setIsPlaying(state.isPlaying);
+      setIsBlockedByAutoplay(state.isBlockedByAutoplay);
       setVolume(state.volume);
       setCurrentTrackId(state.currentTrackId);
     });
@@ -22,11 +24,13 @@ export function SoundToggle() {
     return unsubscribe;
   }, []);
 
-
   const handleToggle = (e) => {
     e?.stopPropagation?.();
-    const nextState = soundService.toggleTheme();
-    setIsAudioEnabled(nextState);
+    if (isBlockedByAutoplay || !isPlaying) {
+      soundService.startTheme(false);
+    } else {
+      soundService.stopTheme();
+    }
   };
 
   const handleVolumeChange = (e) => {
@@ -44,32 +48,58 @@ export function SoundToggle() {
   const activeTrack =
     RELAXING_TRACKS.find((t) => t.id === currentTrackId) || RELAXING_TRACKS[0];
 
+  const showControls = isAudioEnabled || isBlockedByAutoplay;
+
   return (
     <div className="fixed bottom-6 left-4 sm:left-6 z-40 flex flex-col sm:flex-row items-start sm:items-center gap-2 select-none">
-      {/* Main Sound ON/OFF Button */}
+      {/* Main Sound Play / Pause Toggle Button */}
       <button
         type="button"
         onClick={handleToggle}
-        aria-label={isAudioEnabled ? 'Pause relaxing theme music' : 'Play relaxing feel-good theme music'}
-        title={isAudioEnabled ? `Playing: ${activeTrack.name} • Click to pause` : 'Click to play relaxing feel-good music'}
+        aria-label={
+          isPlaying
+            ? 'Pause relaxing theme music'
+            : isBlockedByAutoplay
+            ? 'Click to play relaxing theme music at 15% volume'
+            : 'Play relaxing feel-good theme music'
+        }
+        title={
+          isPlaying
+            ? `Playing: ${activeTrack.name} • Click to pause`
+            : isBlockedByAutoplay
+            ? `Click to play ${activeTrack.name} (15% volume)`
+            : 'Click to play relaxing feel-good music'
+        }
         className={`group flex items-center gap-2.5 px-3.5 py-2.5 rounded-full border text-xs font-semibold tracking-wider uppercase transition-all duration-300 cursor-pointer shadow-lg hover:scale-105 active:scale-95 ${
-          isAudioEnabled
+          isPlaying
             ? 'bg-[#0b0c33]/90 border-[#D8B452] text-[#D8B452] shadow-[#D8B452]/25 ring-1 ring-[#D8B452]/40'
+            : isBlockedByAutoplay
+            ? 'bg-[#0b0c33] border-[#D8B452] text-[#D8B452] shadow-lg shadow-[#D8B452]/30 ring-2 ring-[#D8B452]/70 animate-pulse'
             : 'bg-[#050614]/85 backdrop-blur-md border-white/10 text-slate-400 hover:text-[#D8B452] hover:border-[#D8B452]/50 hover:bg-[#0b0c33]/60'
         }`}
       >
-        {isAudioEnabled ? (
+        {isPlaying ? (
           <>
             {/* Live 4-Bar Equalizer Visualizer */}
             <div className="flex items-end gap-[3px] h-3.5 w-3.5 pb-0.5" aria-hidden="true">
-              <span className={`w-0.5 bg-[#D8B452] rounded-full ${isPlaying ? 'animate-sound-bar-1' : 'h-1.5'}`} />
-              <span className={`w-0.5 bg-[#D8B452] rounded-full ${isPlaying ? 'animate-sound-bar-2' : 'h-3'}`} />
-              <span className={`w-0.5 bg-[#D8B452] rounded-full ${isPlaying ? 'animate-sound-bar-3' : 'h-2'}`} />
-              <span className={`w-0.5 bg-[#D8B452] rounded-full ${isPlaying ? 'animate-sound-bar-4' : 'h-2.5'}`} />
+              <span className="w-0.5 bg-[#D8B452] rounded-full animate-sound-bar-1" />
+              <span className="w-0.5 bg-[#D8B452] rounded-full animate-sound-bar-2" />
+              <span className="w-0.5 bg-[#D8B452] rounded-full animate-sound-bar-3" />
+              <span className="w-0.5 bg-[#D8B452] rounded-full animate-sound-bar-4" />
             </div>
             <span className="font-mono tracking-wider text-[11px] hidden xs:inline">SOUND ON</span>
             <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-[#D8B452]/15 text-[#D8B452] border border-[#D8B452]/30 font-sans tracking-normal hidden md:inline">
               {activeTrack.icon} {activeTrack.name}
+            </span>
+          </>
+        ) : isBlockedByAutoplay ? (
+          <>
+            <Volume2 className="w-4 h-4 text-[#D8B452] animate-bounce" />
+            <span className="font-mono tracking-wider text-[11px] font-bold text-[#D8B452]">
+              PLAY SOUND ({Math.round(volume * 100)}%)
+            </span>
+            <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-[#D8B452]/20 text-[#D8B452] border border-[#D8B452]/40 font-sans tracking-normal hidden md:inline">
+              Click to Listen
             </span>
           </>
         ) : (
@@ -81,7 +111,7 @@ export function SoundToggle() {
       </button>
 
       {/* Relaxing Soundtrack Mood Controls & Volume Slider */}
-      {isAudioEnabled && (
+      {showControls && (
         <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-full bg-[#0b0c33]/95 backdrop-blur-md border border-[#D8B452]/40 shadow-lg shadow-[#D8B452]/15">
           {/* Mood Track Selector */}
           <div className="flex items-center gap-1">
@@ -130,5 +160,4 @@ export function SoundToggle() {
   );
 }
 
-
-
+export default SoundToggle;

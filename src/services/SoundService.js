@@ -1,6 +1,23 @@
 import { storageService } from './StorageService';
 
 /**
+ * Resolves public asset URLs with Vite BASE_URL support.
+ * @param {string} relativePath
+ * @returns {string}
+ */
+function resolveAudioPath(relativePath) {
+  if (typeof window === 'undefined') return relativePath;
+  try {
+    const base = (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL) || '/';
+    const cleanBase = base.endsWith('/') ? base : `${base}/`;
+    const cleanPath = relativePath.startsWith('/') ? relativePath.slice(1) : relativePath;
+    return `${cleanBase}${cleanPath}`;
+  } catch {
+    return relativePath;
+  }
+}
+
+/**
  * Curated list of relaxing, feel-good ambient soundtracks for the NOVA platform.
  */
 export const RELAXING_TRACKS = Object.freeze([
@@ -8,21 +25,21 @@ export const RELAXING_TRACKS = Object.freeze([
     id: 'serene',
     name: 'Serene Ambient',
     mood: 'Deep Calm & Peace',
-    src: '/audio/relaxing.mp3',
+    src: resolveAudioPath('audio/relaxing.mp3'),
     icon: '🌊'
   },
   {
     id: 'feel-good',
     name: 'Feel Good Chill',
     mood: 'Warm & Uplifting',
-    src: '/audio/nova-theme.mp3',
+    src: resolveAudioPath('audio/nova-theme.mp3'),
     icon: '🌿'
   },
   {
     id: 'piano',
     name: 'Peaceful Piano',
     mood: 'Mindful Focus',
-    src: '/audio/piano.mp3',
+    src: resolveAudioPath('audio/piano.mp3'),
     icon: '🎹'
   }
 ]);
@@ -31,7 +48,7 @@ export const RELAXING_TRACKS = Object.freeze([
  * SoundService provides an OOP singleton controller for Web Audio synthesis & relaxing soundtrack playback:
  * - Encapsulation: Audio element (#audio), AudioContext (#ctx), and synthesis nodes are strictly encapsulated.
  * - Resource Safety: Reuses single AudioContext and Audio instances, cleans up intervals and nodes safely.
- * - Autoplay Compliance: Initiates audio on explicit user interaction with smooth fade-in/fade-out ramps.
+ * - Autoplay Compliance: Initiates audio on explicit user interaction or automated load with graceful gesture unlock.
  * - Observer Pattern: Dispatches state updates (playing, volume, track) to subscribers without polling.
  * - Dual-Engine Architecture:
  *    Primary: High-fidelity relaxing feel-good soundtrack library.
@@ -44,9 +61,9 @@ export class SoundService {
   #masterGain;
   #isEnabled;
   #isPlaying;
+  #isBlockedByAutoplay;
   #volume;
   #currentTrackId;
-  #fadeInterval;
   #synthInterval;
   #synthNodes;
   #listeners;
@@ -57,9 +74,9 @@ export class SoundService {
     this.#ctx = null;
     this.#masterGain = null;
 
-    // Reset default to Serene at 15% volume on initial site open
-    if (!storageService.get('sound_init_serene', false)) {
-      storageService.set('sound_init_serene', true);
+    // By specification: Default to Serene Ambient at 15% volume on site open
+    if (!storageService.get('sound_v2_initialized', false)) {
+      storageService.set('sound_v2_initialized', true);
       storageService.set('sound_enabled', true);
       storageService.set('sound_volume', 0.15);
       storageService.set('sound_track_id', 'serene');
@@ -67,9 +84,12 @@ export class SoundService {
 
     this.#isEnabled = storageService.get('sound_enabled', true);
     this.#isPlaying = false;
-    this.#volume = storageService.get('sound_volume', 0.15);
-    this.#currentTrackId = storageService.get('sound_track_id', 'serene');
-    this.#fadeInterval = null;
+    this.#isBlockedByAutoplay = false;
+    const savedVol = storageService.get('sound_volume', 0.15);
+    this.#volume = typeof savedVol === 'number' && savedVol > 0 ? Math.min(1, Math.max(0, savedVol)) : 0.15;
+    const savedTrack = storageService.get('sound_track_id', 'serene');
+    this.#currentTrackId = RELAXING_TRACKS.some((t) => t.id === savedTrack) ? savedTrack : 'serene';
+
     this.#synthInterval = null;
     this.#synthNodes = [];
     this.#listeners = new Set();
@@ -78,7 +98,6 @@ export class SoundService {
     this.#initVisibilityListener();
     this.#initAutoPlayOnLoad();
   }
-
 
   get isEnabled() {
     return this.#isEnabled;
@@ -90,7 +109,7 @@ export class SoundService {
     this.#isEnabled = next;
     storageService.set('sound_enabled', this.#isEnabled);
     if (this.#isEnabled) {
-      this.startTheme();
+      this.startTheme(false);
     } else {
       this.stopTheme();
     }
@@ -98,7 +117,11 @@ export class SoundService {
   }
 
   get isPlaying() {
-    return this.#isPlaying;
+    return this.#isPlaying && !this.#isBlockedByAutoplay;
+  }
+
+  get isBlockedByAutoplay() {
+    return this.#isBlockedByAutoplay;
   }
 
   get volume() {
@@ -109,8 +132,11 @@ export class SoundService {
     const clamped = Math.max(0, Math.min(1, Number(value) || 0));
     this.#volume = clamped;
     storageService.set('sound_volume', clamped);
-    if (this.#audio && !this.#fadeInterval) {
+    if (this.#audio) {
       this.#audio.volume = clamped;
+      if (clamped > 0 && this.#audio.muted) {
+        this.#audio.muted = false;
+      }
     }
     if (this.#masterGain && this.#ctx) {
       this.#masterGain.gain.setValueAtTime(clamped * 0.25, this.#ctx.currentTime);
@@ -133,29 +159,33 @@ export class SoundService {
   }
 
   /**
-   * Switches the active soundtrack. Smoothly transitions if already playing.
+   * Switches the active soundtrack. Starts playing immediately if sound is enabled.
    * @param {string} trackId
    */
   setTrack(trackId) {
     const track = RELAXING_TRACKS.find((t) => t.id === trackId);
-    if (!track || track.id === this.#currentTrackId) return;
+    if (!track) return;
 
     this.#currentTrackId = track.id;
     storageService.set('sound_track_id', track.id);
 
-    if (this.#audio) {
-      const wasPlaying = !this.#audio.paused && this.#isEnabled;
-      if (wasPlaying) {
-        this.#fadeOutAudio(this.#audio, () => {
-          if (this.#audio) {
-            this.#audio.src = track.src;
-            this.#audio.load();
-            this.#fadeInAudio(this.#audio, this.#volume);
-          }
-        });
-      } else {
-        this.#audio.src = track.src;
-        this.#audio.load();
+    const audio = this.#getOrCreateAudio();
+    if (audio) {
+      audio.src = track.src;
+      audio.muted = false;
+      audio.volume = this.#volume;
+
+      if (this.#isEnabled) {
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              this.#isPlaying = true;
+              this.#isBlockedByAutoplay = false;
+              this.#notify();
+            })
+            .catch(() => {});
+        }
       }
     }
     this.#notify();
@@ -179,7 +209,8 @@ export class SoundService {
       try {
         listener({
           isEnabled: this.#isEnabled,
-          isPlaying: this.#isPlaying,
+          isPlaying: this.isPlaying,
+          isBlockedByAutoplay: this.#isBlockedByAutoplay,
           volume: this.#volume,
           currentTrackId: this.#currentTrackId,
           currentTrack: this.currentTrack,
@@ -203,10 +234,12 @@ export class SoundService {
         this.#audio = new Audio(activeTrack.src);
         this.#audio.loop = true;
         this.#audio.preload = 'auto';
-        this.#audio.volume = 0;
+        this.#audio.volume = this.#volume;
+        this.#audio.muted = false;
 
         this.#audio.addEventListener('play', () => {
           this.#isPlaying = true;
+          this.#isBlockedByAutoplay = false;
           this.#notify();
         });
 
@@ -215,13 +248,22 @@ export class SoundService {
           this.#notify();
         });
 
-        this.#audio.addEventListener('error', () => {
+        this.#audio.addEventListener('ended', () => {
+          if (this.#audio) {
+            this.#audio.currentTime = 0;
+            this.#audio.play().catch(() => {});
+          }
+        });
+
+        this.#audio.addEventListener('error', (e) => {
+          console.warn('Soundtrack load error, switching to procedural synthesis fallback:', e);
           this.#isUsingSynthFallback = true;
           if (this.#isEnabled) {
             this.#startSynthTheme();
           }
         });
-      } catch {
+      } catch (err) {
+        console.warn('HTML5 Audio instantiation error:', err);
         this.#isUsingSynthFallback = true;
       }
     }
@@ -257,7 +299,7 @@ export class SoundService {
   }
 
   /**
-   * Initializes automatic playback on site load with browser autoplay policy handling.
+   * Automatically attempts playback on site load with browser autoplay policy handling.
    */
   #initAutoPlayOnLoad() {
     if (typeof window === 'undefined') return;
@@ -271,7 +313,6 @@ export class SoundService {
         const activeTrack = this.currentTrack;
         if (!audio.src || !audio.src.endsWith(activeTrack.src)) {
           audio.src = activeTrack.src;
-          audio.load();
         }
 
         audio.volume = this.#volume;
@@ -282,38 +323,16 @@ export class SoundService {
           playPromise
             .then(() => {
               this.#isPlaying = true;
+              this.#isBlockedByAutoplay = false;
               this.#notify();
             })
             .catch(() => {
-              // Browser autoplay policy prevented unmuted sound without prior user interaction.
-              // 1. Play muted immediately so media buffer and timeline start without error
-              audio.muted = true;
-              audio.play().catch(() => {});
-              this.#isPlaying = true;
+              // Browser autoplay policy prevented unmuted initial play without prior user gesture
+              this.#isBlockedByAutoplay = true;
+              this.#isPlaying = false;
               this.#notify();
 
-              // 2. Attach global user activation listener to unmute instantly on first interaction
-              const unlockAudio = () => {
-                if (this.#isEnabled) {
-                  audio.muted = false;
-                  audio.volume = this.#volume;
-                  if (audio.paused) {
-                    audio.play().catch(() => {});
-                  }
-                  if (this.#ctx && this.#ctx.state === 'suspended') {
-                    this.#ctx.resume().catch(() => {});
-                  }
-                  this.#isPlaying = true;
-                  this.#notify();
-                }
-                const events = ['pointerdown', 'mousedown', 'touchstart', 'touchend', 'click', 'keydown', 'scroll'];
-                events.forEach((evt) => window.removeEventListener(evt, unlockAudio, { capture: true }));
-                events.forEach((evt) => document.removeEventListener(evt, unlockAudio, { capture: true }));
-              };
-
-              const events = ['pointerdown', 'mousedown', 'touchstart', 'touchend', 'click', 'keydown', 'scroll'];
-              events.forEach((evt) => window.addEventListener(evt, unlockAudio, { once: true, capture: true, passive: true }));
-              events.forEach((evt) => document.addEventListener(evt, unlockAudio, { once: true, capture: true, passive: true }));
+              this.#attachOneTimeGestureUnlock();
             });
         }
       };
@@ -321,10 +340,46 @@ export class SoundService {
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', attemptAutoPlay, { once: true });
       } else {
-        // Document already parsed / interactive / complete
         attemptAutoPlay();
       }
     }
+  }
+
+  /**
+   * Attaches one-time gesture listeners to cleanly start playback as soon as user interacts with the page.
+   */
+  #attachOneTimeGestureUnlock() {
+    if (typeof window === 'undefined') return;
+
+    const unlockAudio = () => {
+      const events = ['pointerdown', 'mousedown', 'touchstart', 'touchend', 'click', 'keydown'];
+      events.forEach((evt) => window.removeEventListener(evt, unlockAudio, true));
+      events.forEach((evt) => document.removeEventListener(evt, unlockAudio, true));
+
+      if (this.#isEnabled) {
+        const audio = this.#getOrCreateAudio();
+        if (audio && (!this.#isPlaying || audio.paused)) {
+          this.#isBlockedByAutoplay = false;
+          audio.muted = false;
+          audio.volume = this.#volume;
+          audio.play()
+            .then(() => {
+              this.#isPlaying = true;
+              this.#isBlockedByAutoplay = false;
+              this.#notify();
+            })
+            .catch(() => {});
+
+          if (this.#ctx && this.#ctx.state === 'suspended') {
+            this.#ctx.resume().catch(() => {});
+          }
+        }
+      }
+    };
+
+    const events = ['pointerdown', 'mousedown', 'touchstart', 'touchend', 'click', 'keydown'];
+    events.forEach((evt) => window.addEventListener(evt, unlockAudio, { once: true, capture: true, passive: true }));
+    events.forEach((evt) => document.addEventListener(evt, unlockAudio, { once: true, capture: true, passive: true }));
   }
 
   /**
@@ -334,13 +389,13 @@ export class SoundService {
     this.#initAutoPlayOnLoad();
   }
 
-
   /**
    * Starts playback of the relaxing feel-good ambient soundtrack.
-   * @param {boolean} [withChime=true]
+   * @param {boolean} [withChime=false]
    */
-  startTheme(withChime = true) {
+  startTheme(withChime = false) {
     this.#isEnabled = true;
+    this.#isBlockedByAutoplay = false;
     storageService.set('sound_enabled', true);
     this.#isUsingSynthFallback = false;
 
@@ -353,104 +408,60 @@ export class SoundService {
       const activeTrack = this.currentTrack;
       if (!audio.src || !audio.src.endsWith(activeTrack.src)) {
         audio.src = activeTrack.src;
-        audio.load();
       }
-      this.#fadeInAudio(audio, this.#volume);
+      audio.muted = false;
+      audio.volume = this.#volume;
+
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            this.#isPlaying = true;
+            this.#isBlockedByAutoplay = false;
+            this.#notify();
+          })
+          .catch((err) => {
+            console.warn('Audio play prevented:', err);
+            this.#isBlockedByAutoplay = true;
+            this.#isPlaying = false;
+            this.#notify();
+            this.#attachOneTimeGestureUnlock();
+          });
+      }
     } else {
       this.#startSynthTheme();
     }
     this.#notify();
   }
 
-
   /**
-   * Stops playback with gentle fade-out.
+   * Stops playback.
    */
   stopTheme() {
     this.#isEnabled = false;
+    this.#isBlockedByAutoplay = false;
     storageService.set('sound_enabled', false);
 
-    if (this.#audio && !this.#audio.paused) {
-      this.#fadeOutAudio(this.#audio);
+    if (this.#audio) {
+      this.#audio.pause();
     }
+    this.#isPlaying = false;
     this.#stopSynthTheme();
     this.#notify();
   }
 
   /**
    * Toggles theme music playback.
-   * @returns {boolean} New isEnabled state
+   * If not playing or blocked by autoplay, always starts playback.
+   * @returns {boolean} New playing state
    */
   toggleTheme() {
-    this.isEnabled = !this.#isEnabled;
-    return this.#isEnabled;
-  }
-
-
-  #fadeInAudio(audio, targetVolume) {
-    if (!audio) return;
-    this.#clearFade();
-
-    audio.volume = 0;
-    const playPromise = audio.play();
-
-    if (playPromise !== undefined) {
-      playPromise.catch(() => {
-        this.#isUsingSynthFallback = true;
-        this.#startSynthTheme();
-      });
+    if (this.#isBlockedByAutoplay || !this.#isPlaying || !this.#isEnabled) {
+      this.startTheme(false);
+      return true;
     }
-
-    const steps = 16;
-    const stepInterval = 50; // 800ms total
-    let step = 0;
-
-    this.#fadeInterval = setInterval(() => {
-      step++;
-      const current = Math.min(targetVolume, (step / steps) * targetVolume);
-      if (audio) {
-        audio.volume = current;
-      }
-      if (step >= steps) {
-        this.#clearFade();
-      }
-    }, stepInterval);
-  }
-
-  #fadeOutAudio(audio, onComplete = null) {
-    if (!audio) return;
-    this.#clearFade();
-
-    const startVol = audio.volume;
-    const steps = 10;
-    const stepInterval = 40; // 400ms total
-    let step = 0;
-
-    this.#fadeInterval = setInterval(() => {
-      step++;
-      const current = Math.max(0, startVol * (1 - step / steps));
-      if (audio) {
-        audio.volume = current;
-      }
-      if (step >= steps) {
-        this.#clearFade();
-        if (audio) {
-          audio.pause();
-        }
-        this.#isPlaying = false;
-        this.#notify();
-        if (typeof onComplete === 'function') {
-          onComplete();
-        }
-      }
-    }, stepInterval);
-  }
-
-  #clearFade() {
-    if (this.#fadeInterval) {
-      clearInterval(this.#fadeInterval);
-      this.#fadeInterval = null;
-    }
+    this.stopTheme();
+    return false;
   }
 
   /**
@@ -512,7 +523,6 @@ export class SoundService {
     };
 
     playChordStep();
-
     this.#synthInterval = setInterval(playChordStep, 5000);
   }
 
@@ -550,7 +560,8 @@ export class SoundService {
         if (this.#isEnabled) {
           const audio = this.#getOrCreateAudio();
           if (audio && !this.#isUsingSynthFallback) {
-            this.#fadeInAudio(audio, this.#volume);
+            audio.volume = this.#volume;
+            audio.play().catch(() => {});
           } else {
             this.#startSynthTheme();
           }
@@ -673,4 +684,3 @@ export class SoundService {
 // Export singleton instance
 export const soundService = new SoundService();
 export default soundService;
-
