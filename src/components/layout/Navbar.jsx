@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { navLinks } from '../../data/navigation';
 import { Button } from '../common/Button';
-import { Sun, Moon, Menu, X, ArrowRight } from 'lucide-react';
+import { Sun, Moon, Menu, X, ArrowRight, Search } from 'lucide-react';
 
-export function Navbar({ isDark, toggleTheme, onOpenDemo }) {
+export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenCommandPalette }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -83,7 +83,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo }) {
                 NOVA
               </span>
               <span className="text-[9px] uppercase tracking-[0.25em] text-[#D8B452] font-semibold -mt-1">
-                AI Intelligence
+                AI Platform
               </span>
             </div>
           </a>
@@ -100,10 +100,28 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo }) {
                 {link.name}
               </a>
             ))}
+            <a
+              href="#roi-calculator"
+              onClick={(e) => handleNavClick(e, '#roi-calculator')}
+              className="text-xs font-bold uppercase tracking-wider px-3 py-2 rounded-lg text-[#D8B452] hover:text-[#F3D887] transition-colors"
+            >
+              ROI Calculator
+            </a>
           </div>
 
           {/* Right Side Actions */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-2.5">
+            {/* Quick Command Palette Button */}
+            <button
+              onClick={onOpenCommandPalette}
+              aria-label="Open Command Palette"
+              title="Search / Command Palette (⌘K)"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-[#0b0c33] text-slate-400 hover:text-[#D8B452] hover:border-[#D8B452]/40 transition-colors text-xs cursor-pointer"
+            >
+              <Search className="w-3.5 h-3.5 text-[#D8B452]" />
+              <span className="text-[11px] font-mono font-semibold">⌘K</span>
+            </button>
+
             {/* Dark/Light Mode Toggle */}
             <button
               onClick={toggleTheme}
@@ -115,7 +133,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo }) {
 
             {/* Watch Demo CTA */}
             <Button variant="ghost" size="sm" onClick={onOpenDemo}>
-              Watch Demo
+              Demo
             </Button>
 
             {/* Primary CTA */}
@@ -129,12 +147,20 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo }) {
                 pricing?.scrollIntoView({ behavior: 'smooth' });
               }}
             >
-              Start Free Trial
+              Free Trial
             </Button>
           </div>
 
           {/* Mobile Menu & Theme Toggle */}
           <div className="flex items-center gap-2 md:hidden">
+            <button
+              onClick={onOpenCommandPalette}
+              aria-label="Search"
+              className="p-2 rounded-full border border-white/10 text-[#D8B452]"
+            >
+              <Search className="w-4 h-4" />
+            </button>
+
             <button
               onClick={toggleTheme}
               aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
@@ -173,6 +199,13 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo }) {
                 {link.name}
               </a>
             ))}
+            <a
+              href="#roi-calculator"
+              onClick={(e) => handleNavClick(e, '#roi-calculator')}
+              className="px-4 py-3 rounded-xl text-sm font-bold tracking-wider uppercase text-[#D8B452] hover:bg-white/5 transition-colors"
+            >
+              ROI Calculator
+            </a>
           </div>
 
           <div className="pt-4 border-t border-white/10 flex flex-col gap-3">
