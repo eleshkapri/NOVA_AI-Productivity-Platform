@@ -4,7 +4,7 @@ import { MotionReveal } from '../common/MotionReveal';
 import { faqData } from '../../data/faq';
 import { ChevronDown } from 'lucide-react';
 
-export function FAQ() {
+export function FAQ({ onOpenDemo }) {
   const [openIndex, setOpenIndex] = useState(0);
 
   const handleToggle = (index) => {
@@ -74,12 +74,12 @@ export function FAQ() {
         <MotionReveal animation="fade-up" delay={150}>
           <div className="mt-14 text-center text-sm text-slate-500 dark:text-slate-400">
             Have an inquiry not answered here?{' '}
-            <a
-              href="#footer"
-              className="text-[#a1741a] dark:text-[#D8B452] font-semibold underline hover:text-[#b8860b] dark:hover:text-[#F3D887] hover:scale-105 inline-block transition-transform"
+            <button
+              onClick={() => onOpenDemo ? onOpenDemo('contact') : document.getElementById('footer')?.scrollIntoView({ behavior: 'smooth' })}
+              className="text-[#a1741a] dark:text-[#D8B452] font-semibold underline hover:text-[#b8860b] dark:hover:text-[#F3D887] hover:scale-105 inline-block transition-transform cursor-pointer"
             >
               Connect with our engineering specialists &rarr;
-            </a>
+            </button>
           </div>
         </MotionReveal>
       </div>

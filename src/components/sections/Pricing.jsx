@@ -147,7 +147,13 @@ export function Pricing({ onOpenDemo }) {
                   iconPosition="right"
                   className="w-full justify-center"
                   onClick={() => {
-                    onOpenDemo();
+                    if (onOpenDemo) {
+                      if (plan.id === 'enterprise') {
+                        onOpenDemo('contact', { plan: 'enterprise' });
+                      } else {
+                        onOpenDemo('trial', { plan: plan.id });
+                      }
+                    }
                   }}
                 >
                   {plan.ctaText}
@@ -163,7 +169,7 @@ export function Pricing({ onOpenDemo }) {
           <div className="mt-14 text-center text-xs tracking-wider text-slate-500 dark:text-slate-400">
             Need custom SOC2 compliance reporting, custom data retention agreements, or invoice terms?{' '}
             <button
-              onClick={onOpenDemo}
+              onClick={() => onOpenDemo && onOpenDemo('contact', { plan: 'enterprise' })}
               className="text-[#a1741a] dark:text-[#D8B452] font-semibold underline hover:text-[#b8860b] dark:hover:text-[#F3D887] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
             >
               Talk with our Enterprise Architecture Team &rarr;

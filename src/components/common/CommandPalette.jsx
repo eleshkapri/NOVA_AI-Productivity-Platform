@@ -1,5 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, Sparkles, ArrowRight, Sun, Moon, Play, HelpCircle, Layers, CheckCircle2, X } from 'lucide-react';
+import {
+  Search,
+  Sparkles,
+  ArrowRight,
+  Sun,
+  Moon,
+  Play,
+  HelpCircle,
+  Layers,
+  CheckCircle2,
+  X,
+  Rocket,
+  Code2,
+  Activity,
+  Send,
+} from 'lucide-react';
 
 export function CommandPalette({ isOpen, onClose, onToggleTheme, isDark, onOpenDemo }) {
   const [query, setQuery] = useState('');
@@ -7,6 +22,26 @@ export function CommandPalette({ isOpen, onClose, onToggleTheme, isDark, onOpenD
   const inputRef = useRef(null);
 
   const actions = [
+    {
+      id: 'trial',
+      title: 'Start 14-Day Free Trial (All Tiers)',
+      category: 'Actions',
+      icon: Rocket,
+      action: () => {
+        onClose();
+        if (onOpenDemo) onOpenDemo('trial');
+      },
+    },
+    {
+      id: 'demo',
+      title: 'Watch Product Interactive Walkthrough',
+      category: 'Actions',
+      icon: Play,
+      action: () => {
+        onClose();
+        if (onOpenDemo) onOpenDemo('backlog');
+      },
+    },
     {
       id: 'features',
       title: 'Explore Autonomous Capabilities',
@@ -38,13 +73,43 @@ export function CommandPalette({ isOpen, onClose, onToggleTheme, isDark, onOpenD
       },
     },
     {
-      id: 'demo',
-      title: 'Watch Product Interactive Walkthrough',
-      category: 'Actions',
-      icon: Play,
+      id: 'docs',
+      title: 'Open Developer Documentation & REST API',
+      category: 'Resources',
+      icon: Code2,
       action: () => {
         onClose();
-        onOpenDemo();
+        if (onOpenDemo) onOpenDemo('docs');
+      },
+    },
+    {
+      id: 'status',
+      title: 'Check Global Infrastructure & Status (99.99%)',
+      category: 'Resources',
+      icon: Activity,
+      action: () => {
+        onClose();
+        if (onOpenDemo) onOpenDemo('status');
+      },
+    },
+    {
+      id: 'changelog',
+      title: 'View Release Changelog (v2.4.0)',
+      category: 'Product',
+      icon: Sparkles,
+      action: () => {
+        onClose();
+        if (onOpenDemo) onOpenDemo('changelog');
+      },
+    },
+    {
+      id: 'contact',
+      title: 'Consult Enterprise Architecture Team',
+      category: 'Enterprise',
+      icon: Send,
+      action: () => {
+        onClose();
+        if (onOpenDemo) onOpenDemo('contact', { plan: 'enterprise' });
       },
     },
     {

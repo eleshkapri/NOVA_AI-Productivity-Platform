@@ -146,16 +146,13 @@ export function RoiCalculator({ onOpenDemo }) {
                   icon={ArrowRight}
                   iconPosition="right"
                   className="w-full justify-center text-sm flex-1"
-                  onClick={() => {
-                    const pricing = document.getElementById('pricing');
-                    pricing?.scrollIntoView({ behavior: 'smooth' });
-                  }}
+                  onClick={() => onOpenDemo ? onOpenDemo('trial', { plan: 'pro' }) : document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
                 >
                   Capture This ROI with Pro
                 </Button>
                 {onOpenDemo && (
                   <button
-                    onClick={onOpenDemo}
+                    onClick={() => onOpenDemo('contact')}
                     className="px-5 py-2.5 rounded-full border border-white/10 hover:border-[#D8B452]/40 text-xs font-semibold text-slate-300 hover:text-[#D8B452] transition-colors cursor-pointer"
                   >
                     Custom Audit

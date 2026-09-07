@@ -40,16 +40,13 @@ export function FinalCTA({ onOpenDemo }) {
                 size="lg"
                 icon={ArrowRight}
                 iconPosition="right"
-                onClick={() => {
-                  const pricing = document.getElementById('pricing');
-                  pricing?.scrollIntoView({ behavior: 'smooth' });
-                }}
+                onClick={() => onOpenDemo ? onOpenDemo('trial') : document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
                 className="w-full sm:w-auto text-base"
               >
                 Experience 14-Day Free Trial
               </Button>
               <button
-                onClick={onOpenDemo}
+                onClick={() => onOpenDemo ? onOpenDemo('backlog') : null}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 text-base font-semibold tracking-wide rounded-full bg-[#0b0c33] hover:bg-[#12144b] border border-[#D8B452]/30 hover:border-[#D8B452] text-white hover:text-[#F3D887] hover:scale-105 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D8B452]/25 active:scale-95 transition-all duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D8B452] group/btn"
               >
                 <Play className="w-4 h-4 text-[#D8B452] transition-transform duration-300 group-hover/btn:scale-125 group-hover/btn:rotate-12" /> Watch Product Walkthrough

@@ -6,7 +6,7 @@ import { MotionReveal } from '../common/MotionReveal';
 import { solutionsData } from '../../data/solutions';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
 
-export function Solutions() {
+export function Solutions({ onOpenDemo }) {
   const [activePersonaId, setActivePersonaId] = useState('engineering');
 
   const currentSolution =
@@ -67,8 +67,20 @@ export function Solutions() {
                   icon={ArrowRight}
                   iconPosition="right"
                   onClick={() => {
-                    const pricing = document.getElementById('pricing');
-                    pricing?.scrollIntoView({ behavior: 'smooth' });
+                    if (onOpenDemo) {
+                      if (activePersonaId === 'enterprise') {
+                        onOpenDemo('contact', { plan: 'enterprise' });
+                      } else if (activePersonaId === 'pm') {
+                        onOpenDemo('backlog');
+                      } else {
+                        onOpenDemo('trial', {
+                          plan: activePersonaId === 'freelance' ? 'pro' : 'developer',
+                        });
+                      }
+                    } else {
+                      const pricing = document.getElementById('pricing');
+                      pricing?.scrollIntoView({ behavior: 'smooth' });
+                    }
                   }}
                 >
                   {currentSolution.cta}

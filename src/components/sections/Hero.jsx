@@ -30,15 +30,21 @@ export function Hero({ onOpenDemo }) {
         {/* Main Hero Copy */}
         <div className="text-center max-w-4xl mx-auto">
           {/* Eyebrow Announcement Pill */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#D8B452]/40 bg-[#D8B452]/10 shadow-xs mb-8 hover:border-[#D8B452] hover:scale-105 active:scale-95 transition-all cursor-default">
+          <button
+            onClick={() => {
+              const aboutSec = document.getElementById('about');
+              aboutSec?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#D8B452]/40 bg-[#D8B452]/10 shadow-xs mb-8 hover:border-[#D8B452] hover:scale-105 active:scale-95 transition-all cursor-pointer group"
+          >
             <span className="flex h-2 w-2 rounded-full bg-[#D8B452] animate-pulse" />
             <span className="text-xs font-bold tracking-widest uppercase text-[#D8B452]">
               NOVA 2.0 &bull; Autonomous AI Orchestration
             </span>
-            <span className="text-xs text-slate-300 font-medium hidden sm:inline">
+            <span className="text-xs text-slate-300 font-medium hidden sm:inline group-hover:text-white transition-colors">
               Read editorial &rarr;
             </span>
-          </div>
+          </button>
 
           {/* Main H1 Headline with Grand Editorial Typography */}
           <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-slate-900 dark:text-white leading-[1.08] mb-8">
@@ -60,10 +66,7 @@ export function Hero({ onOpenDemo }) {
               size="lg"
               icon={ArrowRight}
               iconPosition="right"
-              onClick={() => {
-                const pricing = document.getElementById('pricing');
-                pricing?.scrollIntoView({ behavior: 'smooth' });
-              }}
+              onClick={() => onOpenDemo('trial')}
               className="w-full sm:w-auto text-base"
             >
               Experience Free Trial
@@ -73,7 +76,7 @@ export function Hero({ onOpenDemo }) {
               size="lg"
               icon={Play}
               iconPosition="left"
-              onClick={onOpenDemo}
+              onClick={() => onOpenDemo('backlog')}
               className="w-full sm:w-auto text-base"
             >
               Watch Interactive Demo
@@ -149,7 +152,20 @@ export function Hero({ onOpenDemo }) {
                     </div>
 
                     <div className="space-y-3">
-                      <div className="p-3.5 bg-[#050614] rounded-lg border border-white/10 shadow-xs hover:border-[#D8B452] hover:-translate-y-1 hover:shadow-lg hover:shadow-[#D8B452]/20 transition-all duration-300 cursor-pointer group">
+                      <div
+                        onClick={() =>
+                          onOpenDemo('task', {
+                            task: {
+                              id: 'NOV-249',
+                              title: 'Refactor OAuth token rotation for multi-region failover',
+                              status: 'Auto-triaged',
+                              details:
+                                'Automated 3-point Fibonacci estimation calibrated from historical velocity. Auth service multi-region failover test matrix staged with zero circular dependencies.',
+                            },
+                          })
+                        }
+                        className="p-3.5 bg-[#050614] rounded-lg border border-white/10 shadow-xs hover:border-[#D8B452] hover:-translate-y-1 hover:shadow-lg hover:shadow-[#D8B452]/20 transition-all duration-300 cursor-pointer group"
+                      >
                         <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1">
                           <span className="font-mono text-[#D8B452] font-bold group-hover:underline">NOV-249</span>
                           <span className="flex items-center gap-1"><Clock className="w-3 h-3 text-[#D8B452]" /> 3 pts</span>
@@ -167,7 +183,20 @@ export function Hero({ onOpenDemo }) {
                         </div>
                       </div>
 
-                      <div className="p-3.5 bg-[#050614] rounded-lg border border-white/10 shadow-xs hover:border-[#D8B452] hover:-translate-y-1 hover:shadow-lg hover:shadow-[#D8B452]/20 transition-all duration-300 cursor-pointer group">
+                      <div
+                        onClick={() =>
+                          onOpenDemo('task', {
+                            task: {
+                              id: 'NOV-251',
+                              title: 'Implement real-time WebSocket connection pool manager',
+                              status: 'Auto-triaged',
+                              details:
+                                'Automated 5-point estimation. Backend API WebSocket multiplexing pool configured with heartbeat keepalive and graceful reconnection policies.',
+                            },
+                          })
+                        }
+                        className="p-3.5 bg-[#050614] rounded-lg border border-white/10 shadow-xs hover:border-[#D8B452] hover:-translate-y-1 hover:shadow-lg hover:shadow-[#D8B452]/20 transition-all duration-300 cursor-pointer group"
+                      >
                         <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1">
                           <span className="font-mono text-[#D8B452] font-bold group-hover:underline">NOV-251</span>
                           <span className="flex items-center gap-1"><Clock className="w-3 h-3 text-[#D8B452]" /> 5 pts</span>
@@ -197,7 +226,20 @@ export function Hero({ onOpenDemo }) {
                     </div>
 
                     <div className="space-y-3">
-                      <div className="p-3.5 bg-[#050614] rounded-lg border border-[#D8B452]/30 shadow-xs hover:border-[#D8B452] hover:-translate-y-1 hover:shadow-lg hover:shadow-[#D8B452]/20 transition-all duration-300 cursor-pointer group">
+                      <div
+                        onClick={() =>
+                          onOpenDemo('task', {
+                            task: {
+                              id: 'NOV-244',
+                              title: 'Automate PR semantic changelogs & visual diff reports',
+                              status: 'In Progress',
+                              details:
+                                'PR #142 linked. feat/pr-summarizer passing CI test matrix. Real-time AST semantic diff reasoning active.',
+                            },
+                          })
+                        }
+                        className="p-3.5 bg-[#050614] rounded-lg border border-[#D8B452]/30 shadow-xs hover:border-[#D8B452] hover:-translate-y-1 hover:shadow-lg hover:shadow-[#D8B452]/20 transition-all duration-300 cursor-pointer group"
+                      >
                         <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1">
                           <span className="font-mono text-[#D8B452] font-bold group-hover:underline">NOV-244</span>
                           <span className="text-[#D8B452] font-medium">PR #142 Linked</span>
@@ -213,7 +255,20 @@ export function Hero({ onOpenDemo }) {
                         </div>
                       </div>
 
-                      <div className="p-3.5 bg-[#050614] rounded-lg border border-white/10 shadow-xs hover:border-[#D8B452] hover:-translate-y-1 hover:shadow-lg hover:shadow-[#D8B452]/20 transition-all duration-300 cursor-pointer group">
+                      <div
+                        onClick={() =>
+                          onOpenDemo('task', {
+                            task: {
+                              id: 'NOV-246',
+                              title: 'Add Webhook payload validator with AES-GCM verification',
+                              status: 'In Progress',
+                              details:
+                                '8 story points. Webhook security payload verification with AES-GCM key rotation and replay attack prevention.',
+                            },
+                          })
+                        }
+                        className="p-3.5 bg-[#050614] rounded-lg border border-white/10 shadow-xs hover:border-[#D8B452] hover:-translate-y-1 hover:shadow-lg hover:shadow-[#D8B452]/20 transition-all duration-300 cursor-pointer group"
+                      >
                         <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1">
                           <span className="font-mono text-[#D8B452] font-bold group-hover:underline">NOV-246</span>
                           <span>8 pts</span>
@@ -238,7 +293,20 @@ export function Hero({ onOpenDemo }) {
                     </div>
 
                     <div className="space-y-3">
-                      <div className="p-3.5 bg-[#050614] rounded-lg border border-white/10 opacity-75 hover:opacity-100 hover:border-white/30 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer">
+                      <div
+                        onClick={() =>
+                          onOpenDemo('task', {
+                            task: {
+                              id: 'NOV-238',
+                              title: 'Design token synchronization for dark/light mode system',
+                              status: 'Merged',
+                              details:
+                                'Merged into main branch. Token pipeline synchronized across Tailwind CSS variables and Figma token export.',
+                            },
+                          })
+                        }
+                        className="p-3.5 bg-[#050614] rounded-lg border border-white/10 opacity-75 hover:opacity-100 hover:border-white/30 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                      >
                         <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1">
                           <span className="font-mono text-slate-500 line-through">NOV-238</span>
                           <span className="text-emerald-400 font-bold">Merged</span>
@@ -248,7 +316,20 @@ export function Hero({ onOpenDemo }) {
                         </p>
                       </div>
 
-                      <div className="p-3.5 bg-[#050614] rounded-lg border border-white/10 opacity-75 hover:opacity-100 hover:border-white/30 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer">
+                      <div
+                        onClick={() =>
+                          onOpenDemo('task', {
+                            task: {
+                              id: 'NOV-240',
+                              title: 'Zero-downtime database migration script for user sessions',
+                              status: 'Merged',
+                              details:
+                                'Merged into main branch. Zero-downtime migration completed across all 12 replica database shards.',
+                            },
+                          })
+                        }
+                        className="p-3.5 bg-[#050614] rounded-lg border border-white/10 opacity-75 hover:opacity-100 hover:border-white/30 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                      >
                         <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1">
                           <span className="font-mono text-slate-500 line-through">NOV-240</span>
                           <span className="text-emerald-400 font-bold">Merged</span>
@@ -263,7 +344,10 @@ export function Hero({ onOpenDemo }) {
               ) : (
                 /* Tab 2: AI Copilot Feed */
                 <div className="space-y-3 font-mono text-xs">
-                  <div className="p-4 rounded-xl bg-[#050614] border border-[#D8B452]/30 hover:border-[#D8B452] hover:-translate-y-1 hover:shadow-lg hover:shadow-[#D8B452]/20 transition-all duration-300 cursor-pointer flex items-start gap-3">
+                  <div
+                    onClick={() => onOpenDemo('backlog')}
+                    className="p-4 rounded-xl bg-[#050614] border border-[#D8B452]/30 hover:border-[#D8B452] hover:-translate-y-1 hover:shadow-lg hover:shadow-[#D8B452]/20 transition-all duration-300 cursor-pointer flex items-start gap-3"
+                  >
                     <div className="p-1.5 rounded-md bg-[#D8B452]/20 text-[#D8B452] shrink-0 mt-0.5">
                       <Sparkles className="w-4 h-4 text-[#D8B452]" />
                     </div>
@@ -277,7 +361,10 @@ export function Hero({ onOpenDemo }) {
                     </div>
                   </div>
 
-                  <div className="p-4 rounded-xl bg-[#050614] border border-white/10 hover:border-emerald-500/50 hover:-translate-y-1 hover:shadow-lg hover:shadow-emerald-500/10 transition-all duration-300 cursor-pointer flex items-start gap-3">
+                  <div
+                    onClick={() => onOpenDemo('changelog')}
+                    className="p-4 rounded-xl bg-[#050614] border border-white/10 hover:border-emerald-500/50 hover:-translate-y-1 hover:shadow-lg hover:shadow-emerald-500/10 transition-all duration-300 cursor-pointer flex items-start gap-3"
+                  >
                     <div className="p-1.5 rounded-md bg-emerald-500/20 text-emerald-400 shrink-0 mt-0.5">
                       <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                     </div>

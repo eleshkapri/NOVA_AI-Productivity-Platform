@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { footerLinks } from '../../data/navigation';
 import { ArrowRight, CheckCircle2, AlertCircle, MessageSquare } from 'lucide-react';
 
-export function Footer() {
+export function Footer({ onOpenModal }) {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -35,6 +35,44 @@ export function Footer() {
     }, 600);
   };
 
+  const handleFooterClick = (e, item) => {
+    e.preventDefault();
+    if (item.href && item.href.startsWith('#') && item.href.length > 1) {
+      try {
+        const el = document.querySelector(item.href);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+          return;
+        }
+      } catch {
+        // Fallthrough
+      }
+    }
+
+    if (!onOpenModal) return;
+
+    const lower = item.name.toLowerCase();
+    if (lower.includes('documentation') || lower.includes('api reference')) {
+      onOpenModal('docs');
+    } else if (lower.includes('status')) {
+      onOpenModal('status');
+    } else if (lower.includes('changelog') || lower.includes('roadmap')) {
+      onOpenModal('changelog');
+    } else if (
+      lower.includes('security') ||
+      lower.includes('privacy') ||
+      lower.includes('terms') ||
+      lower.includes('careers') ||
+      lower.includes('compliance')
+    ) {
+      onOpenModal('contact');
+    } else if (lower.includes('discord')) {
+      window.open('https://discord.com', '_blank');
+    } else {
+      onOpenModal('backlog');
+    }
+  };
+
   return (
     <footer id="footer" className="bg-slate-100/90 dark:bg-[#050614] border-t border-slate-200 dark:border-white/10 pt-20 pb-14 text-slate-800 dark:text-white transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -42,8 +80,15 @@ export function Footer() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16 border-b border-slate-200 dark:border-white/10">
           {/* Brand Info */}
           <div className="lg:col-span-5 space-y-5">
-            <a href="#" className="flex items-center gap-3">
-              <div className="w-10 h-10 flex items-center justify-center text-[#a1741a] dark:text-[#D8B452]">
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="flex items-center gap-3 cursor-pointer group"
+            >
+              <div className="w-10 h-10 flex items-center justify-center text-[#a1741a] dark:text-[#D8B452] group-hover:rotate-90 transition-transform duration-500">
                 <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
                   <path
                     d="M4.919 20.0389L6.967 17.9751H13.918V24.9797L11.87 27.0435C8.72 30.2174 4.453 31.9999 0 31.9999C0 27.5126 1.769 23.2129 4.919 20.0389Z"
@@ -70,13 +115,17 @@ export function Footer() {
             <p className="text-sm text-slate-600 dark:text-slate-400 max-w-sm leading-relaxed font-normal">
               NOVA is the autonomous AI productivity platform engineered for elite engineering squads to master backlogs, eliminate developer toil, and ship with unmatched precision.
             </p>
-            <div className="flex items-center gap-2.5 pt-2">
+            <div
+              onClick={() => onOpenModal && onOpenModal('status')}
+              className="flex items-center gap-2.5 pt-2 cursor-pointer group/uptime"
+              title="Click to inspect live cluster health"
+            >
               <span className="relative flex h-2.5 w-2.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-600 dark:bg-[#D8B452]"></span>
               </span>
-              <span className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">
-                All Systems Operational &bull; 99.99% Uptime
+              <span className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 group-hover/uptime:text-[#a1741a] dark:group-hover/uptime:text-[#D8B452] transition-colors">
+                All Systems Operational &bull; 99.99% Uptime &rarr;
               </span>
             </div>
           </div>
@@ -161,7 +210,8 @@ export function Footer() {
                 <li key={item.name}>
                   <a
                     href={item.href}
-                    className="text-sm text-slate-600 dark:text-slate-400 hover:text-[#a1741a] dark:hover:text-[#D8B452] hover:translate-x-1 inline-block transition-all duration-200"
+                    onClick={(e) => handleFooterClick(e, item)}
+                    className="text-sm text-slate-600 dark:text-slate-400 hover:text-[#a1741a] dark:hover:text-[#D8B452] hover:translate-x-1 inline-block transition-all duration-200 cursor-pointer"
                   >
                     {item.name}
                   </a>
@@ -179,7 +229,8 @@ export function Footer() {
                 <li key={item.name}>
                   <a
                     href={item.href}
-                    className="text-sm text-slate-600 dark:text-slate-400 hover:text-[#a1741a] dark:hover:text-[#D8B452] hover:translate-x-1 inline-block transition-all duration-200"
+                    onClick={(e) => handleFooterClick(e, item)}
+                    className="text-sm text-slate-600 dark:text-slate-400 hover:text-[#a1741a] dark:hover:text-[#D8B452] hover:translate-x-1 inline-block transition-all duration-200 cursor-pointer"
                   >
                     {item.name}
                   </a>
@@ -197,7 +248,8 @@ export function Footer() {
                 <li key={item.name}>
                   <a
                     href={item.href}
-                    className="text-sm text-slate-600 dark:text-slate-400 hover:text-[#a1741a] dark:hover:text-[#D8B452] hover:translate-x-1 inline-block transition-all duration-200"
+                    onClick={(e) => handleFooterClick(e, item)}
+                    className="text-sm text-slate-600 dark:text-slate-400 hover:text-[#a1741a] dark:hover:text-[#D8B452] hover:translate-x-1 inline-block transition-all duration-200 cursor-pointer"
                   >
                     {item.name}
                   </a>
@@ -215,7 +267,8 @@ export function Footer() {
                 <li key={item.name}>
                   <a
                     href={item.href}
-                    className="text-sm text-slate-600 dark:text-slate-400 hover:text-[#a1741a] dark:hover:text-[#D8B452] hover:translate-x-1 inline-block transition-all duration-200"
+                    onClick={(e) => handleFooterClick(e, item)}
+                    className="text-sm text-slate-600 dark:text-slate-400 hover:text-[#a1741a] dark:hover:text-[#D8B452] hover:translate-x-1 inline-block transition-all duration-200 cursor-pointer"
                   >
                     {item.name}
                   </a>

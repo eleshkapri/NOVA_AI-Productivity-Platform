@@ -34,8 +34,26 @@ import { DemoModal } from './components/sections/DemoModal';
 export function App() {
   const { toggleTheme, isDark } = useTheme();
   const { showBackToTop, scrollToTop } = useScrollPosition();
-  const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
+  const [modalConfig, setModalConfig] = useState({
+    isOpen: false,
+    tab: 'backlog',
+    plan: 'pro',
+    task: null,
+  });
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+
+  const handleOpenModal = (tab = 'backlog', extra = {}) => {
+    setModalConfig({
+      isOpen: true,
+      tab,
+      plan: extra.plan || 'pro',
+      task: extra.task || null,
+    });
+  };
+
+  const handleCloseModal = () => {
+    setModalConfig((prev) => ({ ...prev, isOpen: false }));
+  };
 
   useEffect(() => {
     const handleOpenPalette = () => setIsCommandPaletteOpen(true);
@@ -69,27 +87,28 @@ export function App() {
         onClose={() => setIsCommandPaletteOpen(false)}
         onToggleTheme={toggleTheme}
         isDark={isDark}
-        onOpenDemo={() => setIsDemoModalOpen(true)}
+        onOpenDemo={(tab, extra) => handleOpenModal(tab || 'backlog', extra)}
       />
 
       {/* 7. Navigation Bar */}
       <Navbar
         isDark={isDark}
         toggleTheme={toggleTheme}
-        onOpenDemo={() => setIsDemoModalOpen(true)}
+        onOpenDemo={() => handleOpenModal('backlog')}
+        onOpenTrial={() => handleOpenModal('trial')}
         onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
       />
 
       {/* Main Content Area */}
       <main className="flex-1">
         {/* 1. Hero Section with Interactive Dashboard Console */}
-        <Hero onOpenDemo={() => setIsDemoModalOpen(true)} />
+        <Hero onOpenDemo={(tab, extra) => handleOpenModal(tab || 'backlog', extra)} />
 
         {/* 2. Trusted By / Company Logos */}
         <TrustedBy />
 
         {/* 3. Features Section (6+ rich cards) */}
-        <Features />
+        <Features onOpenDemo={(tab, extra) => handleOpenModal(tab || 'backlog', extra)} />
 
         {/* 4. Product / About Section (Before vs After) */}
         <About />
@@ -101,31 +120,34 @@ export function App() {
         <Stats />
 
         {/* 7. Solutions / Use Cases (4 Personas) */}
-        <Solutions />
+        <Solutions onOpenDemo={(tab, extra) => handleOpenModal(tab || 'backlog', extra)} />
 
         {/* 8. Interactive ROI & Productivity Economics Calculator */}
-        <RoiCalculator onOpenDemo={() => setIsDemoModalOpen(true)} />
+        <RoiCalculator onOpenDemo={(tab, extra) => handleOpenModal(tab || 'trial', extra)} />
 
         {/* 9. Testimonials (Carousel Slider) */}
         <Testimonials />
 
         {/* 10. Pricing (3 Plans + Monthly/Annual Toggle) */}
-        <Pricing onOpenDemo={() => setIsDemoModalOpen(true)} />
+        <Pricing onOpenDemo={(tab, extra) => handleOpenModal(tab || 'trial', extra)} />
 
         {/* 11. FAQ Section (Accordion) */}
-        <FAQ />
+        <FAQ onOpenDemo={(tab, extra) => handleOpenModal(tab || 'contact', extra)} />
 
         {/* 12. Final CTA Banner */}
-        <FinalCTA onOpenDemo={() => setIsDemoModalOpen(true)} />
+        <FinalCTA onOpenDemo={(tab, extra) => handleOpenModal(tab || 'trial', extra)} />
       </main>
 
       {/* 13. Footer */}
-      <Footer />
+      <Footer onOpenModal={(tab, extra) => handleOpenModal(tab, extra)} />
 
-      {/* Interactive Demo Modal */}
+      {/* Interactive Demo & Workspace Modal */}
       <DemoModal
-        isOpen={isDemoModalOpen}
-        onClose={() => setIsDemoModalOpen(false)}
+        isOpen={modalConfig.isOpen}
+        onClose={handleCloseModal}
+        initialTab={modalConfig.tab}
+        selectedPlan={modalConfig.plan}
+        selectedTask={modalConfig.task}
       />
 
       {/* Back to Top Floating Action Button */}

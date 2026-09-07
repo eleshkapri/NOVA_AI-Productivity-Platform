@@ -3,7 +3,7 @@ import { navLinks } from '../../data/navigation';
 import { Button } from '../common/Button';
 import { Sun, Moon, Menu, X, ArrowRight, Search } from 'lucide-react';
 
-export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenCommandPalette }) {
+export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCommandPalette }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
@@ -218,10 +218,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenCommandPalette }
               size="sm"
               icon={ArrowRight}
               iconPosition="right"
-              onClick={() => {
-                const pricing = document.getElementById('pricing');
-                pricing?.scrollIntoView({ behavior: 'smooth' });
-              }}
+              onClick={onOpenTrial || onOpenDemo}
             >
               Free Trial
             </Button>
@@ -302,8 +299,11 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenCommandPalette }
               className="w-full justify-center"
               onClick={() => {
                 setIsOpen(false);
-                const pricing = document.getElementById('pricing');
-                pricing?.scrollIntoView({ behavior: 'smooth' });
+                if (onOpenTrial) {
+                  onOpenTrial();
+                } else {
+                  onOpenDemo();
+                }
               }}
             >
               Start Free Trial
