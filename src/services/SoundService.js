@@ -56,6 +56,15 @@ export class SoundService {
     this.#audio = null;
     this.#ctx = null;
     this.#masterGain = null;
+
+    // Reset default to Serene at 15% volume on initial site open
+    if (!storageService.get('sound_init_serene', false)) {
+      storageService.set('sound_init_serene', true);
+      storageService.set('sound_enabled', true);
+      storageService.set('sound_volume', 0.15);
+      storageService.set('sound_track_id', 'serene');
+    }
+
     this.#isEnabled = storageService.get('sound_enabled', true);
     this.#isPlaying = false;
     this.#volume = storageService.get('sound_volume', 0.15);
@@ -69,6 +78,7 @@ export class SoundService {
     this.#initVisibilityListener();
     this.#initAutoPlayOnLoad();
   }
+
 
   get isEnabled() {
     return this.#isEnabled;
@@ -247,7 +257,7 @@ export class SoundService {
   }
 
   /**
-   * Initializes automatic playback on site load with browser autoplay policy fallback.
+   * Initializes automatic playback on site load with browser autoplay policy handling.
    */
   #initAutoPlayOnLoad() {
     if (typeof window === 'undefined') return;
@@ -265,6 +275,8 @@ export class SoundService {
         }
 
         audio.volume = this.#volume;
+        audio.muted = false;
+
         const playPromise = audio.play();
         if (playPromise !== undefined) {
           playPromise
@@ -273,33 +285,55 @@ export class SoundService {
               this.#notify();
             })
             .catch(() => {
-              // Browser policy requires user gesture before playing unmuted audio
-              const onFirstInteraction = () => {
-                if (this.#isEnabled && audio.paused) {
+              // Browser autoplay policy prevented unmuted sound without prior user interaction.
+              // 1. Play muted immediately so media buffer and timeline start without error
+              audio.muted = true;
+              audio.play().catch(() => {});
+              this.#isPlaying = true;
+              this.#notify();
+
+              // 2. Attach global user activation listener to unmute instantly on first interaction
+              const unlockAudio = () => {
+                if (this.#isEnabled) {
+                  audio.muted = false;
                   audio.volume = this.#volume;
-                  audio.play().catch(() => {});
+                  if (audio.paused) {
+                    audio.play().catch(() => {});
+                  }
+                  if (this.#ctx && this.#ctx.state === 'suspended') {
+                    this.#ctx.resume().catch(() => {});
+                  }
+                  this.#isPlaying = true;
+                  this.#notify();
                 }
-                window.removeEventListener('click', onFirstInteraction);
-                window.removeEventListener('keydown', onFirstInteraction);
-                window.removeEventListener('touchstart', onFirstInteraction);
-                window.removeEventListener('scroll', onFirstInteraction);
+                const events = ['pointerdown', 'mousedown', 'touchstart', 'touchend', 'click', 'keydown', 'scroll'];
+                events.forEach((evt) => window.removeEventListener(evt, unlockAudio, { capture: true }));
+                events.forEach((evt) => document.removeEventListener(evt, unlockAudio, { capture: true }));
               };
 
-              window.addEventListener('click', onFirstInteraction, { once: true, passive: true });
-              window.addEventListener('keydown', onFirstInteraction, { once: true, passive: true });
-              window.addEventListener('touchstart', onFirstInteraction, { once: true, passive: true });
-              window.addEventListener('scroll', onFirstInteraction, { once: true, passive: true });
+              const events = ['pointerdown', 'mousedown', 'touchstart', 'touchend', 'click', 'keydown', 'scroll'];
+              events.forEach((evt) => window.addEventListener(evt, unlockAudio, { once: true, capture: true, passive: true }));
+              events.forEach((evt) => document.addEventListener(evt, unlockAudio, { once: true, capture: true, passive: true }));
             });
         }
       };
 
-      if (document.readyState === 'complete') {
-        attemptAutoPlay();
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', attemptAutoPlay, { once: true });
       } else {
-        window.addEventListener('DOMContentLoaded', attemptAutoPlay, { once: true });
+        // Document already parsed / interactive / complete
+        attemptAutoPlay();
       }
     }
   }
+
+  /**
+   * Ensures autoplay is triggered during React component mounting.
+   */
+  ensureAutoPlay() {
+    this.#initAutoPlayOnLoad();
+  }
+
 
   /**
    * Starts playback of the relaxing feel-good ambient soundtrack.

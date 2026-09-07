@@ -16,6 +16,7 @@ export class StorageService {
         'sound_enabled',
         'sound_volume',
         'sound_track_id',
+        'sound_init_serene',
         'workspace_config',
         'trial_info',
         'activity_dismissed',

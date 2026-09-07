@@ -15,8 +15,13 @@ export function SoundToggle() {
       setVolume(state.volume);
       setCurrentTrackId(state.currentTrackId);
     });
+
+    // Ensure autoplay triggers on mount
+    soundService.ensureAutoPlay();
+
     return unsubscribe;
   }, []);
+
 
   const handleToggle = (e) => {
     e?.stopPropagation?.();
