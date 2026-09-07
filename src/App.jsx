@@ -38,7 +38,7 @@ export function App() {
       {/* Main Content Area with Semantic Landmark */}
       <main className="flex-1">
         {/* 2. Hero Section */}
-        <Hero onOpenDemo={() => setIsDemoModalOpen(true)} />
+        <Hero isDark={isDark} onOpenDemo={() => setIsDemoModalOpen(true)} />
 
         {/* 3. Trusted By / Company Logos Strip */}
         <TrustedBy />
