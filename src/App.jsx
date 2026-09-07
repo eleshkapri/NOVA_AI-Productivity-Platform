@@ -5,7 +5,6 @@ import { useScrollPosition } from './hooks/useScrollPosition';
 // Soufflet Malt Luxury & Interactive Experience Components
 import { ProgressBar } from './components/common/ProgressBar';
 import { Preloader } from './components/common/Preloader';
-import { CustomCursor } from './components/common/CustomCursor';
 import { SoundToggle } from './components/common/SoundToggle';
 import { CommandPalette } from './components/common/CommandPalette';
 import { LiveActivityToast } from './components/common/LiveActivityToast';
@@ -50,10 +49,7 @@ export function App() {
       {/* 2. Soufflet Malt Luxury Preloader with 0-100% Counter */}
       <Preloader />
 
-      {/* 3. Interactive Custom Cursor with Trailing Ring */}
-      <CustomCursor />
-
-      {/* 4. Ambient Sound / Harmonic Chimes Toggle */}
+      {/* 3. Ambient Sound / Harmonic Chimes Toggle */}
       <SoundToggle />
 
       {/* 5. Live Engineering Activity Toast */}
