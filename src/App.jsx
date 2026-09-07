@@ -39,6 +39,7 @@ export function App() {
     tab: 'walkthrough',
     plan: 'pro',
     task: null,
+    stage: 0,
   });
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
 
@@ -48,6 +49,7 @@ export function App() {
       tab,
       plan: extra.plan || 'pro',
       task: extra.task || null,
+      stage: extra.stage !== undefined ? extra.stage : 0,
     });
   };
 
@@ -79,7 +81,7 @@ export function App() {
       <SoundToggle />
 
       {/* 5. Live Engineering Activity Toast */}
-      <LiveActivityToast />
+      <LiveActivityToast onOpenDemo={(tab, extra) => handleOpenModal(tab, extra)} />
 
       {/* 6. Command Palette / Quick Search (⌘K) */}
       <CommandPalette
@@ -148,6 +150,7 @@ export function App() {
         initialTab={modalConfig.tab}
         selectedPlan={modalConfig.plan}
         selectedTask={modalConfig.task}
+        initialStage={modalConfig.stage || 0}
       />
 
       {/* Back to Top Floating Action Button */}

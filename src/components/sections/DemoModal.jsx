@@ -54,12 +54,12 @@ const playChime = () => {
   }
 };
 
-function DemoModalContent({ isOpen, onClose, initialTab, selectedPlan, selectedTask }) {
+function DemoModalContent({ isOpen, onClose, initialTab, selectedPlan, selectedTask, initialStage = 0 }) {
   const [activeFeature, setActiveFeature] = useState(initialTab);
   const [copiedCode, setCopiedCode] = useState(false);
 
   // Walkthrough Interactive Simulator State
-  const [walkthroughStage, setWalkthroughStage] = useState(0);
+  const [walkthroughStage, setWalkthroughStage] = useState(initialStage);
   const [isWalkthroughPlaying, setIsWalkthroughPlaying] = useState(true);
   const [walkthroughProgress, setWalkthroughProgress] = useState(0);
   const [walkthroughSpeed, setWalkthroughSpeed] = useState(1);
@@ -1058,16 +1058,18 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
   );
 }
 
-export function DemoModal({ isOpen, onClose, initialTab = 'walkthrough', selectedPlan = 'pro', selectedTask = null }) {
+export function DemoModal({ isOpen, onClose, initialTab = 'walkthrough', selectedPlan = 'pro', selectedTask = null, initialStage = 0 }) {
   if (!isOpen) return null;
 
   return (
     <DemoModalContent
+      key={`${initialTab}-${initialStage}-${selectedPlan}`}
       isOpen={isOpen}
       onClose={onClose}
       initialTab={initialTab}
       selectedPlan={selectedPlan}
       selectedTask={selectedTask}
+      initialStage={initialStage}
     />
   );
 }
