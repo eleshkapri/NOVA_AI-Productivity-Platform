@@ -12,6 +12,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      /* Global 100% elimination of default OS mouse pointer */
+      *, *::before, *::after, html, body, #root, a, button, [role="button"], .cursor-pointer {
+        cursor: none !important;
+      }
+      input, textarea, [contenteditable="true"] {
+        cursor: text !important;
+      }
+    </style>
   </head>
   <body class="bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans transition-colors duration-300">
     <div id="root"></div>

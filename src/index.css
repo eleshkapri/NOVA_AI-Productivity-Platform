@@ -133,17 +133,22 @@
   animation: totemBloom 1.8s cubic-bezier(0.16, 1, 0.3, 1) infinite alternate;
 }
 
-/* Custom Cursor Clean Desktop Pointer Handling */
-html.custom-cursor-active,
-html.custom-cursor-active body,
-html.custom-cursor-active *,
-html.custom-cursor-active *::before,
-html.custom-cursor-active *::after {
+/* Custom Cursor Complete Native Pointer Suppression */
+*,
+*::before,
+*::after,
+html,
+body,
+#root,
+a,
+button,
+[role="button"],
+.cursor-pointer {
   cursor: none !important;
 }
 
-html.custom-cursor-active input,
-html.custom-cursor-active textarea,
-html.custom-cursor-active [contenteditable="true"] {
+input,
+textarea,
+[contenteditable="true"] {
   cursor: text !important;
 }
