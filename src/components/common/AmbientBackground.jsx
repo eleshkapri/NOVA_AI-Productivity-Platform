@@ -2,15 +2,18 @@ import React, { useEffect, useRef } from 'react';
 
 // Floating golden ambient light motes
 const LIGHT_MOTES = [
-  { id: 1, left: '10%', top: '30%', size: 3.5, delay: '0s', duration: '9s' },
-  { id: 2, left: '25%', top: '70%', size: 2.5, delay: '2.5s', duration: '11s' },
-  { id: 3, left: '40%', top: '18%', size: 4, delay: '4s', duration: '10s' },
-  { id: 4, left: '60%', top: '55%', size: 3, delay: '1.2s', duration: '12s' },
-  { id: 5, left: '76%', top: '25%', size: 3.5, delay: '5s', duration: '9.5s' },
-  { id: 6, left: '88%', top: '80%', size: 2.5, delay: '3.2s', duration: '10.5s' },
-  { id: 7, left: '50%', top: '88%', size: 3, delay: '6.5s', duration: '11.5s' },
-  { id: 8, left: '16%', top: '82%', size: 2, delay: '7s', duration: '8.5s' },
+  { id: 1, left: '10%', top: '25%', size: 3.5, delay: '0s', duration: '9s' },
+  { id: 2, left: '22%', top: '65%', size: 2.5, delay: '2.5s', duration: '11s' },
+  { id: 3, left: '42%', top: '15%', size: 4, delay: '4s', duration: '10s' },
+  { id: 4, left: '62%', top: '50%', size: 3, delay: '1.2s', duration: '12s' },
+  { id: 5, left: '78%', top: '20%', size: 3.5, delay: '5s', duration: '9.5s' },
+  { id: 6, left: '88%', top: '75%', size: 2.5, delay: '3.2s', duration: '10.5s' },
+  { id: 7, left: '52%', top: '85%', size: 3, delay: '6.5s', duration: '11.5s' },
+  { id: 8, left: '15%', top: '80%', size: 2, delay: '7s', duration: '8.5s' },
 ];
+
+// Developer and AI syntax tokens suitable for an AI Productivity Platform
+const SYNTAX_TOKENS = ['{ }', '</>', 'git', 'AI', 'λ', 'fn()', '//', '✦', '01', 'PR', '⚡'];
 
 export function AmbientBackground() {
   const canvasRef = useRef(null);
@@ -34,7 +37,7 @@ export function AmbientBackground() {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // Motion Canvas Animation
+  // Motion Canvas: AI Neural Code Graph, Data Packets, AST Scanners, and Floating Syntax Tokens
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -63,59 +66,101 @@ export function AmbientBackground() {
 
     const isMobile = width < 768;
 
-    // 1. Paper Airplanes (Origami delta-wing with contrails)
-    const planeCount = isMobile ? 3 : 6;
-    const planes = [];
-    for (let i = 0; i < planeCount; i++) {
-      planes.push({
+    // Interactive mouse tracker for canvas synaptic connections
+    const mouse = {
+      x: -1000,
+      y: -1000,
+      active: false,
+    };
+
+    const handleCanvasMouseMove = (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      mouse.active = true;
+    };
+
+    const handleCanvasMouseLeave = () => {
+      mouse.active = false;
+      mouse.x = -1000;
+      mouse.y = -1000;
+    };
+
+    window.addEventListener('mousemove', handleCanvasMouseMove, { passive: true });
+    window.addEventListener('mouseleave', handleCanvasMouseLeave, { passive: true });
+
+    // 1. Neural Code Graph Nodes (Interconnected engineering modules / AI agents)
+    const nodeCount = isMobile ? 24 : 50;
+    const nodes = [];
+    for (let i = 0; i < nodeCount; i++) {
+      nodes.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        speed: isMobile ? Math.random() * 0.7 + 0.6 : Math.random() * 0.9 + 0.8,
-        angle: Math.random() * Math.PI * 0.5 - 0.25,
-        turnRate: (Math.random() - 0.5) * 0.004,
-        size: isMobile ? Math.random() * 3 + 12 : Math.random() * 4 + 14,
-        history: [],
-        type: i % 2 === 0 ? 'typeA' : 'typeB',
+        vx: (Math.random() - 0.5) * (isMobile ? 0.35 : 0.5),
+        vy: (Math.random() - 0.5) * (isMobile ? 0.35 : 0.5),
+        radius: Math.random() * 2.2 + 1.8,
+        pulseSpeed: Math.random() * 0.02 + 0.01,
+        phase: Math.random() * Math.PI * 2,
+        isCore: i % 7 === 0, // Core hub nodes with glowing aura
       });
     }
 
-    // 2. Hot Air Balloons (Floating upwards with horizontal sway)
-    const balloons = isMobile
-      ? [
-          { x: width * 0.16, y: height * 0.42, vy: -0.24, vx: 0.08, radius: 14, type: 'A', phase: 0 },
-          { x: width * 0.82, y: height * 0.68, vy: -0.18, vx: -0.06, radius: 16, type: 'B', phase: 1.5 },
-          { x: width * 0.48, y: height * 0.85, vy: -0.26, vx: 0.1, radius: 13, type: 'C', phase: 3 },
-        ]
-      : [
-          { x: width * 0.1, y: height * 0.38, vy: -0.28, vx: 0.12, radius: 15, type: 'A', phase: 0 },
-          { x: width * 0.86, y: height * 0.65, vy: -0.22, vx: -0.08, radius: 17, type: 'B', phase: 1.5 },
-          { x: width * 0.52, y: height * 0.8, vy: -0.3, vx: 0.1, radius: 14, type: 'C', phase: 3 },
-          { x: width * 0.28, y: height * 0.92, vy: -0.25, vx: -0.1, radius: 16, type: 'D', phase: 4.5 },
-        ];
-
-    // 3. Twinkling Stars & Compass Stars
-    const starCount = isMobile ? 25 : 55;
-    const stars = [];
-    for (let i = 0; i < starCount; i++) {
-      stars.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.2,
-        vy: (Math.random() - 0.5) * 0.2,
-        size: Math.random() * 2 + 1.2,
-        isCompass: Math.random() > 0.6,
-        type: Math.random() > 0.5 ? 'A' : 'B',
-        alphaOffset: Math.random() * 0.4 + 0.4,
-        pulse: Math.random() * 0.025 + 0.015,
+    // 2. High-Speed Synaptic Data Packets (Pulsing code commits / AI telemetry along edges)
+    const packetCount = isMobile ? 8 : 18;
+    const packets = [];
+    for (let i = 0; i < packetCount; i++) {
+      packets.push({
+        nodeA: Math.floor(Math.random() * nodeCount),
+        nodeB: Math.floor(Math.random() * nodeCount),
+        progress: Math.random(),
+        speed: Math.random() * 0.008 + 0.005,
+        size: Math.random() * 2 + 1.5,
       });
     }
 
-    // 4. Concentric Waypoint Radars (Matching reference image with radiating waves)
-    const waypoints = [
-      { rx: 0.08, ry: 0.24, pulseRadius: 0 },
-      { rx: 0.92, ry: 0.3, pulseRadius: 20 },
-      { rx: 0.14, ry: 0.72, pulseRadius: 35 },
-      { rx: 0.88, ry: 0.78, pulseRadius: 10 },
+    // 3. Floating Developer & AI Syntax Tokens ({ }, </>, git, AI, λ, fn(), ✦)
+    const tokenCount = isMobile ? 8 : 16;
+    const tokens = [];
+    for (let i = 0; i < tokenCount; i++) {
+      tokens.push({
+        text: SYNTAX_TOKENS[i % SYNTAX_TOKENS.length],
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: -Math.random() * 0.3 - 0.1, // Gently ascends
+        rot: (Math.random() - 0.5) * 0.3,
+        vRot: (Math.random() - 0.5) * 0.005,
+        size: Math.random() * 3 + 12,
+        alpha: Math.random() * 0.35 + 0.3,
+        phase: Math.random() * Math.PI * 2,
+      });
+    }
+
+    // 4. Rotating AI AST Radar Scanners (Analyzing repository syntax tree / CI/CD pipelines)
+    const scanners = [
+      {
+        rx: 0.1,
+        ry: 0.24,
+        baseRadius: isMobile ? 55 : 85,
+        angle: 0,
+        rotSpeed: 0.008,
+        pulse: 0,
+      },
+      {
+        rx: 0.9,
+        ry: 0.72,
+        baseRadius: isMobile ? 65 : 95,
+        angle: Math.PI * 0.75,
+        rotSpeed: -0.006,
+        pulse: 0.5,
+      },
+      {
+        rx: 0.85,
+        ry: 0.22,
+        baseRadius: isMobile ? 50 : 70,
+        angle: Math.PI * 0.3,
+        rotSpeed: 0.007,
+        pulse: 0.2,
+      },
     ];
 
     let animRunning = true;
@@ -124,7 +169,6 @@ export function AmbientBackground() {
     const handleVisibility = () => {
       animRunning = !document.hidden;
       if (animRunning) {
-        lastFrameTime = performance.now();
         animId = requestAnimationFrame(animate);
       } else if (animId) {
         cancelAnimationFrame(animId);
@@ -132,381 +176,339 @@ export function AmbientBackground() {
     };
     document.addEventListener('visibilitychange', handleVisibility);
 
-    // Origami Paper Airplane Drawing
-    function drawPaperPlane(p, isLight) {
+    // Draw NOVA 4-Petal Geometric Emblem
+    function drawNovaEmblem(cx, cy, radius, color, rotation = 0) {
       ctx.save();
-      ctx.translate(p.x, p.y);
-      ctx.rotate(p.angle);
+      ctx.translate(cx, cy);
+      ctx.rotate(rotation);
+      ctx.fillStyle = color;
 
-      const isTypeA = p.type === 'typeA';
-      // Crisp vibrant colors matching reference screenshots
-      const primaryColor = isLight
-        ? isTypeA
-          ? '#EA580C' // Vivid Terracotta Orange
-          : '#0284C7' // Sky Azure Blue
-        : isTypeA
-        ? '#F59E0B' // Radiant Amber
-        : '#06B6D4'; // Luminous Cyan
-
-      const lightWingColor = isLight
-        ? isTypeA
-          ? '#FB923C'
-          : '#38BDF8'
-        : isTypeA
-        ? '#FBBF24'
-        : '#67E8F9';
-
-      const darkWingColor = isLight
-        ? isTypeA
-          ? '#C2410C'
-          : '#0369A1'
-        : isTypeA
-        ? '#D97706'
-        : '#0891B2';
-
-      if (!isLight) {
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = primaryColor;
-      }
-
-      const s = p.size;
-
-      // Left Wing (Lighter)
-      ctx.fillStyle = lightWingColor;
-      ctx.beginPath();
-      ctx.moveTo(s * 1.35, 0); // Nose
-      ctx.lineTo(-s * 0.85, -s * 0.75); // Left wingtip
-      ctx.lineTo(-s * 0.35, 0); // Inner fold
-      ctx.closePath();
-      ctx.fill();
-
-      // Right Wing (Darker Shading)
-      ctx.fillStyle = darkWingColor;
-      ctx.beginPath();
-      ctx.moveTo(s * 1.35, 0); // Nose
-      ctx.lineTo(-s * 0.85, s * 0.75); // Right wingtip
-      ctx.lineTo(-s * 0.35, 0); // Inner fold
-      ctx.closePath();
-      ctx.fill();
-
-      // Center Keel / Fuselage Ridge
-      ctx.fillStyle = primaryColor;
-      ctx.beginPath();
-      ctx.moveTo(s * 1.35, 0);
-      ctx.lineTo(-s * 0.75, -s * 0.16);
-      ctx.lineTo(-s * 0.95, 0);
-      ctx.lineTo(-s * 0.75, s * 0.16);
-      ctx.closePath();
-      ctx.fill();
-
-      ctx.restore();
-    }
-
-    // Hot Air Balloon Drawing with Colorful Panels and Wicker Basket
-    function drawHotAirBalloon(b, isLight) {
-      ctx.save();
-      ctx.translate(b.x, b.y);
-
-      let mainColor, secColor;
-      if (isLight) {
-        if (b.type === 'A') {
-          mainColor = '#06B6D4';
-          secColor = '#0284C7';
-        } else if (b.type === 'B') {
-          mainColor = '#F97316';
-          secColor = '#EA580C';
-        } else if (b.type === 'C') {
-          mainColor = '#A855F7';
-          secColor = '#9333EA';
-        } else {
-          mainColor = '#EC4899';
-          secColor = '#DB2777';
-        }
-      } else {
-        if (b.type === 'A') {
-          mainColor = '#22D3EE';
-          secColor = '#06B6D4';
-        } else if (b.type === 'B') {
-          mainColor = '#FB923C';
-          secColor = '#F59E0B';
-        } else if (b.type === 'C') {
-          mainColor = '#C084FC';
-          secColor = '#A855F7';
-        } else {
-          mainColor = '#F472B6';
-          secColor = '#EC4899';
-        }
-      }
-
-      if (!isLight) {
-        ctx.shadowBlur = 12;
-        ctx.shadowColor = mainColor;
-      }
-
-      const r = b.radius;
-
-      // Balloon envelope (teardrop body)
-      ctx.beginPath();
-      ctx.arc(0, 0, r, 0, Math.PI, true);
-      ctx.quadraticCurveTo(-r * 0.9, r * 1.1, 0, r * 1.45);
-      ctx.quadraticCurveTo(r * 0.9, r * 1.1, r, 0);
-      ctx.fillStyle = mainColor;
-      ctx.fill();
-
-      // Central accent stripe
-      ctx.beginPath();
-      ctx.ellipse(0, r * 0.35, r * 0.45, r * 0.95, 0, 0, Math.PI * 2);
-      ctx.fillStyle = secColor;
-      ctx.fill();
-
-      // Suspension cables
-      ctx.shadowBlur = 0;
-      ctx.strokeStyle = isLight ? 'rgba(71, 85, 105, 0.75)' : 'rgba(255, 255, 255, 0.75)';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(-r * 0.32, r * 1.4);
-      ctx.lineTo(-r * 0.2, r * 1.7);
-      ctx.moveTo(r * 0.32, r * 1.4);
-      ctx.lineTo(r * 0.2, r * 1.7);
-      ctx.stroke();
-
-      // Wicker passenger basket
-      ctx.fillStyle = isLight ? '#78350F' : '#FDE047';
-      ctx.fillRect(-r * 0.22, r * 1.7, r * 0.44, r * 0.32);
-
-      ctx.restore();
-    }
-
-    // Concentric Waypoint Radar Drawing (with Radiating Ripples)
-    function drawWaypoint(wp, isLight) {
-      const wx = wp.rx * width;
-      const wy = wp.ry * height;
-
-      ctx.save();
-      ctx.translate(wx, wy);
-
-      // 1. Expanding pulse ripple
-      wp.pulseRadius = (wp.pulseRadius + 0.35) % 45;
-      const rippleAlpha = (1 - wp.pulseRadius / 45) * (isLight ? 0.45 : 0.65);
-      ctx.beginPath();
-      ctx.arc(0, 0, wp.pulseRadius + 8, 0, Math.PI * 2);
-      ctx.strokeStyle = isLight
-        ? `rgba(2, 132, 199, ${rippleAlpha})`
-        : `rgba(6, 182, 212, ${rippleAlpha})`;
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
-
-      // 2. Outer dashed orbit ring
-      ctx.setLineDash([4, 4]);
-      ctx.strokeStyle = isLight ? 'rgba(217, 119, 6, 0.45)' : 'rgba(245, 158, 11, 0.55)';
-      ctx.lineWidth = 1.2;
-      ctx.beginPath();
-      ctx.arc(0, 0, 22, 0, Math.PI * 2);
-      ctx.stroke();
-
-      // 3. Inner solid circle
-      ctx.setLineDash([]);
-      ctx.strokeStyle = isLight ? '#D97706' : '#F59E0B';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.arc(0, 0, 10, 0, Math.PI * 2);
-      ctx.stroke();
-
-      // 4. Center target dot
-      ctx.fillStyle = isLight ? '#EA580C' : '#FDE047';
-      if (!isLight) {
-        ctx.shadowBlur = 8;
-        ctx.shadowColor = '#F59E0B';
-      }
-      ctx.beginPath();
-      ctx.arc(0, 0, 3.5, 0, Math.PI * 2);
-      ctx.fill();
-
-      // 5. Cardinal tick dots
-      ctx.shadowBlur = 0;
-      ctx.fillStyle = isLight ? 'rgba(217, 119, 6, 0.65)' : 'rgba(245, 158, 11, 0.75)';
-      const tickDist = 22;
-      for (let a = 0; a < Math.PI * 2; a += Math.PI / 2) {
-        ctx.beginPath();
-        ctx.arc(Math.cos(a) * tickDist, Math.sin(a) * tickDist, 1.8, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      ctx.restore();
-    }
-
-    // 4-Point Diamond Compass Star Drawing
-    function drawCompassStar(s, isLight) {
-      ctx.save();
-      ctx.translate(s.x, s.y);
-
-      const starColor = isLight ? '#EA580C' : '#F59E0B';
-      const alpha = s.alphaOffset + Math.sin(Date.now() * s.pulse) * 0.25;
-      const clampedAlpha = Math.max(0.3, Math.min(1.0, alpha));
-
-      if (!isLight) {
-        ctx.shadowBlur = 8;
-        ctx.shadowColor = starColor;
-      }
-
-      ctx.fillStyle = isLight
-        ? `rgba(234, 88, 12, ${clampedAlpha * 0.7})`
-        : `rgba(245, 158, 11, ${clampedAlpha * 0.85})`;
-
-      const rOuter = s.size * 2.8;
-      const rInner = s.size * 0.6;
-      ctx.beginPath();
       for (let i = 0; i < 4; i++) {
-        const a = (i * Math.PI) / 2;
-        ctx.lineTo(Math.cos(a) * rOuter, Math.sin(a) * rOuter);
-        const aMid = a + Math.PI / 4;
-        ctx.lineTo(Math.cos(aMid) * rInner, Math.sin(aMid) * rInner);
+        ctx.save();
+        ctx.rotate((i * Math.PI) / 2);
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.bezierCurveTo(radius * 0.3, -radius * 0.4, radius * 0.7, -radius * 0.5, radius, 0);
+        ctx.bezierCurveTo(radius * 0.7, radius * 0.5, radius * 0.3, radius * 0.4, 0, 0);
+        ctx.fill();
+        ctx.restore();
       }
-      ctx.closePath();
-      ctx.fill();
+
       ctx.restore();
     }
 
-    let lastFrameTime = 0;
-    const targetInterval = isMobile ? 33 : 16;
-
-    function animate(now = 0) {
+    // Main animation loop
+    function animate() {
       if (!animRunning) return;
 
-      if (now - lastFrameTime < targetInterval) {
-        animId = requestAnimationFrame(animate);
-        return;
-      }
-      lastFrameTime = now;
+      const isLight = !document.documentElement.classList.contains('dark');
 
       ctx.save();
       ctx.scale(dpr, dpr);
       ctx.clearRect(0, 0, width, height);
 
-      const isLight = document.documentElement.classList.contains('dark') === false;
+      const maxConnectDist = isMobile ? 100 : 140;
+      const maxConnectDistSq = maxConnectDist * maxConnectDist;
+      const mouseConnectDist = isMobile ? 120 : 180;
+      const mouseConnectDistSq = mouseConnectDist * mouseConnectDist;
 
-      // 1. Global Flight Arcs Across the Horizon
-      ctx.save();
-      ctx.setLineDash([8, 12]);
-      ctx.lineWidth = 1.5;
+      // Color paletting for Light & Dark mode
+      const primaryGold = isLight ? '#a1741a' : '#D8B452';
+      const secondaryGold = isLight ? '#c59529' : '#F3D887';
+      const nodeFill = isLight ? '#8c6012' : '#D8B452';
+      const lineRgb = isLight ? '161, 116, 26' : '216, 180, 82';
+      const cyanAccentRgb = isLight ? '14, 116, 144' : '34, 211, 238';
 
-      // Arc 1 (Warm Amber/Orange route)
-      ctx.strokeStyle = isLight ? 'rgba(234, 88, 12, 0.35)' : 'rgba(245, 158, 11, 0.25)';
-      ctx.beginPath();
-      ctx.moveTo(0, height * 0.28);
-      ctx.quadraticCurveTo(width * 0.45, height * 0.08, width, height * 0.42);
-      ctx.stroke();
+      // -------------------------------------------------------------
+      // 1. Draw AI AST Radar Scanners (Background Tech Circles)
+      // -------------------------------------------------------------
+      scanners.forEach((scanner) => {
+        const scX = scanner.rx * width;
+        const scY = scanner.ry * height;
+        const rad = scanner.baseRadius;
 
-      // Arc 2 (Sky Azure/Cyan route)
-      ctx.strokeStyle = isLight ? 'rgba(2, 132, 199, 0.35)' : 'rgba(6, 182, 212, 0.25)';
-      ctx.beginPath();
-      ctx.moveTo(0, height * 0.72);
-      ctx.quadraticCurveTo(width * 0.55, height * 0.88, width, height * 0.58);
-      ctx.stroke();
+        scanner.angle += scanner.rotSpeed;
+        scanner.pulse = (scanner.pulse + 0.008) % 1;
 
-      // Arc 3 (Diagonal cross route)
-      ctx.strokeStyle = isLight ? 'rgba(168, 85, 247, 0.25)' : 'rgba(192, 132, 252, 0.2)';
-      ctx.beginPath();
-      ctx.moveTo(width * 0.08, height);
-      ctx.quadraticCurveTo(width * 0.5, height * 0.45, width * 0.92, 0);
-      ctx.stroke();
-      ctx.restore();
+        // Outer concentric rings
+        ctx.strokeStyle = isLight
+          ? `rgba(${lineRgb}, 0.18)`
+          : `rgba(${lineRgb}, 0.22)`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(scX, scY, rad, 0, Math.PI * 2);
+        ctx.stroke();
 
-      // 2. Waypoint Radars
-      waypoints.forEach((wp) => drawWaypoint(wp, isLight));
+        // Dashed outer ring
+        ctx.save();
+        ctx.setLineDash([4, 6]);
+        ctx.strokeStyle = isLight
+          ? `rgba(${lineRgb}, 0.22)`
+          : `rgba(${lineRgb}, 0.28)`;
+        ctx.beginPath();
+        ctx.arc(scX, scY, rad * 1.35, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.restore();
 
-      // 3. Stars & Compass Sparkles
-      stars.forEach((s) => {
-        s.x += s.vx;
-        s.y += s.vy;
-        if (s.x < 0) s.x = width;
-        if (s.x > width) s.x = 0;
-        if (s.y < 0) s.y = height;
-        if (s.y > height) s.y = 0;
+        // Expanding pulsating radar wave
+        const pulseRad = rad * (0.3 + scanner.pulse * 1.4);
+        const pulseAlpha = (1 - scanner.pulse) * (isLight ? 0.28 : 0.35);
+        ctx.strokeStyle = `rgba(${lineRgb}, ${pulseAlpha})`;
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.arc(scX, scY, pulseRad, 0, Math.PI * 2);
+        ctx.stroke();
 
-        if (s.isCompass) {
-          drawCompassStar(s, isLight);
-        } else {
-          const alpha = s.alphaOffset + Math.sin(Date.now() * s.pulse) * 0.25;
-          const clampedAlpha = Math.max(0.25, Math.min(1.0, alpha));
-          const starColor = isLight
-            ? s.type === 'A'
-              ? `rgba(234, 88, 12, ${clampedAlpha * 0.55})`
-              : `rgba(2, 132, 199, ${clampedAlpha * 0.55})`
-            : s.type === 'A'
-            ? `rgba(245, 158, 11, ${clampedAlpha * 0.75})`
-            : `rgba(6, 182, 212, ${clampedAlpha * 0.75})`;
+        // Rotating radar sweep beam (faint radar scanning effect)
+        ctx.save();
+        ctx.translate(scX, scY);
+        ctx.rotate(scanner.angle);
+        const sweepGrad = ctx.createLinearGradient(0, 0, rad, 0);
+        sweepGrad.addColorStop(0, `rgba(${lineRgb}, ${isLight ? 0.3 : 0.4})`);
+        sweepGrad.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = sweepGrad;
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.arc(0, 0, rad, -0.28, 0);
+        ctx.lineTo(0, 0);
+        ctx.fill();
+
+        // Sweep leading line
+        ctx.strokeStyle = primaryGold;
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(rad, 0);
+        ctx.stroke();
+        ctx.restore();
+
+        // Compass degree tick marks
+        ctx.save();
+        ctx.translate(scX, scY);
+        ctx.strokeStyle = `rgba(${lineRgb}, ${isLight ? 0.3 : 0.4})`;
+        for (let a = 0; a < 8; a++) {
+          ctx.rotate(Math.PI / 4);
           ctx.beginPath();
-          ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
-          ctx.fillStyle = starColor;
-          ctx.fill();
+          ctx.moveTo(rad - 5, 0);
+          ctx.lineTo(rad + 3, 0);
+          ctx.stroke();
         }
+        ctx.restore();
+
+        // Center mini NOVA geometric emblem
+        drawNovaEmblem(scX, scY, 6.5, primaryGold, scanner.angle * -0.5);
       });
 
-      // 4. Hot Air Balloons
-      balloons.forEach((b) => {
-        b.phase += 0.015;
-        b.y += b.vy;
-        b.x += b.vx + Math.sin(b.phase) * 0.18;
-        if (b.y < -50) {
-          b.y = height + 50;
-          b.x = Math.random() * width;
+      // -------------------------------------------------------------
+      // 2. Update and Draw Neural Code Graph Nodes & Connections
+      // -------------------------------------------------------------
+      // Update node positions
+      for (let i = 0; i < nodeCount; i++) {
+        const n = nodes[i];
+        n.x += n.vx;
+        n.y += n.vy;
+        n.phase += n.pulseSpeed;
+
+        // Bounce gently at canvas boundaries
+        if (n.x < 10) {
+          n.x = 10;
+          n.vx *= -1;
+        } else if (n.x > width - 10) {
+          n.x = width - 10;
+          n.vx *= -1;
         }
-        drawHotAirBalloon(b, isLight);
-      });
-
-      // 5. Paper Airplanes with Glowing Contrails
-      planes.forEach((p) => {
-        p.angle += p.turnRate;
-        if (p.angle > 0.4 || p.angle < -0.4) {
-          p.turnRate = -p.turnRate;
+        if (n.y < 10) {
+          n.y = 10;
+          n.vy *= -1;
+        } else if (n.y > height - 10) {
+          n.y = height - 10;
+          n.vy *= -1;
         }
 
-        p.x += Math.cos(p.angle) * p.speed;
-        p.y += Math.sin(p.angle) * p.speed;
+        // Soft mouse repulsion & interaction
+        if (mouse.active) {
+          const mdx = n.x - mouse.x;
+          const mdy = n.y - mouse.y;
+          const mDistSq = mdx * mdx + mdy * mdy;
+          if (mDistSq < mouseConnectDistSq && mDistSq > 1) {
+            const mDist = Math.sqrt(mDistSq);
+            const force = (1 - mDist / mouseConnectDist) * 0.6;
+            n.x += (mdx / mDist) * force;
+            n.y += (mdy / mDist) * force;
+          }
+        }
+      }
 
-        const maxHistory = isMobile ? 18 : 28;
-        p.history.push({ x: p.x, y: p.y });
-        if (p.history.length > maxHistory) p.history.shift();
+      // Draw Synaptic Laser Connections between nearby nodes
+      ctx.lineWidth = 0.85;
+      for (let i = 0; i < nodeCount; i++) {
+        const na = nodes[i];
+        for (let j = i + 1; j < nodeCount; j++) {
+          const nb = nodes[j];
+          const dx = na.x - nb.x;
+          const dy = na.y - nb.y;
+          const distSq = dx * dx + dy * dy;
 
-        // Draw Contrail line
-        if (p.history.length > 2) {
-          ctx.save();
-          ctx.setLineDash([5, 7]);
-          ctx.lineWidth = 1.5;
-          for (let i = 0; i < p.history.length - 1; i++) {
-            const trailAlpha = (i / p.history.length) * (isLight ? 0.6 : 0.75);
-            ctx.strokeStyle = isLight
-              ? p.type === 'typeA'
-                ? `rgba(234, 88, 12, ${trailAlpha})`
-                : `rgba(2, 132, 199, ${trailAlpha})`
-              : p.type === 'typeA'
-              ? `rgba(245, 158, 11, ${trailAlpha})`
-              : `rgba(6, 182, 212, ${trailAlpha})`;
+          if (distSq < maxConnectDistSq) {
+            const dist = Math.sqrt(distSq);
+            const factor = 1 - dist / maxConnectDist;
+            const lineAlpha = factor * (isLight ? 0.28 : 0.4);
+
+            ctx.strokeStyle = `rgba(${lineRgb}, ${lineAlpha})`;
             ctx.beginPath();
-            ctx.moveTo(p.history[i].x, p.history[i].y);
-            ctx.lineTo(p.history[i + 1].x, p.history[i + 1].y);
+            ctx.moveTo(na.x, na.y);
+            ctx.lineTo(nb.x, nb.y);
             ctx.stroke();
           }
-          ctx.restore();
         }
 
-        // Screen boundary wrap-around
-        if (p.x > width + 60) {
-          p.x = -60;
-          p.y = Math.random() * height;
-          p.history = [];
+        // Connect node to interactive cursor nexus
+        if (mouse.active) {
+          const mdx = na.x - mouse.x;
+          const mdy = na.y - mouse.y;
+          const mDistSq = mdx * mdx + mdy * mdy;
+          if (mDistSq < mouseConnectDistSq) {
+            const mDist = Math.sqrt(mDistSq);
+            const factor = 1 - mDist / mouseConnectDist;
+            const lineAlpha = factor * (isLight ? 0.45 : 0.6);
+
+            ctx.strokeStyle = `rgba(${cyanAccentRgb}, ${lineAlpha})`;
+            ctx.lineWidth = 1.1;
+            ctx.beginPath();
+            ctx.moveTo(na.x, na.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.stroke();
+            ctx.lineWidth = 0.85;
+          }
         }
-        if (p.y > height + 60) {
-          p.y = -60;
-          p.history = [];
-        }
-        if (p.y < -60) {
-          p.y = height + 60;
-          p.history = [];
+      }
+
+      // -------------------------------------------------------------
+      // 3. High-Speed Synaptic Data Packets (Pulsing through edges)
+      // -------------------------------------------------------------
+      packets.forEach((p) => {
+        p.progress += p.speed;
+        if (p.progress >= 1) {
+          p.progress = 0;
+          p.nodeA = Math.floor(Math.random() * nodeCount);
+          // Pick a target node that is reasonably close
+          let closestIdx = (p.nodeA + 1) % nodeCount;
+          let minD = 999999;
+          for (let k = 0; k < 6; k++) {
+            const candidate = Math.floor(Math.random() * nodeCount);
+            if (candidate !== p.nodeA) {
+              const dx = nodes[p.nodeA].x - nodes[candidate].x;
+              const dy = nodes[p.nodeA].y - nodes[candidate].y;
+              const d = dx * dx + dy * dy;
+              if (d < minD && d < maxConnectDistSq * 1.5) {
+                minD = d;
+                closestIdx = candidate;
+              }
+            }
+          }
+          p.nodeB = closestIdx;
         }
 
-        drawPaperPlane(p, isLight);
+        const na = nodes[p.nodeA];
+        const nb = nodes[p.nodeB];
+        const px = na.x + (nb.x - na.x) * p.progress;
+        const py = na.y + (nb.y - na.y) * p.progress;
+
+        ctx.fillStyle = secondaryGold;
+        ctx.shadowColor = primaryGold;
+        ctx.shadowBlur = isLight ? 4 : 8;
+        ctx.beginPath();
+        ctx.arc(px, py, p.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      });
+
+      // -------------------------------------------------------------
+      // 4. Draw Individual Nodes & Core Halos
+      // -------------------------------------------------------------
+      for (let i = 0; i < nodeCount; i++) {
+        const n = nodes[i];
+        const pulseFactor = 0.8 + Math.sin(n.phase) * 0.2;
+
+        if (n.isCore) {
+          // Core hub node with glowing halo
+          const haloRad = n.radius * 2.8 * pulseFactor;
+          ctx.fillStyle = `rgba(${lineRgb}, ${isLight ? 0.16 : 0.22})`;
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, haloRad, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = primaryGold;
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, n.radius * 1.2, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Mini center dot
+          ctx.fillStyle = '#ffffff';
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, n.radius * 0.45, 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          // Standard neural graph node
+          ctx.fillStyle = nodeFill;
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, n.radius * pulseFactor, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // Cursor Nexus Glow
+      if (mouse.active) {
+        ctx.save();
+        ctx.strokeStyle = `rgba(${cyanAccentRgb}, ${isLight ? 0.5 : 0.7})`;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(mouse.x, mouse.y, 8, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.fillStyle = isLight ? '#0284c7' : '#38bdf8';
+        ctx.beginPath();
+        ctx.arc(mouse.x, mouse.y, 3, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      // -------------------------------------------------------------
+      // 5. Floating Developer & AI Syntax Tokens ({ }, </>, git, AI, λ, fn(), ✦)
+      // -------------------------------------------------------------
+      tokens.forEach((t) => {
+        t.x += t.vx;
+        t.y += t.vy;
+        t.rot += t.vRot;
+        t.phase += 0.02;
+
+        // Wrap around vertically
+        if (t.y < -30) {
+          t.y = height + 30;
+          t.x = Math.random() * width;
+        }
+
+        const floatY = t.y + Math.sin(t.phase) * 6;
+        const currentAlpha = t.alpha * (0.8 + Math.sin(t.phase) * 0.2);
+
+        ctx.save();
+        ctx.translate(t.x, floatY);
+        ctx.rotate(t.rot);
+        ctx.font = `600 ${t.size}px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        if (t.text === '✦') {
+          // Draw geometric emblem
+          drawNovaEmblem(0, 0, t.size * 0.6, `rgba(${lineRgb}, ${currentAlpha * 1.2})`);
+        } else {
+          ctx.fillStyle = isLight
+            ? `rgba(161, 116, 26, ${currentAlpha * 0.85})`
+            : `rgba(216, 180, 82, ${currentAlpha})`;
+          ctx.fillText(t.text, 0, 0);
+        }
+
+        ctx.restore();
       });
 
       ctx.restore();
@@ -517,27 +519,29 @@ export function AmbientBackground() {
 
     return () => {
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('mousemove', handleCanvasMouseMove);
+      window.removeEventListener('mouseleave', handleCanvasMouseLeave);
       document.removeEventListener('visibilitychange', handleVisibility);
       if (animId) cancelAnimationFrame(animId);
     };
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-gradient-to-b from-[#FFF7ED] via-[#FDF8F3] to-[#EBF6FF] dark:from-[#120D1A] dark:via-[#0D0F22] dark:to-[#050614] transition-colors duration-500">
-      {/* 1. Subtle Dot Matrix Grid */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-45 dark:opacity-30" />
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-gradient-to-b from-[#FFFDF9] via-[#FAF6F0] to-[#F1EFE9] dark:from-[#0b0c26] dark:via-[#070818] dark:to-[#04050d] transition-colors duration-500">
+      {/* 1. Subtle Engineering Matrix Grid */}
+      <div className="absolute inset-0 bg-grid-pattern opacity-40 dark:opacity-25" />
 
-      {/* 2. Sweeping Angled Aurora Light Beams */}
-      <div className="absolute -top-40 left-1/4 w-[750px] h-[1200px] bg-gradient-to-b from-[#D8B452]/20 via-[#F3D887]/10 to-transparent blur-[90px] animate-aurora-beam pointer-events-none" />
-      <div className="absolute -top-60 right-1/4 w-[650px] h-[1100px] bg-gradient-to-b from-indigo-500/15 via-[#D8B452]/8 to-transparent blur-[100px] animate-aurora-beam pointer-events-none [animation-delay:4s]" />
+      {/* 2. Sweeping Luminous AI Neural Auroras */}
+      <div className="absolute -top-40 left-1/4 w-[750px] h-[1200px] bg-gradient-to-b from-[#D8B452]/20 via-[#F3D887]/10 to-transparent blur-[100px] animate-aurora-beam pointer-events-none" />
+      <div className="absolute -top-60 right-1/4 w-[650px] h-[1100px] bg-gradient-to-b from-indigo-500/15 via-[#D8B452]/8 to-transparent blur-[110px] animate-aurora-beam pointer-events-none [animation-delay:4s]" />
 
-      {/* 3. Fluid Animated Gradient Mesh Orbs */}
-      <div className="absolute -top-32 -left-32 w-[720px] h-[720px] rounded-full bg-gradient-to-br from-[#D8B452]/25 via-[#F3D887]/15 to-transparent blur-[130px] animate-mesh-1" />
-      <div className="absolute top-1/4 -right-44 w-[780px] h-[780px] rounded-full bg-gradient-to-bl from-indigo-600/20 via-[#0b0c33]/40 dark:via-[#0b0c33]/70 to-transparent blur-[140px] animate-mesh-2" />
-      <div className="absolute top-1/2 left-1/5 w-[620px] h-[620px] rounded-full bg-gradient-to-tr from-[#D8B452]/20 via-[#C49A32]/10 to-transparent blur-[120px] animate-mesh-3" />
-      <div className="absolute -bottom-40 right-1/3 w-[700px] h-[700px] rounded-full bg-gradient-to-tl from-amber-400/20 via-[#07081e]/35 dark:via-[#07081e]/65 to-transparent blur-[130px] animate-mesh-1" />
+      {/* 3. Fluid Animated Ambient Gradient Orbs */}
+      <div className="absolute -top-32 -left-32 w-[720px] h-[720px] rounded-full bg-gradient-to-br from-[#D8B452]/20 via-[#F3D887]/10 to-transparent blur-[140px] animate-mesh-1" />
+      <div className="absolute top-1/3 -right-44 w-[780px] h-[780px] rounded-full bg-gradient-to-bl from-indigo-600/20 via-[#0b0c33]/40 dark:via-[#0b0c33]/70 to-transparent blur-[150px] animate-mesh-2" />
+      <div className="absolute top-2/3 left-1/5 w-[620px] h-[620px] rounded-full bg-gradient-to-tr from-[#D8B452]/15 via-[#C49A32]/10 to-transparent blur-[130px] animate-mesh-3" />
+      <div className="absolute -bottom-40 right-1/3 w-[700px] h-[700px] rounded-full bg-gradient-to-tl from-amber-400/15 via-[#07081e]/35 dark:via-[#07081e]/65 to-transparent blur-[140px] animate-mesh-1" />
 
-      {/* 4. Floating Golden Light Motes */}
+      {/* 4. Floating Golden Energy Motes */}
       <div className="absolute inset-0 pointer-events-none">
         {LIGHT_MOTES.map((mote) => (
           <span
@@ -555,7 +559,7 @@ export function AmbientBackground() {
         ))}
       </div>
 
-      {/* 5. Motionable Canvas (100% Crisp Airplanes, Balloons, Waypoints, Flight Paths) */}
+      {/* 5. Motion Canvas (AI Neural Code Graph, AST Radar Scanners, Data Pulses, Floating Syntax Tokens) */}
       <canvas
         ref={canvasRef}
         className="absolute inset-0 pointer-events-none"
@@ -571,7 +575,7 @@ export function AmbientBackground() {
         }}
       />
 
-      {/* 7. Subtle Filmic Texture */}
+      {/* 7. Subtle High-End Filmic Noise Texture */}
       <div className="absolute inset-0 bg-noise opacity-20 dark:opacity-30" />
     </div>
   );
