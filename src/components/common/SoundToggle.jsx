@@ -47,10 +47,10 @@ export function SoundToggle() {
         onClick={handleToggle}
         aria-label={isAudioEnabled ? 'Mute ambient sound' : 'Enable ambient sound'}
         title={isAudioEnabled ? 'Mute sound' : 'Enable sound'}
-        className={`flex items-center gap-2 px-3.5 py-2.5 rounded-full border text-xs font-semibold tracking-wider uppercase transition-all duration-300 cursor-pointer shadow-lg ${
+        className={`flex items-center gap-2 px-3.5 py-2.5 rounded-full border text-xs font-semibold tracking-wider uppercase transition-all duration-300 cursor-pointer shadow-lg hover:scale-105 hover:-translate-y-0.5 active:scale-95 hover:shadow-xl hover:shadow-[#D8B452]/25 ${
           isAudioEnabled
             ? 'bg-[#0b0c33] border-[#D8B452] text-[#D8B452] shadow-[#D8B452]/20'
-            : 'bg-[#050614]/80 backdrop-blur-md border-white/10 text-slate-400 hover:text-[#D8B452] hover:border-[#D8B452]/40'
+            : 'bg-[#050614]/80 backdrop-blur-md border-white/10 text-slate-400 hover:text-[#D8B452] hover:border-[#D8B452]/50'
         }`}
       >
         {isAudioEnabled ? (

@@ -30,7 +30,7 @@ export function Hero({ onOpenDemo }) {
         {/* Main Hero Copy */}
         <div className="text-center max-w-4xl mx-auto">
           {/* Eyebrow Announcement Pill */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#D8B452]/40 bg-[#D8B452]/10 shadow-xs mb-8 hover:border-[#D8B452] transition-colors cursor-default">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#D8B452]/40 bg-[#D8B452]/10 shadow-xs mb-8 hover:border-[#D8B452] hover:scale-105 active:scale-95 transition-all cursor-default">
             <span className="flex h-2 w-2 rounded-full bg-[#D8B452] animate-pulse" />
             <span className="text-xs font-bold tracking-widest uppercase text-[#D8B452]">
               NOVA 2.0 &bull; Autonomous AI Orchestration
@@ -82,13 +82,13 @@ export function Hero({ onOpenDemo }) {
 
           {/* Trust Badges */}
           <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs font-semibold tracking-wider uppercase text-slate-500 dark:text-slate-400">
-            <span className="flex items-center gap-2">
+            <span className="flex items-center gap-2 hover:text-slate-900 dark:hover:text-white hover:scale-105 transition-all duration-200 cursor-default">
               <Check className="w-4 h-4 text-[#D8B452]" /> No credit card required
             </span>
-            <span className="flex items-center gap-2">
+            <span className="flex items-center gap-2 hover:text-slate-900 dark:hover:text-white hover:scale-105 transition-all duration-200 cursor-default">
               <Check className="w-4 h-4 text-[#D8B452]" /> 60-second GitHub setup
             </span>
-            <span className="flex items-center gap-2">
+            <span className="flex items-center gap-2 hover:text-slate-900 dark:hover:text-white hover:scale-105 transition-all duration-200 cursor-default">
               <Check className="w-4 h-4 text-[#D8B452]" /> SOC2 Type II Certified
             </span>
           </div>
@@ -111,7 +111,7 @@ export function Hero({ onOpenDemo }) {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setActiveTab('sprint')}
-                  className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                  className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer hover:scale-105 active:scale-95 ${
                     activeTab === 'sprint'
                       ? 'bg-[#D8B452] text-black shadow-xs'
                       : 'text-slate-400 hover:text-white'
@@ -121,7 +121,7 @@ export function Hero({ onOpenDemo }) {
                 </button>
                 <button
                   onClick={() => setActiveTab('copilot')}
-                  className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                  className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer hover:scale-105 active:scale-95 ${
                     activeTab === 'copilot'
                       ? 'bg-[#D8B452] text-black shadow-xs'
                       : 'text-slate-400 hover:text-white'
@@ -149,12 +149,12 @@ export function Hero({ onOpenDemo }) {
                     </div>
 
                     <div className="space-y-3">
-                      <div className="p-3.5 bg-[#050614] rounded-lg border border-white/10 shadow-xs hover:border-[#D8B452]/50 transition-colors">
+                      <div className="p-3.5 bg-[#050614] rounded-lg border border-white/10 shadow-xs hover:border-[#D8B452] hover:-translate-y-1 hover:shadow-lg hover:shadow-[#D8B452]/20 transition-all duration-300 cursor-pointer group">
                         <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1">
-                          <span className="font-mono text-[#D8B452] font-bold">NOV-249</span>
+                          <span className="font-mono text-[#D8B452] font-bold group-hover:underline">NOV-249</span>
                           <span className="flex items-center gap-1"><Clock className="w-3 h-3 text-[#D8B452]" /> 3 pts</span>
                         </div>
-                        <p className="text-xs font-semibold text-slate-200">
+                        <p className="text-xs font-semibold text-slate-200 group-hover:text-white transition-colors">
                           Refactor OAuth token rotation for multi-region failover
                         </p>
                         <div className="mt-2 flex items-center gap-2">
@@ -167,12 +167,12 @@ export function Hero({ onOpenDemo }) {
                         </div>
                       </div>
 
-                      <div className="p-3.5 bg-[#050614] rounded-lg border border-white/10 shadow-xs">
+                      <div className="p-3.5 bg-[#050614] rounded-lg border border-white/10 shadow-xs hover:border-[#D8B452] hover:-translate-y-1 hover:shadow-lg hover:shadow-[#D8B452]/20 transition-all duration-300 cursor-pointer group">
                         <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1">
-                          <span className="font-mono text-[#D8B452] font-bold">NOV-251</span>
+                          <span className="font-mono text-[#D8B452] font-bold group-hover:underline">NOV-251</span>
                           <span className="flex items-center gap-1"><Clock className="w-3 h-3 text-[#D8B452]" /> 5 pts</span>
                         </div>
-                        <p className="text-xs font-semibold text-slate-200">
+                        <p className="text-xs font-semibold text-slate-200 group-hover:text-white transition-colors">
                           Implement real-time WebSocket connection pool manager
                         </p>
                         <div className="mt-2 flex items-center gap-2">
@@ -197,12 +197,12 @@ export function Hero({ onOpenDemo }) {
                     </div>
 
                     <div className="space-y-3">
-                      <div className="p-3.5 bg-[#050614] rounded-lg border border-[#D8B452]/30 shadow-xs">
+                      <div className="p-3.5 bg-[#050614] rounded-lg border border-[#D8B452]/30 shadow-xs hover:border-[#D8B452] hover:-translate-y-1 hover:shadow-lg hover:shadow-[#D8B452]/20 transition-all duration-300 cursor-pointer group">
                         <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1">
-                          <span className="font-mono text-[#D8B452] font-bold">NOV-244</span>
+                          <span className="font-mono text-[#D8B452] font-bold group-hover:underline">NOV-244</span>
                           <span className="text-[#D8B452] font-medium">PR #142 Linked</span>
                         </div>
-                        <p className="text-xs font-semibold text-slate-200">
+                        <p className="text-xs font-semibold text-slate-200 group-hover:text-white transition-colors">
                           Automate PR semantic changelogs & visual diff reports
                         </p>
                         <div className="mt-2 flex items-center justify-between text-[11px]">
@@ -213,12 +213,12 @@ export function Hero({ onOpenDemo }) {
                         </div>
                       </div>
 
-                      <div className="p-3.5 bg-[#050614] rounded-lg border border-white/10 shadow-xs">
+                      <div className="p-3.5 bg-[#050614] rounded-lg border border-white/10 shadow-xs hover:border-[#D8B452] hover:-translate-y-1 hover:shadow-lg hover:shadow-[#D8B452]/20 transition-all duration-300 cursor-pointer group">
                         <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1">
-                          <span className="font-mono text-[#D8B452] font-bold">NOV-246</span>
+                          <span className="font-mono text-[#D8B452] font-bold group-hover:underline">NOV-246</span>
                           <span>8 pts</span>
                         </div>
-                        <p className="text-xs font-semibold text-slate-200">
+                        <p className="text-xs font-semibold text-slate-200 group-hover:text-white transition-colors">
                           Add Webhook payload validator with AES-GCM verification
                         </p>
                       </div>
@@ -238,7 +238,7 @@ export function Hero({ onOpenDemo }) {
                     </div>
 
                     <div className="space-y-3">
-                      <div className="p-3.5 bg-[#050614] rounded-lg border border-white/10 opacity-75">
+                      <div className="p-3.5 bg-[#050614] rounded-lg border border-white/10 opacity-75 hover:opacity-100 hover:border-white/30 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer">
                         <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1">
                           <span className="font-mono text-slate-500 line-through">NOV-238</span>
                           <span className="text-emerald-400 font-bold">Merged</span>
@@ -248,7 +248,7 @@ export function Hero({ onOpenDemo }) {
                         </p>
                       </div>
 
-                      <div className="p-3.5 bg-[#050614] rounded-lg border border-white/10 opacity-75">
+                      <div className="p-3.5 bg-[#050614] rounded-lg border border-white/10 opacity-75 hover:opacity-100 hover:border-white/30 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer">
                         <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1">
                           <span className="font-mono text-slate-500 line-through">NOV-240</span>
                           <span className="text-emerald-400 font-bold">Merged</span>
@@ -263,7 +263,7 @@ export function Hero({ onOpenDemo }) {
               ) : (
                 /* Tab 2: AI Copilot Feed */
                 <div className="space-y-3 font-mono text-xs">
-                  <div className="p-4 rounded-xl bg-[#050614] border border-[#D8B452]/30 flex items-start gap-3">
+                  <div className="p-4 rounded-xl bg-[#050614] border border-[#D8B452]/30 hover:border-[#D8B452] hover:-translate-y-1 hover:shadow-lg hover:shadow-[#D8B452]/20 transition-all duration-300 cursor-pointer flex items-start gap-3">
                     <div className="p-1.5 rounded-md bg-[#D8B452]/20 text-[#D8B452] shrink-0 mt-0.5">
                       <Sparkles className="w-4 h-4 text-[#D8B452]" />
                     </div>
@@ -277,7 +277,7 @@ export function Hero({ onOpenDemo }) {
                     </div>
                   </div>
 
-                  <div className="p-4 rounded-xl bg-[#050614] border border-white/10 flex items-start gap-3">
+                  <div className="p-4 rounded-xl bg-[#050614] border border-white/10 hover:border-emerald-500/50 hover:-translate-y-1 hover:shadow-lg hover:shadow-emerald-500/10 transition-all duration-300 cursor-pointer flex items-start gap-3">
                     <div className="p-1.5 rounded-md bg-emerald-500/20 text-emerald-400 shrink-0 mt-0.5">
                       <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                     </div>

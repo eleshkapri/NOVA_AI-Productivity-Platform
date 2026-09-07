@@ -21,8 +21,8 @@ export function Pricing({ onOpenDemo }) {
         {/* Monthly / Annual Billing Toggle */}
         <div className="flex items-center justify-center gap-5 mb-16">
           <span
-            className={`text-sm font-bold uppercase tracking-wider cursor-pointer transition-colors ${
-              !isAnnual ? 'text-[#a1741a] dark:text-[#D8B452]' : 'text-slate-500'
+            className={`text-sm font-bold uppercase tracking-wider cursor-pointer transition-all hover:scale-105 active:scale-95 ${
+              !isAnnual ? 'text-[#a1741a] dark:text-[#D8B452]' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
             }`}
             onClick={() => setIsAnnual(false)}
           >
@@ -35,10 +35,10 @@ export function Pricing({ onOpenDemo }) {
             aria-checked={isAnnual}
             aria-label="Toggle annual billing with 20% discount"
             onClick={() => setIsAnnual(!isAnnual)}
-            className="w-16 h-8 flex items-center bg-slate-200 dark:bg-[#0b0c33] border border-slate-300 dark:border-white/20 rounded-full p-1 cursor-pointer transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D8B452]"
+            className="w-16 h-8 flex items-center bg-slate-200 dark:bg-[#0b0c33] border border-slate-300 dark:border-white/20 rounded-full p-1 cursor-pointer transition-all hover:scale-105 active:scale-95 hover:border-[#a1741a] dark:hover:border-[#D8B452] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D8B452]"
           >
             <div
-              className={`bg-gradient-to-r from-[#D8B452] to-[#C79A2B] w-6 h-6 rounded-full shadow-md transform transition-transform duration-200 ${
+              className={`bg-gradient-to-r from-[#D8B452] to-[#C79A2B] w-6 h-6 rounded-full shadow-md transform transition-transform duration-300 ${
                 isAnnual ? 'translate-x-7' : 'translate-x-0'
               }`}
             />
@@ -46,14 +46,14 @@ export function Pricing({ onOpenDemo }) {
 
           <div className="flex items-center gap-2.5">
             <span
-              className={`text-sm font-bold uppercase tracking-wider cursor-pointer transition-colors ${
-                isAnnual ? 'text-[#a1741a] dark:text-[#D8B452]' : 'text-slate-500'
+              className={`text-sm font-bold uppercase tracking-wider cursor-pointer transition-all hover:scale-105 active:scale-95 ${
+                isAnnual ? 'text-[#a1741a] dark:text-[#D8B452]' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
               }`}
               onClick={() => setIsAnnual(true)}
             >
               Annual Billing
             </span>
-            <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-100 text-[#a1741a] border border-[#a1741a]/30 dark:bg-[#D8B452]/20 dark:text-[#D8B452] dark:border-[#D8B452]/40 animate-pulse">
+            <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-100 text-[#a1741a] border border-[#a1741a]/30 dark:bg-[#D8B452]/20 dark:text-[#D8B452] dark:border-[#D8B452]/40 animate-pulse hover:scale-105 transition-transform cursor-default">
               Save 20%
             </span>
           </div>
@@ -67,15 +67,15 @@ export function Pricing({ onOpenDemo }) {
             return (
               <div
                 key={plan.id}
-                className={`relative bg-white/95 dark:bg-[#0b0c33]/70 rounded-3xl p-8 sm:p-10 border flex flex-col justify-between transition-all duration-300 hover:shadow-2xl backdrop-blur-2xl ${
+                className={`group relative bg-white/95 dark:bg-[#0b0c33]/70 rounded-3xl p-8 sm:p-10 border flex flex-col justify-between transition-all duration-500 backdrop-blur-2xl ${
                   plan.isPopular
-                    ? 'border-[#a1741a] dark:border-[#D8B452] shadow-xl shadow-[#D8B452]/15 scale-102 lg:-translate-y-2'
-                    : 'border-slate-200/90 dark:border-white/10 shadow-md hover:border-[#a1741a]/40 dark:hover:border-[#D8B452]/40'
+                    ? 'border-[#a1741a] dark:border-[#D8B452] shadow-xl shadow-[#D8B452]/15 scale-102 lg:-translate-y-2 hover:-translate-y-4 hover:scale-[1.03] hover:shadow-2xl hover:shadow-[#D8B452]/30 hover:border-[#b8860b] dark:hover:border-[#F3D887]'
+                    : 'border-slate-200/90 dark:border-white/10 shadow-md hover:border-[#a1741a]/60 dark:hover:border-[#D8B452]/60 hover:-translate-y-2.5 hover:scale-[1.015] hover:shadow-2xl hover:shadow-[#D8B452]/15'
                 }`}
               >
                 {/* Popular Ribbon in Gold */}
                 {plan.isPopular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 group-hover:scale-105 transition-transform duration-300">
                     <span className="bg-gradient-to-r from-[#D8B452] via-[#E5C773] to-[#B88A23] text-black text-xs font-black uppercase tracking-widest px-5 py-1.5 rounded-full shadow-xl flex items-center gap-1.5">
                       <Sparkles className="w-3.5 h-3.5" /> Most Popular
                     </span>
@@ -160,7 +160,7 @@ export function Pricing({ onOpenDemo }) {
           Need custom SOC2 compliance reporting, custom data retention agreements, or invoice terms?{' '}
           <button
             onClick={onOpenDemo}
-            className="text-[#a1741a] dark:text-[#D8B452] font-semibold underline hover:text-[#b8860b] cursor-pointer"
+            className="text-[#a1741a] dark:text-[#D8B452] font-semibold underline hover:text-[#b8860b] dark:hover:text-[#F3D887] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
           >
             Talk with our Enterprise Architecture Team &rarr;
           </button>

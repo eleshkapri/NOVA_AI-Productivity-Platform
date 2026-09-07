@@ -62,8 +62,8 @@ export function LiveActivityToast() {
 
   return (
     <div className="fixed bottom-6 right-20 sm:right-24 z-30 max-w-xs sm:max-w-sm animate-fade-in pointer-events-auto">
-      <div className="bg-[#0b0c33]/95 backdrop-blur-xl border border-[#D8B452]/40 rounded-2xl p-3 sm:p-3.5 shadow-2xl flex items-center gap-3">
-        <div className="w-8 h-8 rounded-xl bg-[#050614] border border-[#D8B452]/30 flex items-center justify-center text-[#D8B452] shrink-0 text-xs font-bold">
+      <div className="bg-[#0b0c33]/95 backdrop-blur-xl border border-[#D8B452]/40 rounded-2xl p-3 sm:p-3.5 shadow-2xl flex items-center gap-3 transition-all duration-300 hover:border-[#D8B452] hover:scale-105 hover:-translate-y-1 hover:shadow-[#D8B452]/25 cursor-default group">
+        <div className="w-8 h-8 rounded-xl bg-[#050614] border border-[#D8B452]/30 flex items-center justify-center text-[#D8B452] shrink-0 text-xs font-bold group-hover:scale-110 transition-transform duration-300">
           {current.icon}
         </div>
         <div className="flex-1 min-w-0">
@@ -78,7 +78,7 @@ export function LiveActivityToast() {
         <button
           onClick={() => setIsDismissed(true)}
           aria-label="Dismiss live notification"
-          className="text-slate-400 hover:text-white p-1 rounded-md transition-colors"
+          className="text-slate-400 hover:text-white p-1 rounded-md transition-all hover:scale-120 active:scale-90 hover:bg-white/10 cursor-pointer"
         >
           <X className="w-3.5 h-3.5" />
         </button>

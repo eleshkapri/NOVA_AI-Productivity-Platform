@@ -21,7 +21,7 @@ export function Solutions() {
           description="Whether you are an individual developer, a sprint leader, or a Chief Technology Officer, NOVA molds to your exact operational parameters."
         />
 
-        {/* Persona Selector Tabs */}
+        {/* Persona Selector Tabs with Magnetic Hover */}
         <div className="flex flex-wrap items-center justify-center gap-3 mb-16">
           {solutionsData.map((sol) => {
             const isActive = sol.id === activePersonaId;
@@ -29,10 +29,10 @@ export function Solutions() {
               <button
                 key={sol.id}
                 onClick={() => setActivePersonaId(sol.id)}
-                className={`px-6 py-3 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer ${
+                className={`px-6 py-3 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95 ${
                   isActive
                     ? 'bg-gradient-to-r from-[#D8B452] to-[#B88A23] text-black shadow-lg shadow-[#D8B452]/25 scale-102'
-                    : 'bg-white/80 dark:bg-[#0b0c33]/70 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10 hover:border-[#a1741a]/40 dark:hover:border-[#D8B452]/50 hover:text-black dark:hover:text-white'
+                    : 'bg-white/80 dark:bg-[#0b0c33]/70 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10 hover:border-[#a1741a] dark:hover:border-[#D8B452] hover:text-black dark:hover:text-white shadow-xs hover:shadow-md'
                 }`}
               >
                 {sol.title}
@@ -41,8 +41,8 @@ export function Solutions() {
           })}
         </div>
 
-        {/* Active Persona Showcase Card */}
-        <div className="max-w-4xl mx-auto bg-white/95 dark:bg-[#0b0c33]/70 rounded-3xl p-8 sm:p-12 border border-slate-200/90 dark:border-[#D8B452]/30 shadow-xl dark:shadow-2xl relative overflow-hidden backdrop-blur-2xl animate-fade-in">
+        {/* Active Persona Showcase Card with Glow Hover */}
+        <div className="max-w-4xl mx-auto bg-white/95 dark:bg-[#0b0c33]/70 rounded-3xl p-8 sm:p-12 border border-slate-200/90 dark:border-[#D8B452]/30 hover:border-[#a1741a] dark:hover:border-[#D8B452] shadow-xl dark:shadow-2xl hover:shadow-2xl hover:shadow-[#D8B452]/15 relative overflow-hidden backdrop-blur-2xl transition-all duration-300 animate-fade-in">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
             {/* Left Column: Details */}
             <div className="md:col-span-7 space-y-5">
@@ -71,13 +71,16 @@ export function Solutions() {
             </div>
 
             {/* Right Column: Key Feature Highlights Checklist */}
-            <div className="md:col-span-5 bg-slate-50 dark:bg-[#050614] p-6 sm:p-7 rounded-2xl border border-slate-200 dark:border-white/10 space-y-3.5">
+            <div className="md:col-span-5 bg-slate-50 dark:bg-[#050614] p-6 sm:p-7 rounded-2xl border border-slate-200 dark:border-white/10 space-y-2">
               <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#a1741a] dark:text-[#D8B452] mb-3">
                 Core Capabilities
               </div>
 
               {currentSolution.highlights.map((highlight, index) => (
-                <div key={index} className="flex items-start gap-3">
+                <div
+                  key={index}
+                  className="flex items-start gap-3 p-2 rounded-xl hover:bg-amber-500/10 hover:translate-x-1 transition-all duration-200 cursor-default"
+                >
                   <CheckCircle2 className="w-4 h-4 text-[#a1741a] dark:text-[#D8B452] shrink-0 mt-0.5" />
                   <span className="text-xs sm:text-sm font-medium text-slate-800 dark:text-slate-200">
                     {highlight}

@@ -79,30 +79,30 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
         <div className="flex flex-wrap gap-2.5 border-b border-slate-200 dark:border-white/10 pb-4">
           <button
             onClick={() => setActiveFeature('backlog')}
-            className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer ${
+            className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer hover:scale-105 active:scale-95 ${
               activeFeature === 'backlog'
                 ? 'bg-[#D8B452] text-black shadow-md'
-                : 'bg-slate-100 dark:bg-[#0b0c33] text-slate-600 dark:text-slate-400 hover:text-white'
+                : 'bg-slate-100 dark:bg-[#0b0c33] text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-[#12144b]'
             }`}
           >
             <Bot className="w-3.5 h-3.5" /> Backlog AI
           </button>
           <button
             onClick={() => setActiveFeature('pr')}
-            className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer ${
+            className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer hover:scale-105 active:scale-95 ${
               activeFeature === 'pr'
                 ? 'bg-[#D8B452] text-black shadow-md'
-                : 'bg-slate-100 dark:bg-[#0b0c33] text-slate-600 dark:text-slate-400 hover:text-white'
+                : 'bg-slate-100 dark:bg-[#0b0c33] text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-[#12144b]'
             }`}
           >
             <GitPullRequest className="w-3.5 h-3.5" /> PR Summaries
           </button>
           <button
             onClick={() => setActiveFeature('velocity')}
-            className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer ${
+            className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer hover:scale-105 active:scale-95 ${
               activeFeature === 'velocity'
                 ? 'bg-[#D8B452] text-black shadow-md'
-                : 'bg-slate-100 dark:bg-[#0b0c33] text-slate-600 dark:text-slate-400 hover:text-white'
+                : 'bg-slate-100 dark:bg-[#0b0c33] text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-[#12144b]'
             }`}
           >
             <TrendingUp className="w-3.5 h-3.5" /> Velocity Radar
@@ -134,7 +134,7 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
             </div>
           </div>
 
-          <div className="lg:col-span-6 bg-[#050614] rounded-2xl p-5 border border-white/10 font-mono text-xs text-slate-300 shadow-inner flex flex-col justify-between overflow-x-auto">
+          <div className="lg:col-span-6 bg-[#050614] rounded-2xl p-5 border border-white/10 font-mono text-xs text-slate-300 shadow-inner flex flex-col justify-between overflow-x-auto transition-all duration-300 hover:border-[#D8B452]/40 hover:shadow-lg hover:shadow-[#D8B452]/10">
             <div className="flex items-center justify-between pb-2 border-b border-white/10 mb-3 text-[11px] text-slate-400">
               <span>nova-cli v2.4.0 --interactive</span>
               <span className="text-[#D8B452] font-bold">● Active</span>

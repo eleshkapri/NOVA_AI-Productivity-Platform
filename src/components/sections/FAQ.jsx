@@ -28,7 +28,7 @@ export function FAQ() {
             return (
               <div
                 key={item.id}
-                className="bg-white/95 dark:bg-[#0b0c33]/70 rounded-3xl border border-slate-200/90 dark:border-white/10 shadow-md dark:shadow-lg overflow-hidden transition-all duration-300 hover:border-[#a1741a]/40 dark:hover:border-[#D8B452]/40"
+                className="group bg-white/95 dark:bg-[#0b0c33]/70 rounded-3xl border border-slate-200/90 dark:border-white/10 shadow-md dark:shadow-lg overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-[#a1741a] dark:hover:border-[#D8B452] hover:shadow-xl hover:shadow-[#D8B452]/15"
               >
                 <button
                   onClick={() => handleToggle(index)}
@@ -36,11 +36,11 @@ export function FAQ() {
                   aria-controls={`faq-answer-${item.id}`}
                   className="w-full px-7 py-6 flex items-center justify-between text-left gap-4 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D8B452]"
                 >
-                  <span className="text-base sm:text-lg font-bold text-slate-900 dark:text-white tracking-wide">
+                  <span className="text-base sm:text-lg font-bold text-slate-900 dark:text-white group-hover:text-[#a1741a] dark:group-hover:text-[#F3D887] tracking-wide transition-colors">
                     {item.question}
                   </span>
                   <div
-                    className={`p-2 rounded-full bg-slate-100 dark:bg-[#050614] text-[#a1741a] dark:text-[#D8B452] border border-slate-200 dark:border-[#D8B452]/30 transition-transform duration-300 shrink-0 ${
+                    className={`p-2 rounded-full bg-slate-100 dark:bg-[#050614] text-[#a1741a] dark:text-[#D8B452] border border-slate-200 dark:border-[#D8B452]/30 group-hover:scale-110 group-hover:border-[#a1741a] dark:group-hover:border-[#D8B452] transition-all duration-300 shrink-0 ${
                       isOpen ? 'rotate-180 bg-[#D8B452] text-black border-transparent' : ''
                     }`}
                   >
@@ -71,7 +71,7 @@ export function FAQ() {
           Have an inquiry not answered here?{' '}
           <a
             href="#footer"
-            className="text-[#a1741a] dark:text-[#D8B452] font-semibold underline hover:text-[#b8860b]"
+            className="text-[#a1741a] dark:text-[#D8B452] font-semibold underline hover:text-[#b8860b] dark:hover:text-[#F3D887] hover:scale-105 inline-block transition-transform"
           >
             Connect with our engineering specialists &rarr;
           </a>
