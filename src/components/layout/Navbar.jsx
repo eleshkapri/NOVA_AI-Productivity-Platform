@@ -77,18 +77,26 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenCommandPalette }
   const handleNavClick = (e, href) => {
     e.preventDefault();
     setIsOpen(false);
-    const targetElement = document.querySelector(href);
-    if (targetElement) {
-      const offset = 80;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = targetElement.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
+    if (!href || href === '#') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    try {
+      const targetElement = document.querySelector(href);
+      if (targetElement) {
+        const offset = 80;
+        const bodyRect = document.body.getBoundingClientRect().top;
+        const elementRect = targetElement.getBoundingClientRect().top;
+        const elementPosition = elementRect - bodyRect;
+        const offsetPosition = elementPosition - offset;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth',
-      });
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth',
+        });
+      }
+    } catch {
+      // Ignore invalid query selector
     }
   };
 
@@ -107,6 +115,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenCommandPalette }
           {/* Logo with Soufflet-style Totem Emblem */}
           <a
             href="#"
+            onClick={(e) => handleNavClick(e, '#')}
             className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D8B452] rounded-lg p-1"
           >
             <div className="w-9 h-9 flex items-center justify-center text-[#a1741a] dark:text-[#D8B452] transition-transform duration-500 group-hover:rotate-90">

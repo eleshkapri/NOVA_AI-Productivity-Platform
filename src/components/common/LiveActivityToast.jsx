@@ -36,6 +36,8 @@ export function LiveActivityToast() {
   useEffect(() => {
     if (isDismissed) return;
 
+    let rotateTimer = null;
+
     // Show initial toast after 3 seconds
     const initialTimer = setTimeout(() => {
       setIsVisible(true);
@@ -44,7 +46,7 @@ export function LiveActivityToast() {
     // Rotate toast every 10 seconds
     const interval = setInterval(() => {
       setIsVisible(false);
-      setTimeout(() => {
+      rotateTimer = setTimeout(() => {
         setIndex((prev) => (prev + 1) % activities.length);
         setIsVisible(true);
       }, 800);
@@ -52,6 +54,7 @@ export function LiveActivityToast() {
 
     return () => {
       clearTimeout(initialTimer);
+      if (rotateTimer) clearTimeout(rotateTimer);
       clearInterval(interval);
     };
   }, [isDismissed]);

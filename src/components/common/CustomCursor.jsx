@@ -31,10 +31,13 @@ export function CustomCursor() {
     const handleMouseMove = (e) => {
       mousePos.current = { x: e.clientX, y: e.clientY };
 
-      if (!isVisible) {
-        setIsVisible(true);
-        reticlePos.current = { x: e.clientX, y: e.clientY };
-      }
+      setIsVisible((prev) => {
+        if (!prev) {
+          reticlePos.current = { x: e.clientX, y: e.clientY };
+          return true;
+        }
+        return prev;
+      });
 
       // Check if hovering over clickable element
       const target = e.target;
@@ -83,7 +86,7 @@ export function CustomCursor() {
       document.removeEventListener('mouseenter', handleMouseEnter);
       if (animFrameId.current) cancelAnimationFrame(animFrameId.current);
     };
-  }, [isVisible]);
+  }, []);
 
   // Touch screen safeguard
   if (typeof window !== 'undefined') {

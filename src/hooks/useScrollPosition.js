@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 
 export function useScrollPosition() {
-  const [scrollY, setScrollY] = useState(0);
-  const [isScrolled, setIsScrolled] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
 
   useEffect(() => {
@@ -12,9 +10,8 @@ export function useScrollPosition() {
       if (!ticking) {
         window.requestAnimationFrame(() => {
           const currentScrollY = window.scrollY;
-          setScrollY(currentScrollY);
-          setIsScrolled(currentScrollY > 20);
-          setShowBackToTop(currentScrollY > 400);
+          const shouldShow = currentScrollY > 400;
+          setShowBackToTop((prev) => (prev !== shouldShow ? shouldShow : prev));
           ticking = false;
         });
         ticking = true;
@@ -35,8 +32,6 @@ export function useScrollPosition() {
   };
 
   return {
-    scrollY,
-    isScrolled,
     showBackToTop,
     scrollToTop,
   };

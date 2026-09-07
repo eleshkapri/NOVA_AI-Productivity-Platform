@@ -10,6 +10,10 @@ export function Preloader() {
     const startTime = performance.now();
     const duration = 1200; // 1.2 seconds
 
+    let timer1 = null;
+    let timer2 = null;
+    let animId = null;
+
     const animateProgress = (currentTime) => {
       const elapsed = currentTime - startTime;
       const rawProgress = Math.min(elapsed / duration, 1);
@@ -19,20 +23,24 @@ export function Preloader() {
       setProgress(easedProgress);
 
       if (rawProgress < 1) {
-        requestAnimationFrame(animateProgress);
+        animId = requestAnimationFrame(animateProgress);
       } else {
         setProgress(100);
-        setTimeout(() => {
+        timer1 = setTimeout(() => {
           setIsDone(true);
-          setTimeout(() => {
+          timer2 = setTimeout(() => {
             setIsMounted(false);
           }, 700); // Wait for curtain slide animation
         }, 200);
       }
     };
 
-    const animId = requestAnimationFrame(animateProgress);
-    return () => cancelAnimationFrame(animId);
+    animId = requestAnimationFrame(animateProgress);
+    return () => {
+      if (animId) cancelAnimationFrame(animId);
+      if (timer1) clearTimeout(timer1);
+      if (timer2) clearTimeout(timer2);
+    };
   }, []);
 
   if (!isMounted) return null;

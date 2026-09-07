@@ -6,6 +6,8 @@ export function useCountUp(target, duration = 2000, decimals = 0) {
   const hasAnimated = useRef(false);
 
   useEffect(() => {
+    let animId = null;
+
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries;
@@ -16,7 +18,7 @@ export function useCountUp(target, duration = 2000, decimals = 0) {
           const updateCount = (currentTime) => {
             const elapsed = currentTime - startTime;
             const progress = Math.min(elapsed / duration, 1);
-            
+
             // Cubic ease-out curve for natural deceleration
             const easeOutProgress = 1 - Math.pow(1 - progress, 3);
             const currentCount = easeOutProgress * target;
@@ -24,13 +26,13 @@ export function useCountUp(target, duration = 2000, decimals = 0) {
             setCount(currentCount);
 
             if (progress < 1) {
-              requestAnimationFrame(updateCount);
+              animId = requestAnimationFrame(updateCount);
             } else {
               setCount(target);
             }
           };
 
-          requestAnimationFrame(updateCount);
+          animId = requestAnimationFrame(updateCount);
         }
       },
       { threshold: 0.25 }
@@ -42,6 +44,9 @@ export function useCountUp(target, duration = 2000, decimals = 0) {
     }
 
     return () => {
+      if (animId) {
+        cancelAnimationFrame(animId);
+      }
       if (currentElem) {
         observer.unobserve(currentElem);
       }

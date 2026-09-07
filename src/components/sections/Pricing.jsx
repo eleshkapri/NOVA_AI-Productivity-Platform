@@ -147,11 +147,7 @@ export function Pricing({ onOpenDemo }) {
                   iconPosition="right"
                   className="w-full justify-center"
                   onClick={() => {
-                    if (plan.id === 'enterprise') {
-                      onOpenDemo();
-                    } else {
-                      alert(`Initiating setup for ${plan.name} plan...`);
-                    }
+                    onOpenDemo();
                   }}
                 >
                   {plan.ctaText}
