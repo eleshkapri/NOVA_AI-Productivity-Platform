@@ -111,7 +111,7 @@ export class PricingPlanModel extends BaseModel {
     return Math.round(diff * 100);
   }
 
-  override toJSON() {
+  toJSON() {
     return {
       ...super.toJSON(),
       name: this.#name,

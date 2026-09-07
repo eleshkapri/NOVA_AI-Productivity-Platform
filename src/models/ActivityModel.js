@@ -133,7 +133,7 @@ export class ActivityModel extends BaseModel {
     }
   }
 
-  override toJSON() {
+  toJSON() {
     return {
       ...super.toJSON(),
       company: this.#company,

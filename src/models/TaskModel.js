@@ -68,7 +68,7 @@ export class TaskModel extends BaseModel {
     return this.#priority.toLowerCase() === 'high' || this.#priority.toLowerCase() === 'critical';
   }
 
-  override toJSON() {
+  toJSON() {
     return {
       ...super.toJSON(),
       title: this.#title,

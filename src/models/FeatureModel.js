@@ -82,7 +82,7 @@ export class FeatureModel extends BaseModel {
     }
   }
 
-  override toJSON() {
+  toJSON() {
     return {
       ...super.toJSON(),
       iconName: this.#iconName,
