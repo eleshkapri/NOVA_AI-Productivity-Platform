@@ -4,7 +4,6 @@ import { soundService } from '../../services/SoundService';
 export function Preloader({ isDark }) {
   const [isDone, setIsDone] = useState(false);
   const [isMounted, setIsMounted] = useState(true);
-  const [isPlaying, setIsPlaying] = useState(() => soundService.isPlaying);
   const progressBarRef = useRef(null);
   const percentTextRef = useRef(null);
   const statusTextRef = useRef(null);
@@ -12,10 +11,6 @@ export function Preloader({ isDark }) {
   useEffect(() => {
     // Attempt sound playback immediately on site entry
     soundService.ensureAutoPlay();
-
-    const unsubscribe = soundService.subscribe((state) => {
-      setIsPlaying(state.isPlaying);
-    });
 
     const startTime = performance.now();
     const duration = 1600; // 1.6s silky frictionless pace
@@ -78,7 +73,6 @@ export function Preloader({ isDark }) {
     animId = requestAnimationFrame(animateProgress);
 
     return () => {
-      unsubscribe();
       if (animId) cancelAnimationFrame(animId);
       if (timer1) clearTimeout(timer1);
       if (timer2) clearTimeout(timer2);
@@ -116,24 +110,6 @@ export function Preloader({ isDark }) {
           <span className="w-2 h-2 rounded-full bg-amber-600 dark:bg-[#D8B452] animate-pulse shadow-[0_0_8px_rgba(217,119,6,0.6)] dark:shadow-[0_0_8px_#D8B452]" />
           Autonomous System Initializing
         </span>
-
-        {/* Ambient Soundtrack Indicator */}
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            soundService.startTheme(false);
-          }}
-          className={`flex items-center gap-1.5 px-3 py-1 rounded-full border text-[10px] font-mono tracking-wider transition-all duration-300 cursor-pointer ${
-            isPlaying
-              ? 'bg-amber-500/10 border-amber-500/30 text-amber-800 dark:text-[#D8B452] dark:border-[#D8B452]/30'
-              : 'bg-amber-50 border-amber-300 text-amber-900 animate-pulse shadow-sm dark:bg-amber-500/20 dark:border-amber-400 dark:text-amber-200'
-          }`}
-          title={isPlaying ? 'Serene Ambient Playing (15% volume)' : 'Click to play Serene Ambient sound'}
-        >
-          <span className="text-xs">🌊</span>
-          <span>{isPlaying ? 'SERENE ON (15%)' : 'PLAY SERENE (15%)'}</span>
-        </button>
 
         <span
           ref={percentTextRef}
