@@ -1,39 +1,48 @@
 import React, { useEffect, useState, useRef } from 'react';
 
 export function Preloader({ isDark }) {
-  const [progress, setProgress] = useState(0);
   const [isDone, setIsDone] = useState(false);
   const [isMounted, setIsMounted] = useState(true);
   const progressBarRef = useRef(null);
+  const percentTextRef = useRef(null);
+  const statusTextRef = useRef(null);
 
   useEffect(() => {
     const startTime = performance.now();
-    const duration = 1400; // 1.4s silky smooth pace
+    const duration = 1600; // 1.6s silky frictionless pace
 
     let timer1 = null;
     let timer2 = null;
     let animId = null;
+    let lastPercent = -1;
 
-    // Smooth easeInOutCubic for organic, weighted acceleration & deceleration
-    const easeInOutCubic = (t) =>
-      t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    // Organic cubic ease-out curve for swift start and frictionless glide
+    const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 
     const animateProgress = (currentTime) => {
       const elapsed = currentTime - startTime;
       const rawProgress = Math.min(elapsed / duration, 1);
-      const eased = easeInOutCubic(rawProgress);
-      const currentPercent = Math.min(Math.round(eased * 100), 100);
+      const eased = easeOutCubic(rawProgress);
+      const currentPercent = Math.min(Math.round(rawProgress * 100), 100);
 
-      setProgress(currentPercent);
-
+      // Direct GPU transform without triggering React re-renders
       if (progressBarRef.current) {
         progressBarRef.current.style.transform = `scaleX(${eased})`;
+      }
+
+      if (currentPercent !== lastPercent) {
+        lastPercent = currentPercent;
+        if (percentTextRef.current) {
+          percentTextRef.current.textContent = `${currentPercent.toString().padStart(2, '0')}%`;
+        }
+        if (statusTextRef.current) {
+          statusTextRef.current.textContent = currentPercent === 100 ? 'System Ready' : 'Calibrating...';
+        }
       }
 
       if (rawProgress < 1) {
         animId = requestAnimationFrame(animateProgress);
       } else {
-        setProgress(100);
         if (progressBarRef.current) {
           progressBarRef.current.style.transform = 'scaleX(1)';
         }
@@ -65,11 +74,12 @@ export function Preloader({ isDark }) {
         isDone ? '-translate-y-full opacity-90 pointer-events-none' : 'translate-y-0 opacity-100'
       }`}
     >
-      {/* Background Ambience & Grid Pattern */}
+      {/* Background Ambience & Grid Pattern with Complementary Cyan/Violet/Amber Glows */}
       <div className="absolute inset-0 bg-grid-pattern opacity-35 dark:opacity-20 pointer-events-none" />
-      <div className="absolute inset-0 bg-radial from-amber-500/8 via-violet-500/4 to-transparent dark:from-[#D8B452]/10 dark:via-transparent dark:to-transparent pointer-events-none" />
-      <div className="absolute -top-32 -left-32 w-80 h-80 rounded-full bg-violet-400/10 dark:bg-violet-600/15 blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-32 -right-32 w-80 h-80 rounded-full bg-amber-400/10 dark:bg-amber-500/10 blur-3xl pointer-events-none" />
+      <div className="absolute inset-0 bg-radial from-violet-500/10 via-amber-500/6 to-transparent dark:from-[#D8B452]/10 dark:via-transparent dark:to-transparent pointer-events-none" />
+      <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-violet-400/15 dark:bg-violet-600/15 blur-3xl pointer-events-none" />
+      <div className="absolute top-1/3 -right-32 w-96 h-96 rounded-full bg-cyan-400/15 dark:bg-cyan-600/15 blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-32 left-1/4 w-96 h-96 rounded-full bg-amber-400/15 dark:bg-amber-500/10 blur-3xl pointer-events-none" />
 
       {/* Top Header */}
       <div
@@ -81,8 +91,11 @@ export function Preloader({ isDark }) {
           <span className="w-2 h-2 rounded-full bg-amber-600 dark:bg-[#D8B452] animate-pulse shadow-[0_0_8px_rgba(217,119,6,0.6)] dark:shadow-[0_0_8px_#D8B452]" />
           Autonomous System Initializing
         </span>
-        <span className="font-mono text-amber-700 dark:text-[#D8B452] text-sm tracking-normal font-semibold">
-          {progress.toString().padStart(2, '0')}%
+        <span
+          ref={percentTextRef}
+          className="font-mono text-amber-700 dark:text-[#D8B452] text-sm tracking-normal font-semibold"
+        >
+          00%
         </span>
       </div>
 
@@ -92,15 +105,15 @@ export function Preloader({ isDark }) {
           isDone ? 'opacity-0 scale-95 -translate-y-6' : 'opacity-100 scale-100 translate-y-0'
         }`}
       >
-        {/* Animated Totem with Glowing Aura & Silky Orbital Spinner Ring */}
+        {/* Animated Totem with Glowing Aura & Silky Multi-Chromatic Orbital Spinner Ring */}
         <div className="relative flex items-center justify-center">
           {/* Static Soft Ambient Glow Aura (Hardware accelerated, zero rasterizer jank) */}
-          <div className="absolute inset-0 bg-amber-400/25 dark:bg-[#D8B452]/30 blur-2xl rounded-full scale-125 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-tr from-violet-500/20 via-amber-400/25 to-cyan-400/20 dark:from-[#8E6FFF]/20 dark:via-[#D8B452]/30 dark:to-cyan-400/15 blur-2xl rounded-full scale-125 pointer-events-none" />
 
           {/* Outer Silky Smooth Orbital Ring */}
-          <div className="w-24 h-24 rounded-full border border-amber-500/20 dark:border-[#D8B452]/25 flex items-center justify-center relative pointer-events-none">
-            {/* Spinning Orbital Gradient Accent Ring */}
-            <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-amber-600 border-r-amber-500/40 dark:border-t-[#D8B452] dark:border-r-[#D8B452]/40 animate-spin-smooth" />
+          <div className="w-24 h-24 rounded-full border border-slate-300/40 dark:border-white/10 flex items-center justify-center relative pointer-events-none">
+            {/* Spinning Multi-Chromatic Orbital Ring */}
+            <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-violet-600 border-r-amber-500 border-b-cyan-500 dark:border-t-[#D8B452] dark:border-r-[#8E6FFF] dark:border-b-cyan-400 animate-spin-smooth" />
 
             {/* Inner Silky Hardware-Accelerated Totem */}
             <div className="w-14 h-14 relative z-10 flex items-center justify-center animate-totem">
@@ -149,17 +162,20 @@ export function Preloader({ isDark }) {
           isDone ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'
         }`}
       >
-        <div className="w-full h-1.5 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden p-[1px] border border-slate-300/40 dark:border-transparent">
+        <div className="w-full h-2 bg-slate-200/80 dark:bg-white/10 rounded-full overflow-hidden p-[1px] border border-slate-300/50 dark:border-white/5 relative shadow-inner">
           <div
             ref={progressBarRef}
-            className="h-full w-full bg-gradient-to-r from-amber-600 via-amber-400 to-amber-600 dark:from-[#D8B452] dark:via-[#F3D887] dark:to-[#D8B452] rounded-full will-change-transform shadow-[0_0_10px_rgba(217,119,6,0.35)] dark:shadow-[0_0_10px_rgba(216,180,82,0.8)]"
+            className="h-full w-full bg-gradient-to-r from-violet-600 via-amber-500 to-cyan-500 dark:from-[#D8B452] dark:via-[#F3D887] dark:to-[#8E6FFF] rounded-full will-change-transform shadow-[0_0_12px_rgba(217,119,6,0.4)] dark:shadow-[0_0_12px_rgba(216,180,82,0.8)] relative overflow-hidden"
             style={{ transform: 'scaleX(0)', transformOrigin: 'left' }}
-          />
+          >
+            {/* Shimmer liquid light beam across the progress bar */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent animate-shimmer" />
+          </div>
         </div>
         <div className="flex items-center justify-between w-full text-[11px] text-slate-600 dark:text-slate-400 font-mono">
           <span>Loading Engine Modules</span>
-          <span className="text-amber-700 dark:text-[#D8B452] font-semibold">
-            {progress === 100 ? 'System Ready' : 'Calibrating...'}
+          <span ref={statusTextRef} className="text-amber-700 dark:text-[#D8B452] font-semibold">
+            Calibrating...
           </span>
         </div>
       </div>

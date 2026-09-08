@@ -1,15 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 
-// Floating golden ambient light motes
+// Floating ambient light motes in complementary colors (Amber Gold, Electric Cyan, Royal Orchid)
 const LIGHT_MOTES = [
-  { id: 1, left: '10%', top: '25%', size: 3, delay: '0s', duration: '16s' },
-  { id: 2, left: '22%', top: '65%', size: 2.5, delay: '3.5s', duration: '19s' },
-  { id: 3, left: '42%', top: '15%', size: 3.5, delay: '6s', duration: '17s' },
-  { id: 4, left: '62%', top: '50%', size: 2.5, delay: '2s', duration: '20s' },
-  { id: 5, left: '78%', top: '20%', size: 3, delay: '8s', duration: '18s' },
-  { id: 6, left: '88%', top: '75%', size: 2.5, delay: '4.5s', duration: '19s' },
-  { id: 7, left: '52%', top: '85%', size: 3, delay: '10s', duration: '21s' },
-  { id: 8, left: '15%', top: '80%', size: 2, delay: '11s', duration: '16s' },
+  { id: 1, left: '10%', top: '25%', size: 3, delay: '0s', duration: '16s', color: 'gold' },
+  { id: 2, left: '22%', top: '65%', size: 2.5, delay: '3.5s', duration: '19s', color: 'cyan' },
+  { id: 3, left: '42%', top: '15%', size: 3.5, delay: '6s', duration: '17s', color: 'orchid' },
+  { id: 4, left: '62%', top: '50%', size: 2.5, delay: '2s', duration: '20s', color: 'cyan' },
+  { id: 5, left: '78%', top: '20%', size: 3, delay: '8s', duration: '18s', color: 'gold' },
+  { id: 6, left: '88%', top: '75%', size: 2.5, delay: '4.5s', duration: '19s', color: 'orchid' },
+  { id: 7, left: '52%', top: '85%', size: 3, delay: '10s', duration: '21s', color: 'cyan' },
+  { id: 8, left: '15%', top: '80%', size: 2, delay: '11s', duration: '16s', color: 'gold' },
 ];
 
 // Developer and AI syntax tokens suitable for an AI Productivity Platform
@@ -88,35 +88,36 @@ export function AmbientBackground() {
     window.addEventListener('mousemove', handleCanvasMouseMove, { passive: true });
     window.addEventListener('mouseleave', handleCanvasMouseLeave, { passive: true });
 
-    // 1. Neural Code Graph Nodes (Interconnected engineering modules / Orchid security nodes)
+    // 1. Neural Code Graph Nodes (Orchid Violet, Amber Gold, and Electric Cyan)
     const nodeCount = isMobile ? 22 : 46;
     const nodes = [];
     for (let i = 0; i < nodeCount; i++) {
-      const isOrchid = i % 3 === 0;
+      const typeChoice = i % 3 === 0 ? 'orchid' : i % 3 === 1 ? 'cyan' : 'gold';
       nodes.push({
         x: Math.random() * width,
         y: Math.random() * height,
         vx: (Math.random() - 0.5) * (isMobile ? 0.2 : 0.3),
         vy: (Math.random() - 0.5) * (isMobile ? 0.2 : 0.3),
-        radius: Math.random() * 2 + 1.6,
+        radius: Math.random() * 2 + 1.8,
         pulseSpeed: Math.random() * 0.012 + 0.006,
         phase: Math.random() * Math.PI * 2,
-        isCore: i % 6 === 0, // Core hub nodes with glowing halo
-        type: isOrchid ? 'orchid' : 'gold', // Orchid cyber violet vs NOVA gold
+        isCore: i % 5 === 0, // Core hub nodes with glowing halo
+        type: typeChoice,
       });
     }
 
-    // 2. High-Speed Synaptic Data Packets (Pulsing code commits / Orchid telemetry along edges)
-    const packetCount = isMobile ? 8 : 15;
+    // 2. High-Speed Synaptic Data Packets (Pulsing code commits / telemetry in 3 complementary colors)
+    const packetCount = isMobile ? 9 : 18;
     const packets = [];
     for (let i = 0; i < packetCount; i++) {
+      const typeChoice = i % 3 === 0 ? 'orchid' : i % 3 === 1 ? 'cyan' : 'gold';
       packets.push({
         nodeA: Math.floor(Math.random() * nodeCount),
         nodeB: Math.floor(Math.random() * nodeCount),
         progress: Math.random(),
         speed: Math.random() * 0.004 + 0.003,
-        size: Math.random() * 1.8 + 1.2,
-        type: i % 2 === 0 ? 'orchid' : 'gold',
+        size: Math.random() * 1.8 + 1.3,
+        type: typeChoice,
       });
     }
 
@@ -124,6 +125,7 @@ export function AmbientBackground() {
     const tokenCount = isMobile ? 6 : 12;
     const tokens = [];
     for (let i = 0; i < tokenCount; i++) {
+      const typeChoice = i % 3 === 0 ? 'orchid' : i % 3 === 1 ? 'cyan' : 'gold';
       tokens.push({
         text: SYNTAX_TOKENS[i % SYNTAX_TOKENS.length],
         x: Math.random() * width,
@@ -133,8 +135,9 @@ export function AmbientBackground() {
         rot: (Math.random() - 0.5) * 0.2,
         vRot: (Math.random() - 0.5) * 0.0025,
         size: Math.random() * 3 + 12,
-        alpha: Math.random() * 0.28 + 0.22,
+        alpha: Math.random() * 0.28 + 0.35,
         phase: Math.random() * Math.PI * 2,
+        type: typeChoice,
       });
     }
 
@@ -147,6 +150,7 @@ export function AmbientBackground() {
         angle: 0,
         rotSpeed: 0.004,
         pulse: 0,
+        type: 'orchid',
       },
       {
         rx: 0.9,
@@ -155,6 +159,7 @@ export function AmbientBackground() {
         angle: Math.PI * 0.75,
         rotSpeed: -0.0035,
         pulse: 0.5,
+        type: 'cyan',
       },
       {
         rx: 0.85,
@@ -163,6 +168,7 @@ export function AmbientBackground() {
         angle: Math.PI * 0.3,
         rotSpeed: 0.0038,
         pulse: 0.2,
+        type: 'gold',
       },
     ];
 
@@ -215,7 +221,7 @@ export function AmbientBackground() {
       const mouseConnectDist = isMobile ? 120 : 180;
       const mouseConnectDistSq = mouseConnectDist * mouseConnectDist;
 
-      // Color paletting for Light & Dark mode (Crisp, High-Contrast Amber & Orchid in Light mode)
+      // Color paletting for Light & Dark mode (Crisp, High-Contrast Amber, Orchid & Cyber Cyan in Light mode)
       const primaryGold = isLight ? '#B45309' : '#D8B452';
       const secondaryGold = isLight ? '#D97706' : '#F3D887';
       const nodeFill = isLight ? '#B45309' : '#D8B452';
@@ -226,6 +232,11 @@ export function AmbientBackground() {
       const orchidViolet = isLight ? '#6D28D9' : '#8E6FFF';
       const orchidLavender = isLight ? '#7C3AED' : '#A78BFA';
       const orchidRgb = isLight ? '109, 40, 217' : '142, 111, 255';
+
+      // Electric Cyber Cyan Palette (Complementary Accent)
+      const cyanElectric = isLight ? '#0284C7' : '#22D3EE';
+      const cyanGlow = isLight ? '#0EA5E9' : '#38BDF8';
+      const cyanRgb = isLight ? '2, 132, 199' : '34, 211, 238';
 
       // -------------------------------------------------------------
       // 1. Draw AI AST Radar Scanners (Background Tech Circles)
@@ -238,10 +249,24 @@ export function AmbientBackground() {
         scanner.angle += scanner.rotSpeed;
         scanner.pulse = (scanner.pulse + 0.004) % 1;
 
+        const scRgb =
+          scanner.type === 'orchid'
+            ? orchidRgb
+            : scanner.type === 'cyan'
+            ? cyanRgb
+            : lineRgb;
+
+        const scPrimary =
+          scanner.type === 'orchid'
+            ? orchidViolet
+            : scanner.type === 'cyan'
+            ? cyanElectric
+            : primaryGold;
+
         // Outer concentric rings
         ctx.strokeStyle = isLight
-          ? `rgba(${lineRgb}, 0.28)`
-          : `rgba(${lineRgb}, 0.22)`;
+          ? `rgba(${scRgb}, 0.32)`
+          : `rgba(${scRgb}, 0.22)`;
         ctx.lineWidth = isLight ? 1.2 : 1;
         ctx.beginPath();
         ctx.arc(scX, scY, rad, 0, Math.PI * 2);
@@ -251,8 +276,8 @@ export function AmbientBackground() {
         ctx.save();
         ctx.setLineDash([4, 6]);
         ctx.strokeStyle = isLight
-          ? `rgba(${lineRgb}, 0.32)`
-          : `rgba(${lineRgb}, 0.28)`;
+          ? `rgba(${scRgb}, 0.36)`
+          : `rgba(${scRgb}, 0.28)`;
         ctx.beginPath();
         ctx.arc(scX, scY, rad * 1.35, 0, Math.PI * 2);
         ctx.stroke();
@@ -260,8 +285,8 @@ export function AmbientBackground() {
 
         // Expanding pulsating radar wave
         const pulseRad = rad * (0.3 + scanner.pulse * 1.4);
-        const pulseAlpha = (1 - scanner.pulse) * (isLight ? 0.38 : 0.35);
-        ctx.strokeStyle = `rgba(${lineRgb}, ${pulseAlpha})`;
+        const pulseAlpha = (1 - scanner.pulse) * (isLight ? 0.42 : 0.35);
+        ctx.strokeStyle = `rgba(${scRgb}, ${pulseAlpha})`;
         ctx.lineWidth = isLight ? 1.4 : 1.2;
         ctx.beginPath();
         ctx.arc(scX, scY, pulseRad, 0, Math.PI * 2);
@@ -272,7 +297,7 @@ export function AmbientBackground() {
         ctx.translate(scX, scY);
         ctx.rotate(scanner.angle);
         const sweepGrad = ctx.createLinearGradient(0, 0, rad, 0);
-        sweepGrad.addColorStop(0, `rgba(${lineRgb}, ${isLight ? 0.38 : 0.4})`);
+        sweepGrad.addColorStop(0, `rgba(${scRgb}, ${isLight ? 0.42 : 0.4})`);
         sweepGrad.addColorStop(1, 'rgba(0,0,0,0)');
         ctx.fillStyle = sweepGrad;
         ctx.beginPath();
@@ -282,7 +307,7 @@ export function AmbientBackground() {
         ctx.fill();
 
         // Sweep leading line
-        ctx.strokeStyle = isLight ? `rgba(${lineRgb}, 0.55)` : primaryGold;
+        ctx.strokeStyle = isLight ? `rgba(${scRgb}, 0.65)` : scPrimary;
         ctx.lineWidth = isLight ? 1.4 : 1.2;
         ctx.beginPath();
         ctx.moveTo(0, 0);
@@ -293,7 +318,7 @@ export function AmbientBackground() {
         // Compass degree tick marks
         ctx.save();
         ctx.translate(scX, scY);
-        ctx.strokeStyle = `rgba(${lineRgb}, ${isLight ? 0.38 : 0.4})`;
+        ctx.strokeStyle = `rgba(${scRgb}, ${isLight ? 0.42 : 0.4})`;
         for (let a = 0; a < 8; a++) {
           ctx.rotate(Math.PI / 4);
           ctx.beginPath();
@@ -304,7 +329,7 @@ export function AmbientBackground() {
         ctx.restore();
 
         // Center mini NOVA geometric emblem
-        drawNovaEmblem(scX, scY, 6.5, isLight ? `rgba(${lineRgb}, 0.55)` : primaryGold, scanner.angle * -0.5);
+        drawNovaEmblem(scX, scY, 6.5, isLight ? `rgba(${scRgb}, 0.65)` : scPrimary, scanner.angle * -0.5);
       });
 
       // -------------------------------------------------------------
@@ -360,11 +385,15 @@ export function AmbientBackground() {
           if (distSq < maxConnectDistSq) {
             const dist = Math.sqrt(distSq);
             const factor = 1 - dist / maxConnectDist;
-            const lineAlpha = factor * (isLight ? 0.38 : 0.4);
+            const lineAlpha = factor * (isLight ? 0.42 : 0.4);
 
-            // Orchid Security dual-frequency line blending
-            const isOrchidLine = na.type === 'orchid' || nb.type === 'orchid';
-            const strokeRgb = isOrchidLine ? orchidRgb : lineRgb;
+            // Multi-frequency complementary laser line blending
+            let strokeRgb = lineRgb;
+            if (na.type === 'orchid' || nb.type === 'orchid') {
+              strokeRgb = orchidRgb;
+            } else if (na.type === 'cyan' || nb.type === 'cyan') {
+              strokeRgb = cyanRgb;
+            }
 
             ctx.strokeStyle = `rgba(${strokeRgb}, ${lineAlpha})`;
             ctx.beginPath();
@@ -382,7 +411,7 @@ export function AmbientBackground() {
           if (mDistSq < mouseConnectDistSq) {
             const mDist = Math.sqrt(mDistSq);
             const factor = 1 - mDist / mouseConnectDist;
-            const lineAlpha = factor * (isLight ? 0.55 : 0.6);
+            const lineAlpha = factor * (isLight ? 0.58 : 0.6);
 
             ctx.strokeStyle = `rgba(${cyanAccentRgb}, ${lineAlpha})`;
             ctx.lineWidth = isLight ? 1.3 : 1.1;
@@ -426,14 +455,18 @@ export function AmbientBackground() {
         const px = na.x + (nb.x - na.x) * p.progress;
         const py = na.y + (nb.y - na.y) * p.progress;
 
-        // Orchid purple packet vs NOVA gold packet
+        // Orchid purple packet vs Cyber Cyan packet vs NOVA gold packet
         if (p.type === 'orchid') {
           ctx.fillStyle = isLight ? '#7C3AED' : orchidLavender;
-          ctx.shadowColor = isLight ? 'rgba(109, 40, 217, 0.7)' : orchidViolet;
+          ctx.shadowColor = isLight ? 'rgba(109, 40, 217, 0.75)' : orchidViolet;
+          ctx.shadowBlur = isLight ? 8 : 10;
+        } else if (p.type === 'cyan') {
+          ctx.fillStyle = isLight ? '#0284C7' : cyanGlow;
+          ctx.shadowColor = isLight ? 'rgba(2, 132, 199, 0.75)' : cyanElectric;
           ctx.shadowBlur = isLight ? 8 : 10;
         } else {
           ctx.fillStyle = isLight ? '#D97706' : secondaryGold;
-          ctx.shadowColor = isLight ? 'rgba(180, 83, 9, 0.7)' : primaryGold;
+          ctx.shadowColor = isLight ? 'rgba(180, 83, 9, 0.75)' : primaryGold;
           ctx.shadowBlur = isLight ? 7 : 8;
         }
         ctx.beginPath();
@@ -448,18 +481,25 @@ export function AmbientBackground() {
       for (let i = 0; i < nodeCount; i++) {
         const n = nodes[i];
         const pulseFactor = 0.8 + Math.sin(n.phase) * 0.2;
-        const isOrchidNode = n.type === 'orchid';
-        const haloColor = isOrchidNode ? orchidRgb : lineRgb;
+        const nType = n.type;
+        const nodeColorRgb = nType === 'orchid' ? orchidRgb : nType === 'cyan' ? cyanRgb : lineRgb;
+        const nodePrimary = nType === 'orchid' ? orchidViolet : nType === 'cyan' ? cyanElectric : primaryGold;
+        const nodeStandardFill =
+          nType === 'orchid'
+            ? (isLight ? '#7C3AED' : '#A78BFA')
+            : nType === 'cyan'
+            ? (isLight ? '#0284C7' : '#38BDF8')
+            : nodeFill;
 
         if (n.isCore) {
           // Core hub node with glowing halo
           const haloRad = n.radius * 2.8 * pulseFactor;
-          ctx.fillStyle = `rgba(${haloColor}, ${isLight ? 0.28 : 0.24})`;
+          ctx.fillStyle = `rgba(${nodeColorRgb}, ${isLight ? 0.32 : 0.24})`;
           ctx.beginPath();
           ctx.arc(n.x, n.y, haloRad, 0, Math.PI * 2);
           ctx.fill();
 
-          ctx.fillStyle = isOrchidNode ? orchidViolet : primaryGold;
+          ctx.fillStyle = nodePrimary;
           ctx.beginPath();
           ctx.arc(n.x, n.y, n.radius * 1.25, 0, Math.PI * 2);
           ctx.fill();
@@ -470,8 +510,8 @@ export function AmbientBackground() {
           ctx.arc(n.x, n.y, n.radius * 0.45, 0, Math.PI * 2);
           ctx.fill();
         } else {
-          // Standard neural graph node (Orchid dark-matter or gold)
-          ctx.fillStyle = isOrchidNode ? (isLight ? '#7C3AED' : '#A78BFA') : nodeFill;
+          // Standard neural graph node
+          ctx.fillStyle = nodeStandardFill;
           ctx.beginPath();
           ctx.arc(n.x, n.y, n.radius * pulseFactor, 0, Math.PI * 2);
           ctx.fill();
@@ -519,14 +559,17 @@ export function AmbientBackground() {
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
 
+        const tType = t.type;
+        const tokenColorRgb = tType === 'orchid' ? orchidRgb : tType === 'cyan' ? cyanRgb : lineRgb;
+        const tokenEmblemColor = tType === 'orchid' ? orchidViolet : tType === 'cyan' ? cyanElectric : primaryGold;
+
         if (t.text === '✦') {
           // Draw geometric emblem
-          drawNovaEmblem(0, 0, t.size * 0.6, `rgba(${lineRgb}, ${isLight ? currentAlpha * 0.85 : currentAlpha * 1.2})`);
+          drawNovaEmblem(0, 0, t.size * 0.6, isLight ? `rgba(${tokenColorRgb}, ${currentAlpha * 0.9})` : tokenEmblemColor);
         } else {
-          const isOrchidToken = t.type === 'orchid';
           ctx.fillStyle = isLight
-            ? (isOrchidToken ? `rgba(109, 40, 217, ${currentAlpha * 0.85})` : `rgba(180, 83, 9, ${currentAlpha * 0.85})`)
-            : (isOrchidToken ? `rgba(167, 139, 250, ${currentAlpha})` : `rgba(216, 180, 82, ${currentAlpha})`);
+            ? `rgba(${tokenColorRgb}, ${currentAlpha * 0.9})`
+            : `rgba(${tokenColorRgb}, ${currentAlpha})`;
           ctx.fillText(t.text, 0, 0);
         }
 
@@ -553,33 +596,44 @@ export function AmbientBackground() {
       {/* 1. Subtle Engineering Matrix Grid */}
       <div className="absolute inset-0 bg-grid-pattern opacity-25 dark:opacity-25" />
 
-      {/* 2. Sweeping Luminous Orchid Violet & AI Neural Auroras */}
-      <div className="absolute -top-40 left-1/4 w-[750px] h-[1200px] bg-gradient-to-b from-[#7C3AED]/12 via-[#A78BFA]/8 to-transparent dark:from-[#6833FF]/20 dark:via-[#8E6FFF]/10 blur-[120px] animate-aurora-beam pointer-events-none" />
-      <div className="absolute -top-60 right-1/4 w-[650px] h-[1100px] bg-gradient-to-b from-[#F59E0B]/12 via-amber-300/8 to-transparent dark:from-[#D8B452]/15 dark:via-indigo-600/10 blur-[110px] animate-aurora-beam pointer-events-none [animation-delay:4s]" />
+      {/* 2. Sweeping Luminous Multi-Chromatic Auroras (Royal Orchid, Amber Gold, and Cyber Cyan) */}
+      <div className="absolute -top-40 left-1/4 w-[750px] h-[1200px] bg-gradient-to-b from-[#7C3AED]/14 via-[#A78BFA]/10 to-transparent dark:from-[#6833FF]/20 dark:via-[#8E6FFF]/10 blur-[120px] animate-aurora-beam pointer-events-none" />
+      <div className="absolute -top-60 right-1/4 w-[650px] h-[1100px] bg-gradient-to-b from-[#D97706]/14 via-amber-300/10 to-transparent dark:from-[#D8B452]/15 dark:via-indigo-600/10 blur-[110px] animate-aurora-beam pointer-events-none [animation-delay:4s]" />
+      <div className="absolute top-1/4 left-1/3 w-[600px] h-[1000px] bg-gradient-to-b from-[#0284C7]/12 via-[#38BDF8]/8 to-transparent dark:from-[#0284C7]/15 dark:via-cyan-600/10 blur-[120px] animate-aurora-beam pointer-events-none [animation-delay:8s]" />
 
-      {/* 3. Fluid Animated Ambient Gradient Orbs (Soft Luminous Lavender & Gold in light, Cosmic in dark) */}
-      <div className="absolute -top-32 -left-32 w-[720px] h-[720px] rounded-full bg-gradient-to-br from-[#7C3AED]/10 via-[#DDD6FE]/12 to-transparent dark:from-[#6833FF]/25 dark:via-[#8E6FFF]/10 blur-[140px] animate-mesh-1" />
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[850px] h-[850px] rounded-full bg-gradient-to-tr from-[#7C3AED]/8 via-[#EDE9FE]/12 to-transparent dark:from-[#6833FF]/20 dark:via-[#4E29D4]/15 blur-[160px] pointer-events-none orchid-ambient-orb" />
-      <div className="absolute top-1/3 -right-44 w-[780px] h-[780px] rounded-full bg-gradient-to-bl from-amber-400/10 via-amber-200/8 to-transparent dark:from-indigo-600/25 dark:via-[#0b0c33]/70 blur-[150px] animate-mesh-2" />
-      <div className="absolute top-2/3 left-1/5 w-[620px] h-[620px] rounded-full bg-gradient-to-tr from-[#F59E0B]/10 via-[#FDE68A]/12 to-transparent dark:from-[#D8B452]/15 dark:via-[#C49A32]/10 blur-[130px] animate-mesh-3" />
-      <div className="absolute -bottom-40 right-1/3 w-[700px] h-[700px] rounded-full bg-gradient-to-tl from-[#7C3AED]/8 via-[#EDE9FE]/10 to-transparent dark:from-[#6833FF]/20 dark:via-[#07081e]/65 blur-[140px] animate-mesh-1" />
+      {/* 3. Fluid Animated Ambient Gradient Orbs (Lavender, Gold & Cyber Cyan in light, Cosmic in dark) */}
+      <div className="absolute -top-32 -left-32 w-[720px] h-[720px] rounded-full bg-gradient-to-br from-[#7C3AED]/10 via-[#DDD6FE]/14 to-transparent dark:from-[#6833FF]/25 dark:via-[#8E6FFF]/10 blur-[140px] animate-mesh-1" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[850px] h-[850px] rounded-full bg-gradient-to-tr from-[#7C3AED]/9 via-[#EDE9FE]/14 to-transparent dark:from-[#6833FF]/20 dark:via-[#4E29D4]/15 blur-[160px] pointer-events-none orchid-ambient-orb" />
+      <div className="absolute top-1/3 -right-44 w-[780px] h-[780px] rounded-full bg-gradient-to-bl from-amber-400/12 via-amber-200/10 to-transparent dark:from-indigo-600/25 dark:via-[#0b0c33]/70 blur-[150px] animate-mesh-2" />
+      <div className="absolute bottom-1/4 -left-20 w-[620px] h-[620px] rounded-full bg-gradient-to-tr from-[#0284C7]/10 via-[#BAE6FD]/12 to-transparent dark:from-[#0284C7]/20 dark:via-[#0369a1]/10 blur-[140px] animate-mesh-2" />
+      <div className="absolute top-2/3 left-1/5 w-[620px] h-[620px] rounded-full bg-gradient-to-tr from-[#F59E0B]/12 via-[#FDE68A]/14 to-transparent dark:from-[#D8B452]/15 dark:via-[#C49A32]/10 blur-[130px] animate-mesh-3" />
+      <div className="absolute -bottom-40 right-1/3 w-[700px] h-[700px] rounded-full bg-gradient-to-tl from-[#7C3AED]/9 via-[#EDE9FE]/12 to-transparent dark:from-[#6833FF]/20 dark:via-[#07081e]/65 blur-[140px] animate-mesh-1" />
 
-      {/* 4. Floating Golden Energy Motes (Visible in Both Light & Dark) */}
+      {/* 4. Floating Multi-Chromatic Jewel Energy Motes (Visible in Both Light & Dark) */}
       <div className="absolute inset-0 pointer-events-none">
-        {LIGHT_MOTES.map((mote) => (
-          <span
-            key={mote.id}
-            className="absolute rounded-full bg-gradient-to-tr from-[#B45309] via-[#D97706] to-[#F59E0B] dark:from-[#D8B452] dark:to-[#FFF] shadow-md shadow-amber-600/50 dark:shadow-[#D8B452]/40 animate-mote"
-            style={{
-              left: mote.left,
-              top: mote.top,
-              width: `${mote.size}px`,
-              height: `${mote.size}px`,
-              animationDelay: mote.delay,
-              animationDuration: mote.duration,
-            }}
-          />
-        ))}
+        {LIGHT_MOTES.map((mote) => {
+          const colorClass =
+            mote.color === 'cyan'
+              ? 'from-[#0284C7] via-[#0EA5E9] to-[#38BDF8] dark:from-[#22D3EE] dark:to-[#FFF] shadow-cyan-600/50 dark:shadow-[#22D3EE]/40'
+              : mote.color === 'orchid'
+              ? 'from-[#6D28D9] via-[#7C3AED] to-[#A78BFA] dark:from-[#8E6FFF] dark:to-[#FFF] shadow-violet-600/50 dark:shadow-[#8E6FFF]/40'
+              : 'from-[#B45309] via-[#D97706] to-[#F59E0B] dark:from-[#D8B452] dark:to-[#FFF] shadow-amber-600/50 dark:shadow-[#D8B452]/40';
+
+          return (
+            <span
+              key={mote.id}
+              className={`absolute rounded-full bg-gradient-to-tr ${colorClass} shadow-md animate-mote`}
+              style={{
+                left: mote.left,
+                top: mote.top,
+                width: `${mote.size}px`,
+                height: `${mote.size}px`,
+                animationDelay: mote.delay,
+                animationDuration: mote.duration,
+              }}
+            />
+          );
+        })}
       </div>
 
       {/* 5. Motion Canvas (AI Neural Graph, Radar Scanners - Visible in Both Light & Dark) */}
