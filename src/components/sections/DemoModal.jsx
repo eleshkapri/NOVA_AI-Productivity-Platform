@@ -22,10 +22,13 @@ import {
   ChevronRight,
   ArrowRight,
   CheckCircle2,
+  Layers,
 } from 'lucide-react';
 
 import { soundService } from '../../services/SoundService';
 import { securityService } from '../../services/SecurityService';
+import { SystemStatusView } from './status/SystemStatusView';
+import { ChangelogView } from './changelog/ChangelogView';
 
 const CHAPTER_LOGS = [
   'Stage 01: Ingesting PRD specifications & architecture AST graph.',
@@ -359,7 +362,10 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
             <Send className="w-3.5 h-3.5" /> Consultation
           </button>
           <button
-            onClick={() => setActiveFeature('status')}
+            onClick={() => {
+              setActiveFeature('status');
+              playChime();
+            }}
             className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer hover:scale-105 active:scale-95 ${
               activeFeature === 'status'
                 ? 'bg-[#D8B452] text-black shadow-md'
@@ -367,6 +373,19 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
             }`}
           >
             <Activity className="w-3.5 h-3.5" /> Status
+          </button>
+          <button
+            onClick={() => {
+              setActiveFeature('changelog');
+              playChime();
+            }}
+            className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer hover:scale-105 active:scale-95 ${
+              activeFeature === 'changelog'
+                ? 'bg-[#D8B452] text-black shadow-md'
+                : 'bg-slate-100 dark:bg-[#0b0c33] text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+            }`}
+          >
+            <Layers className="w-3.5 h-3.5" /> Changelog
           </button>
         </div>
 
@@ -921,36 +940,8 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
 
         {/* TAB 7: Status & Live Cluster Health */}
         {activeFeature === 'status' && (
-          <div className="space-y-4 animate-fade-in font-mono text-xs">
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              {[
-                { name: 'US-East (N. Virginia)', ping: '18ms', status: 'Operational' },
-                { name: 'EU-West (Frankfurt)', ping: '24ms', status: 'Operational' },
-                { name: 'AP-South (Mumbai)', ping: '31ms', status: 'Operational' },
-                { name: 'Global AI Inference', ping: '99.99%', status: 'Healthy' },
-              ].map((reg) => (
-                <div
-                  key={reg.name}
-                  className="p-3.5 rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 space-y-1"
-                >
-                  <span className="text-[10px] text-slate-400 block truncate">{reg.name}</span>
-                  <div className="text-sm font-bold text-slate-900 dark:text-white">{reg.ping}</div>
-                  <div className="text-[10px] text-emerald-500 font-bold flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> {reg.status}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="p-4 rounded-xl bg-slate-900 text-slate-300 border border-white/10 space-y-1 text-[11px]">
-              <div className="text-[#D8B452] font-bold pb-1 border-b border-white/10 flex justify-between">
-                <span>Infrastructure Telemetry Stream</span>
-                <span>Active Nodes: 142</span>
-              </div>
-              <p className="pt-1">✓ Webhook ingestion latency: 8.4ms (p99)</p>
-              <p>✓ PR AI synthesis queue: 0 pending tasks</p>
-              <p>✓ Zero security incidents reported in past 365 days</p>
-            </div>
+          <div className="animate-fade-in">
+            <SystemStatusView onClose={onClose} />
           </div>
         )}
 
@@ -1010,35 +1001,8 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
 
         {/* TAB 9: Changelog & Release Notes */}
         {activeFeature === 'changelog' && (
-          <div className="space-y-3 animate-fade-in">
-            {[
-              {
-                ver: 'v2.4.0 — Multi-Agent PR Review Heuristics',
-                date: 'Released 3 days ago',
-                notes: 'Automated AST-level memory leak detection and parallel TanStack query analysis.',
-              },
-              {
-                ver: 'v2.3.8 — Linear & GitHub Deep Sync',
-                date: 'Released 2 weeks ago',
-                notes: 'Two-way ticket state synchronization with sub-10ms webhook dispatch.',
-              },
-              {
-                ver: 'v2.3.0 — Autonomous Fibonacci Story Pointing',
-                date: 'Released 1 month ago',
-                notes: 'Calibrated from historical commit velocity across 50,000+ public engineering tasks.',
-              },
-            ].map((log) => (
-              <div
-                key={log.ver}
-                className="p-4 rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 space-y-1"
-              >
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-bold text-slate-900 dark:text-white">{log.ver}</span>
-                  <span className="text-slate-500 font-mono text-[11px]">{log.date}</span>
-                </div>
-                <p className="text-xs text-slate-600 dark:text-slate-400">{log.notes}</p>
-              </div>
-            ))}
+          <div className="animate-fade-in">
+            <ChangelogView onClose={onClose} />
           </div>
         )}
       </div>

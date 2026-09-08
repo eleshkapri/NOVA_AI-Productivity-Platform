@@ -91,7 +91,7 @@ export function App() {
       <Navbar
         isDark={isDark}
         toggleTheme={toggleTheme}
-        onOpenDemo={() => handleOpenModal('backlog')}
+        onOpenDemo={(tab, extra) => handleOpenModal(tab || 'backlog', extra)}
         onOpenTrial={() => handleOpenModal('trial')}
         onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
       />

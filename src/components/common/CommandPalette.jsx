@@ -95,7 +95,7 @@ export function CommandPalette({ isOpen, onClose, onToggleTheme, isDark, onOpenD
     },
     {
       id: 'changelog',
-      title: 'View Release Changelog (v2.4.0)',
+      title: 'View Release Changelog (v2.4.1 Latest)',
       category: 'Product',
       icon: Sparkles,
       action: () => {

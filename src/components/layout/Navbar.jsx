@@ -188,6 +188,20 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
 
           {/* Right Side Actions */}
           <div className="hidden md:flex items-center gap-2.5">
+            {/* Live System Status Indicator */}
+            <button
+              onClick={() => onOpenDemo('status')}
+              aria-label="Open System Status"
+              title="Global Systems: 99.99% Operational"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:border-emerald-500/40 transition-colors text-xs font-semibold cursor-pointer shadow-xs"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+              </span>
+              <span className="text-[11px] font-mono hidden lg:inline">99.99%</span>
+            </button>
+
             {/* Quick Command Palette Button */}
             <button
               onClick={onOpenCommandPalette}
@@ -302,6 +316,31 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
             >
               ROI Calculator
             </a>
+          </div>
+
+          {/* Quick Sub-View Shortcuts for Mobile */}
+          <div className="flex items-center gap-2 pt-2">
+            <button
+              type="button"
+              onClick={() => {
+                setIsOpen(false);
+                onOpenDemo('status');
+              }}
+              className="flex-1 py-2 px-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer"
+            >
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>Status 99.99%</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setIsOpen(false);
+                onOpenDemo('changelog');
+              }}
+              className="flex-1 py-2 px-3 rounded-xl bg-slate-100 dark:bg-[#0b0c33] border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer"
+            >
+              <span>Changelog v2.4.1</span>
+            </button>
           </div>
 
           <div className="pt-4 border-t border-slate-200 dark:border-white/10 flex flex-col gap-3">
