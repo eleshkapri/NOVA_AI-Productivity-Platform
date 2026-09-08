@@ -206,13 +206,6 @@ export function AmbientBackground() {
 
       const isLight = !document.documentElement.classList.contains('dark');
 
-      if (isLight) {
-        // In light mode, keep background crystal clean - no cluttered canvas lines/radars
-        ctx.clearRect(0, 0, width, height);
-        animId = requestAnimationFrame(animate);
-        return;
-      }
-
       ctx.save();
       ctx.scale(dpr, dpr);
       ctx.clearRect(0, 0, width, height);
@@ -222,17 +215,17 @@ export function AmbientBackground() {
       const mouseConnectDist = isMobile ? 120 : 180;
       const mouseConnectDistSq = mouseConnectDist * mouseConnectDist;
 
-      // Color paletting for Light & Dark mode
-      const primaryGold = isLight ? '#D97706' : '#D8B452';
-      const secondaryGold = isLight ? '#F59E0B' : '#F3D887';
-      const nodeFill = isLight ? '#D97706' : '#D8B452';
-      const lineRgb = isLight ? '217, 119, 6' : '216, 180, 82';
+      // Color paletting for Light & Dark mode (Crisp, High-Contrast Amber & Orchid in Light mode)
+      const primaryGold = isLight ? '#B45309' : '#D8B452';
+      const secondaryGold = isLight ? '#D97706' : '#F3D887';
+      const nodeFill = isLight ? '#B45309' : '#D8B452';
+      const lineRgb = isLight ? '180, 83, 9' : '216, 180, 82';
       const cyanAccentRgb = isLight ? '2, 132, 199' : '34, 211, 238';
 
       // Orchid Security Neon Violet / Dark-Matter Palette
-      const orchidViolet = isLight ? '#7C3AED' : '#8E6FFF';
-      const orchidLavender = isLight ? '#8B5CF6' : '#A78BFA';
-      const orchidRgb = isLight ? '124, 58, 237' : '142, 111, 255';
+      const orchidViolet = isLight ? '#6D28D9' : '#8E6FFF';
+      const orchidLavender = isLight ? '#7C3AED' : '#A78BFA';
+      const orchidRgb = isLight ? '109, 40, 217' : '142, 111, 255';
 
       // -------------------------------------------------------------
       // 1. Draw AI AST Radar Scanners (Background Tech Circles)
@@ -247,9 +240,9 @@ export function AmbientBackground() {
 
         // Outer concentric rings
         ctx.strokeStyle = isLight
-          ? `rgba(${lineRgb}, 0.08)`
+          ? `rgba(${lineRgb}, 0.28)`
           : `rgba(${lineRgb}, 0.22)`;
-        ctx.lineWidth = 1;
+        ctx.lineWidth = isLight ? 1.2 : 1;
         ctx.beginPath();
         ctx.arc(scX, scY, rad, 0, Math.PI * 2);
         ctx.stroke();
@@ -258,7 +251,7 @@ export function AmbientBackground() {
         ctx.save();
         ctx.setLineDash([4, 6]);
         ctx.strokeStyle = isLight
-          ? `rgba(${lineRgb}, 0.1)`
+          ? `rgba(${lineRgb}, 0.32)`
           : `rgba(${lineRgb}, 0.28)`;
         ctx.beginPath();
         ctx.arc(scX, scY, rad * 1.35, 0, Math.PI * 2);
@@ -267,9 +260,9 @@ export function AmbientBackground() {
 
         // Expanding pulsating radar wave
         const pulseRad = rad * (0.3 + scanner.pulse * 1.4);
-        const pulseAlpha = (1 - scanner.pulse) * (isLight ? 0.12 : 0.35);
+        const pulseAlpha = (1 - scanner.pulse) * (isLight ? 0.38 : 0.35);
         ctx.strokeStyle = `rgba(${lineRgb}, ${pulseAlpha})`;
-        ctx.lineWidth = 1.2;
+        ctx.lineWidth = isLight ? 1.4 : 1.2;
         ctx.beginPath();
         ctx.arc(scX, scY, pulseRad, 0, Math.PI * 2);
         ctx.stroke();
@@ -279,7 +272,7 @@ export function AmbientBackground() {
         ctx.translate(scX, scY);
         ctx.rotate(scanner.angle);
         const sweepGrad = ctx.createLinearGradient(0, 0, rad, 0);
-        sweepGrad.addColorStop(0, `rgba(${lineRgb}, ${isLight ? 0.12 : 0.4})`);
+        sweepGrad.addColorStop(0, `rgba(${lineRgb}, ${isLight ? 0.38 : 0.4})`);
         sweepGrad.addColorStop(1, 'rgba(0,0,0,0)');
         ctx.fillStyle = sweepGrad;
         ctx.beginPath();
@@ -289,8 +282,8 @@ export function AmbientBackground() {
         ctx.fill();
 
         // Sweep leading line
-        ctx.strokeStyle = isLight ? `rgba(${lineRgb}, 0.25)` : primaryGold;
-        ctx.lineWidth = 1.2;
+        ctx.strokeStyle = isLight ? `rgba(${lineRgb}, 0.55)` : primaryGold;
+        ctx.lineWidth = isLight ? 1.4 : 1.2;
         ctx.beginPath();
         ctx.moveTo(0, 0);
         ctx.lineTo(rad, 0);
@@ -300,7 +293,7 @@ export function AmbientBackground() {
         // Compass degree tick marks
         ctx.save();
         ctx.translate(scX, scY);
-        ctx.strokeStyle = `rgba(${lineRgb}, ${isLight ? 0.12 : 0.4})`;
+        ctx.strokeStyle = `rgba(${lineRgb}, ${isLight ? 0.38 : 0.4})`;
         for (let a = 0; a < 8; a++) {
           ctx.rotate(Math.PI / 4);
           ctx.beginPath();
@@ -311,7 +304,7 @@ export function AmbientBackground() {
         ctx.restore();
 
         // Center mini NOVA geometric emblem
-        drawNovaEmblem(scX, scY, 6.5, isLight ? `rgba(${lineRgb}, 0.25)` : primaryGold, scanner.angle * -0.5);
+        drawNovaEmblem(scX, scY, 6.5, isLight ? `rgba(${lineRgb}, 0.55)` : primaryGold, scanner.angle * -0.5);
       });
 
       // -------------------------------------------------------------
@@ -355,7 +348,7 @@ export function AmbientBackground() {
       }
 
       // Draw Synaptic Laser Connections between nearby nodes
-      ctx.lineWidth = 0.85;
+      ctx.lineWidth = isLight ? 1.0 : 0.85;
       for (let i = 0; i < nodeCount; i++) {
         const na = nodes[i];
         for (let j = i + 1; j < nodeCount; j++) {
@@ -367,7 +360,7 @@ export function AmbientBackground() {
           if (distSq < maxConnectDistSq) {
             const dist = Math.sqrt(distSq);
             const factor = 1 - dist / maxConnectDist;
-            const lineAlpha = factor * (isLight ? 0.12 : 0.4);
+            const lineAlpha = factor * (isLight ? 0.38 : 0.4);
 
             // Orchid Security dual-frequency line blending
             const isOrchidLine = na.type === 'orchid' || nb.type === 'orchid';
@@ -389,15 +382,15 @@ export function AmbientBackground() {
           if (mDistSq < mouseConnectDistSq) {
             const mDist = Math.sqrt(mDistSq);
             const factor = 1 - mDist / mouseConnectDist;
-            const lineAlpha = factor * (isLight ? 0.45 : 0.6);
+            const lineAlpha = factor * (isLight ? 0.55 : 0.6);
 
             ctx.strokeStyle = `rgba(${cyanAccentRgb}, ${lineAlpha})`;
-            ctx.lineWidth = 1.1;
+            ctx.lineWidth = isLight ? 1.3 : 1.1;
             ctx.beginPath();
             ctx.moveTo(na.x, na.y);
             ctx.lineTo(mouse.x, mouse.y);
             ctx.stroke();
-            ctx.lineWidth = 0.85;
+            ctx.lineWidth = isLight ? 1.0 : 0.85;
           }
         }
       }
@@ -435,16 +428,16 @@ export function AmbientBackground() {
 
         // Orchid purple packet vs NOVA gold packet
         if (p.type === 'orchid') {
-          ctx.fillStyle = orchidLavender;
-          ctx.shadowColor = orchidViolet;
-          ctx.shadowBlur = isLight ? 5 : 10;
+          ctx.fillStyle = isLight ? '#7C3AED' : orchidLavender;
+          ctx.shadowColor = isLight ? 'rgba(109, 40, 217, 0.7)' : orchidViolet;
+          ctx.shadowBlur = isLight ? 8 : 10;
         } else {
-          ctx.fillStyle = secondaryGold;
-          ctx.shadowColor = primaryGold;
-          ctx.shadowBlur = isLight ? 4 : 8;
+          ctx.fillStyle = isLight ? '#D97706' : secondaryGold;
+          ctx.shadowColor = isLight ? 'rgba(180, 83, 9, 0.7)' : primaryGold;
+          ctx.shadowBlur = isLight ? 7 : 8;
         }
         ctx.beginPath();
-        ctx.arc(px, py, p.size, 0, Math.PI * 2);
+        ctx.arc(px, py, isLight ? p.size * 1.15 : p.size, 0, Math.PI * 2);
         ctx.fill();
         ctx.shadowBlur = 0;
       });
@@ -461,14 +454,14 @@ export function AmbientBackground() {
         if (n.isCore) {
           // Core hub node with glowing halo
           const haloRad = n.radius * 2.8 * pulseFactor;
-          ctx.fillStyle = `rgba(${haloColor}, ${isLight ? 0.08 : 0.24})`;
+          ctx.fillStyle = `rgba(${haloColor}, ${isLight ? 0.28 : 0.24})`;
           ctx.beginPath();
           ctx.arc(n.x, n.y, haloRad, 0, Math.PI * 2);
           ctx.fill();
 
           ctx.fillStyle = isOrchidNode ? orchidViolet : primaryGold;
           ctx.beginPath();
-          ctx.arc(n.x, n.y, n.radius * 1.2, 0, Math.PI * 2);
+          ctx.arc(n.x, n.y, n.radius * 1.25, 0, Math.PI * 2);
           ctx.fill();
 
           // Mini center dot
@@ -478,7 +471,7 @@ export function AmbientBackground() {
           ctx.fill();
         } else {
           // Standard neural graph node (Orchid dark-matter or gold)
-          ctx.fillStyle = isOrchidNode ? (isLight ? '#8B5CF6' : '#A78BFA') : nodeFill;
+          ctx.fillStyle = isOrchidNode ? (isLight ? '#7C3AED' : '#A78BFA') : nodeFill;
           ctx.beginPath();
           ctx.arc(n.x, n.y, n.radius * pulseFactor, 0, Math.PI * 2);
           ctx.fill();
@@ -488,7 +481,7 @@ export function AmbientBackground() {
       // Cursor Nexus Glow
       if (mouse.active) {
         ctx.save();
-        ctx.strokeStyle = `rgba(${cyanAccentRgb}, ${isLight ? 0.5 : 0.7})`;
+        ctx.strokeStyle = `rgba(${cyanAccentRgb}, ${isLight ? 0.65 : 0.7})`;
         ctx.lineWidth = 1.5;
         ctx.beginPath();
         ctx.arc(mouse.x, mouse.y, 8, 0, Math.PI * 2);
@@ -496,7 +489,7 @@ export function AmbientBackground() {
 
         ctx.fillStyle = isLight ? '#0284c7' : '#38bdf8';
         ctx.beginPath();
-        ctx.arc(mouse.x, mouse.y, 3, 0, Math.PI * 2);
+        ctx.arc(mouse.x, mouse.y, 3.5, 0, Math.PI * 2);
         ctx.fill();
         ctx.restore();
       }
@@ -522,17 +515,18 @@ export function AmbientBackground() {
         ctx.save();
         ctx.translate(t.x, floatY);
         ctx.rotate(t.rot);
-        ctx.font = `600 ${t.size}px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace`;
+        ctx.font = `700 ${t.size}px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
 
         if (t.text === '✦') {
           // Draw geometric emblem
-          drawNovaEmblem(0, 0, t.size * 0.6, `rgba(${lineRgb}, ${isLight ? currentAlpha * 0.35 : currentAlpha * 1.2})`);
+          drawNovaEmblem(0, 0, t.size * 0.6, `rgba(${lineRgb}, ${isLight ? currentAlpha * 0.85 : currentAlpha * 1.2})`);
         } else {
+          const isOrchidToken = t.type === 'orchid';
           ctx.fillStyle = isLight
-            ? `rgba(100, 116, 139, ${currentAlpha * 0.3})`
-            : `rgba(216, 180, 82, ${currentAlpha})`;
+            ? (isOrchidToken ? `rgba(109, 40, 217, ${currentAlpha * 0.85})` : `rgba(180, 83, 9, ${currentAlpha * 0.85})`)
+            : (isOrchidToken ? `rgba(167, 139, 250, ${currentAlpha})` : `rgba(216, 180, 82, ${currentAlpha})`);
           ctx.fillText(t.text, 0, 0);
         }
 
@@ -557,25 +551,25 @@ export function AmbientBackground() {
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-gradient-to-b from-[#FFFFFF] via-[#F8FAFC] to-[#F1F5F9] dark:from-[#0b0c26] dark:via-[#070818] dark:to-[#04050d] transition-colors duration-500">
       {/* 1. Subtle Engineering Matrix Grid */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-15 dark:opacity-25" />
+      <div className="absolute inset-0 bg-grid-pattern opacity-25 dark:opacity-25" />
 
       {/* 2. Sweeping Luminous Orchid Violet & AI Neural Auroras */}
-      <div className="absolute -top-40 left-1/4 w-[750px] h-[1200px] bg-gradient-to-b from-[#7C3AED]/4 via-[#A78BFA]/2 to-transparent dark:from-[#6833FF]/20 dark:via-[#8E6FFF]/10 blur-[120px] animate-aurora-beam pointer-events-none" />
-      <div className="absolute -top-60 right-1/4 w-[650px] h-[1100px] bg-gradient-to-b from-[#F59E0B]/4 via-indigo-500/2 to-transparent dark:from-[#D8B452]/15 dark:via-indigo-600/10 blur-[110px] animate-aurora-beam pointer-events-none [animation-delay:4s]" />
+      <div className="absolute -top-40 left-1/4 w-[750px] h-[1200px] bg-gradient-to-b from-[#7C3AED]/12 via-[#A78BFA]/8 to-transparent dark:from-[#6833FF]/20 dark:via-[#8E6FFF]/10 blur-[120px] animate-aurora-beam pointer-events-none" />
+      <div className="absolute -top-60 right-1/4 w-[650px] h-[1100px] bg-gradient-to-b from-[#F59E0B]/12 via-amber-300/8 to-transparent dark:from-[#D8B452]/15 dark:via-indigo-600/10 blur-[110px] animate-aurora-beam pointer-events-none [animation-delay:4s]" />
 
       {/* 3. Fluid Animated Ambient Gradient Orbs (Soft Luminous Lavender & Gold in light, Cosmic in dark) */}
-      <div className="absolute -top-32 -left-32 w-[720px] h-[720px] rounded-full bg-gradient-to-br from-[#7C3AED]/5 via-[#DDD6FE]/6 to-transparent dark:from-[#6833FF]/25 dark:via-[#8E6FFF]/10 blur-[140px] animate-mesh-1" />
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[850px] h-[850px] rounded-full bg-gradient-to-tr from-[#7C3AED]/4 via-[#EDE9FE]/6 to-transparent dark:from-[#6833FF]/20 dark:via-[#4E29D4]/15 blur-[160px] pointer-events-none orchid-ambient-orb" />
-      <div className="absolute top-1/3 -right-44 w-[780px] h-[780px] rounded-full bg-gradient-to-bl from-amber-300/6 via-indigo-200/4 to-transparent dark:from-indigo-600/25 dark:via-[#0b0c33]/70 blur-[150px] animate-mesh-2" />
-      <div className="absolute top-2/3 left-1/5 w-[620px] h-[620px] rounded-full bg-gradient-to-tr from-[#F59E0B]/5 via-[#FDE68A]/6 to-transparent dark:from-[#D8B452]/15 dark:via-[#C49A32]/10 blur-[130px] animate-mesh-3" />
-      <div className="absolute -bottom-40 right-1/3 w-[700px] h-[700px] rounded-full bg-gradient-to-tl from-[#7C3AED]/4 via-[#EDE9FE]/6 to-transparent dark:from-[#6833FF]/20 dark:via-[#07081e]/65 blur-[140px] animate-mesh-1" />
+      <div className="absolute -top-32 -left-32 w-[720px] h-[720px] rounded-full bg-gradient-to-br from-[#7C3AED]/10 via-[#DDD6FE]/12 to-transparent dark:from-[#6833FF]/25 dark:via-[#8E6FFF]/10 blur-[140px] animate-mesh-1" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[850px] h-[850px] rounded-full bg-gradient-to-tr from-[#7C3AED]/8 via-[#EDE9FE]/12 to-transparent dark:from-[#6833FF]/20 dark:via-[#4E29D4]/15 blur-[160px] pointer-events-none orchid-ambient-orb" />
+      <div className="absolute top-1/3 -right-44 w-[780px] h-[780px] rounded-full bg-gradient-to-bl from-amber-400/10 via-amber-200/8 to-transparent dark:from-indigo-600/25 dark:via-[#0b0c33]/70 blur-[150px] animate-mesh-2" />
+      <div className="absolute top-2/3 left-1/5 w-[620px] h-[620px] rounded-full bg-gradient-to-tr from-[#F59E0B]/10 via-[#FDE68A]/12 to-transparent dark:from-[#D8B452]/15 dark:via-[#C49A32]/10 blur-[130px] animate-mesh-3" />
+      <div className="absolute -bottom-40 right-1/3 w-[700px] h-[700px] rounded-full bg-gradient-to-tl from-[#7C3AED]/8 via-[#EDE9FE]/10 to-transparent dark:from-[#6833FF]/20 dark:via-[#07081e]/65 blur-[140px] animate-mesh-1" />
 
-      {/* 4. Floating Golden Energy Motes (Cosmic Fireflies - Dark Mode Only) */}
-      <div className="absolute inset-0 pointer-events-none hidden dark:block">
+      {/* 4. Floating Golden Energy Motes (Visible in Both Light & Dark) */}
+      <div className="absolute inset-0 pointer-events-none">
         {LIGHT_MOTES.map((mote) => (
           <span
             key={mote.id}
-            className="absolute rounded-full bg-gradient-to-tr from-[#D8B452] to-[#FFF] shadow-md shadow-[#D8B452]/40 animate-mote"
+            className="absolute rounded-full bg-gradient-to-tr from-[#B45309] via-[#D97706] to-[#F59E0B] dark:from-[#D8B452] dark:to-[#FFF] shadow-md shadow-amber-600/50 dark:shadow-[#D8B452]/40 animate-mote"
             style={{
               left: mote.left,
               top: mote.top,
@@ -588,24 +582,24 @@ export function AmbientBackground() {
         ))}
       </div>
 
-      {/* 5. Motion Canvas (AI Neural Graph, Radar Scanners - Dark Mode Only) */}
+      {/* 5. Motion Canvas (AI Neural Graph, Radar Scanners - Visible in Both Light & Dark) */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 pointer-events-none hidden dark:block"
+        className="absolute inset-0 pointer-events-none"
       />
 
-      {/* 6. Interactive Mouse Ambient Spotlight (Dark Mode Only) */}
+      {/* 6. Interactive Mouse Ambient Spotlight */}
       <div
         ref={spotlightRef}
-        className="absolute inset-0 transition-opacity duration-300 opacity-0 dark:opacity-50 pointer-events-none"
+        className="absolute inset-0 transition-opacity duration-300 opacity-60 dark:opacity-50 pointer-events-none"
         style={{
           background:
-            'radial-gradient(650px circle at -200px -200px, rgba(216, 180, 82, 0.1), transparent 75%)',
+            'radial-gradient(650px circle at -200px -200px, rgba(124, 58, 237, 0.12), rgba(217, 119, 6, 0.08), transparent 75%)',
         }}
       />
 
-      {/* 7. Subtle High-End Filmic Noise Texture (Dark Mode Only) */}
-      <div className="absolute inset-0 bg-noise opacity-0 dark:opacity-30 pointer-events-none" />
+      {/* 7. Subtle High-End Filmic Noise Texture */}
+      <div className="absolute inset-0 bg-noise opacity-15 dark:opacity-30 pointer-events-none" />
     </div>
   );
 }
