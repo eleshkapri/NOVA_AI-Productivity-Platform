@@ -3,17 +3,98 @@ import { Button } from '../common/Button';
 import {
   ArrowRight,
   Play,
-  Sparkles,
-  CheckCircle2,
-  GitBranch,
   Check,
-  Clock,
-  Zap,
   Bot,
+  Columns,
+  GitPullRequest,
+  Terminal,
 } from 'lucide-react';
+import { HeroKanban } from './hero/HeroKanban';
+import { HeroCodeDiff } from './hero/HeroCodeDiff';
+import { HeroTerminal } from './hero/HeroTerminal';
+import { soundService } from '../../services/SoundService';
+
+const INITIAL_TASKS = [
+  {
+    id: 'NOV-249',
+    title: 'Refactor OAuth token rotation for multi-region failover',
+    points: 3,
+    service: 'Auth Service',
+    status: 'backlog',
+    details:
+      'Automated 3-point Fibonacci estimation calibrated from historical velocity. Auth service multi-region failover test matrix staged with zero circular dependencies.',
+  },
+  {
+    id: 'NOV-251',
+    title: 'Implement real-time WebSocket connection pool manager',
+    points: 5,
+    service: 'Backend API',
+    status: 'backlog',
+    details:
+      'Automated 5-point estimation. Backend API WebSocket multiplexing pool configured with heartbeat keepalive and graceful reconnection policies.',
+  },
+  {
+    id: 'NOV-244',
+    title: 'Automate PR semantic changelogs & visual diff reports',
+    points: 5,
+    service: 'PR Copilot',
+    branch: 'feat/pr-summarizer',
+    status: 'in_progress',
+    details:
+      'PR #142 linked. feat/pr-summarizer passing CI test matrix. Real-time AST semantic diff reasoning active.',
+  },
+  {
+    id: 'NOV-246',
+    title: 'Add Webhook payload validator with AES-GCM verification',
+    points: 8,
+    service: 'Security Layer',
+    status: 'in_progress',
+    details:
+      '8 story points. Webhook security payload verification with AES-GCM key rotation and replay attack prevention.',
+  },
+  {
+    id: 'NOV-238',
+    title: 'Design token synchronization for dark/light mode system',
+    points: 3,
+    service: 'Design System',
+    status: 'done',
+    details:
+      'Merged into main branch. Token pipeline synchronized across Tailwind CSS variables and Figma token export.',
+  },
+  {
+    id: 'NOV-240',
+    title: 'Zero-downtime database migration script for user sessions',
+    points: 5,
+    service: 'Infra & DB',
+    status: 'done',
+    details:
+      'Merged into main branch. Zero-downtime migration completed across all 12 replica database shards.',
+  },
+];
 
 export function Hero({ onOpenDemo }) {
-  const [activeTab, setActiveTab] = useState('sprint');
+  const [activeTab, setActiveTab] = useState('sprint'); // 'sprint' | 'diff' | 'terminal'
+  const [tasks, setTasks] = useState(INITIAL_TASKS);
+  const [isPrMerged, setIsPrMerged] = useState(false);
+
+  const handleMoveTask = (taskId, targetStatus) => {
+    setTasks((prev) =>
+      prev.map((t) => (t.id === taskId ? { ...t, status: targetStatus } : t))
+    );
+  };
+
+  const handleResetTasks = () => {
+    setTasks(INITIAL_TASKS);
+    setIsPrMerged(false);
+  };
+
+  const handleMergePr = () => {
+    setIsPrMerged(true);
+    setTasks((prev) =>
+      prev.map((t) => (t.id === 'NOV-244' ? { ...t, status: 'done' } : t))
+    );
+    soundService.playChime('stepAdvance');
+  };
 
   return (
     <section className="relative pt-36 pb-24 md:pt-44 md:pb-32 overflow-hidden">
@@ -109,41 +190,77 @@ export function Hero({ onOpenDemo }) {
 
           <div className="relative rounded-3xl p-2 sm:p-3 bg-gradient-to-b from-[#6833FF]/25 via-[#0b0c33]/90 to-[#050614] shadow-2xl shadow-[#6833FF]/20 border border-[#8E6FFF]/35 backdrop-blur-2xl orchid-card">
             {/* Top Mockup Title Bar */}
-            <div className="bg-[#0b0c33] rounded-t-2xl px-3 sm:px-5 py-2.5 sm:py-3.5 flex items-center justify-between border-b border-white/10 gap-2">
-              <div className="flex items-center gap-2 shrink-0">
-                <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-rose-500/80 inline-block" />
-                <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-amber-500/80 inline-block" />
-                <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-emerald-500/80 inline-block" />
-                <span className="ml-1 sm:ml-3 text-[11px] sm:text-xs font-semibold tracking-wider text-slate-300 hidden xs:flex items-center gap-1.5 truncate max-w-[140px] sm:max-w-none">
+            <div className="bg-[#0b0c33] rounded-t-2xl px-3 sm:px-5 py-2.5 sm:py-3.5 flex flex-col md:flex-row items-stretch md:items-center justify-between border-b border-white/10 gap-2.5">
+              <div className="flex items-center justify-between md:justify-start gap-2 shrink-0">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-rose-500/80 inline-block" />
+                  <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-amber-500/80 inline-block" />
+                  <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-emerald-500/80 inline-block" />
+                </div>
+                <span className="ml-1 sm:ml-3 text-[11px] sm:text-xs font-semibold tracking-wider text-slate-300 flex items-center gap-1.5 truncate">
                   <Bot className="w-3.5 h-3.5 text-[#D8B452] shrink-0" />
                   <span className="truncate">nova-command-center</span>
                 </span>
               </div>
-              <div className="flex items-center gap-1.5 sm:gap-2">
+
+              {/* Interactive Tabs */}
+              <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar pb-1 md:pb-0">
                 <button
-                  onClick={() => setActiveTab('sprint')}
-                  className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all cursor-pointer hover:scale-105 active:scale-95 whitespace-nowrap ${
+                  type="button"
+                  onClick={() => {
+                    soundService.playChime('actionClick');
+                    setActiveTab('sprint');
+                  }}
+                  className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
                     activeTab === 'sprint'
-                      ? 'bg-[#D8B452] text-black shadow-xs'
-                      : 'text-slate-400 hover:text-white'
+                      ? 'bg-[#D8B452] text-black shadow-xs font-extrabold'
+                      : 'text-slate-400 hover:text-white hover:bg-white/5'
                   }`}
                 >
-                  Active Sprint
+                  <Columns className="w-3 h-3" />
+                  <span>Active Sprint</span>
                 </button>
+
                 <button
-                  onClick={() => setActiveTab('copilot')}
-                  className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all cursor-pointer hover:scale-105 active:scale-95 whitespace-nowrap ${
-                    activeTab === 'copilot'
-                      ? 'bg-[#D8B452] text-black shadow-xs'
-                      : 'text-slate-400 hover:text-white'
+                  type="button"
+                  onClick={() => {
+                    soundService.playChime('actionClick');
+                    setActiveTab('diff');
+                  }}
+                  className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
+                    activeTab === 'diff'
+                      ? 'bg-[#D8B452] text-black shadow-xs font-extrabold'
+                      : 'text-slate-400 hover:text-white hover:bg-white/5'
                   }`}
                 >
-                  AI Copilot Feed
+                  <GitPullRequest className="w-3 h-3" />
+                  <span>PR Diff Inspector</span>
+                  {isPrMerged && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />
+                  )}
                 </button>
+
                 <button
+                  type="button"
+                  onClick={() => {
+                    soundService.playChime('actionClick');
+                    setActiveTab('terminal');
+                  }}
+                  className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
+                    activeTab === 'terminal'
+                      ? 'bg-[#D8B452] text-black shadow-xs font-extrabold'
+                      : 'text-slate-400 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  <Terminal className="w-3 h-3" />
+                  <span>AI Terminal</span>
+                </button>
+
+                <button
+                  type="button"
                   onClick={() => onOpenDemo('walkthrough')}
                   title="Launch full interactive demo studio"
-                  className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer hover:scale-105 active:scale-95 bg-gradient-to-r from-[#D8B452] to-[#B38722] text-black shadow-sm whitespace-nowrap"
+                  className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer hover:scale-105 active:scale-95 bg-gradient-to-r from-[#D8B452] to-[#B38722] text-black shadow-sm whitespace-nowrap ml-1"
                 >
                   <Play className="w-3 h-3 fill-current" /> Interactive Studio
                 </button>
@@ -151,248 +268,24 @@ export function Hero({ onOpenDemo }) {
             </div>
 
             {/* Mockup Dashboard Content */}
-            <div className="bg-[#07081e] p-5 sm:p-7 rounded-b-2xl overflow-hidden">
-              {activeTab === 'sprint' ? (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {/* Column 1: AI Backlog Ingestion */}
-                  <div className="bg-[#0b0c33]/70 p-4 rounded-xl border border-white/5">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
-                        <Sparkles className="w-3.5 h-3.5 text-[#D8B452]" />
-                        AI Ingested (3)
-                      </span>
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#D8B452]/20 text-[#D8B452] font-bold">
-                        Auto-triaged
-                      </span>
-                    </div>
-
-                    <div className="space-y-3">
-                      <div
-                        onClick={() =>
-                          onOpenDemo('task', {
-                            task: {
-                              id: 'NOV-249',
-                              title: 'Refactor OAuth token rotation for multi-region failover',
-                              status: 'Auto-triaged',
-                              details:
-                                'Automated 3-point Fibonacci estimation calibrated from historical velocity. Auth service multi-region failover test matrix staged with zero circular dependencies.',
-                            },
-                          })
-                        }
-                        className="p-3.5 bg-[#050614] rounded-lg border border-white/10 shadow-xs hover:border-[#D8B452] hover:-translate-y-1 hover:shadow-lg hover:shadow-[#D8B452]/20 transition-all duration-300 cursor-pointer group"
-                      >
-                        <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1">
-                          <span className="font-mono text-[#D8B452] font-bold group-hover:underline">NOV-249</span>
-                          <span className="flex items-center gap-1"><Clock className="w-3 h-3 text-[#D8B452]" /> 3 pts</span>
-                        </div>
-                        <p className="text-xs font-semibold text-slate-200 group-hover:text-white transition-colors">
-                          Refactor OAuth token rotation for multi-region failover
-                        </p>
-                        <div className="mt-2 flex items-center gap-2">
-                          <span className="text-[10px] px-1.5 py-0.5 rounded bg-white/5 text-slate-300">
-                            Auth Service
-                          </span>
-                          <span className="text-[10px] text-emerald-400 font-medium">
-                            Auto-estimated
-                          </span>
-                        </div>
-                      </div>
-
-                      <div
-                        onClick={() =>
-                          onOpenDemo('task', {
-                            task: {
-                              id: 'NOV-251',
-                              title: 'Implement real-time WebSocket connection pool manager',
-                              status: 'Auto-triaged',
-                              details:
-                                'Automated 5-point estimation. Backend API WebSocket multiplexing pool configured with heartbeat keepalive and graceful reconnection policies.',
-                            },
-                          })
-                        }
-                        className="p-3.5 bg-[#050614] rounded-lg border border-white/10 shadow-xs hover:border-[#D8B452] hover:-translate-y-1 hover:shadow-lg hover:shadow-[#D8B452]/20 transition-all duration-300 cursor-pointer group"
-                      >
-                        <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1">
-                          <span className="font-mono text-[#D8B452] font-bold group-hover:underline">NOV-251</span>
-                          <span className="flex items-center gap-1"><Clock className="w-3 h-3 text-[#D8B452]" /> 5 pts</span>
-                        </div>
-                        <p className="text-xs font-semibold text-slate-200 group-hover:text-white transition-colors">
-                          Implement real-time WebSocket connection pool manager
-                        </p>
-                        <div className="mt-2 flex items-center gap-2">
-                          <span className="text-[10px] px-1.5 py-0.5 rounded bg-white/5 text-slate-300">
-                            Backend API
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Column 2: In Progress */}
-                  <div className="bg-[#0b0c33]/70 p-4 rounded-xl border border-white/5">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
-                        <Zap className="w-3.5 h-3.5 text-[#D8B452]" />
-                        In Progress (2)
-                      </span>
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#D8B452]/20 text-[#D8B452] font-bold">
-                        High Velocity
-                      </span>
-                    </div>
-
-                    <div className="space-y-3">
-                      <div
-                        onClick={() =>
-                          onOpenDemo('task', {
-                            task: {
-                              id: 'NOV-244',
-                              title: 'Automate PR semantic changelogs & visual diff reports',
-                              status: 'In Progress',
-                              details:
-                                'PR #142 linked. feat/pr-summarizer passing CI test matrix. Real-time AST semantic diff reasoning active.',
-                            },
-                          })
-                        }
-                        className="p-3.5 bg-[#050614] rounded-lg border border-[#D8B452]/30 shadow-xs hover:border-[#D8B452] hover:-translate-y-1 hover:shadow-lg hover:shadow-[#D8B452]/20 transition-all duration-300 cursor-pointer group"
-                      >
-                        <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1">
-                          <span className="font-mono text-[#D8B452] font-bold group-hover:underline">NOV-244</span>
-                          <span className="text-[#D8B452] font-medium">PR #142 Linked</span>
-                        </div>
-                        <p className="text-xs font-semibold text-slate-200 group-hover:text-white transition-colors">
-                          Automate PR semantic changelogs & visual diff reports
-                        </p>
-                        <div className="mt-2 flex items-center justify-between text-[11px]">
-                          <span className="flex items-center gap-1 text-slate-400">
-                            <GitBranch className="w-3 h-3 text-[#D8B452]" /> feat/pr-summarizer
-                          </span>
-                          <span className="text-emerald-400 font-semibold">CI Passing</span>
-                        </div>
-                      </div>
-
-                      <div
-                        onClick={() =>
-                          onOpenDemo('task', {
-                            task: {
-                              id: 'NOV-246',
-                              title: 'Add Webhook payload validator with AES-GCM verification',
-                              status: 'In Progress',
-                              details:
-                                '8 story points. Webhook security payload verification with AES-GCM key rotation and replay attack prevention.',
-                            },
-                          })
-                        }
-                        className="p-3.5 bg-[#050614] rounded-lg border border-white/10 shadow-xs hover:border-[#D8B452] hover:-translate-y-1 hover:shadow-lg hover:shadow-[#D8B452]/20 transition-all duration-300 cursor-pointer group"
-                      >
-                        <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1">
-                          <span className="font-mono text-[#D8B452] font-bold group-hover:underline">NOV-246</span>
-                          <span>8 pts</span>
-                        </div>
-                        <p className="text-xs font-semibold text-slate-200 group-hover:text-white transition-colors">
-                          Add Webhook payload validator with AES-GCM verification
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Column 3: Shipped */}
-                  <div className="bg-[#0b0c33]/70 p-4 rounded-xl border border-white/5">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                        Completed (4)
-                      </span>
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-bold">
-                        100% Verified
-                      </span>
-                    </div>
-
-                    <div className="space-y-3">
-                      <div
-                        onClick={() =>
-                          onOpenDemo('task', {
-                            task: {
-                              id: 'NOV-238',
-                              title: 'Design token synchronization for dark/light mode system',
-                              status: 'Merged',
-                              details:
-                                'Merged into main branch. Token pipeline synchronized across Tailwind CSS variables and Figma token export.',
-                            },
-                          })
-                        }
-                        className="p-3.5 bg-[#050614] rounded-lg border border-white/10 opacity-75 hover:opacity-100 hover:border-white/30 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
-                      >
-                        <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1">
-                          <span className="font-mono text-slate-500 line-through">NOV-238</span>
-                          <span className="text-emerald-400 font-bold">Merged</span>
-                        </div>
-                        <p className="text-xs font-medium text-slate-400 line-through">
-                          Design token synchronization for dark/light mode system
-                        </p>
-                      </div>
-
-                      <div
-                        onClick={() =>
-                          onOpenDemo('task', {
-                            task: {
-                              id: 'NOV-240',
-                              title: 'Zero-downtime database migration script for user sessions',
-                              status: 'Merged',
-                              details:
-                                'Merged into main branch. Zero-downtime migration completed across all 12 replica database shards.',
-                            },
-                          })
-                        }
-                        className="p-3.5 bg-[#050614] rounded-lg border border-white/10 opacity-75 hover:opacity-100 hover:border-white/30 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
-                      >
-                        <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1">
-                          <span className="font-mono text-slate-500 line-through">NOV-240</span>
-                          <span className="text-emerald-400 font-bold">Merged</span>
-                        </div>
-                        <p className="text-xs font-medium text-slate-400 line-through">
-                          Zero-downtime database migration script for user sessions
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                /* Tab 2: AI Copilot Feed */
-                <div className="space-y-3 font-mono text-xs">
-                  <div
-                    onClick={() => onOpenDemo('backlog')}
-                    className="p-4 rounded-xl bg-[#050614] border border-[#D8B452]/30 hover:border-[#D8B452] hover:-translate-y-1 hover:shadow-lg hover:shadow-[#D8B452]/20 transition-all duration-300 cursor-pointer flex items-start gap-3"
-                  >
-                    <div className="p-1.5 rounded-md bg-[#D8B452]/20 text-[#D8B452] shrink-0 mt-0.5">
-                      <Sparkles className="w-4 h-4 text-[#D8B452]" />
-                    </div>
-                    <div>
-                      <p className="font-bold text-[#D8B452]">
-                        [NOVA Copilot] Potential Bottleneck Detected on Sprint 48
-                      </p>
-                      <p className="text-slate-300 mt-1 font-sans">
-                        Task <span className="font-mono font-bold text-[#D8B452]">NOV-244</span> depends on backend PR #138 which is pending review. Suggested action: Reassigned reviewer to Marcus Vance based on commit history in auth module.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div
-                    onClick={() => onOpenDemo('changelog')}
-                    className="p-4 rounded-xl bg-[#050614] border border-white/10 hover:border-emerald-500/50 hover:-translate-y-1 hover:shadow-lg hover:shadow-emerald-500/10 transition-all duration-300 cursor-pointer flex items-start gap-3"
-                  >
-                    <div className="p-1.5 rounded-md bg-emerald-500/20 text-emerald-400 shrink-0 mt-0.5">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                    </div>
-                    <div>
-                      <p className="font-bold text-emerald-400">
-                        [NOVA Copilot] Automated PR Changelog Generated
-                      </p>
-                      <p className="text-slate-300 mt-1 font-sans">
-                        Merged 4 commits into <span className="font-mono text-emerald-400">main</span>. Semantic version bumped to v2.4.0 with zero regressions detected in unit test suite.
-                      </p>
-                    </div>
-                  </div>
-                </div>
+            <div className="bg-[#07081e] p-4 sm:p-6 rounded-b-2xl overflow-hidden">
+              {activeTab === 'sprint' && (
+                <HeroKanban
+                  tasks={tasks}
+                  onMoveTask={handleMoveTask}
+                  onResetTasks={handleResetTasks}
+                  onOpenDemo={onOpenDemo}
+                />
+              )}
+              {activeTab === 'diff' && (
+                <HeroCodeDiff
+                  isPrMerged={isPrMerged}
+                  onMergePr={handleMergePr}
+                  onOpenDemo={onOpenDemo}
+                />
+              )}
+              {activeTab === 'terminal' && (
+                <HeroTerminal onOpenDemo={onOpenDemo} />
               )}
             </div>
           </div>
