@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useTheme, useScrollPosition } from './hooks';
-import { soundService } from './services/SoundService';
 import {
   CustomCursor,
   ProgressBar,
@@ -54,8 +53,6 @@ export function App() {
   };
 
   useEffect(() => {
-    soundService.ensureAutoPlay();
-
     const handleOpenPalette = () => setIsCommandPaletteOpen(true);
     document.addEventListener('open-command-palette', handleOpenPalette);
     return () => document.removeEventListener('open-command-palette', handleOpenPalette);

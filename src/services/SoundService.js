@@ -95,7 +95,6 @@ export class SoundService {
     this.#unlockHandler = null;
 
     this.#initVisibilityListener();
-    this.#initAutoPlayOnLoad();
   }
 
   get isEnabled() {
@@ -297,52 +296,6 @@ export class SoundService {
     return this.#ctx;
   }
 
-  /**
-   * Automatically attempts playback on site load with browser autoplay policy handling.
-   */
-  #initAutoPlayOnLoad() {
-    if (typeof window === 'undefined') return;
-
-    const attemptAutoPlay = () => {
-      if (!this.#isEnabled) return;
-      const audio = this.#getOrCreateAudio();
-      if (!audio) return;
-
-      const activeTrack = this.currentTrack;
-      if (!audio.src || !audio.src.includes(activeTrack.src)) {
-        audio.src = activeTrack.src;
-      }
-
-      audio.volume = this.#volume;
-      audio.muted = false;
-
-      const playPromise = audio.play();
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            this.#isPlaying = true;
-            this.#isBlockedByAutoplay = false;
-            this.#notify();
-          })
-          .catch(() => {
-            // Browser autoplay policy prevented unmuted initial play without prior user gesture
-            this.#isBlockedByAutoplay = true;
-            this.#isPlaying = false;
-            this.#notify();
-
-            this.#attachOneTimeGestureUnlock();
-          });
-      }
-    };
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', attemptAutoPlay, { once: true });
-    } else {
-      attemptAutoPlay();
-    }
-    // Proactively attach gesture unlock listener so first user interaction unlocks audio immediately
-    this.#attachOneTimeGestureUnlock();
-  }
 
   /**
    * Attaches robust gesture listeners to cleanly start playback as soon as user interacts with the page.
@@ -419,11 +372,19 @@ export class SoundService {
   }
 
   /**
+   * Starts ambient soundtrack autoplay specifically when the user enters the main site.
+   */
+  startOnSiteEntry() {
+    if (!this.#isEnabled) return;
+    this.startTheme(false);
+  }
+
+  /**
    * Ensures autoplay is triggered during React component mounting or navigation.
    */
   ensureAutoPlay() {
     if (!this.#isPlaying && this.#isEnabled) {
-      this.#initAutoPlayOnLoad();
+      this.startTheme(false);
     }
   }
 

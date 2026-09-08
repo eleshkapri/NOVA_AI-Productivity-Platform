@@ -9,9 +9,6 @@ export function Preloader({ isDark }) {
   const statusTextRef = useRef(null);
 
   useEffect(() => {
-    // Attempt sound playback immediately on site entry
-    soundService.ensureAutoPlay();
-
     const startTime = performance.now();
     const duration = 1600; // 1.6s silky frictionless pace
 
@@ -57,12 +54,11 @@ export function Preloader({ isDark }) {
         if (statusTextRef.current) {
           statusTextRef.current.textContent = 'System Ready';
         }
-        // Ensure soundtrack is active as calibration finishes
-        soundService.ensureAutoPlay();
-
         // Brief perceptible moment of 100% completion before lifting curtain
         timer1 = setTimeout(() => {
           setIsDone(true);
+          // Only start autoplay when the user comes on the site as the curtain lifts
+          soundService.startOnSiteEntry();
           timer2 = setTimeout(() => {
             setIsMounted(false);
           }, 950); // Generous time for the silky curtain curve to finish
@@ -84,11 +80,6 @@ export function Preloader({ isDark }) {
   return (
     <div
       data-theme={isDark ? 'dark' : 'light'}
-      onClick={() => {
-        if (!soundService.isPlaying) {
-          soundService.startTheme(false);
-        }
-      }}
       className={`fixed inset-0 z-50 flex flex-col items-center justify-between bg-[#F8FAFC] dark:bg-[#050614] text-slate-900 dark:text-white p-8 sm:p-12 transition-all duration-900 ease-[cubic-bezier(0.76,0,0.24,1)] will-change-[transform,opacity] ${
         isDone ? '-translate-y-full opacity-90 pointer-events-none' : 'translate-y-0 opacity-100'
       }`}

@@ -1,58 +1,50 @@
 import React, { useState, useEffect } from 'react';
-import { VolumeX } from 'lucide-react';
 import { soundService } from '../../services/SoundService';
 
 export function SoundToggle() {
   const [isPlaying, setIsPlaying] = useState(() => soundService.isPlaying);
+  const [isDismissed, setIsDismissed] = useState(false);
 
   useEffect(() => {
     const unsubscribe = soundService.subscribe((state) => {
       setIsPlaying(state.isPlaying);
+      if (!state.isEnabled) {
+        setIsDismissed(true);
+      }
     });
 
-    soundService.ensureAutoPlay();
     return unsubscribe;
   }, []);
 
-  const handleToggle = (e) => {
+  const handleTurnOff = (e) => {
     e?.stopPropagation?.();
-    if (isPlaying) {
-      soundService.stopTheme();
-    } else {
-      soundService.startTheme(false);
-    }
+    soundService.stopTheme();
+    setIsDismissed(true);
   };
 
+  // Only the OFF option is available when playing on site entry.
+  // Once turned off or when not playing, remove the sound option completely.
+  if (isDismissed || !isPlaying) {
+    return null;
+  }
+
   return (
-    <div className="fixed bottom-6 left-4 sm:left-6 z-40 select-none">
+    <div className="fixed bottom-6 left-4 sm:left-6 z-40 select-none transition-opacity duration-300">
       <button
         type="button"
-        onClick={handleToggle}
-        aria-label={isPlaying ? 'Turn sound off' : 'Turn sound on'}
-        title={isPlaying ? 'Sound is ON • Click to turn OFF' : 'Sound is OFF • Click to turn ON'}
-        className={`flex items-center gap-2 px-3.5 py-2 rounded-full border text-xs font-semibold tracking-wider uppercase transition-all duration-300 cursor-pointer shadow-lg hover:scale-105 active:scale-95 ${
-          isPlaying
-            ? 'bg-white/95 border-[#D8B452] text-[#B45309] shadow-md dark:bg-[#0b0c33]/90 dark:border-[#D8B452] dark:text-[#D8B452] dark:shadow-[#D8B452]/25 ring-1 ring-[#D8B452]/40'
-            : 'bg-white/95 backdrop-blur-md border-slate-200 text-slate-500 hover:text-[#B45309] hover:border-[#D8B452]/50 hover:bg-slate-50 dark:bg-[#050614]/85 dark:border-white/10 dark:text-slate-400 dark:hover:text-[#D8B452] dark:hover:bg-[#0b0c33]/60 shadow-sm'
-        }`}
+        onClick={handleTurnOff}
+        aria-label="Turn sound off"
+        title="Sound is ON • Click to turn OFF"
+        className="group flex items-center gap-2.5 px-3.5 py-2 rounded-full border border-[#D8B452] bg-white/95 text-[#B45309] shadow-md dark:bg-[#0b0c33]/90 dark:border-[#D8B452] dark:text-[#D8B452] dark:shadow-[#D8B452]/25 ring-1 ring-[#D8B452]/40 text-xs font-semibold tracking-wider uppercase transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
       >
-        {isPlaying ? (
-          <>
-            {/* Live 4-Bar Equalizer Visualizer */}
-            <div className="flex items-end gap-[3px] h-3.5 w-3.5 pb-0.5" aria-hidden="true">
-              <span className="w-0.5 bg-[#B45309] dark:bg-[#D8B452] rounded-full animate-sound-bar-1" />
-              <span className="w-0.5 bg-[#B45309] dark:bg-[#D8B452] rounded-full animate-sound-bar-2" />
-              <span className="w-0.5 bg-[#B45309] dark:bg-[#D8B452] rounded-full animate-sound-bar-3" />
-              <span className="w-0.5 bg-[#B45309] dark:bg-[#D8B452] rounded-full animate-sound-bar-4" />
-            </div>
-            <span className="font-mono tracking-wider text-[11px]">SOUND ON</span>
-          </>
-        ) : (
-          <>
-            <VolumeX className="w-4 h-4 text-slate-400 dark:text-slate-500" />
-            <span className="font-mono tracking-wider text-[11px]">SOUND OFF</span>
-          </>
-        )}
+        {/* Live 4-Bar Equalizer Visualizer */}
+        <div className="flex items-end gap-[3px] h-3.5 w-3.5 pb-0.5" aria-hidden="true">
+          <span className="w-0.5 bg-[#B45309] dark:bg-[#D8B452] rounded-full animate-sound-bar-1" />
+          <span className="w-0.5 bg-[#B45309] dark:bg-[#D8B452] rounded-full animate-sound-bar-2" />
+          <span className="w-0.5 bg-[#B45309] dark:bg-[#D8B452] rounded-full animate-sound-bar-3" />
+          <span className="w-0.5 bg-[#B45309] dark:bg-[#D8B452] rounded-full animate-sound-bar-4" />
+        </div>
+        <span className="font-mono tracking-wider text-[11px]">SOUND OFF</span>
       </button>
     </div>
   );
