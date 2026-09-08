@@ -203,9 +203,20 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
             <button
               onClick={toggleTheme}
               aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-              className="p-2.5 rounded-full border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b0c33] text-slate-700 dark:text-slate-300 hover:text-[#a1741a] dark:hover:text-[#D8B452] hover:border-[#D8B452]/40 transition-colors cursor-pointer shadow-xs"
+              className="relative p-2.5 rounded-full border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b0c33] text-slate-700 dark:text-slate-300 hover:text-[#a1741a] dark:hover:text-[#D8B452] hover:border-[#D8B452]/40 transition-all duration-300 cursor-pointer shadow-xs group overflow-hidden"
             >
-              {isDark ? <Sun className="w-4 h-4 text-[#D8B452]" /> : <Moon className="w-4 h-4 text-[#a1741a]" />}
+              <div className="relative w-4 h-4 flex items-center justify-center">
+                <Sun
+                  className={`w-4 h-4 text-[#D8B452] absolute transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+                    isDark ? 'rotate-0 scale-100 opacity-100' : 'rotate-90 scale-0 opacity-0'
+                  }`}
+                />
+                <Moon
+                  className={`w-4 h-4 text-[#B45309] absolute transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+                    isDark ? '-rotate-90 scale-0 opacity-0' : 'rotate-0 scale-100 opacity-100'
+                  }`}
+                />
+              </div>
             </button>
 
             {/* Watch Demo CTA */}
@@ -238,9 +249,20 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
             <button
               onClick={toggleTheme}
               aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-              className="p-2 rounded-full border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300"
+              className="relative p-2 rounded-full border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b0c33] text-slate-700 dark:text-slate-300 cursor-pointer overflow-hidden"
             >
-              {isDark ? <Sun className="w-4 h-4 text-[#D8B452]" /> : <Moon className="w-4 h-4 text-[#a1741a]" />}
+              <div className="relative w-4 h-4 flex items-center justify-center">
+                <Sun
+                  className={`w-4 h-4 text-[#D8B452] absolute transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+                    isDark ? 'rotate-0 scale-100 opacity-100' : 'rotate-90 scale-0 opacity-0'
+                  }`}
+                />
+                <Moon
+                  className={`w-4 h-4 text-[#B45309] absolute transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+                    isDark ? '-rotate-90 scale-0 opacity-0' : 'rotate-0 scale-100 opacity-100'
+                  }`}
+                />
+              </div>
             </button>
 
             <button

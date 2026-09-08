@@ -122,21 +122,61 @@
   animation: floatOrb2 18s ease-in-out infinite;
 }
 
-/* Luxury Totem Silky-Smooth Continuous Rotation */
+/* Luxury Totem Silky-Smooth Continuous Rotation with Hardware Acceleration */
 @keyframes totemSpinSmooth {
-  0% {
-    transform: rotate(0deg);
+  from {
+    transform: rotate(0deg) translateZ(0);
   }
-  100% {
-    transform: rotate(360deg);
+  to {
+    transform: rotate(360deg) translateZ(0);
   }
 }
 
 .animate-totem {
-  animation: totemSpinSmooth 6s linear infinite;
+  animation: totemSpinSmooth 3.2s linear infinite;
   transform-origin: center center;
   will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
+
+/* Silky Smooth Orbital Spinner Ring */
+@keyframes spinSmooth {
+  from {
+    transform: rotate(0deg) translateZ(0);
+  }
+  to {
+    transform: rotate(360deg) translateZ(0);
+  }
+}
+
+.animate-spin-smooth {
+  animation: spinSmooth 1.8s linear infinite;
+  transform-origin: center center;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* Unified Global Theme Switch Transitioning */
+html.theme-transitioning,
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition: background-color 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              color 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.45s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition-delay: 0s !important;
+}
+
+/* Silky View Transition Cross-Fade Animation */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.45s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 
 /* Slow Smooth Radar Ring Rotation */
 @keyframes spinSlow {

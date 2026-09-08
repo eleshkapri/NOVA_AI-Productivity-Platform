@@ -92,34 +92,43 @@ export function Preloader({ isDark }) {
           isDone ? 'opacity-0 scale-95 -translate-y-6' : 'opacity-100 scale-100 translate-y-0'
         }`}
       >
-        {/* Animated Totem with Glowing Aura */}
-        <div className="relative">
-          <div className="absolute inset-0 bg-amber-400/20 dark:bg-[#D8B452]/25 blur-3xl rounded-full scale-150 animate-pulse" />
-          <div className="w-20 h-20 relative z-10 flex items-center justify-center">
-            <svg
-              viewBox="0 0 32 32"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-full h-full text-amber-600 dark:text-[#D8B452] drop-shadow-[0_0_20px_rgba(217,119,6,0.35)] dark:drop-shadow-[0_0_24px_rgba(216,180,82,0.85)] animate-totem"
-              style={{ transformOrigin: 'center center' }}
-            >
-              <path
-                d="M4.919 20.0389L6.967 17.9751H13.918V24.9797L11.87 27.0435C8.72 30.2174 4.453 31.9999 0 31.9999C0 27.5126 1.769 23.2129 4.919 20.0389Z"
-                fill="currentColor"
-              />
-              <path
-                d="M11.87 4.95635L13.918 7.0202V14.0248H6.967L4.919 11.9609C1.769 8.78697 0 4.4873 0 0C4.453 0 8.72 1.78241 11.87 4.95635Z"
-                fill="currentColor"
-              />
-              <path
-                d="M26.843 11.9609L24.795 14.0248H17.844V7.0202L19.892 4.95635C23.042 1.78241 27.308 0 31.761 0C31.761 4.4873 29.993 8.78697 26.848 11.9609"
-                fill="currentColor"
-              />
-              <path
-                d="M19.892 27.0489L17.844 24.985V17.9805H24.795L26.843 20.0443C29.993 23.2183 31.761 27.5179 31.761 32.0052C27.308 32.0052 23.042 30.2228 19.892 27.0489Z"
-                fill="currentColor"
-              />
-            </svg>
+        {/* Animated Totem with Glowing Aura & Silky Orbital Spinner Ring */}
+        <div className="relative flex items-center justify-center">
+          {/* Static Soft Ambient Glow Aura (Hardware accelerated, zero rasterizer jank) */}
+          <div className="absolute inset-0 bg-amber-400/25 dark:bg-[#D8B452]/30 blur-2xl rounded-full scale-125 pointer-events-none" />
+
+          {/* Outer Silky Smooth Orbital Ring */}
+          <div className="w-24 h-24 rounded-full border border-amber-500/20 dark:border-[#D8B452]/25 flex items-center justify-center relative pointer-events-none">
+            {/* Spinning Orbital Gradient Accent Ring */}
+            <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-amber-600 border-r-amber-500/40 dark:border-t-[#D8B452] dark:border-r-[#D8B452]/40 animate-spin-smooth" />
+
+            {/* Inner Silky Hardware-Accelerated Totem */}
+            <div className="w-14 h-14 relative z-10 flex items-center justify-center animate-totem">
+              <svg
+                viewBox="0 0 32 32"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-full h-full text-amber-600 dark:text-[#D8B452]"
+                style={{ transformOrigin: 'center center' }}
+              >
+                <path
+                  d="M4.919 20.0389L6.967 17.9751H13.918V24.9797L11.87 27.0435C8.72 30.2174 4.453 31.9999 0 31.9999C0 27.5126 1.769 23.2129 4.919 20.0389Z"
+                  fill="currentColor"
+                />
+                <path
+                  d="M11.87 4.95635L13.918 7.0202V14.0248H6.967L4.919 11.9609C1.769 8.78697 0 4.4873 0 0C4.453 0 8.72 1.78241 11.87 4.95635Z"
+                  fill="currentColor"
+                />
+                <path
+                  d="M26.843 11.9609L24.795 14.0248H17.844V7.0202L19.892 4.95635C23.042 1.78241 27.308 0 31.761 0C31.761 4.4873 29.993 8.78697 26.848 11.9609"
+                  fill="currentColor"
+                />
+                <path
+                  d="M19.892 27.0489L17.844 24.985V17.9805H24.795L26.843 20.0443C29.993 23.2183 31.761 27.5179 31.761 32.0052C27.308 32.0052 23.042 30.2228 19.892 27.0489Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </div>
           </div>
         </div>
 

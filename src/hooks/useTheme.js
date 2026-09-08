@@ -26,7 +26,24 @@ export function useTheme() {
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
+    if (typeof document !== 'undefined') {
+      const root = document.documentElement;
+      root.classList.add('theme-transitioning');
+
+      if (document.startViewTransition) {
+        document.startViewTransition(() => {
+          setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
+        });
+      } else {
+        setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
+      }
+
+      setTimeout(() => {
+        root.classList.remove('theme-transitioning');
+      }, 550);
+    } else {
+      setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
+    }
   };
 
   return {

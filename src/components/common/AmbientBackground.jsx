@@ -206,6 +206,13 @@ export function AmbientBackground() {
 
       const isLight = !document.documentElement.classList.contains('dark');
 
+      if (isLight) {
+        // In light mode, keep background crystal clean - no cluttered canvas lines/radars
+        ctx.clearRect(0, 0, width, height);
+        animId = requestAnimationFrame(animate);
+        return;
+      }
+
       ctx.save();
       ctx.scale(dpr, dpr);
       ctx.clearRect(0, 0, width, height);
@@ -550,21 +557,21 @@ export function AmbientBackground() {
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-gradient-to-b from-[#FFFFFF] via-[#F8FAFC] to-[#F1F5F9] dark:from-[#0b0c26] dark:via-[#070818] dark:to-[#04050d] transition-colors duration-500">
       {/* 1. Subtle Engineering Matrix Grid */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-30 dark:opacity-25" />
+      <div className="absolute inset-0 bg-grid-pattern opacity-15 dark:opacity-25" />
 
       {/* 2. Sweeping Luminous Orchid Violet & AI Neural Auroras */}
-      <div className="absolute -top-40 left-1/4 w-[750px] h-[1200px] bg-gradient-to-b from-[#7C3AED]/5 via-[#A78BFA]/3 to-transparent dark:from-[#6833FF]/20 dark:via-[#8E6FFF]/10 blur-[120px] animate-aurora-beam pointer-events-none" />
-      <div className="absolute -top-60 right-1/4 w-[650px] h-[1100px] bg-gradient-to-b from-[#F59E0B]/5 via-indigo-500/3 to-transparent dark:from-[#D8B452]/15 dark:via-indigo-600/10 blur-[110px] animate-aurora-beam pointer-events-none [animation-delay:4s]" />
+      <div className="absolute -top-40 left-1/4 w-[750px] h-[1200px] bg-gradient-to-b from-[#7C3AED]/4 via-[#A78BFA]/2 to-transparent dark:from-[#6833FF]/20 dark:via-[#8E6FFF]/10 blur-[120px] animate-aurora-beam pointer-events-none" />
+      <div className="absolute -top-60 right-1/4 w-[650px] h-[1100px] bg-gradient-to-b from-[#F59E0B]/4 via-indigo-500/2 to-transparent dark:from-[#D8B452]/15 dark:via-indigo-600/10 blur-[110px] animate-aurora-beam pointer-events-none [animation-delay:4s]" />
 
       {/* 3. Fluid Animated Ambient Gradient Orbs (Soft Luminous Lavender & Gold in light, Cosmic in dark) */}
-      <div className="absolute -top-32 -left-32 w-[720px] h-[720px] rounded-full bg-gradient-to-br from-[#7C3AED]/6 via-[#DDD6FE]/8 to-transparent dark:from-[#6833FF]/25 dark:via-[#8E6FFF]/10 blur-[140px] animate-mesh-1" />
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[850px] h-[850px] rounded-full bg-gradient-to-tr from-[#7C3AED]/5 via-[#EDE9FE]/8 to-transparent dark:from-[#6833FF]/20 dark:via-[#4E29D4]/15 blur-[160px] pointer-events-none orchid-ambient-orb" />
-      <div className="absolute top-1/3 -right-44 w-[780px] h-[780px] rounded-full bg-gradient-to-bl from-amber-300/8 via-indigo-200/5 to-transparent dark:from-indigo-600/25 dark:via-[#0b0c33]/70 blur-[150px] animate-mesh-2" />
-      <div className="absolute top-2/3 left-1/5 w-[620px] h-[620px] rounded-full bg-gradient-to-tr from-[#F59E0B]/6 via-[#FDE68A]/8 to-transparent dark:from-[#D8B452]/15 dark:via-[#C49A32]/10 blur-[130px] animate-mesh-3" />
-      <div className="absolute -bottom-40 right-1/3 w-[700px] h-[700px] rounded-full bg-gradient-to-tl from-[#7C3AED]/5 via-[#EDE9FE]/8 to-transparent dark:from-[#6833FF]/20 dark:via-[#07081e]/65 blur-[140px] animate-mesh-1" />
+      <div className="absolute -top-32 -left-32 w-[720px] h-[720px] rounded-full bg-gradient-to-br from-[#7C3AED]/5 via-[#DDD6FE]/6 to-transparent dark:from-[#6833FF]/25 dark:via-[#8E6FFF]/10 blur-[140px] animate-mesh-1" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[850px] h-[850px] rounded-full bg-gradient-to-tr from-[#7C3AED]/4 via-[#EDE9FE]/6 to-transparent dark:from-[#6833FF]/20 dark:via-[#4E29D4]/15 blur-[160px] pointer-events-none orchid-ambient-orb" />
+      <div className="absolute top-1/3 -right-44 w-[780px] h-[780px] rounded-full bg-gradient-to-bl from-amber-300/6 via-indigo-200/4 to-transparent dark:from-indigo-600/25 dark:via-[#0b0c33]/70 blur-[150px] animate-mesh-2" />
+      <div className="absolute top-2/3 left-1/5 w-[620px] h-[620px] rounded-full bg-gradient-to-tr from-[#F59E0B]/5 via-[#FDE68A]/6 to-transparent dark:from-[#D8B452]/15 dark:via-[#C49A32]/10 blur-[130px] animate-mesh-3" />
+      <div className="absolute -bottom-40 right-1/3 w-[700px] h-[700px] rounded-full bg-gradient-to-tl from-[#7C3AED]/4 via-[#EDE9FE]/6 to-transparent dark:from-[#6833FF]/20 dark:via-[#07081e]/65 blur-[140px] animate-mesh-1" />
 
-      {/* 4. Floating Golden Energy Motes */}
-      <div className="absolute inset-0 pointer-events-none">
+      {/* 4. Floating Golden Energy Motes (Cosmic Fireflies - Dark Mode Only) */}
+      <div className="absolute inset-0 pointer-events-none hidden dark:block">
         {LIGHT_MOTES.map((mote) => (
           <span
             key={mote.id}
@@ -581,24 +588,24 @@ export function AmbientBackground() {
         ))}
       </div>
 
-      {/* 5. Motion Canvas (AI Neural Code Graph, AST Radar Scanners, Data Pulses, Floating Syntax Tokens) */}
+      {/* 5. Motion Canvas (AI Neural Graph, Radar Scanners - Dark Mode Only) */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none hidden dark:block"
       />
 
-      {/* 6. Interactive Mouse Ambient Spotlight */}
+      {/* 6. Interactive Mouse Ambient Spotlight (Dark Mode Only) */}
       <div
         ref={spotlightRef}
-        className="absolute inset-0 transition-opacity duration-300 opacity-70 dark:opacity-50 pointer-events-none"
+        className="absolute inset-0 transition-opacity duration-300 opacity-0 dark:opacity-50 pointer-events-none"
         style={{
           background:
             'radial-gradient(650px circle at -200px -200px, rgba(216, 180, 82, 0.1), transparent 75%)',
         }}
       />
 
-      {/* 7. Subtle High-End Filmic Noise Texture */}
-      <div className="absolute inset-0 bg-noise opacity-20 dark:opacity-30" />
+      {/* 7. Subtle High-End Filmic Noise Texture (Dark Mode Only) */}
+      <div className="absolute inset-0 bg-noise opacity-0 dark:opacity-30 pointer-events-none" />
     </div>
   );
 }
