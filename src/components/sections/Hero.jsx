@@ -17,7 +17,7 @@ export function Hero({ onOpenDemo }) {
 
   return (
     <section className="relative pt-36 pb-24 md:pt-44 md:pb-32 overflow-hidden">
-      {/* Soufflet & Orchid Ambient Atmospheric Glow */}
+      {/* Ambient Atmospheric Glow */}
       <div
         className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[550px] pointer-events-none opacity-40 dark:opacity-25 blur-3xl -z-10"
         style={{

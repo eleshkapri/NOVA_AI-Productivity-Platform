@@ -172,7 +172,7 @@ export function CommandPalette({ isOpen, onClose, onToggleTheme, isDark, onOpenD
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose, filtered, selectedIndex, onOpenDemo, onToggleTheme]);
+  }, [isOpen, onClose, filtered, selectedIndex]);
 
   useEffect(() => {
     if (isOpen) {

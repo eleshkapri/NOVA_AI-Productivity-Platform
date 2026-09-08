@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 
 /**
  * MotionReveal — Luxury Scroll-Triggered Reveal Animation Component
- * Inspired by Soufflet Malt & Awwwards editorial sites
  * - Smooth fade-up, blur-to-sharp, and progressive staggered reveals
  * - 60fps performance via IntersectionObserver and CSS transitions
  * - Automatically respects user preference for reduced motion

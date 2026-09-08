@@ -1,7 +1,7 @@
 # Live Review & Code Defense Preparation Guide
 
-> This cheat sheet prepares you for the live interview evaluation for the **Sankar Group Front-End Development Internship**.  
-> Evaluators will test your comprehension of the codebase. Review these exact talking points.
+> Comprehensive Technical Walkthrough & Code Defense Guide.  
+> Review these key architectural and design talking points.
 
 ---
 
@@ -54,7 +54,7 @@
 ### Q5: "Why did you select React + Vite + Tailwind instead of other frameworks?"
 **Answer:**  
 > *"Three reasons:
-> 1. **Alignment with the Job Description**: Sankar Group explicitly stated React and Next.js as required skills. Using React 19 allowed me to showcase my mastery of core React patterns (hooks, state, virtual DOM, event delegation).
+> 1. **Core React Competency**: React is the modern standard for reactive web engineering. Using React 19 allowed me to showcase my mastery of core React patterns (custom hooks, state synchronization, virtual DOM, event delegation).
 > 2. **Vite over Create React App**: Vite uses native ES modules (ESM) in development for instant HMR and Rollup for production bundling. Our production build completes in under 250 milliseconds with a minified bundle of just 83 KB, which is critical for Google Lighthouse performance.
 > 3. **Tailwind CSS v4**: It provides a unified design token system. We get responsive utility classes, consistent 4px/8px spacing, and built-in dark mode support without runtime CSS-in-JS overhead."*
 

@@ -113,7 +113,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <nav className="flex items-center justify-between" aria-label="Main Navigation">
-          {/* Logo with Soufflet-style Totem Emblem */}
+          {/* Logo with Totem Emblem */}
           <a
             href="#"
             onClick={(e) => handleNavClick(e, '#')}

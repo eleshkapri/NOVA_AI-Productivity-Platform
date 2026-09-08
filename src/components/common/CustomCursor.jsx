@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 
 /**
- * Radar Target HUD Cursor (Exact design from user reference photo)
+ * Radar Target HUD Cursor
  * - Native mouse pointer (arrow) stays 100% visible & functional
  * - Inner solid amber/gold ring with center targeting dot
  * - Outer dashed radar orbit ring rotating smoothly
@@ -112,7 +112,7 @@ export function CustomCursor() {
           isClicking ? 'scale-85' : isHovering ? 'scale-120' : 'scale-100'
         }`}
       >
-        {/* 1. Outer Dashed Radar Orbit Ring (Exactly like reference photo) */}
+        {/* 1. Outer Dashed Radar Orbit Ring */}
         <div
           className={`rounded-full border border-dashed transition-all duration-300 ${
             isHovering

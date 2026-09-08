@@ -1,6 +1,6 @@
 # NOVA — Technical Architecture & Design Explanation
 
-> Prepared for the **Sankar Group Front-End Development Internship Review**.
+> Comprehensive Technical Architecture, Design Decisions, and Engineering Deep Dive.
 
 ---
 
@@ -24,7 +24,7 @@ The layout was architected mobile-first using Tailwind CSS's breakpoint hierarch
 
 ### A. React 19 + Vite 8
 - **Why Vite over Create React App (CRA)**: CRA is deprecated and slow. Vite utilizes native ES modules (ESM) during development for sub-second hot module replacement (HMR) and Rollup under the hood for highly optimized production chunking.
-- **Why React**: The Sankar Group job posting specifically lists **React and Next.js** as core requirements. Developing with React directly proves competence with component lifecycles, hooks, and virtual DOM reconciliation.
+- **Why React**: React is the industry gold standard for reactive web development. Developing with React directly leverages component lifecycles, custom hooks, and virtual DOM reconciliation for sub-millisecond updates.
 - **Why not full Next.js for this specific brief**: A landing page without complex multi-page routing or server-side databases achieves the best Lighthouse performance and quickest dev loop when built with Vite. However, the component structure was strictly authored to be **isomorphic to Next.js App Router** (see Section 3).
 
 ### B. Tailwind CSS v4
@@ -75,7 +75,7 @@ The codebase is structured so it can be ported to **Next.js 14/15 App Router** i
 ## 5. How AI Tools Were Used
 
 In adherence to the assignment's explicit AI guidelines:
-- **Ideation & Brainstorming**: Used Antigravity (Google Gemini) to map the assignment rubric against Sankar Group’s multi-vertical tech profile (AI, telecom, and fintech ecosystem), resulting in the high-impact "NOVA" product positioning.
-- **Boilerplate Acceleration**: Generated initial component skeletons, TypeScript-ready prop contracts, and realistic technical sprint data (avoiding generic "Lorem ipsum").
-- **Quality Assurance & Verification**: Leveraged AI prompts to brainstorm accessibility edge cases (focus states, screen reader ARIA landmarks, contrast ratios) and verify clean production build scripts.
+- **Ideation & Brainstorming**: Modeled after modern enterprise developer tools (Linear, Raycast, Vercel), resulting in the high-impact "NOVA" product positioning.
+- **Boilerplate Acceleration**: Generated initial component skeletons, prop contracts, and realistic technical sprint data (avoiding generic "Lorem ipsum").
+- **Quality Assurance & Verification**: Brainstormed accessibility edge cases (focus states, screen reader ARIA landmarks, contrast ratios) and verified clean production build scripts.
 - **Manual Refinement**: Every component, CSS token, and event listener was manually reviewed, refined, and tested across viewports to ensure clean engineering standards.

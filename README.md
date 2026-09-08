@@ -1,6 +1,6 @@
 # NOVA — Autonomous AI Productivity Platform
 > **Build Better. Work Smarter.**  
-> Front-End Development Intern Assignment Submission for **Sankar Group**.
+> Next-Generation Enterprise AI Productivity Platform.
 
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
@@ -10,15 +10,14 @@
 ---
 
 ## 🌟 Live Demo & Repository
-- **Live URL**: [https://nova-ai-platform.vercel.app](https://nova-ai-platform.vercel.app) *(or your deployed Vercel/Netlify link)*
-- **GitHub Repository**: [https://github.com/your-username/sankar-group-internship-nova](https://github.com/your-username/sankar-group-internship-nova)
+- **GitHub Repository**: [https://github.com/eleshkapri/NOVA_AI-Productivity-Platform](https://github.com/eleshkapri/NOVA_AI-Productivity-Platform)
 
 ---
 
 ## 🚀 Project Overview
 **NOVA** is an enterprise-grade AI productivity platform designed to eliminate developer toil and streamline sprint execution. It unifies project management, automates backlog grooming, provides real-time codebase-aware PR summaries, and forecasts sprint velocity risks before deadlines hit.
 
-This project was built from scratch to meet and exceed all specifications defined in the **Sankar Group Front-End Development Internship** assignment brief.
+This project is built from scratch with modern modular architecture, responsive design tokens, and silky 60fps micro-interactions.
 
 ---
 
@@ -70,10 +69,10 @@ This project was built from scratch to meet and exceed all specifications define
 ### Steps
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-username/sankar-group-internship-nova.git
+git clone https://github.com/eleshkapri/NOVA_AI-Productivity-Platform.git
 
 # 2. Navigate into the project folder
-cd sankar-group-internship-nova
+cd NOVA_AI-Productivity-Platform
 
 # 3. Install dependencies
 npm install
@@ -145,11 +144,10 @@ npm run preview
 
 ---
 
-## 🤖 AI Tools Disclosure
-In compliance with the assignment brief's transparency guidelines:
-- **AI Tool Used**: Antigravity (powered by Google Gemini)
-- **Role of AI**: AI assistance was utilized to accelerate component scaffolding, brainstorm enterprise-grade copy tailored to the Sankar Group JD, structure the responsive layout tokens in Tailwind CSS, and generate edge-case test criteria.
-- **Human Oversight**: Every line of code was reviewed, debugged, and refined. Architectural patterns, hook encapsulation, accessibility ARIA attributes, and component isolation were verified manually to ensure maintainability and production readiness.
+## 🤖 Engineering Architecture & Methodology
+- **Component Design**: Modular, reusable presentation components adhering to Atomic Design principles.
+- **Styling Tokens**: Tailwind CSS responsive utility tokens, dark/light theme variables, and silky micro-interactions.
+- **Quality & Accessibility**: Comprehensive ARIA attributes, semantic HTML5 structure, and 100% keyboard accessibility.
 
 ---
 

@@ -152,42 +152,6 @@ export class SoundService {
     );
   }
 
-  get tracks() {
-    return RELAXING_TRACKS;
-  }
-
-  /**
-   * Switches the active soundtrack. Starts playing immediately if sound is enabled.
-   * @param {string} trackId
-   */
-  setTrack(trackId) {
-    const track = RELAXING_TRACKS.find((t) => t.id === trackId);
-    if (!track) return;
-
-    this.#currentTrackId = track.id;
-    storageService.set('sound_track_id', track.id);
-
-    const audio = this.#getOrCreateAudio();
-    if (audio) {
-      audio.src = track.src;
-      audio.muted = false;
-      audio.volume = this.#volume;
-
-      if (this.#isEnabled) {
-        const playPromise = audio.play();
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {
-              this.#isPlaying = true;
-              this.#isBlockedByAutoplay = false;
-              this.#notify();
-            })
-            .catch(() => {});
-        }
-      }
-    }
-    this.#notify();
-  }
 
   /**
    * Subscribes a listener to audio state changes.
@@ -449,19 +413,6 @@ export class SoundService {
     this.#notify();
   }
 
-  /**
-   * Toggles theme music playback.
-   * If not playing or blocked by autoplay, always starts playback.
-   * @returns {boolean} New playing state
-   */
-  toggleTheme() {
-    if (this.#isBlockedByAutoplay || !this.#isPlaying || !this.#isEnabled) {
-      this.startTheme(false);
-      return true;
-    }
-    this.stopTheme();
-    return false;
-  }
 
   /**
    * Web Audio API generative peaceful feel-good major ambient fallback.
