@@ -206,10 +206,10 @@
     transform: translate3d(0px, 0px, 0px) rotate(0deg) scale(1);
   }
   33% {
-    transform: translate3d(60px, -45px, 0px) rotate(20deg) scale(1.14);
+    transform: translate3d(32px, -24px, 0px) rotate(8deg) scale(1.06);
   }
   66% {
-    transform: translate3d(-40px, 35px, 0px) rotate(-15deg) scale(0.92);
+    transform: translate3d(-22px, 18px, 0px) rotate(-6deg) scale(0.96);
   }
   100% {
     transform: translate3d(0px, 0px, 0px) rotate(0deg) scale(1);
@@ -221,10 +221,10 @@
     transform: translate3d(0px, 0px, 0px) rotate(0deg) scale(1);
   }
   33% {
-    transform: translate3d(-70px, 50px, 0px) rotate(-25deg) scale(1.18);
+    transform: translate3d(-35px, 25px, 0px) rotate(-10deg) scale(1.08);
   }
   66% {
-    transform: translate3d(45px, -30px, 0px) rotate(18deg) scale(0.88);
+    transform: translate3d(24px, -18px, 0px) rotate(8deg) scale(0.95);
   }
   100% {
     transform: translate3d(0px, 0px, 0px) rotate(0deg) scale(1);
@@ -236,7 +236,7 @@
     transform: translate3d(0px, 0px, 0px) scale(1);
   }
   50% {
-    transform: translate3d(45px, -60px, 0px) scale(1.2);
+    transform: translate3d(24px, -30px, 0px) scale(1.09);
   }
   100% {
     transform: translate3d(0px, 0px, 0px) scale(1);
@@ -245,50 +245,50 @@
 
 @keyframes auroraBeamSway {
   0%, 100% {
-    transform: rotate(-20deg) translateY(0px) scaleY(1);
+    transform: rotate(-18deg) translateY(0px) scaleY(1);
     opacity: 0.35;
   }
   50% {
-    transform: rotate(-10deg) translateY(-25px) scaleY(1.15);
-    opacity: 0.65;
+    transform: rotate(-14deg) translateY(-12px) scaleY(1.07);
+    opacity: 0.55;
   }
 }
 
 @keyframes floatingLightMote {
   0% {
-    transform: translateY(0px) scale(0.7);
+    transform: translateY(0px) scale(0.8);
     opacity: 0;
   }
   25% {
-    opacity: 0.75;
+    opacity: 0.65;
   }
   75% {
-    opacity: 0.75;
+    opacity: 0.65;
   }
   100% {
-    transform: translateY(-140px) scale(1.2);
+    transform: translateY(-65px) scale(1.08);
     opacity: 0;
   }
 }
 
 .animate-mesh-1 {
-  animation: meshDrift1 20s ease-in-out infinite;
+  animation: meshDrift1 32s ease-in-out infinite;
 }
 
 .animate-mesh-2 {
-  animation: meshDrift2 24s ease-in-out infinite;
+  animation: meshDrift2 38s ease-in-out infinite;
 }
 
 .animate-mesh-3 {
-  animation: meshDrift3 18s ease-in-out infinite;
+  animation: meshDrift3 30s ease-in-out infinite;
 }
 
 .animate-aurora-beam {
-  animation: auroraBeamSway 14s ease-in-out infinite;
+  animation: auroraBeamSway 22s ease-in-out infinite;
 }
 
 .animate-mote {
-  animation: floatingLightMote 10s ease-in-out infinite;
+  animation: floatingLightMote 18s ease-in-out infinite;
 }
 
 /* ========================================================

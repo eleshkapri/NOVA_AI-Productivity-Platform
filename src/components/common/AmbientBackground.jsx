@@ -2,14 +2,14 @@ import React, { useEffect, useRef } from 'react';
 
 // Floating golden ambient light motes
 const LIGHT_MOTES = [
-  { id: 1, left: '10%', top: '25%', size: 3.5, delay: '0s', duration: '9s' },
-  { id: 2, left: '22%', top: '65%', size: 2.5, delay: '2.5s', duration: '11s' },
-  { id: 3, left: '42%', top: '15%', size: 4, delay: '4s', duration: '10s' },
-  { id: 4, left: '62%', top: '50%', size: 3, delay: '1.2s', duration: '12s' },
-  { id: 5, left: '78%', top: '20%', size: 3.5, delay: '5s', duration: '9.5s' },
-  { id: 6, left: '88%', top: '75%', size: 2.5, delay: '3.2s', duration: '10.5s' },
-  { id: 7, left: '52%', top: '85%', size: 3, delay: '6.5s', duration: '11.5s' },
-  { id: 8, left: '15%', top: '80%', size: 2, delay: '7s', duration: '8.5s' },
+  { id: 1, left: '10%', top: '25%', size: 3, delay: '0s', duration: '16s' },
+  { id: 2, left: '22%', top: '65%', size: 2.5, delay: '3.5s', duration: '19s' },
+  { id: 3, left: '42%', top: '15%', size: 3.5, delay: '6s', duration: '17s' },
+  { id: 4, left: '62%', top: '50%', size: 2.5, delay: '2s', duration: '20s' },
+  { id: 5, left: '78%', top: '20%', size: 3, delay: '8s', duration: '18s' },
+  { id: 6, left: '88%', top: '75%', size: 2.5, delay: '4.5s', duration: '19s' },
+  { id: 7, left: '52%', top: '85%', size: 3, delay: '10s', duration: '21s' },
+  { id: 8, left: '15%', top: '80%', size: 2, delay: '11s', duration: '16s' },
 ];
 
 // Developer and AI syntax tokens suitable for an AI Productivity Platform
@@ -89,17 +89,17 @@ export function AmbientBackground() {
     window.addEventListener('mouseleave', handleCanvasMouseLeave, { passive: true });
 
     // 1. Neural Code Graph Nodes (Interconnected engineering modules / Orchid security nodes)
-    const nodeCount = isMobile ? 26 : 56;
+    const nodeCount = isMobile ? 22 : 46;
     const nodes = [];
     for (let i = 0; i < nodeCount; i++) {
       const isOrchid = i % 3 === 0;
       nodes.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * (isMobile ? 0.35 : 0.5),
-        vy: (Math.random() - 0.5) * (isMobile ? 0.35 : 0.5),
-        radius: Math.random() * 2.2 + 1.8,
-        pulseSpeed: Math.random() * 0.02 + 0.01,
+        vx: (Math.random() - 0.5) * (isMobile ? 0.2 : 0.3),
+        vy: (Math.random() - 0.5) * (isMobile ? 0.2 : 0.3),
+        radius: Math.random() * 2 + 1.6,
+        pulseSpeed: Math.random() * 0.012 + 0.006,
         phase: Math.random() * Math.PI * 2,
         isCore: i % 6 === 0, // Core hub nodes with glowing halo
         type: isOrchid ? 'orchid' : 'gold', // Orchid cyber violet vs NOVA gold
@@ -107,33 +107,33 @@ export function AmbientBackground() {
     }
 
     // 2. High-Speed Synaptic Data Packets (Pulsing code commits / Orchid telemetry along edges)
-    const packetCount = isMobile ? 10 : 22;
+    const packetCount = isMobile ? 8 : 15;
     const packets = [];
     for (let i = 0; i < packetCount; i++) {
       packets.push({
         nodeA: Math.floor(Math.random() * nodeCount),
         nodeB: Math.floor(Math.random() * nodeCount),
         progress: Math.random(),
-        speed: Math.random() * 0.008 + 0.005,
-        size: Math.random() * 2 + 1.5,
+        speed: Math.random() * 0.004 + 0.003,
+        size: Math.random() * 1.8 + 1.2,
         type: i % 2 === 0 ? 'orchid' : 'gold',
       });
     }
 
     // 3. Floating Developer & AI Syntax Tokens ({ }, </>, git, AI, λ, fn(), ✦)
-    const tokenCount = isMobile ? 8 : 16;
+    const tokenCount = isMobile ? 6 : 12;
     const tokens = [];
     for (let i = 0; i < tokenCount; i++) {
       tokens.push({
         text: SYNTAX_TOKENS[i % SYNTAX_TOKENS.length],
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.25,
-        vy: -Math.random() * 0.3 - 0.1, // Gently ascends
-        rot: (Math.random() - 0.5) * 0.3,
-        vRot: (Math.random() - 0.5) * 0.005,
+        vx: (Math.random() - 0.5) * 0.14,
+        vy: -Math.random() * 0.16 - 0.06, // Gently ascends calmly
+        rot: (Math.random() - 0.5) * 0.2,
+        vRot: (Math.random() - 0.5) * 0.0025,
         size: Math.random() * 3 + 12,
-        alpha: Math.random() * 0.35 + 0.3,
+        alpha: Math.random() * 0.28 + 0.22,
         phase: Math.random() * Math.PI * 2,
       });
     }
@@ -145,7 +145,7 @@ export function AmbientBackground() {
         ry: 0.24,
         baseRadius: isMobile ? 55 : 85,
         angle: 0,
-        rotSpeed: 0.008,
+        rotSpeed: 0.004,
         pulse: 0,
       },
       {
@@ -153,7 +153,7 @@ export function AmbientBackground() {
         ry: 0.72,
         baseRadius: isMobile ? 65 : 95,
         angle: Math.PI * 0.75,
-        rotSpeed: -0.006,
+        rotSpeed: -0.0035,
         pulse: 0.5,
       },
       {
@@ -161,7 +161,7 @@ export function AmbientBackground() {
         ry: 0.22,
         baseRadius: isMobile ? 50 : 70,
         angle: Math.PI * 0.3,
-        rotSpeed: 0.007,
+        rotSpeed: 0.0038,
         pulse: 0.2,
       },
     ];
@@ -236,7 +236,7 @@ export function AmbientBackground() {
         const rad = scanner.baseRadius;
 
         scanner.angle += scanner.rotSpeed;
-        scanner.pulse = (scanner.pulse + 0.008) % 1;
+        scanner.pulse = (scanner.pulse + 0.004) % 1;
 
         // Outer concentric rings
         ctx.strokeStyle = isLight
@@ -340,7 +340,7 @@ export function AmbientBackground() {
           const mDistSq = mdx * mdx + mdy * mdy;
           if (mDistSq < mouseConnectDistSq && mDistSq > 1) {
             const mDist = Math.sqrt(mDistSq);
-            const force = (1 - mDist / mouseConnectDist) * 0.6;
+            const force = (1 - mDist / mouseConnectDist) * 0.35;
             n.x += (mdx / mDist) * force;
             n.y += (mdy / mDist) * force;
           }
@@ -501,7 +501,7 @@ export function AmbientBackground() {
         t.x += t.vx;
         t.y += t.vy;
         t.rot += t.vRot;
-        t.phase += 0.02;
+        t.phase += 0.012;
 
         // Wrap around vertically
         if (t.y < -30) {
@@ -509,7 +509,7 @@ export function AmbientBackground() {
           t.x = Math.random() * width;
         }
 
-        const floatY = t.y + Math.sin(t.phase) * 6;
+        const floatY = t.y + Math.sin(t.phase) * 3.5;
         const currentAlpha = t.alpha * (0.8 + Math.sin(t.phase) * 0.2);
 
         ctx.save();
