@@ -3,6 +3,7 @@ import { SectionHeader } from '../common/SectionHeader';
 import { Badge } from '../common/Badge';
 import { Button } from '../common/Button';
 import { MotionReveal } from '../common/MotionReveal';
+import { TiltCard } from '../common/TiltCard';
 import { pricingPlans } from '../../data/pricing';
 import { PricingPlanModel } from '../../models/PricingPlanModel';
 import { Check, X, Sparkles, ArrowRight } from 'lucide-react';
@@ -75,8 +76,11 @@ export function Pricing({ onOpenDemo }) {
 
             return (
               <MotionReveal key={plan.id} animation="fade-up" delay={150 + idx * 100} className="h-full">
-              <div
+              <TiltCard
                 key={plan.id}
+                maxTilt={plan.isPopular ? 10 : 7}
+                scale={plan.isPopular ? 1.03 : 1.015}
+                glare={true}
                 className={`group relative bg-white/95 dark:bg-[#0b0c33]/70 rounded-3xl p-8 sm:p-10 border flex flex-col justify-between transition-all duration-500 backdrop-blur-2xl ${
                   plan.isPopular
                     ? 'border-[#a1741a] dark:border-[#D8B452] shadow-xl shadow-[#D8B452]/15 scale-102 lg:-translate-y-2 hover:-translate-y-4 hover:scale-[1.03] hover:shadow-2xl hover:shadow-[#D8B452]/30 hover:border-[#b8860b] dark:hover:border-[#F3D887]'
@@ -162,7 +166,7 @@ export function Pricing({ onOpenDemo }) {
                 >
                   {plan.ctaText}
                 </Button>
-              </div>
+              </TiltCard>
               </MotionReveal>
             );
           })}

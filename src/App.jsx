@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useTheme, useScrollPosition } from './hooks';
 import {
   CustomCursor,
@@ -8,6 +8,7 @@ import {
   CommandPalette,
   LiveActivityToast,
   AmbientBackground,
+  ShortcutsHudModal,
 } from './components/common';
 import { Navbar, Footer, BackToTop } from './components/layout';
 import {
@@ -25,6 +26,8 @@ import {
   FinalCTA,
   DemoModal,
 } from './components/sections';
+import { Keyboard } from 'lucide-react';
+import { soundService } from './services/SoundService';
 
 export function App() {
   const { toggleTheme, isDark } = useTheme();
@@ -37,6 +40,8 @@ export function App() {
     stage: 0,
   });
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [isShortcutsHudOpen, setIsShortcutsHudOpen] = useState(false);
+  const lastKeyRef = useRef({ key: null, time: 0 });
 
   const handleOpenModal = (tab = 'walkthrough', extra = {}) => {
     setModalConfig({
@@ -52,11 +57,156 @@ export function App() {
     setModalConfig((prev) => ({ ...prev, isOpen: false }));
   };
 
+  const handleExecuteShortcutAction = (actionId) => {
+    setIsShortcutsHudOpen(false);
+    switch (actionId) {
+      case 'nav-hero':
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        break;
+      case 'nav-features':
+        document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
+        break;
+      case 'nav-solutions':
+        document.getElementById('solutions')?.scrollIntoView({ behavior: 'smooth' });
+        break;
+      case 'nav-pricing':
+        document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
+        break;
+      case 'nav-roi':
+        document.getElementById('roi-calculator')?.scrollIntoView({ behavior: 'smooth' });
+        break;
+      case 'view-status':
+        handleOpenModal('status');
+        break;
+      case 'view-changelog':
+        handleOpenModal('changelog');
+        break;
+      case 'view-demo':
+        handleOpenModal('walkthrough');
+        break;
+      case 'view-palette':
+        setIsCommandPaletteOpen(true);
+        break;
+      case 'toggle-theme':
+        toggleTheme();
+        break;
+      case 'toggle-sound':
+        soundService.toggle();
+        break;
+      case 'toggle-hud':
+        setIsShortcutsHudOpen((prev) => !prev);
+        break;
+      case 'close-all':
+        setIsShortcutsHudOpen(false);
+        setIsCommandPaletteOpen(false);
+        handleCloseModal();
+        break;
+      default:
+        break;
+    }
+  };
+
   useEffect(() => {
     const handleOpenPalette = () => setIsCommandPaletteOpen(true);
     document.addEventListener('open-command-palette', handleOpenPalette);
     return () => document.removeEventListener('open-command-palette', handleOpenPalette);
   }, []);
+
+  // Global Keyboard Shortcuts Listener (with Input Protection)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      const target = e.target;
+      const isInput =
+        target &&
+        (target.tagName === 'INPUT' ||
+          target.tagName === 'TEXTAREA' ||
+          target.tagName === 'SELECT' ||
+          target.isContentEditable);
+
+      if (isInput) return;
+
+      // Escape closes any open modal or HUD
+      if (e.key === 'Escape') {
+        setIsShortcutsHudOpen(false);
+        setIsCommandPaletteOpen(false);
+        handleCloseModal();
+        return;
+      }
+
+      // '?' or Shift + '/' opens shortcuts HUD
+      if (e.key === '?' || (e.shiftKey && e.key === '/')) {
+        e.preventDefault();
+        soundService.playChime('actionClick');
+        setIsShortcutsHudOpen((prev) => !prev);
+        return;
+      }
+
+      // Command / Ctrl + K opens Command Palette
+      if ((e.metaKey || e.ctrlKey) && (e.key === 'k' || e.key === 'K')) {
+        e.preventDefault();
+        soundService.playChime('actionClick');
+        setIsCommandPaletteOpen((prev) => !prev);
+        return;
+      }
+
+      // If a modal or HUD is open, don't trigger background single-key navigation
+      if (modalConfig.isOpen || isCommandPaletteOpen || isShortcutsHudOpen) {
+        return;
+      }
+
+      const now = Date.now();
+      const last = lastKeyRef.current;
+
+      // Two-key 'g' sequences (e.g. g h, g f, g s, g p, g r)
+      if (last.key === 'g' && now - last.time < 1000) {
+        lastKeyRef.current = { key: null, time: 0 };
+        const lower = e.key.toLowerCase();
+        if (lower === 'h') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          soundService.playChime('actionClick');
+        } else if (lower === 'f') {
+          document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
+          soundService.playChime('actionClick');
+        } else if (lower === 's') {
+          document.getElementById('solutions')?.scrollIntoView({ behavior: 'smooth' });
+          soundService.playChime('actionClick');
+        } else if (lower === 'p') {
+          document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
+          soundService.playChime('actionClick');
+        } else if (lower === 'r') {
+          document.getElementById('roi-calculator')?.scrollIntoView({ behavior: 'smooth' });
+          soundService.playChime('actionClick');
+        }
+        return;
+      }
+
+      if (e.key.toLowerCase() === 'g') {
+        lastKeyRef.current = { key: 'g', time: now };
+        return;
+      }
+
+      // Single-letter hotkeys
+      const k = e.key.toLowerCase();
+      if (k === 's') {
+        soundService.playChime('actionClick');
+        handleOpenModal('status');
+      } else if (k === 'c') {
+        soundService.playChime('actionClick');
+        handleOpenModal('changelog');
+      } else if (k === 'd') {
+        soundService.playChime('actionClick');
+        handleOpenModal('walkthrough');
+      } else if (k === 't') {
+        soundService.playChime('actionClick');
+        toggleTheme();
+      } else if (k === 'm') {
+        soundService.toggle();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [modalConfig.isOpen, isCommandPaletteOpen, isShortcutsHudOpen, toggleTheme]);
 
   return (
     <div className="min-h-screen flex flex-col text-[#0f172a] dark:text-[#f1f2f6] transition-colors duration-300 font-sans selection:bg-[#D8B452] selection:text-black relative">
@@ -147,6 +297,29 @@ export function App() {
         selectedTask={modalConfig.task}
         initialStage={modalConfig.stage || 0}
       />
+
+      {/* Power-User Keyboard Shortcuts HUD Modal */}
+      <ShortcutsHudModal
+        isOpen={isShortcutsHudOpen}
+        onClose={() => setIsShortcutsHudOpen(false)}
+        onExecuteAction={handleExecuteShortcutAction}
+      />
+
+      {/* Floating Shortcuts Discovery Pill */}
+      <button
+        type="button"
+        onClick={() => {
+          soundService.playChime('actionClick');
+          setIsShortcutsHudOpen(true);
+        }}
+        aria-label="Open keyboard shortcuts guide"
+        title="View Keyboard Shortcuts (?)"
+        className="fixed bottom-6 right-20 z-30 hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900/85 dark:bg-[#07081e]/90 text-slate-300 hover:text-white border border-slate-700/60 dark:border-white/10 shadow-lg backdrop-blur-md text-xs font-mono transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+      >
+        <Keyboard className="w-3.5 h-3.5 text-[#D8B452]" />
+        <span className="text-[11px] font-bold">Shortcuts</span>
+        <kbd className="px-1.5 py-0.2 rounded bg-white/10 text-[10px] text-[#D8B452] font-bold">?</kbd>
+      </button>
 
       {/* Back to Top Floating Action Button */}
       <BackToTop show={showBackToTop} onScrollToTop={scrollToTop} />

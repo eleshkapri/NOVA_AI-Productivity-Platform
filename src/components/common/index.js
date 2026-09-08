@@ -10,3 +10,5 @@ export { Preloader } from './Preloader';
 export { ProgressBar } from './ProgressBar';
 export { SectionHeader } from './SectionHeader';
 export { SoundToggle } from './SoundToggle';
+export { TiltCard } from './TiltCard';
+export { ShortcutsHudModal } from './ShortcutsHudModal';

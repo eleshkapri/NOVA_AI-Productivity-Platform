@@ -2,6 +2,7 @@ import React from 'react';
 import { SectionHeader } from '../common/SectionHeader';
 import { Badge } from '../common/Badge';
 import { MotionReveal } from '../common/MotionReveal';
+import { TiltCard } from '../common/TiltCard';
 import { featuresData } from '../../data/features';
 import { FeatureModel } from '../../models/FeatureModel';
 import {
@@ -45,9 +46,12 @@ export function Features({ onOpenDemo }) {
             const targetTab = feature.getTargetTab();
             return (
               <MotionReveal key={feature.id} delay={i * 80} animation="fade-up" className="h-full">
-                <div
+                <TiltCard
                   onClick={() => onOpenDemo && onOpenDemo(targetTab)}
                   title="Click to launch interactive walkthrough"
+                  maxTilt={8}
+                  scale={1.02}
+                  glare={true}
                   className="group relative bg-white/90 dark:bg-[#07081e]/80 rounded-3xl p-8 sm:p-9 border border-slate-200/80 dark:border-white/10 shadow-md dark:shadow-xl hover:border-transparent transition-all duration-300 flex flex-col justify-between backdrop-blur-xl cursor-pointer h-full orchid-card"
                 >
                 <div>
@@ -77,7 +81,7 @@ export function Features({ onOpenDemo }) {
                       {feature.metric}
                     </span>
                   </div>
-                </div>
+                </TiltCard>
               </MotionReveal>
             );
           })}
