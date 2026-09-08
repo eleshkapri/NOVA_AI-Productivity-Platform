@@ -68,32 +68,31 @@ export class SoundService {
   #synthNodes;
   #listeners;
   #isUsingSynthFallback;
+  #gestureListenersAttached;
+  #unlockHandler;
 
   constructor() {
     this.#audio = null;
     this.#ctx = null;
     this.#masterGain = null;
 
-    // By specification: Default to Serene Ambient at 15% volume on site open
-    if (!storageService.get('sound_v2_initialized', false)) {
-      storageService.set('sound_v2_initialized', true);
-      storageService.set('sound_enabled', true);
-      storageService.set('sound_volume', 0.15);
-      storageService.set('sound_track_id', 'serene');
-    }
-
-    this.#isEnabled = storageService.get('sound_enabled', true);
+    // By specification: Always default to Serene Ambient at 15% volume on site entry
+    this.#isEnabled = true;
     this.#isPlaying = false;
     this.#isBlockedByAutoplay = false;
-    const savedVol = storageService.get('sound_volume', 0.15);
-    this.#volume = typeof savedVol === 'number' && savedVol > 0 ? Math.min(1, Math.max(0, savedVol)) : 0.15;
-    const savedTrack = storageService.get('sound_track_id', 'serene');
-    this.#currentTrackId = RELAXING_TRACKS.some((t) => t.id === savedTrack) ? savedTrack : 'serene';
+    this.#volume = 0.15;
+    this.#currentTrackId = 'serene';
+
+    storageService.set('sound_enabled', true);
+    storageService.set('sound_volume', 0.15);
+    storageService.set('sound_track_id', 'serene');
 
     this.#synthInterval = null;
     this.#synthNodes = [];
     this.#listeners = new Set();
     this.#isUsingSynthFallback = false;
+    this.#gestureListenersAttached = false;
+    this.#unlockHandler = null;
 
     this.#initVisibilityListener();
     this.#initAutoPlayOnLoad();
@@ -304,89 +303,128 @@ export class SoundService {
   #initAutoPlayOnLoad() {
     if (typeof window === 'undefined') return;
 
-    if (this.#isEnabled) {
-      const attemptAutoPlay = () => {
-        if (!this.#isEnabled) return;
-        const audio = this.#getOrCreateAudio();
-        if (!audio) return;
+    const attemptAutoPlay = () => {
+      if (!this.#isEnabled) return;
+      const audio = this.#getOrCreateAudio();
+      if (!audio) return;
 
-        const activeTrack = this.currentTrack;
-        if (!audio.src || !audio.src.endsWith(activeTrack.src)) {
-          audio.src = activeTrack.src;
-        }
-
-        audio.volume = this.#volume;
-        audio.muted = false;
-
-        const playPromise = audio.play();
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {
-              this.#isPlaying = true;
-              this.#isBlockedByAutoplay = false;
-              this.#notify();
-            })
-            .catch(() => {
-              // Browser autoplay policy prevented unmuted initial play without prior user gesture
-              this.#isBlockedByAutoplay = true;
-              this.#isPlaying = false;
-              this.#notify();
-
-              this.#attachOneTimeGestureUnlock();
-            });
-        }
-      };
-
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', attemptAutoPlay, { once: true });
-      } else {
-        attemptAutoPlay();
+      const activeTrack = this.currentTrack;
+      if (!audio.src || !audio.src.includes(activeTrack.src)) {
+        audio.src = activeTrack.src;
       }
-    }
-  }
 
-  /**
-   * Attaches one-time gesture listeners to cleanly start playback as soon as user interacts with the page.
-   */
-  #attachOneTimeGestureUnlock() {
-    if (typeof window === 'undefined') return;
+      audio.volume = this.#volume;
+      audio.muted = false;
 
-    const unlockAudio = () => {
-      const events = ['pointerdown', 'mousedown', 'touchstart', 'touchend', 'click', 'keydown'];
-      events.forEach((evt) => window.removeEventListener(evt, unlockAudio, true));
-      events.forEach((evt) => document.removeEventListener(evt, unlockAudio, true));
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            this.#isPlaying = true;
+            this.#isBlockedByAutoplay = false;
+            this.#notify();
+          })
+          .catch(() => {
+            // Browser autoplay policy prevented unmuted initial play without prior user gesture
+            this.#isBlockedByAutoplay = true;
+            this.#isPlaying = false;
+            this.#notify();
 
-      if (this.#isEnabled) {
-        const audio = this.#getOrCreateAudio();
-        if (audio && (!this.#isPlaying || audio.paused)) {
-          this.#isBlockedByAutoplay = false;
-          audio.muted = false;
-          audio.volume = this.#volume;
-          audio.play()
-            .then(() => {
-              this.#isPlaying = true;
-              this.#isBlockedByAutoplay = false;
-              this.#notify();
-            })
-            .catch(() => {});
-
-          if (this.#ctx && this.#ctx.state === 'suspended') {
-            this.#ctx.resume().catch(() => {});
-          }
-        }
+            this.#attachOneTimeGestureUnlock();
+          });
       }
     };
 
-    const events = ['pointerdown', 'mousedown', 'touchstart', 'touchend', 'click', 'keydown'];
-    events.forEach((evt) => window.addEventListener(evt, unlockAudio, { once: true, capture: true, passive: true }));
-    events.forEach((evt) => document.addEventListener(evt, unlockAudio, { once: true, capture: true, passive: true }));
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', attemptAutoPlay, { once: true });
+    } else {
+      attemptAutoPlay();
+    }
+    // Proactively attach gesture unlock listener so first user interaction unlocks audio immediately
+    this.#attachOneTimeGestureUnlock();
   }
 
   /**
-   * Ensures autoplay is triggered during React component mounting.
+   * Attaches robust gesture listeners to cleanly start playback as soon as user interacts with the page.
+   * Listeners remain active until playback is genuinely confirmed running.
+   */
+  #attachOneTimeGestureUnlock() {
+    if (typeof window === 'undefined') return;
+    if (this.#gestureListenersAttached) return;
+
+    const events = [
+      'pointerdown',
+      'pointerup',
+      'click',
+      'mousedown',
+      'mouseup',
+      'touchstart',
+      'touchend',
+      'keydown',
+      'wheel',
+      'scroll',
+    ];
+
+    const removeUnlockListeners = () => {
+      if (!this.#gestureListenersAttached) return;
+      this.#gestureListenersAttached = false;
+      events.forEach((evt) => {
+        window.removeEventListener(evt, this.#unlockHandler, true);
+        document.removeEventListener(evt, this.#unlockHandler, true);
+      });
+      this.#unlockHandler = null;
+    };
+
+    this.#unlockHandler = () => {
+      if (!this.#isEnabled) {
+        removeUnlockListeners();
+        return;
+      }
+
+      const audio = this.#getOrCreateAudio();
+      if (!audio) return;
+
+      const activeTrack = this.currentTrack;
+      if (!audio.src || !audio.src.includes(activeTrack.src)) {
+        audio.src = activeTrack.src;
+      }
+
+      audio.muted = false;
+      audio.volume = this.#volume;
+
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            this.#isPlaying = true;
+            this.#isBlockedByAutoplay = false;
+            this.#notify();
+            removeUnlockListeners();
+          })
+          .catch(() => {
+            // If play was rejected on this event (e.g. scroll didn't qualify), keep listening for click/key
+          });
+      }
+
+      if (this.#ctx && this.#ctx.state === 'suspended') {
+        this.#ctx.resume().catch(() => {});
+      }
+    };
+
+    this.#gestureListenersAttached = true;
+    events.forEach((evt) => {
+      window.addEventListener(evt, this.#unlockHandler, { capture: true, passive: true });
+      document.addEventListener(evt, this.#unlockHandler, { capture: true, passive: true });
+    });
+  }
+
+  /**
+   * Ensures autoplay is triggered during React component mounting or navigation.
    */
   ensureAutoPlay() {
-    this.#initAutoPlayOnLoad();
+    if (!this.#isPlaying && this.#isEnabled) {
+      this.#initAutoPlayOnLoad();
+    }
   }
 
   /**
@@ -406,7 +444,7 @@ export class SoundService {
     const audio = this.#getOrCreateAudio();
     if (audio) {
       const activeTrack = this.currentTrack;
-      if (!audio.src || !audio.src.endsWith(activeTrack.src)) {
+      if (!audio.src || !audio.src.includes(activeTrack.src)) {
         audio.src = activeTrack.src;
       }
       audio.muted = false;

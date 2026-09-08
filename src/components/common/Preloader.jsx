@@ -1,13 +1,22 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { soundService } from '../../services/SoundService';
 
 export function Preloader({ isDark }) {
   const [isDone, setIsDone] = useState(false);
   const [isMounted, setIsMounted] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(() => soundService.isPlaying);
   const progressBarRef = useRef(null);
   const percentTextRef = useRef(null);
   const statusTextRef = useRef(null);
 
   useEffect(() => {
+    // Attempt sound playback immediately on site entry
+    soundService.ensureAutoPlay();
+
+    const unsubscribe = soundService.subscribe((state) => {
+      setIsPlaying(state.isPlaying);
+    });
+
     const startTime = performance.now();
     const duration = 1600; // 1.6s silky frictionless pace
 
@@ -53,6 +62,9 @@ export function Preloader({ isDark }) {
         if (statusTextRef.current) {
           statusTextRef.current.textContent = 'System Ready';
         }
+        // Ensure soundtrack is active as calibration finishes
+        soundService.ensureAutoPlay();
+
         // Brief perceptible moment of 100% completion before lifting curtain
         timer1 = setTimeout(() => {
           setIsDone(true);
@@ -66,6 +78,7 @@ export function Preloader({ isDark }) {
     animId = requestAnimationFrame(animateProgress);
 
     return () => {
+      unsubscribe();
       if (animId) cancelAnimationFrame(animId);
       if (timer1) clearTimeout(timer1);
       if (timer2) clearTimeout(timer2);
@@ -77,6 +90,11 @@ export function Preloader({ isDark }) {
   return (
     <div
       data-theme={isDark ? 'dark' : 'light'}
+      onClick={() => {
+        if (!soundService.isPlaying) {
+          soundService.startTheme(false);
+        }
+      }}
       className={`fixed inset-0 z-50 flex flex-col items-center justify-between bg-[#F8FAFC] dark:bg-[#050614] text-slate-900 dark:text-white p-8 sm:p-12 transition-all duration-900 ease-[cubic-bezier(0.76,0,0.24,1)] will-change-[transform,opacity] ${
         isDone ? '-translate-y-full opacity-90 pointer-events-none' : 'translate-y-0 opacity-100'
       }`}
@@ -98,6 +116,25 @@ export function Preloader({ isDark }) {
           <span className="w-2 h-2 rounded-full bg-amber-600 dark:bg-[#D8B452] animate-pulse shadow-[0_0_8px_rgba(217,119,6,0.6)] dark:shadow-[0_0_8px_#D8B452]" />
           Autonomous System Initializing
         </span>
+
+        {/* Ambient Soundtrack Indicator */}
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            soundService.startTheme(false);
+          }}
+          className={`flex items-center gap-1.5 px-3 py-1 rounded-full border text-[10px] font-mono tracking-wider transition-all duration-300 cursor-pointer ${
+            isPlaying
+              ? 'bg-amber-500/10 border-amber-500/30 text-amber-800 dark:text-[#D8B452] dark:border-[#D8B452]/30'
+              : 'bg-amber-50 border-amber-300 text-amber-900 animate-pulse shadow-sm dark:bg-amber-500/20 dark:border-amber-400 dark:text-amber-200'
+          }`}
+          title={isPlaying ? 'Serene Ambient Playing (15% volume)' : 'Click to play Serene Ambient sound'}
+        >
+          <span className="text-xs">🌊</span>
+          <span>{isPlaying ? 'SERENE ON (15%)' : 'PLAY SERENE (15%)'}</span>
+        </button>
+
         <span
           ref={percentTextRef}
           className="font-mono text-amber-700 dark:text-[#D8B452] text-sm tracking-normal font-semibold"
