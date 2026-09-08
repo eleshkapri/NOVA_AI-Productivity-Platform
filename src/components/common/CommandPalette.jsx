@@ -14,6 +14,7 @@ import {
   Code2,
   Activity,
   Send,
+  TrendingUp,
 } from 'lucide-react';
 import { securityService } from '../../services/SecurityService';
 
@@ -60,6 +61,17 @@ export function CommandPalette({ isOpen, onClose, onToggleTheme, isDark, onOpenD
       icon: Sparkles,
       action: () => {
         document.getElementById('roi-calculator')?.scrollIntoView({ behavior: 'smooth' });
+        onClose();
+      },
+    },
+    {
+      id: 'velocity-quiz',
+      title: 'Take Team Velocity Health Diagnostic Quiz',
+      category: 'Tools',
+      icon: TrendingUp,
+      action: () => {
+        document.getElementById('roi-calculator')?.scrollIntoView({ behavior: 'smooth' });
+        window.dispatchEvent(new CustomEvent('activate-velocity-quiz'));
         onClose();
       },
     },
