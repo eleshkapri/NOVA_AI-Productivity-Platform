@@ -70,7 +70,7 @@ export function App() {
       <ProgressBar />
 
       {/* 2. Soufflet Malt Luxury Preloader with 0-100% Counter */}
-      <Preloader />
+      <Preloader isDark={isDark} />
 
       {/* 3. Ambient Sound / Harmonic Chimes Toggle */}
       <SoundToggle />
