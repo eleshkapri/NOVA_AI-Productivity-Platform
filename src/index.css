@@ -161,15 +161,16 @@
 /* Liquid Shimmer Light Beam for Progress Bar */
 @keyframes shimmerPulse {
   0% {
-    transform: translateX(-100%);
+    transform: translate3d(-100%, 0, 0);
   }
   100% {
-    transform: translateX(100%);
+    transform: translate3d(200%, 0, 0);
   }
 }
 
 .animate-shimmer {
-  animation: shimmerPulse 2s ease-in-out infinite;
+  animation: shimmerPulse 1.8s linear infinite;
+  will-change: transform;
 }
 
 /* Unified Global Theme Switch Transitioning */

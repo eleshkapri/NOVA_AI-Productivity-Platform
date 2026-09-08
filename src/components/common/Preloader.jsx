@@ -16,18 +16,19 @@ export function Preloader({ isDark }) {
     let animId = null;
     let lastPercent = -1;
 
-    // Organic cubic ease-out curve for swift start and frictionless glide
-    const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+    // Pure sinusoidal ease-out curve for frictionless, continuous glide
+    const easeOutSine = (t) => Math.sin((t * Math.PI) / 2);
 
     const animateProgress = (currentTime) => {
       const elapsed = currentTime - startTime;
       const rawProgress = Math.min(elapsed / duration, 1);
-      const eased = easeOutCubic(rawProgress);
-      const currentPercent = Math.min(Math.round(rawProgress * 100), 100);
+      const eased = easeOutSine(rawProgress);
+      // Synchronize percentage text strictly with the visual eased progress
+      const currentPercent = Math.min(Math.round(eased * 100), 100);
 
-      // Direct GPU transform without triggering React re-renders
+      // Direct GPU 3D transform without triggering React re-renders
       if (progressBarRef.current) {
-        progressBarRef.current.style.transform = `scaleX(${eased})`;
+        progressBarRef.current.style.transform = `scale3d(${eased}, 1, 1)`;
       }
 
       if (currentPercent !== lastPercent) {
@@ -44,7 +45,13 @@ export function Preloader({ isDark }) {
         animId = requestAnimationFrame(animateProgress);
       } else {
         if (progressBarRef.current) {
-          progressBarRef.current.style.transform = 'scaleX(1)';
+          progressBarRef.current.style.transform = 'scale3d(1, 1, 1)';
+        }
+        if (percentTextRef.current) {
+          percentTextRef.current.textContent = '100%';
+        }
+        if (statusTextRef.current) {
+          statusTextRef.current.textContent = 'System Ready';
         }
         // Brief perceptible moment of 100% completion before lifting curtain
         timer1 = setTimeout(() => {
@@ -165,11 +172,18 @@ export function Preloader({ isDark }) {
         <div className="w-full h-2 bg-slate-200/80 dark:bg-white/10 rounded-full overflow-hidden p-[1px] border border-slate-300/50 dark:border-white/5 relative shadow-inner">
           <div
             ref={progressBarRef}
-            className="h-full w-full bg-gradient-to-r from-violet-600 via-amber-500 to-cyan-500 dark:from-[#D8B452] dark:via-[#F3D887] dark:to-[#8E6FFF] rounded-full will-change-transform shadow-[0_0_12px_rgba(217,119,6,0.4)] dark:shadow-[0_0_12px_rgba(216,180,82,0.8)] relative overflow-hidden"
-            style={{ transform: 'scaleX(0)', transformOrigin: 'left' }}
+            className="h-full w-full bg-gradient-to-r from-violet-600 via-amber-500 to-cyan-500 dark:from-[#D8B452] dark:via-[#F3D887] dark:to-[#8E6FFF] rounded-full shadow-[0_0_12px_rgba(217,119,6,0.4)] dark:shadow-[0_0_12px_rgba(216,180,82,0.8)] relative overflow-hidden"
+            style={{
+              transform: 'scale3d(0, 1, 1)',
+              transformOrigin: 'left center',
+              willChange: 'transform',
+              backfaceVisibility: 'hidden',
+            }}
           >
+            {/* Luminous leading laser tip */}
+            <div className="absolute right-0 top-0 bottom-0 w-3 bg-white/90 rounded-full shadow-[0_0_8px_#ffffff] pointer-events-none" />
             {/* Shimmer liquid light beam across the progress bar */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent animate-shimmer" />
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer pointer-events-none" />
           </div>
         </div>
         <div className="flex items-center justify-between w-full text-[11px] text-slate-600 dark:text-slate-400 font-mono">
