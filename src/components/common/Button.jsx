@@ -23,19 +23,19 @@ export function Button({
 
   const variantStyles = {
     primary:
-      'bg-gradient-to-r from-[#D8B452] via-[#F3D887] to-[#C7992A] hover:from-[#F3D887] hover:to-[#D8B452] text-black shadow-lg shadow-[#D8B452]/25 hover:shadow-2xl hover:shadow-[#D8B452]/40 hover:-translate-y-1 active:translate-y-0.5 hover:scale-[1.02] border border-[#F3D887]/60',
+      'bg-gradient-to-r from-[#D97706] via-[#F59E0B] to-[#B45309] hover:from-[#F59E0B] hover:to-[#D97706] dark:from-[#D8B452] dark:via-[#F3D887] dark:to-[#C7992A] text-white dark:text-black shadow-lg shadow-amber-500/20 dark:shadow-[#D8B452]/25 hover:shadow-xl hover:shadow-amber-500/30 hover:-translate-y-1 active:translate-y-0.5 hover:scale-[1.02] border border-amber-400/40 dark:border-[#F3D887]/60',
     secondary:
-      'bg-slate-900 text-white dark:bg-[#0b0c33] hover:bg-slate-800 dark:hover:bg-[#121554] shadow-md hover:shadow-xl hover:shadow-[#D8B452]/10 hover:-translate-y-1 active:translate-y-0.5 hover:scale-[1.02] border border-[#a1741a]/40 dark:border-[#D8B452]/30 hover:border-[#D8B452]',
+      'bg-white text-slate-800 border border-slate-200 hover:bg-slate-50 hover:border-slate-300 shadow-sm hover:shadow-md dark:bg-[#0b0c33] dark:text-white dark:border-[#D8B452]/30 dark:hover:bg-[#121554] dark:hover:border-[#D8B452] hover:-translate-y-1 active:translate-y-0.5 hover:scale-[1.02]',
     orchid:
-      'bg-gradient-to-r from-[#6833FF] via-[#7B42FF] to-[#8E6FFF] hover:from-[#7B42FF] hover:to-[#6833FF] text-white shadow-lg shadow-[#6833FF]/35 hover:shadow-2xl hover:shadow-[#6833FF]/55 hover:-translate-y-1 active:translate-y-0.5 hover:scale-[1.02] border border-[#A78BFA]/50',
+      'bg-gradient-to-r from-[#6D28D9] via-[#7C3AED] to-[#8B5CF6] hover:from-[#7C3AED] hover:to-[#6D28D9] dark:from-[#6833FF] dark:via-[#7B42FF] dark:to-[#8E6FFF] text-white shadow-lg shadow-violet-500/20 dark:shadow-[#6833FF]/35 hover:shadow-xl hover:shadow-violet-500/30 hover:-translate-y-1 active:translate-y-0.5 hover:scale-[1.02] border border-violet-400/30 dark:border-[#A78BFA]/50',
     orchidSecondary:
-      'bg-slate-950/80 text-white dark:bg-[#07081e] hover:bg-slate-900 dark:hover:bg-[#0e1038] shadow-md hover:shadow-xl hover:shadow-[#6833FF]/25 hover:-translate-y-1 active:translate-y-0.5 hover:scale-[1.02] border border-[#8E6FFF]/40 hover:border-[#8E6FFF]',
+      'bg-white text-violet-900 border border-violet-200 hover:bg-violet-50 hover:border-violet-300 shadow-sm dark:bg-[#07081e] dark:text-white dark:border-[#8E6FFF]/40 dark:hover:bg-[#0e1038] dark:hover:border-[#8E6FFF] hover:-translate-y-1 active:translate-y-0.5 hover:scale-[1.02]',
     outline:
-      'border-2 border-[#a1741a]/60 dark:border-[#D8B452]/50 text-[#a1741a] dark:text-[#D8B452] hover:bg-gradient-to-r hover:from-[#D8B452] hover:to-[#C7992A] hover:text-black hover:border-transparent hover:shadow-lg hover:shadow-[#D8B452]/20 hover:-translate-y-1 active:translate-y-0.5',
+      'border-2 border-slate-300 text-slate-800 hover:bg-slate-100 hover:border-slate-400 dark:border-[#D8B452]/50 dark:text-[#D8B452] dark:hover:bg-gradient-to-r dark:hover:from-[#D8B452] dark:hover:to-[#C7992A] dark:hover:text-black dark:hover:border-transparent hover:-translate-y-1 active:translate-y-0.5',
     ghost:
-      'text-slate-700 dark:text-slate-200 hover:text-[#a1741a] dark:hover:text-[#D8B452] hover:bg-[#D8B452]/10 hover:-translate-y-0.5 active:translate-y-0',
+      'text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-[#D8B452] hover:bg-slate-100 dark:hover:bg-[#D8B452]/10 hover:-translate-y-0.5 active:translate-y-0',
     glow:
-      'bg-gradient-to-r from-[#D8B452] via-[#F3D887] to-[#D8B452] text-black shadow-xl shadow-[#D8B452]/30 hover:shadow-2xl hover:shadow-[#D8B452]/50 hover:scale-[1.03] active:scale-[0.98] hover:-translate-y-1',
+      'bg-gradient-to-r from-[#D97706] via-[#F59E0B] to-[#D97706] dark:from-[#D8B452] dark:via-[#F3D887] dark:to-[#D8B452] text-white dark:text-black shadow-lg shadow-amber-500/25 hover:shadow-xl hover:shadow-amber-500/35 hover:scale-[1.03] active:scale-[0.98] hover:-translate-y-1',
   };
 
   return (

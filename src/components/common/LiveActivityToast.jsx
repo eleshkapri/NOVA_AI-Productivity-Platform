@@ -111,21 +111,21 @@ export function LiveActivityToast({ onOpenDemo }) {
           }
         }}
         style={{ outline: 'none' }}
-        className="bg-[#0b0c33]/95 backdrop-blur-xl border border-[#D8B452]/40 rounded-2xl p-3 sm:p-3.5 shadow-2xl flex items-center gap-3 transition-all duration-300 hover:border-[#D8B452] focus-visible:border-[#D8B452] hover:scale-105 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#D8B452]/25 cursor-pointer group select-none outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0"
+        className="bg-white/95 dark:bg-[#0b0c33]/95 backdrop-blur-xl border border-slate-200/90 dark:border-[#D8B452]/40 rounded-2xl p-3 sm:p-3.5 shadow-xl dark:shadow-2xl flex items-center gap-3 transition-all duration-300 hover:border-[#D8B452] focus-visible:border-[#D8B452] hover:scale-105 hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#D8B452]/15 cursor-pointer group select-none outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0"
       >
-        <div className="w-8 h-8 rounded-xl bg-[#050614] border border-[#D8B452]/30 flex items-center justify-center text-[#D8B452] shrink-0 text-xs font-bold group-hover:scale-110 group-hover:border-[#D8B452] group-hover:bg-[#D8B452]/10 transition-all duration-300 shadow-sm">
+        <div className="w-8 h-8 rounded-xl bg-amber-50 dark:bg-[#050614] border border-amber-200/80 dark:border-[#D8B452]/30 flex items-center justify-center text-[#B45309] dark:text-[#D8B452] shrink-0 text-xs font-bold group-hover:scale-110 group-hover:border-[#D8B452] group-hover:bg-[#D8B452]/10 transition-all duration-300 shadow-xs">
           {current.icon}
         </div>
         <div className="flex-1 min-w-0 pr-1">
-          <p className="text-xs font-bold text-white truncate group-hover:text-[#D8B452] transition-colors">
+          <p className="text-xs font-bold text-slate-900 dark:text-white truncate group-hover:text-[#B45309] dark:group-hover:text-[#D8B452] transition-colors">
             {current.company}{' '}
-            <span className="font-normal text-slate-300">{current.action}</span>
+            <span className="font-normal text-slate-600 dark:text-slate-300">{current.action}</span>
           </p>
           <div className="flex items-center gap-2 mt-1">
-            <p className="text-[10px] text-slate-400 flex items-center gap-1 font-mono">
-              <Sparkles className="w-2.5 h-2.5 text-[#D8B452]" /> {current.time}
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1 font-mono">
+              <Sparkles className="w-2.5 h-2.5 text-[#B45309] dark:text-[#D8B452]" /> {current.time}
             </p>
-            <span className="inline-flex items-center gap-0.5 text-[9px] font-bold text-[#D8B452] bg-[#D8B452]/15 border border-[#D8B452]/30 px-1.5 py-0.5 rounded-md group-hover:bg-[#D8B452] group-hover:text-black transition-all">
+            <span className="inline-flex items-center gap-0.5 text-[9px] font-bold text-[#B45309] bg-amber-50 border border-amber-200/80 dark:text-[#D8B452] dark:bg-[#D8B452]/15 dark:border-[#D8B452]/30 px-1.5 py-0.5 rounded-md group-hover:bg-[#D8B452] group-hover:text-black transition-all">
               {current.actionBadge}
               <ArrowRight className="w-2.5 h-2.5 group-hover:translate-x-0.5 transition-transform" />
             </span>
@@ -138,7 +138,7 @@ export function LiveActivityToast({ onOpenDemo }) {
           }}
           aria-label="Dismiss live notification"
           title="Dismiss"
-          className="text-slate-400 hover:text-white p-1 rounded-md transition-all hover:scale-120 active:scale-90 hover:bg-white/10 cursor-pointer shrink-0 outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0"
+          className="text-slate-400 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white p-1 rounded-md transition-all hover:scale-120 active:scale-90 hover:bg-slate-100 dark:hover:bg-white/10 cursor-pointer shrink-0 outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0"
         >
           <X className="w-3.5 h-3.5" />
         </button>

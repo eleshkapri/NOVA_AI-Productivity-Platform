@@ -19,10 +19,10 @@ export function Hero({ onOpenDemo }) {
     <section className="relative pt-36 pb-24 md:pt-44 md:pb-32 overflow-hidden">
       {/* Soufflet & Orchid Ambient Atmospheric Glow */}
       <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[550px] pointer-events-none opacity-30 dark:opacity-25 blur-3xl -z-10"
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[550px] pointer-events-none opacity-40 dark:opacity-25 blur-3xl -z-10"
         style={{
           background:
-            'radial-gradient(ellipse at center, rgba(104, 51, 255, 0.25) 0%, rgba(216, 180, 82, 0.2) 35%, rgba(11, 12, 51, 0.2) 60%, transparent 80%)',
+            'radial-gradient(ellipse at center, rgba(124, 58, 237, 0.08) 0%, rgba(217, 119, 6, 0.08) 35%, transparent 70%)',
         }}
       />
 
@@ -37,11 +37,11 @@ export function Hero({ onOpenDemo }) {
             }}
             className="orchid-tag-pill mb-8 cursor-pointer group hover:scale-105 active:scale-95"
           >
-            <span className="flex h-2 w-2 rounded-full bg-[#A78BFA] shadow-[0_0_8px_#A78BFA] animate-ping" />
-            <span className="text-xs font-bold tracking-widest uppercase text-[#C4B5FD] dark:text-[#E0E7FF]">
+            <span className="flex h-2 w-2 rounded-full bg-[#7C3AED] dark:bg-[#A78BFA] shadow-[0_0_8px_#7C3AED] dark:shadow-[0_0_8px_#A78BFA] animate-ping" />
+            <span className="text-xs font-bold tracking-widest uppercase text-[#5B21B6] dark:text-[#E0E7FF]">
               NOVA 2.0 &bull; Autonomous AI Orchestration
             </span>
-            <span className="text-xs text-[#D8B452] font-semibold hidden sm:inline group-hover:text-white transition-colors">
+            <span className="text-xs text-[#B45309] dark:text-[#D8B452] font-semibold hidden sm:inline group-hover:text-[#7C3AED] dark:group-hover:text-white transition-colors">
               Read editorial &rarr;
             </span>
           </button>
@@ -55,7 +55,7 @@ export function Hero({ onOpenDemo }) {
           </h1>
 
           {/* Subtitle */}
-          <p className="text-lg sm:text-xl md:text-2xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed mb-12 font-light">
+          <p className="text-lg sm:text-xl md:text-2xl text-slate-700 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed mb-12 font-normal">
             An elevated AI productivity platform engineered for visionary engineering squads to master backlogs, eliminate developer toil, and ship with unmatched precision.
           </p>
 
@@ -77,22 +77,22 @@ export function Hero({ onOpenDemo }) {
               icon={Play}
               iconPosition="left"
               onClick={() => onOpenDemo('walkthrough')}
-              className="w-full sm:w-auto text-base border-[#8E6FFF]/40 hover:border-[#8E6FFF]"
+              className="w-full sm:w-auto text-base"
             >
               Watch Interactive Demo
             </Button>
           </div>
 
           {/* Trust Badges */}
-          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs font-semibold tracking-wider uppercase text-slate-500 dark:text-slate-400">
+          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs font-semibold tracking-wider uppercase text-slate-600 dark:text-slate-400">
             <span className="flex items-center gap-2 hover:text-slate-900 dark:hover:text-white hover:scale-105 transition-all duration-200 cursor-default">
-              <Check className="w-4 h-4 text-[#D8B452]" /> No credit card required
+              <Check className="w-4 h-4 text-[#B45309] dark:text-[#D8B452]" /> No credit card required
             </span>
             <span className="flex items-center gap-2 hover:text-slate-900 dark:hover:text-white hover:scale-105 transition-all duration-200 cursor-default">
-              <Check className="w-4 h-4 text-[#A78BFA]" /> 60-second GitHub setup
+              <Check className="w-4 h-4 text-[#7C3AED] dark:text-[#A78BFA]" /> 60-second GitHub setup
             </span>
             <span className="flex items-center gap-2 hover:text-slate-900 dark:hover:text-white hover:scale-105 transition-all duration-200 cursor-default">
-              <Check className="w-4 h-4 text-[#D8B452]" /> SOC2 Type II Certified
+              <Check className="w-4 h-4 text-[#B45309] dark:text-[#D8B452]" /> SOC2 Type II Certified
             </span>
           </div>
 

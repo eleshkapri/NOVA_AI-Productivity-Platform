@@ -216,16 +216,16 @@ export function AmbientBackground() {
       const mouseConnectDistSq = mouseConnectDist * mouseConnectDist;
 
       // Color paletting for Light & Dark mode
-      const primaryGold = isLight ? '#a1741a' : '#D8B452';
-      const secondaryGold = isLight ? '#c59529' : '#F3D887';
-      const nodeFill = isLight ? '#8c6012' : '#D8B452';
-      const lineRgb = isLight ? '161, 116, 26' : '216, 180, 82';
-      const cyanAccentRgb = isLight ? '14, 116, 144' : '34, 211, 238';
+      const primaryGold = isLight ? '#D97706' : '#D8B452';
+      const secondaryGold = isLight ? '#F59E0B' : '#F3D887';
+      const nodeFill = isLight ? '#D97706' : '#D8B452';
+      const lineRgb = isLight ? '217, 119, 6' : '216, 180, 82';
+      const cyanAccentRgb = isLight ? '2, 132, 199' : '34, 211, 238';
 
       // Orchid Security Neon Violet / Dark-Matter Palette
-      const orchidViolet = isLight ? '#6833FF' : '#8E6FFF';
-      const orchidLavender = isLight ? '#7B42FF' : '#A78BFA';
-      const orchidRgb = isLight ? '104, 51, 255' : '142, 111, 255';
+      const orchidViolet = isLight ? '#7C3AED' : '#8E6FFF';
+      const orchidLavender = isLight ? '#8B5CF6' : '#A78BFA';
+      const orchidRgb = isLight ? '124, 58, 237' : '142, 111, 255';
 
       // -------------------------------------------------------------
       // 1. Draw AI AST Radar Scanners (Background Tech Circles)
@@ -240,7 +240,7 @@ export function AmbientBackground() {
 
         // Outer concentric rings
         ctx.strokeStyle = isLight
-          ? `rgba(${lineRgb}, 0.18)`
+          ? `rgba(${lineRgb}, 0.08)`
           : `rgba(${lineRgb}, 0.22)`;
         ctx.lineWidth = 1;
         ctx.beginPath();
@@ -251,7 +251,7 @@ export function AmbientBackground() {
         ctx.save();
         ctx.setLineDash([4, 6]);
         ctx.strokeStyle = isLight
-          ? `rgba(${lineRgb}, 0.22)`
+          ? `rgba(${lineRgb}, 0.1)`
           : `rgba(${lineRgb}, 0.28)`;
         ctx.beginPath();
         ctx.arc(scX, scY, rad * 1.35, 0, Math.PI * 2);
@@ -260,7 +260,7 @@ export function AmbientBackground() {
 
         // Expanding pulsating radar wave
         const pulseRad = rad * (0.3 + scanner.pulse * 1.4);
-        const pulseAlpha = (1 - scanner.pulse) * (isLight ? 0.28 : 0.35);
+        const pulseAlpha = (1 - scanner.pulse) * (isLight ? 0.12 : 0.35);
         ctx.strokeStyle = `rgba(${lineRgb}, ${pulseAlpha})`;
         ctx.lineWidth = 1.2;
         ctx.beginPath();
@@ -272,7 +272,7 @@ export function AmbientBackground() {
         ctx.translate(scX, scY);
         ctx.rotate(scanner.angle);
         const sweepGrad = ctx.createLinearGradient(0, 0, rad, 0);
-        sweepGrad.addColorStop(0, `rgba(${lineRgb}, ${isLight ? 0.3 : 0.4})`);
+        sweepGrad.addColorStop(0, `rgba(${lineRgb}, ${isLight ? 0.12 : 0.4})`);
         sweepGrad.addColorStop(1, 'rgba(0,0,0,0)');
         ctx.fillStyle = sweepGrad;
         ctx.beginPath();
@@ -282,7 +282,7 @@ export function AmbientBackground() {
         ctx.fill();
 
         // Sweep leading line
-        ctx.strokeStyle = primaryGold;
+        ctx.strokeStyle = isLight ? `rgba(${lineRgb}, 0.25)` : primaryGold;
         ctx.lineWidth = 1.2;
         ctx.beginPath();
         ctx.moveTo(0, 0);
@@ -293,7 +293,7 @@ export function AmbientBackground() {
         // Compass degree tick marks
         ctx.save();
         ctx.translate(scX, scY);
-        ctx.strokeStyle = `rgba(${lineRgb}, ${isLight ? 0.3 : 0.4})`;
+        ctx.strokeStyle = `rgba(${lineRgb}, ${isLight ? 0.12 : 0.4})`;
         for (let a = 0; a < 8; a++) {
           ctx.rotate(Math.PI / 4);
           ctx.beginPath();
@@ -304,7 +304,7 @@ export function AmbientBackground() {
         ctx.restore();
 
         // Center mini NOVA geometric emblem
-        drawNovaEmblem(scX, scY, 6.5, primaryGold, scanner.angle * -0.5);
+        drawNovaEmblem(scX, scY, 6.5, isLight ? `rgba(${lineRgb}, 0.25)` : primaryGold, scanner.angle * -0.5);
       });
 
       // -------------------------------------------------------------
@@ -360,7 +360,7 @@ export function AmbientBackground() {
           if (distSq < maxConnectDistSq) {
             const dist = Math.sqrt(distSq);
             const factor = 1 - dist / maxConnectDist;
-            const lineAlpha = factor * (isLight ? 0.28 : 0.4);
+            const lineAlpha = factor * (isLight ? 0.12 : 0.4);
 
             // Orchid Security dual-frequency line blending
             const isOrchidLine = na.type === 'orchid' || nb.type === 'orchid';
@@ -454,7 +454,7 @@ export function AmbientBackground() {
         if (n.isCore) {
           // Core hub node with glowing halo
           const haloRad = n.radius * 2.8 * pulseFactor;
-          ctx.fillStyle = `rgba(${haloColor}, ${isLight ? 0.16 : 0.24})`;
+          ctx.fillStyle = `rgba(${haloColor}, ${isLight ? 0.08 : 0.24})`;
           ctx.beginPath();
           ctx.arc(n.x, n.y, haloRad, 0, Math.PI * 2);
           ctx.fill();
@@ -471,7 +471,7 @@ export function AmbientBackground() {
           ctx.fill();
         } else {
           // Standard neural graph node (Orchid dark-matter or gold)
-          ctx.fillStyle = isOrchidNode ? (isLight ? '#7B42FF' : '#A78BFA') : nodeFill;
+          ctx.fillStyle = isOrchidNode ? (isLight ? '#8B5CF6' : '#A78BFA') : nodeFill;
           ctx.beginPath();
           ctx.arc(n.x, n.y, n.radius * pulseFactor, 0, Math.PI * 2);
           ctx.fill();
@@ -521,10 +521,10 @@ export function AmbientBackground() {
 
         if (t.text === '✦') {
           // Draw geometric emblem
-          drawNovaEmblem(0, 0, t.size * 0.6, `rgba(${lineRgb}, ${currentAlpha * 1.2})`);
+          drawNovaEmblem(0, 0, t.size * 0.6, `rgba(${lineRgb}, ${isLight ? currentAlpha * 0.35 : currentAlpha * 1.2})`);
         } else {
           ctx.fillStyle = isLight
-            ? `rgba(161, 116, 26, ${currentAlpha * 0.85})`
+            ? `rgba(100, 116, 139, ${currentAlpha * 0.3})`
             : `rgba(216, 180, 82, ${currentAlpha})`;
           ctx.fillText(t.text, 0, 0);
         }
@@ -548,20 +548,20 @@ export function AmbientBackground() {
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-gradient-to-b from-[#FFFDF9] via-[#FAF6F0] to-[#F1EFE9] dark:from-[#0b0c26] dark:via-[#070818] dark:to-[#04050d] transition-colors duration-500">
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-gradient-to-b from-[#FFFFFF] via-[#F8FAFC] to-[#F1F5F9] dark:from-[#0b0c26] dark:via-[#070818] dark:to-[#04050d] transition-colors duration-500">
       {/* 1. Subtle Engineering Matrix Grid */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-40 dark:opacity-25" />
+      <div className="absolute inset-0 bg-grid-pattern opacity-30 dark:opacity-25" />
 
       {/* 2. Sweeping Luminous Orchid Violet & AI Neural Auroras */}
-      <div className="absolute -top-40 left-1/4 w-[750px] h-[1200px] bg-gradient-to-b from-[#6833FF]/20 via-[#8E6FFF]/10 to-transparent blur-[120px] animate-aurora-beam pointer-events-none" />
-      <div className="absolute -top-60 right-1/4 w-[650px] h-[1100px] bg-gradient-to-b from-[#D8B452]/15 via-indigo-600/10 to-transparent blur-[110px] animate-aurora-beam pointer-events-none [animation-delay:4s]" />
+      <div className="absolute -top-40 left-1/4 w-[750px] h-[1200px] bg-gradient-to-b from-[#7C3AED]/5 via-[#A78BFA]/3 to-transparent dark:from-[#6833FF]/20 dark:via-[#8E6FFF]/10 blur-[120px] animate-aurora-beam pointer-events-none" />
+      <div className="absolute -top-60 right-1/4 w-[650px] h-[1100px] bg-gradient-to-b from-[#F59E0B]/5 via-indigo-500/3 to-transparent dark:from-[#D8B452]/15 dark:via-indigo-600/10 blur-[110px] animate-aurora-beam pointer-events-none [animation-delay:4s]" />
 
-      {/* 3. Fluid Animated Ambient Gradient Orbs (Orchid Deep Cosmic Violet & Gold) */}
-      <div className="absolute -top-32 -left-32 w-[720px] h-[720px] rounded-full bg-gradient-to-br from-[#6833FF]/25 via-[#8E6FFF]/10 to-transparent blur-[140px] animate-mesh-1" />
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[850px] h-[850px] rounded-full bg-gradient-to-tr from-[#6833FF]/20 via-[#4E29D4]/15 to-transparent blur-[160px] pointer-events-none orchid-ambient-orb" />
-      <div className="absolute top-1/3 -right-44 w-[780px] h-[780px] rounded-full bg-gradient-to-bl from-indigo-600/25 via-[#0b0c33]/40 dark:via-[#0b0c33]/70 to-transparent blur-[150px] animate-mesh-2" />
-      <div className="absolute top-2/3 left-1/5 w-[620px] h-[620px] rounded-full bg-gradient-to-tr from-[#D8B452]/15 via-[#C49A32]/10 to-transparent blur-[130px] animate-mesh-3" />
-      <div className="absolute -bottom-40 right-1/3 w-[700px] h-[700px] rounded-full bg-gradient-to-tl from-[#6833FF]/20 via-[#07081e]/35 dark:via-[#07081e]/65 to-transparent blur-[140px] animate-mesh-1" />
+      {/* 3. Fluid Animated Ambient Gradient Orbs (Soft Luminous Lavender & Gold in light, Cosmic in dark) */}
+      <div className="absolute -top-32 -left-32 w-[720px] h-[720px] rounded-full bg-gradient-to-br from-[#7C3AED]/6 via-[#DDD6FE]/8 to-transparent dark:from-[#6833FF]/25 dark:via-[#8E6FFF]/10 blur-[140px] animate-mesh-1" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[850px] h-[850px] rounded-full bg-gradient-to-tr from-[#7C3AED]/5 via-[#EDE9FE]/8 to-transparent dark:from-[#6833FF]/20 dark:via-[#4E29D4]/15 blur-[160px] pointer-events-none orchid-ambient-orb" />
+      <div className="absolute top-1/3 -right-44 w-[780px] h-[780px] rounded-full bg-gradient-to-bl from-amber-300/8 via-indigo-200/5 to-transparent dark:from-indigo-600/25 dark:via-[#0b0c33]/70 blur-[150px] animate-mesh-2" />
+      <div className="absolute top-2/3 left-1/5 w-[620px] h-[620px] rounded-full bg-gradient-to-tr from-[#F59E0B]/6 via-[#FDE68A]/8 to-transparent dark:from-[#D8B452]/15 dark:via-[#C49A32]/10 blur-[130px] animate-mesh-3" />
+      <div className="absolute -bottom-40 right-1/3 w-[700px] h-[700px] rounded-full bg-gradient-to-tl from-[#7C3AED]/5 via-[#EDE9FE]/8 to-transparent dark:from-[#6833FF]/20 dark:via-[#07081e]/65 blur-[140px] animate-mesh-1" />
 
       {/* 4. Floating Golden Energy Motes */}
       <div className="absolute inset-0 pointer-events-none">

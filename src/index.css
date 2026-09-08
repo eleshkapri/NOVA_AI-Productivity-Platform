@@ -6,7 +6,7 @@
   html {
     scroll-behavior: smooth;
     color-scheme: light dark;
-    background-color: #FFF7ED;
+    background-color: #F8FAFC;
   }
 
   html.dark {
@@ -29,7 +29,7 @@
 
 /* Subtle Geometric Matrix Grid */
 .bg-grid-pattern {
-  background-image: radial-gradient(rgba(180, 137, 44, 0.12) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(100, 116, 139, 0.08) 1px, transparent 1px);
   background-size: 32px 32px;
 }
 
@@ -45,12 +45,16 @@
 
 /* Soufflet Malt Ambient Gold Lighting */
 .glow-mesh-gold {
+  background: radial-gradient(circle at 50% -10%, rgba(217, 119, 6, 0.08) 0%, rgba(248, 250, 252, 0.6) 45%, transparent 75%);
+}
+
+.dark .glow-mesh-gold {
   background: radial-gradient(circle at 50% -10%, rgba(216, 180, 82, 0.18) 0%, rgba(11, 12, 51, 0.4) 45%, transparent 75%);
 }
 
 /* Gold Gradient Text: AAA contrast in light mode, luminous in dark mode */
 .text-gold-gradient {
-  background: linear-gradient(135deg, #a1741a 0%, #b8860b 50%, #8c6210 100%);
+  background: linear-gradient(135deg, #B45309 0%, #D97706 45%, #92400E 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -350,8 +354,12 @@
 }
 
 .orchid-card:hover {
-  box-shadow: 0 0 35px -5px rgba(104, 51, 255, 0.25), 0 0 25px -4px rgba(216, 180, 82, 0.18);
+  box-shadow: 0 10px 30px -5px rgba(124, 58, 237, 0.1), 0 4px 12px -2px rgba(217, 119, 6, 0.06);
   transform: translateY(-4px) scale(1.01);
+}
+
+.dark .orchid-card:hover {
+  box-shadow: 0 0 35px -5px rgba(104, 51, 255, 0.25), 0 0 25px -4px rgba(216, 180, 82, 0.18);
 }
 
 /* 2. Orchid Tech Tag Pill with Radiant Neon Outline */
@@ -366,23 +374,31 @@
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  background: rgba(104, 51, 255, 0.12);
-  color: #c4b5fd;
-  border: 1px solid rgba(142, 111, 255, 0.45);
-  box-shadow: 0 0 16px -2px rgba(104, 51, 255, 0.25);
+  background: rgba(124, 58, 237, 0.08);
+  color: #5b21b6;
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  box-shadow: 0 1px 4px rgba(124, 58, 237, 0.1);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   transition: all 0.3s ease;
 }
 
 .dark .orchid-tag-pill {
+  background: rgba(104, 51, 255, 0.12);
   color: #e0e7ff;
+  border: 1px solid rgba(142, 111, 255, 0.45);
+  box-shadow: 0 0 16px -2px rgba(104, 51, 255, 0.25);
 }
 
 .orchid-tag-pill:hover {
+  border-color: rgba(124, 58, 237, 0.65);
+  box-shadow: 0 0 20px 0px rgba(124, 58, 237, 0.2);
+  transform: scale(1.03);
+}
+
+.dark .orchid-tag-pill:hover {
   border-color: rgba(142, 111, 255, 0.85);
   box-shadow: 0 0 25px 0px rgba(104, 51, 255, 0.45);
-  transform: scale(1.03);
 }
 
 /* 3. Orchid Laser Divider Beam with Continuous Scanning Flare */
