@@ -1,186 +1,317 @@
 import React, { useState } from 'react';
 import { SectionHeader } from '../common/SectionHeader';
-import { Badge } from '../common/Badge';
 import { Button } from '../common/Button';
 import { MotionReveal } from '../common/MotionReveal';
-import { TiltCard } from '../common/TiltCard';
 import { pricingPlans } from '../../data/pricing';
 import { PricingPlanModel } from '../../models/PricingPlanModel';
-import { Check, X, Sparkles, ArrowRight } from 'lucide-react';
+import { Check, Sparkles, ArrowRight, ShieldCheck, Zap, Lock, Terminal, Radio } from 'lucide-react';
 
 const planModels = pricingPlans.map((p) => new PricingPlanModel(p));
 
 export function Pricing({ onOpenDemo }) {
   const [isAnnual, setIsAnnual] = useState(true);
-  const proSavings = planModels[1]?.getAnnualSavingsPercent() || 20;
+
+  const starterPlan = planModels.find((p) => p.id === 'starter') || planModels[0];
+  const proPlan = planModels.find((p) => p.id === 'pro') || planModels[1];
+  const enterprisePlan = planModels.find((p) => p.id === 'enterprise') || planModels[2];
+
+  const starterPrice = starterPlan.getEffectivePrice(isAnnual);
+  const proPrice = proPlan.getEffectivePrice(isAnnual);
+  const enterprisePrice = enterprisePlan.getEffectivePrice(isAnnual);
+  const proSavings = proPlan.getAnnualSavingsPercent() || 20;
 
   return (
-    <section id="pricing" className="py-14 md:py-20 relative">
+    <section id="pricing" className="py-14 md:py-20 relative overflow-hidden bg-noise">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* 1. Section Header */}
         <MotionReveal animation="fade-up">
           <SectionHeader
-            eyebrow="Transparent Investment"
+            eyebrow="Predictable Economics"
             title="Invest in Velocity,"
-            titleHighlight="Unleash True Productivity"
-            description="Every plan includes access to our core autonomous AI engine. Scale smoothly as your engineering team expands."
+            titleHighlight="Scale Without Surprises"
+            description="Transparent tiering engineered for fast-moving engineering teams. Scale seamlessly from local sandbox experimentation to multi-squad autonomous pipelines."
           />
         </MotionReveal>
 
-        {/* Monthly / Annual Billing Toggle */}
-        <MotionReveal animation="fade-up" delay={100}>
-          <div className="flex items-center justify-center gap-5 mb-16">
-            <span
-              className={`text-sm font-bold uppercase tracking-wider cursor-pointer transition-all hover:scale-105 active:scale-95 ${
-                !isAnnual ? 'text-[#a1741a] dark:text-[#D8B452]' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
-              }`}
+        {/* 2. Linear-Style Spring Billing Switcher */}
+        <MotionReveal animation="fade-up" delay={80}>
+          <div className="flex items-center justify-center gap-4 mb-12 sm:mb-16 select-none">
+            <button
+              type="button"
               onClick={() => setIsAnnual(false)}
+              className={`text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-colors cursor-pointer ${
+                !isAnnual ? 'text-[#D8B452]' : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-300'
+              }`}
             >
               Monthly Billing
-            </span>
+            </button>
 
             <button
               type="button"
               role="switch"
               aria-checked={isAnnual}
-              aria-label="Toggle annual billing with 20% discount"
+              aria-label="Toggle annual billing with 20% savings"
               onClick={() => setIsAnnual(!isAnnual)}
-              className="w-16 h-8 flex items-center bg-slate-200 dark:bg-[#0b0c33] border border-slate-300 dark:border-white/20 rounded-full p-1 cursor-pointer transition-all hover:scale-105 active:scale-95 hover:border-[#a1741a] dark:hover:border-[#D8B452] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D8B452]"
+              className="w-14 h-7 flex items-center bg-slate-200 dark:bg-[#07081e] border border-slate-300/80 dark:border-white/15 rounded-full p-0.5 cursor-pointer transition-all duration-300 hover:border-[#D8B452] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D8B452]"
             >
               <div
-                className={`bg-gradient-to-r from-[#D8B452] to-[#C79A2B] w-6 h-6 rounded-full shadow-md transform transition-transform duration-300 ${
-                  isAnnual ? 'translate-x-7' : 'translate-x-0'
+                className={`w-5.5 h-5.5 rounded-full bg-[#D8B452] shadow-md transform transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                  isAnnual ? 'translate-x-7' : 'translate-x-0.5'
                 }`}
               />
             </button>
 
-            <div className="flex items-center gap-2.5">
-              <span
-                className={`text-sm font-bold uppercase tracking-wider cursor-pointer transition-all hover:scale-105 active:scale-95 ${
-                  isAnnual ? 'text-[#a1741a] dark:text-[#D8B452]' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
-                }`}
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
                 onClick={() => setIsAnnual(true)}
+                className={`text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-colors cursor-pointer ${
+                  isAnnual ? 'text-[#D8B452]' : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-300'
+                }`}
               >
-                Annual Billing
-              </span>
-              <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-100 text-[#a1741a] border border-[#a1741a]/30 dark:bg-[#D8B452]/20 dark:text-[#D8B452] dark:border-[#D8B452]/40 animate-pulse hover:scale-105 transition-transform cursor-default">
-                Save {proSavings}%
+                Annual Commitment
+              </button>
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-[#D8B452]/15 text-[#B45309] dark:text-[#D8B452] border border-[#D8B452]/40">
+                Save <span className="font-mono">{proSavings}%</span>
               </span>
             </div>
           </div>
         </MotionReveal>
 
-        {/* 3 Luxury Pricing Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
-          {planModels.map((plan, idx) => {
-            const price = plan.getEffectivePrice(isAnnual);
-
-            return (
-              <MotionReveal key={plan.id} animation="fade-up" delay={150 + idx * 100} className="h-full">
-              <TiltCard
-                key={plan.id}
-                maxTilt={plan.isPopular ? 10 : 7}
-                scale={plan.isPopular ? 1.03 : 1.015}
-                glare={true}
-                className={`group relative bg-white/95 dark:bg-[#0b0c33]/70 rounded-3xl p-8 sm:p-10 border flex flex-col justify-between transition-all duration-500 backdrop-blur-2xl ${
-                  plan.isPopular
-                    ? 'border-[#a1741a] dark:border-[#D8B452] shadow-xl shadow-[#D8B452]/15 scale-102 lg:-translate-y-2 hover:-translate-y-4 hover:scale-[1.03] hover:shadow-2xl hover:shadow-[#D8B452]/30 hover:border-[#b8860b] dark:hover:border-[#F3D887]'
-                    : 'border-slate-200/90 dark:border-white/10 shadow-md hover:border-[#a1741a]/60 dark:hover:border-[#D8B452]/60 hover:-translate-y-2.5 hover:scale-[1.015] hover:shadow-2xl hover:shadow-[#D8B452]/15'
-                }`}
-              >
-                {/* Popular Ribbon in Gold */}
-                {plan.isPopular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 group-hover:scale-105 transition-transform duration-300">
-                    <span className="bg-gradient-to-r from-[#D8B452] via-[#E5C773] to-[#B88A23] text-black text-xs font-black uppercase tracking-widest px-5 py-1.5 rounded-full shadow-xl flex items-center gap-1.5">
-                      <Sparkles className="w-3.5 h-3.5" /> Most Popular
-                    </span>
-                  </div>
-                )}
+        {/* 3. Asymmetric Bento Rhythm (VARIANCE: 7) — Flagship Pro Anchor (7 cols) + Flank Duo (5 cols) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch mb-8">
+          {/* ========================================================
+              LEFT COLUMN (7 COLS): FLAGSHIP PRO TIER (BENTO ANCHOR)
+              ======================================================== */}
+          <div className="lg:col-span-7 flex flex-col">
+            <MotionReveal animation="fade-up" delay={120} className="h-full">
+              <div className="relative rounded-3xl overflow-hidden bg-gradient-to-b from-[#090b2c] via-[#070822] to-[#040514] text-white border-2 border-[#D8B452]/60 shadow-2xl p-7 sm:p-10 flex flex-col justify-between h-full group orchid-card">
+                {/* Ambient Liquid Gold Radial Glow */}
+                <div className="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 rounded-full bg-[#D8B452]/15 blur-3xl pointer-events-none group-hover:opacity-100 transition-opacity duration-700" />
+                <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-[#6833FF]/15 blur-3xl pointer-events-none group-hover:opacity-100 transition-opacity duration-700" />
 
                 <div>
-                  {/* Plan Name & Badge */}
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-2xl font-bold text-slate-900 dark:text-white tracking-wide">
-                      {plan.name}
+                  {/* Top Status HUD Strip */}
+                  <div className="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-white/10 mb-6">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D8B452]/15 border border-[#D8B452]/40 text-[#D8B452] text-[11px] font-mono font-bold uppercase tracking-wider">
+                      <Sparkles className="w-3.5 h-3.5 text-[#D8B452]" />
+                      <span>FLAGSHIP // SPRINT OPTIMIZER</span>
+                    </div>
+                    <div className="inline-flex items-center gap-1.5 text-[10px] font-mono text-emerald-400 font-bold">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                      <span>RECOMMENDED FOR SQUADS</span>
+                    </div>
+                  </div>
+
+                  {/* Plan Title & Value Prop */}
+                  <div className="mb-6">
+                    <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center gap-3">
+                      <span>{proPlan.name}</span>
+                      <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-md bg-white/10 text-slate-300 border border-white/10 uppercase">
+                        Active Tier
+                      </span>
                     </h3>
-                    <Badge variant={plan.isPopular ? 'gold' : 'slate'}>
-                      {plan.badge}
-                    </Badge>
+                    <p className="text-sm text-slate-300 mt-2 max-w-xl font-light leading-relaxed">
+                      {proPlan.description}
+                    </p>
                   </div>
 
-                  <p className="text-sm text-slate-600 dark:text-slate-300 mb-8 min-h-[44px] font-normal">
-                    {plan.description}
-                  </p>
-
-                  {/* Price with Gold Accents */}
-                  <div className="flex items-baseline gap-2 mb-8 pb-8 border-b border-slate-100 dark:border-white/10">
-                    <span className="text-5xl sm:text-6xl font-black tracking-tighter text-gold-gradient">
-                      ${price}
-                    </span>
-                    <span className="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400">
-                      {plan.period === 'forever' ? '/ forever' : isAnnual ? '/ user / mo (billed yearly)' : '/ user / mo'}
-                    </span>
+                  {/* Price Tag with High-Precision Monospace Numbers */}
+                  <div className="p-5 rounded-2xl bg-[#050614]/80 border border-white/10 backdrop-blur-md mb-8 flex flex-col sm:flex-row sm:items-baseline justify-between gap-4">
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-5xl sm:text-6xl font-black font-mono text-gold-gradient tracking-tight">
+                        ${proPrice}
+                      </span>
+                      <span className="text-xs sm:text-sm font-mono text-slate-400 uppercase">
+                        / user / month
+                      </span>
+                    </div>
+                    <div className="text-left sm:text-right">
+                      <span className="text-[11px] font-mono font-bold text-emerald-400 uppercase tracking-wider block">
+                        {isAnnual ? `SAVES $${(29 - 24) * 12}/SEAT/YR` : 'BILLED MONTHLY'}
+                      </span>
+                      <span className="text-[10px] font-mono text-slate-500 uppercase">
+                        14-DAY FULL SANDBOX INCLUDED
+                      </span>
+                    </div>
                   </div>
 
-                  {/* Features List */}
-                  <div className="space-y-3.5 mb-10">
-                    <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#a1741a] dark:text-[#D8B452] mb-4">
-                      Included in {plan.name}:
+                  {/* 2-Column Feature Breakdown */}
+                  <div className="mb-8">
+                    <p className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#D8B452] mb-4 flex items-center gap-2">
+                      <Terminal className="w-3.5 h-3.5" />
+                      <span>Engine Capabilities Matrix:</span>
                     </p>
 
-                    {plan.features.map((feature, i) => (
-                      <div key={i} className="flex items-start gap-3 text-xs sm:text-sm text-slate-700 dark:text-slate-200">
-                        <Check className="w-4 h-4 text-[#a1741a] dark:text-[#D8B452] shrink-0 mt-0.5" />
-                        <span>{feature}</span>
-                      </div>
-                    ))}
-
-                    {plan.notIncluded &&
-                      plan.notIncluded.map((feature, i) => (
-                        <div
-                          key={`not-${i}`}
-                          className="flex items-start gap-3 text-xs sm:text-sm text-slate-400 dark:text-slate-500 line-through"
-                        >
-                          <X className="w-4 h-4 text-slate-300 dark:text-slate-600 shrink-0 mt-0.5" />
-                          <span>{feature}</span>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-slate-200">
+                      {proPlan.features.map((feature, i) => (
+                        <div key={i} className="flex items-start gap-2.5 p-2 rounded-xl bg-white/[0.03] border border-white/5">
+                          <Check className="w-4 h-4 text-[#D8B452] shrink-0 mt-0.5" />
+                          <span className="leading-snug">{feature}</span>
                         </div>
                       ))}
+                    </div>
                   </div>
                 </div>
 
-                {/* Card CTA */}
-                <Button
-                  variant={plan.isPopular ? 'primary' : 'outline'}
-                  size="md"
-                  icon={ArrowRight}
-                  iconPosition="right"
-                  className="w-full justify-center"
-                  onClick={() => {
-                    if (onOpenDemo) {
-                      if (plan.id === 'enterprise') {
-                        onOpenDemo('contact', { plan: 'enterprise' });
-                      } else {
-                        onOpenDemo('trial', { plan: plan.id });
-                      }
-                    }
-                  }}
+                {/* Card CTA & Reassurance */}
+                <div className="pt-6 border-t border-white/10 space-y-4">
+                  <Button
+                    variant="orchid"
+                    size="lg"
+                    icon={ArrowRight}
+                    iconPosition="right"
+                    className="w-full justify-center text-base font-bold shadow-xl shadow-[#D8B452]/20 cursor-pointer hover:scale-[1.01] active:scale-[0.99] transition-all"
+                    onClick={() => onOpenDemo ? onOpenDemo('trial', { plan: 'pro' }) : null}
+                  >
+                    Start 14-Day Free Pro Trial
+                  </Button>
+
+                  <div className="flex flex-wrap items-center justify-between gap-2 text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+                    <span>&bull; Zero credit card required</span>
+                    <span>&bull; Instant GitHub / GitLab sync</span>
+                    <span>&bull; Cancel anytime</span>
+                  </div>
+                </div>
+              </div>
+            </MotionReveal>
+          </div>
+
+          {/* ========================================================
+              RIGHT COLUMN (5 COLS): FLANK DUO (STARTER & ENTERPRISE)
+              ======================================================== */}
+          <div className="lg:col-span-5 flex flex-col justify-between gap-6">
+            {/* TILE 1: STARTER / SOLO DEVELOPER SANDBOX */}
+            <MotionReveal animation="fade-up" delay={180} className="flex-1">
+              <div className="rounded-3xl p-6 sm:p-7 bg-white/95 dark:bg-[#07081e] border border-slate-200/90 dark:border-white/10 shadow-lg dark:shadow-xl flex flex-col justify-between h-full transition-all duration-300 hover:border-slate-400 dark:hover:border-white/25">
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                      <Zap className="w-4 h-4 text-slate-500 dark:text-slate-400" />
+                      <h4 className="text-lg font-bold text-slate-900 dark:text-white tracking-tight">
+                        {starterPlan.name}
+                      </h4>
+                    </div>
+                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300 uppercase">
+                      {starterPlan.badge}
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-slate-600 dark:text-slate-400 mb-4 leading-relaxed font-light">
+                    {starterPlan.description}
+                  </p>
+
+                  <div className="flex items-baseline gap-2 mb-4 pb-4 border-b border-slate-100 dark:border-white/10">
+                    <span className="text-3xl sm:text-4xl font-black font-mono text-slate-900 dark:text-white tracking-tight">
+                      ${starterPrice}
+                    </span>
+                    <span className="text-xs font-mono text-slate-500 uppercase">
+                      / forever
+                    </span>
+                  </div>
+
+                  <div className="space-y-2 mb-6 text-xs text-slate-700 dark:text-slate-300">
+                    {starterPlan.features.slice(0, 3).map((f, i) => (
+                      <div key={i} className="flex items-start gap-2">
+                        <Check className="w-3.5 h-3.5 text-[#B45309] dark:text-[#D8B452] shrink-0 mt-0.5" />
+                        <span className="line-clamp-1">{f}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => onOpenDemo ? onOpenDemo('trial', { plan: 'starter' }) : null}
+                  className="w-full py-2.5 px-4 rounded-xl text-xs font-mono font-bold uppercase tracking-wider bg-slate-100 dark:bg-white/10 text-slate-800 dark:text-white hover:bg-slate-200 dark:hover:bg-white/20 border border-slate-200 dark:border-white/10 transition-all cursor-pointer hover:scale-[1.01] active:scale-[0.99]"
                 >
-                  {plan.ctaText}
-                </Button>
-              </TiltCard>
-              </MotionReveal>
-            );
-          })}
+                  Launch Solo Sandbox
+                </button>
+              </div>
+            </MotionReveal>
+
+            {/* TILE 2: ENTERPRISE ZERO-TRUST CLUSTER */}
+            <MotionReveal animation="fade-up" delay={240} className="flex-1">
+              <div className="rounded-3xl p-6 sm:p-7 bg-gradient-to-b from-[#080927] to-[#040514] text-white border border-[#8E6FFF]/35 shadow-xl flex flex-col justify-between h-full transition-all duration-300 hover:border-[#D8B452]/50">
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                      <Lock className="w-4 h-4 text-[#D8B452]" />
+                      <h4 className="text-lg font-bold text-white tracking-tight">
+                        {enterprisePlan.name}
+                      </h4>
+                    </div>
+                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-[#D8B452]/15 text-[#D8B452] border border-[#D8B452]/30 uppercase">
+                      {enterprisePlan.badge}
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-slate-300 mb-4 leading-relaxed font-light">
+                    {enterprisePlan.description}
+                  </p>
+
+                  <div className="flex items-baseline gap-2 mb-4 pb-4 border-b border-white/10">
+                    <span className="text-3xl sm:text-4xl font-black font-mono text-gold-gradient tracking-tight">
+                      ${enterprisePrice}
+                    </span>
+                    <span className="text-xs font-mono text-slate-400 uppercase">
+                      / user / month
+                    </span>
+                  </div>
+
+                  <div className="space-y-2 mb-6 text-xs text-slate-300">
+                    <div className="flex items-center gap-2">
+                      <Check className="w-3.5 h-3.5 text-[#D8B452] shrink-0" />
+                      <span>Zero-data retention guarantee (no training)</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Check className="w-3.5 h-3.5 text-[#D8B452] shrink-0" />
+                      <span>Dedicated VPC, SCIM & granular RBAC</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Check className="w-3.5 h-3.5 text-[#D8B452] shrink-0" />
+                      <span><span className="font-mono font-bold text-[#D8B452]">99.99%</span> guaranteed uptime SLA</span>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => onOpenDemo ? onOpenDemo('contact', { plan: 'enterprise' }) : null}
+                  className="w-full py-2.5 px-4 rounded-xl text-xs font-mono font-bold uppercase tracking-wider bg-[#07081e] hover:bg-[#0e1038] text-white border border-[#8E6FFF]/40 hover:border-[#8E6FFF] transition-all cursor-pointer hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-1.5"
+                >
+                  <Radio className="w-3.5 h-3.5 text-[#A78BFA] animate-pulse" />
+                  <span>Consult Enterprise Team</span>
+                </button>
+              </div>
+            </MotionReveal>
+          </div>
         </div>
 
-        {/* Enterprise Reassurance Footer */}
-        <MotionReveal animation="fade-up" delay={200}>
-          <div className="mt-14 text-center text-xs tracking-wider text-slate-500 dark:text-slate-400">
-            Need custom SOC2 compliance reporting, custom data retention agreements, or invoice terms?{' '}
+        {/* 4. Full-Width Cybernetic Security & Compliance Assurance Strip */}
+        <MotionReveal animation="fade-up" delay={280}>
+          <div className="rounded-2xl bg-white/90 dark:bg-[#06081c]/90 border border-slate-200/90 dark:border-white/10 p-4 sm:p-5 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-600 dark:text-slate-300">
+            <div className="flex items-center gap-2.5">
+              <ShieldCheck className="w-4 h-4 text-[#D8B452] shrink-0" />
+              <span className="font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+                Enterprise Assurance Protocol
+              </span>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-5 text-[11px] text-slate-500 dark:text-slate-400">
+              <span className="hover:text-slate-900 dark:hover:text-white transition-colors">[✓ SOC-2 TYPE II]</span>
+              <span className="hover:text-slate-900 dark:hover:text-white transition-colors">[✓ ZERO MODEL RETENTION]</span>
+              <span className="hover:text-slate-900 dark:hover:text-white transition-colors">[✓ 99.99% SLA]</span>
+              <span className="hover:text-slate-900 dark:hover:text-white transition-colors">[✓ DEDICATED VPC]</span>
+            </div>
+
             <button
+              type="button"
               onClick={() => onOpenDemo && onOpenDemo('contact', { plan: 'enterprise' })}
-              className="text-[#a1741a] dark:text-[#D8B452] font-semibold underline hover:text-[#b8860b] dark:hover:text-[#F3D887] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
+              className="text-[#B45309] dark:text-[#D8B452] font-bold uppercase tracking-wider hover:underline flex items-center gap-1 cursor-pointer shrink-0"
             >
-              Talk with our Enterprise Architecture Team &rarr;
+              <span>Review Security Whitepaper</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
         </MotionReveal>
