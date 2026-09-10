@@ -10,6 +10,7 @@ This directory houses all in-depth engineering guides, architectural specificati
 
 | Document | Description | Key Topics Covered |
 |---|---|---|
+| **[SUBMISSION.md](./SUBMISSION.md)** | **Official Internship Submission Checklist** | • Deliverables 1–4 Checklist<br>• Repository & Deployment Verification<br>• Assessment Parameters Mapping |
 | **[EXPLANATION.md](./EXPLANATION.md)** | **Deliverable 4: Architecture & Engineering Deep Dive** | • Design Decisions<br>• Technology Choices (React 19, Vite 8, Tailwind v4)<br>• Component Hierarchy & Data Flow<br>• Challenges Faced & Zero-CLS Solutions<br>• AI Tools Usage & Verification |
 | **[DESIGN.md](./DESIGN.md)** | **Design System & Anti-Slop Specification** | • The Three Dials (`VARIANCE: 7`, `INTENSITY: 6`, `DENSITY: 4`)<br>• Dark (Obsidian Cybernetic) & Light (Crisp Slate) Palettes<br>• Emil Kowalski Motion Principles<br>• Anti-Slop Banned Patterns<br>• Typography Scales & Spacing Tokens |
 | **[PRODUCT.md](./PRODUCT.md)** | **Product Strategy, Truth & Capabilities** | • Product Vision & Core Value Proposition<br>• Target Personas (Staff Engineers, VPs of Eng)<br>• Interactive Hero, DORA Assessment & PDF Engine<br>• Autonomous Workspace Cockpit<br>• Tone of Voice & Personality |

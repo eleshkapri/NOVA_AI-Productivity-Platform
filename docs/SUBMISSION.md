@@ -23,7 +23,7 @@
 
 ### 3. README
 * **Status**: Complete on Front Page
-* **File**: [README.md](./README.md)
+* **File**: [README.md](../README.md)
 * **Contents Included**:
   * Project description & vision
   * Technologies used & architectural justifications
@@ -35,7 +35,7 @@
 
 ### 4. Short Explanation
 * **Status**: Complete & Documented
-* **Files**: [README.md (Section 4)](./README.md#4--short-explanation-technical-deep-dive) and [docs/EXPLANATION.md](./docs/EXPLANATION.md)
+* **Files**: [README.md (Section 4)](../README.md#4--short-explanation-technical-deep-dive) and [EXPLANATION.md](./EXPLANATION.md)
 * **Contents Included**:
   * **Design Decisions**: Developer-first aesthetic, The Three Dials framework, Obsidian Cybernetic & Crisp Slate themes, mobile-first responsive layout.
   * **Technology Choices**: React 19 + Vite 8 + Tailwind CSS v4 over CRA/Next.js, Lucide React icons, mathematical vector jsPDF engine, native Web Audio API.
@@ -47,11 +47,11 @@
 
 ## 📂 Extended Documentation Library (`/docs/`)
 
-All secondary and deep-dive documentation files are consolidated inside the [`docs/`](./docs/README.md) folder:
+All secondary and deep-dive documentation files are consolidated inside this directory:
 
-* 📘 [docs/EXPLANATION.md](./docs/EXPLANATION.md) — Comprehensive technical architecture & design explanation.
-* 🎨 [docs/DESIGN.md](./docs/DESIGN.md) — Design system specification, color tokens, and Emil Kowalski motion laws.
-* 🚀 [docs/PRODUCT.md](./docs/PRODUCT.md) — Product truth, value proposition, and core capability matrix.
-* 🎤 [docs/INTERVIEW_PREP.md](./docs/INTERVIEW_PREP.md) — 9 live review evaluator questions, talking points, and code defense walkthrough.
-* 🤖 [docs/AGENTS.md](./docs/AGENTS.md) — AI agent guidance, anti-slop guidelines, and skills configuration.
-* 📑 [docs/README.md](./docs/README.md) — Master documentation table of contents.
+* 📘 [EXPLANATION.md](./EXPLANATION.md) — Comprehensive technical architecture & design explanation.
+* 🎨 [DESIGN.md](./DESIGN.md) — Design system specification, color tokens, and Emil Kowalski motion laws.
+* 🚀 [PRODUCT.md](./PRODUCT.md) — Product truth, value proposition, and core capability matrix.
+* 🎤 [INTERVIEW_PREP.md](./INTERVIEW_PREP.md) — 9 live review evaluator questions, talking points, and code defense walkthrough.
+* 🤖 [AGENTS.md](./AGENTS.md) — AI agent guidance, anti-slop guidelines, and skills configuration.
+* 📑 [README.md](./README.md) — Master documentation table of contents.
