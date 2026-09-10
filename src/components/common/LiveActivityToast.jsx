@@ -96,7 +96,7 @@ export function LiveActivityToast({ onOpenDemo }) {
 
   return (
     <div
-      className="fixed bottom-20 left-4 right-4 sm:left-auto sm:right-24 sm:bottom-6 sm:max-w-sm z-30 animate-fade-in pointer-events-auto"
+      className="fixed bottom-20 left-4 right-4 sm:left-auto sm:right-6 sm:bottom-24 sm:max-w-sm z-30 animate-fade-in pointer-events-auto"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >

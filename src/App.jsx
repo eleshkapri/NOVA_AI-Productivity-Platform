@@ -305,24 +305,25 @@ export function App() {
         onExecuteAction={handleExecuteShortcutAction}
       />
 
-      {/* Floating Shortcuts Discovery Pill */}
-      <button
-        type="button"
-        onClick={() => {
-          soundService.playChime('actionClick');
-          setIsShortcutsHudOpen(true);
-        }}
-        aria-label="Open keyboard shortcuts guide"
-        title="View Keyboard Shortcuts (?)"
-        className="fixed bottom-6 right-20 z-30 hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900/85 dark:bg-[#07081e]/90 text-slate-300 hover:text-white border border-slate-700/60 dark:border-white/10 shadow-lg backdrop-blur-md text-xs font-mono transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
-      >
-        <Keyboard className="w-3.5 h-3.5 text-[#D8B452]" />
-        <span className="text-[11px] font-bold">Shortcuts</span>
-        <kbd className="px-1.5 py-0.2 rounded bg-white/10 text-[10px] text-[#D8B452] font-bold">?</kbd>
-      </button>
+      {/* Bottom-Right Floating Action Dock (Shortcuts + BackToTop) */}
+      <div className="fixed bottom-6 right-4 sm:right-6 z-40 flex items-center gap-2.5">
+        <button
+          type="button"
+          onClick={() => {
+            soundService.playChime('actionClick');
+            setIsShortcutsHudOpen(true);
+          }}
+          aria-label="Open keyboard shortcuts guide"
+          title="View Keyboard Shortcuts (?)"
+          className="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-slate-900/85 dark:bg-[#07081e]/90 text-slate-300 hover:text-white border border-slate-700/60 dark:border-white/10 shadow-lg backdrop-blur-md text-xs font-mono transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+        >
+          <Keyboard className="w-3.5 h-3.5 text-[#D8B452]" />
+          <span className="text-[11px] font-bold">Shortcuts</span>
+          <kbd className="px-1.5 py-0.2 rounded bg-white/10 text-[10px] text-[#D8B452] font-bold">?</kbd>
+        </button>
 
-      {/* Back to Top Floating Action Button */}
-      <BackToTop show={showBackToTop} onScrollToTop={scrollToTop} />
+        <BackToTop show={showBackToTop} onScrollToTop={scrollToTop} />
+      </div>
     </div>
   );
 }
