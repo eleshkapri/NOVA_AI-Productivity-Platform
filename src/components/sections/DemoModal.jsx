@@ -24,6 +24,7 @@ import {
   CheckCircle2,
   Layers,
   Loader2,
+  AlertCircle,
 } from 'lucide-react';
 
 import { soundService } from '../../services/SoundService';
@@ -57,6 +58,8 @@ function DemoModalContent({ isOpen, onClose, onEnterDashboard, initialTab, selec
 
   // Trial Workspace Creator state
   const [workspaceName, setWorkspaceName] = useState('');
+  const [workspaceError, setWorkspaceError] = useState('');
+  const workspaceInputRef = useRef(null);
   const [selectedHost, setSelectedHost] = useState('github');
   const [activePlan, setActivePlan] = useState(selectedPlan);
   const [isDeploying, setIsDeploying] = useState(false);
@@ -72,6 +75,15 @@ function DemoModalContent({ isOpen, onClose, onEnterDashboard, initialTab, selec
   useEffect(() => {
     return () => clearDeployTimers();
   }, []);
+
+  useEffect(() => {
+    if (activeFeature === 'trial' && isOpen && !isDeploying && !deploySuccess) {
+      const timer = setTimeout(() => {
+        workspaceInputRef.current?.focus();
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [activeFeature, isOpen, isDeploying, deploySuccess]);
 
   // Consultation state
   const [contactForm, setContactForm] = useState({ name: '', email: '', teamSize: '25-50', message: '' });
@@ -223,9 +235,24 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
     e?.preventDefault?.();
     if (isDeploying) return;
 
+    const trimmedName = workspaceName ? workspaceName.trim() : '';
+    if (!trimmedName) {
+      setWorkspaceError('Workspace / Organization Name is required to initialize your sandbox.');
+      workspaceInputRef.current?.focus();
+      playChime('actionClick');
+      return;
+    }
+
+    if (trimmedName.length < 2) {
+      setWorkspaceError('Workspace / Organization Name must be at least 2 characters.');
+      workspaceInputRef.current?.focus();
+      playChime('actionClick');
+      return;
+    }
+
+    setWorkspaceError('');
     playChime('actionClick');
-    const rawName = workspaceName && workspaceName.trim() ? workspaceName.trim() : 'nova-demo-workspace';
-    const cleanWorkspace = securityService.sanitizeString(rawName, 50) || 'nova-demo-workspace';
+    const cleanWorkspace = securityService.sanitizeString(trimmedName, 50) || trimmedName;
     setWorkspaceName(cleanWorkspace);
     setIsDeploying(true);
     setDeployStep(1);
@@ -854,16 +881,79 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
               <form onSubmit={handleLaunchTrial} noValidate className="space-y-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-2">
-                      Workspace / Organization Name
-                    </label>
-                    <input
-                      type="text"
-                      value={workspaceName}
-                      onChange={(e) => setWorkspaceName(e.target.value)}
-                      placeholder="e.g. acme-engineering"
-                      className="w-full px-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#D8B452]"
-                    />
+                    <div className="flex items-center justify-between mb-2">
+                      <label
+                        htmlFor="workspace-name-input"
+                        className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center gap-1.5"
+                      >
+                        <span>Workspace / Organization Name</span>
+                        <span className="text-rose-500 font-bold" title="Required">*</span>
+                        <span className="px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
+                          Required
+                        </span>
+                      </label>
+                      <span className="text-[10px] text-slate-400 font-mono">
+                        {workspaceName.length}/50
+                      </span>
+                    </div>
+
+                    <div className="relative">
+                      <input
+                        id="workspace-name-input"
+                        ref={workspaceInputRef}
+                        type="text"
+                        required
+                        aria-required="true"
+                        aria-invalid={!!workspaceError}
+                        maxLength={50}
+                        value={workspaceName}
+                        onChange={(e) => {
+                          setWorkspaceName(e.target.value);
+                          if (workspaceError) setWorkspaceError('');
+                        }}
+                        placeholder="e.g. acme-engineering"
+                        className={`w-full px-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-[#050614] border text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none transition-all ${
+                          workspaceError
+                            ? 'border-rose-500 focus:ring-2 focus:ring-rose-500/30 bg-rose-50/50 dark:bg-rose-950/20'
+                            : 'border-slate-200 dark:border-white/10 focus:ring-2 focus:ring-[#D8B452]'
+                        }`}
+                      />
+                    </div>
+
+                    {workspaceError ? (
+                      <div className="flex items-center gap-1.5 text-xs text-rose-500 dark:text-rose-400 font-medium mt-1.5 animate-fade-in">
+                        <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                        <span>{workspaceError}</span>
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 mt-1.5">
+                        <span className="truncate font-mono">
+                          URI: nova.cloud/{workspaceName.trim() ? workspaceName.trim().toLowerCase().replace(/[^a-z0-9-]/g, '-') : 'org-slug'}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Quick suggestion presets */}
+                    <div className="flex items-center gap-1.5 mt-2.5 flex-wrap">
+                      <span className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">
+                        Presets:
+                      </span>
+                      {['acme-corp', 'hyperion-dev', 'quantum-labs'].map((preset) => (
+                        <button
+                          key={preset}
+                          type="button"
+                          onClick={() => {
+                            playChime('actionClick');
+                            setWorkspaceName(preset);
+                            setWorkspaceError('');
+                            workspaceInputRef.current?.focus();
+                          }}
+                          className="px-2 py-0.5 rounded-md text-[10px] font-mono font-medium bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:border-[#D8B452]/50 hover:text-[#D8B452] transition-colors cursor-pointer"
+                        >
+                          +{preset}
+                        </button>
+                      ))}
+                    </div>
                   </div>
 
                   <div>
