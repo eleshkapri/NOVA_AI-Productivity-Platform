@@ -8,8 +8,31 @@ import { soundService } from '../../services/SoundService';
 
 export function RoiCalculator({ onOpenDemo }) {
   const [activeMode, setActiveMode] = useState('calculator'); // 'calculator' | 'quiz'
-  const [teamSize, setTeamSize] = useState(25);
-  const [avgSalary, setAvgSalary] = useState(120000);
+  const [teamSize, setTeamSize] = useState(() => {
+    try {
+      const saved = localStorage.getItem('nova_user_team_size');
+      return saved ? Number(saved) : 25;
+    } catch {
+      return 25;
+    }
+  });
+  const [avgSalary, setAvgSalary] = useState(() => {
+    try {
+      const saved = localStorage.getItem('nova_user_avg_salary');
+      return saved ? Number(saved) : 120000;
+    } catch {
+      return 120000;
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('nova_user_team_size', String(teamSize));
+      localStorage.setItem('nova_user_avg_salary', String(avgSalary));
+    } catch {
+      // non-blocking
+    }
+  }, [teamSize, avgSalary]);
 
   useEffect(() => {
     const handleActivateQuiz = () => {

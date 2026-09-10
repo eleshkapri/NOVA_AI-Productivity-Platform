@@ -79,11 +79,16 @@ export function App() {
       handleOpenModal('trial');
       return;
     }
+    const cleanName = workspaceData.name.trim();
+    const cleanSlug = workspaceData.slug || cleanName.toLowerCase().replace(/[^a-z0-9-]/g, '-');
     const ws = {
-      name: workspaceData.name.trim(),
+      name: cleanName,
+      slug: cleanSlug,
       plan: workspaceData.plan || 'pro',
       host: workspaceData.host || 'github',
-      token: workspaceData.token || 'nova_live_9f82d1c7a8',
+      repo: workspaceData.repo || `${cleanSlug}-core`,
+      teamSize: Number(workspaceData.teamSize) || 25,
+      token: workspaceData.token || `nova_live_${cleanSlug.replace(/-/g, '_')}_a8f92c`,
       createdAt: workspaceData.createdAt || 'Active Session',
       isProvisioned: true,
     };

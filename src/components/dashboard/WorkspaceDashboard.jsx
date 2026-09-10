@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   ArrowLeft,
   Activity,
@@ -30,22 +30,65 @@ export function WorkspaceDashboard({
   toggleTheme,
   onOpenCommandPalette,
 }) {
-  const currentWorkspace = workspace || {
-    name: 'nova-sprint-demo',
-    plan: 'pro',
-    host: 'github',
-    token: 'nova_live_9f82d1c7a8',
-    createdAt: 'Active Session',
-  };
+  const currentWorkspace = useMemo(() => {
+    const rawName = workspace?.name?.trim() || 'nova-sprint-demo';
+    const rawSlug = workspace?.slug || rawName.toLowerCase().replace(/[^a-z0-9-]/g, '-');
+    const rawHost = (workspace?.host || 'github').toLowerCase();
+    const rawRepo = workspace?.repo?.trim() || `${rawSlug}-core`;
+    const rawPlan = (workspace?.plan || 'pro').toLowerCase();
+    const rawTeamSize = Number(workspace?.teamSize) || 25;
+    const rawToken = workspace?.token || `nova_live_${rawSlug.replace(/-/g, '_')}_a8f92c`;
+    const rawCreatedAt = workspace?.createdAt || 'Active Session';
+
+    return {
+      name: rawName,
+      slug: rawSlug,
+      host: rawHost,
+      repo: rawRepo,
+      plan: rawPlan,
+      teamSize: rawTeamSize,
+      token: rawToken,
+      createdAt: rawCreatedAt,
+    };
+  }, [workspace]);
+
+  // VCS Host formatting
+  const hostTitle =
+    currentWorkspace.host === 'bitbucket'
+      ? 'Bitbucket'
+      : currentWorkspace.host === 'gitlab'
+      ? 'GitLab'
+      : 'GitHub';
+
+  const hostDomain =
+    currentWorkspace.host === 'bitbucket' ? 'bitbucket.org' : `${currentWorkspace.host}.com`;
+
+  const repoFullPath = `${hostDomain}/${currentWorkspace.slug}/${currentWorkspace.repo}`;
+
+  // Squad metrics derived from real user's team size & plan tier
+  const teamHeadcount = currentWorkspace.teamSize;
+  const isEnterprise = currentWorkspace.plan === 'enterprise';
+  const isStarter = currentWorkspace.plan === 'starter';
+
+  const velocityMultiplier = isEnterprise ? 2.8 : isStarter ? 1.6 : 2.2;
+  const totalSprintPts = Math.max(30, Math.round(teamHeadcount * velocityMultiplier));
+  const completedSprintPts = Math.round(totalSprintPts * (isEnterprise ? 0.72 : isStarter ? 0.58 : 0.65));
+  const velocityPct = Math.round((completedSprintPts / totalSprintPts) * 100);
+  const velocityLift = isEnterprise ? '+32%' : isStarter ? '+14%' : '+22%';
+
+  const leadTimeMin = isEnterprise ? '6.4' : isStarter ? '24.2' : '14.8';
+  const mttrMin = isEnterprise ? '1.8' : isStarter ? '9.4' : '4.2';
+  const weeklyPatches = Math.max(6, Math.round(teamHeadcount * (isEnterprise ? 0.65 : 0.45)));
 
   const [activeTab, setActiveTab] = useState('overview');
   const [isTokenVisible, setIsTokenVisible] = useState(false);
   const [isTokenCopied, setIsTokenCopied] = useState(false);
-  const [tokenValue, setTokenValue] = useState(currentWorkspace.token || 'nova_live_9f82d1c7a8');
+  const [regeneratedToken, setRegeneratedToken] = useState(null);
+  const tokenValue = regeneratedToken || currentWorkspace.token;
   const [isScanningPR, setIsScanningPR] = useState(false);
   const [isMergingPR, setIsMergingPR] = useState(false);
   const [mergedPRs, setMergedPRs] = useState(new Set());
-  const [activePRId, setActivePRId] = useState('PR-384');
+  const [activePRId, setActivePRId] = useState('PR-104');
   const [isSweepRunning, setIsSweepRunning] = useState(false);
   const [projectionMode, setProjectionMode] = useState('optimal'); // 'optimal' | 'conservative'
 
@@ -56,33 +99,33 @@ export function WorkspaceDashboard({
     canary: true,
   });
 
-  const [activityFeed, setActivityFeed] = useState([
+  const [activityFeed, setActivityFeed] = useState(() => [
     {
       id: 1,
       time: 'Just now',
       tag: 'PRD-SYNTH',
-      text: 'Parsed Jira Epic #ENG-4890 into 6 balanced sprint stories.',
+      text: `Parsed roadmap specs for ${currentWorkspace.name} into ${Math.max(4, Math.round(teamHeadcount * 0.3))} balanced stories for ${teamHeadcount}-developer squad.`,
       status: 'success',
     },
     {
       id: 2,
       time: '1m ago',
       tag: 'AST-GUARD',
-      text: 'Detected memory leak in WebSockets connection pool. Generated automated patch PR-384.',
+      text: `Scanned ${currentWorkspace.repo} on ${hostTitle}. Detected resource leak in connection pool. Generated automated patch PR-104.`,
       status: 'warning',
     },
     {
       id: 3,
       time: '4m ago',
       tag: 'VELOCITY-AI',
-      text: 'Calibrated sprint velocity to 42 pts. Team pacing on track for Friday release.',
+      text: `Calibrated ${currentWorkspace.name} sprint velocity to ${completedSprintPts}/${totalSprintPts} pts. Squad pacing on track for Friday release.`,
       status: 'info',
     },
     {
       id: 4,
       time: '12m ago',
       tag: 'CANARY-GATE',
-      text: 'Canary deployment v2.4.1 verified across 5,000 live sessions with zero 5xx anomalies.',
+      text: `Canary deployment verified in sandbox container for ${currentWorkspace.repo} with zero 5xx anomalies.`,
       status: 'success',
     },
   ]);
@@ -96,8 +139,9 @@ export function WorkspaceDashboard({
 
   const handleRegenerateToken = () => {
     soundService.playChime('stepAdvance');
-    const newToken = 'nova_live_' + Math.random().toString(36).substring(2, 10) + Math.random().toString(36).substring(2, 6);
-    setTokenValue(newToken);
+    const randomSuffix = Math.random().toString(36).substring(2, 8) + Math.random().toString(36).substring(2, 6);
+    const newToken = `nova_live_${currentWorkspace.slug.replace(/-/g, '_')}_${randomSuffix}`;
+    setRegeneratedToken(newToken);
   };
 
   const handleToggleAgent = (agentKey) => {
@@ -118,7 +162,7 @@ export function WorkspaceDashboard({
           id: Date.now(),
           time: 'Just now',
           tag: 'AGENT-STATE',
-          text: `${name} ${next ? 'enabled and listening for git events' : 'paused by operator'}.`,
+          text: `${name} ${next ? `enabled and listening on ${hostTitle} repo ${currentWorkspace.repo}` : 'paused by operator'}.`,
           status: next ? 'success' : 'warning',
         },
         ...feed.slice(0, 7),
@@ -144,7 +188,7 @@ export function WorkspaceDashboard({
           id: Date.now(),
           time: 'Just now',
           tag: 'SWEEP-COMPLETE',
-          text: `Autonomous squad completed AST inspection across 18 microservices. Zero CVE regressions.`,
+          text: `Autonomous squad completed AST inspection across ${currentWorkspace.repo} on ${hostTitle}. Zero CVE regressions detected for ${currentWorkspace.name}.`,
           status: 'success',
         },
         ...feed.slice(0, 7),
@@ -177,7 +221,7 @@ export function WorkspaceDashboard({
           id: Date.now(),
           time: 'Just now',
           tag: 'PR-MERGED',
-          text: `Merged ${prId} into main. Triggered automated canary staging in us-east-1.`,
+          text: `Merged ${prId} into main on ${hostTitle}. Triggered automated canary staging in us-east-1 for ${currentWorkspace.repo}.`,
           status: 'success',
         },
         ...feed.slice(0, 7),
@@ -185,26 +229,47 @@ export function WorkspaceDashboard({
     }, 1500);
   };
 
-  const prList = [
-    {
-      id: 'PR-384',
-      title: 'Fix(ws): Resolve connection leak in socket heartbeat listener',
-      author: 'agent-nova-sentinel',
-      branch: 'fix/ws-leak-patch',
-      risk: 'Low Risk',
-      riskColor: 'text-emerald-500 border-emerald-500/30 bg-emerald-500/10',
-      diffStats: '+18 / -4',
-    },
-    {
-      id: 'PR-381',
-      title: 'Feat(auth): Enforce Ed25519 webhook signatures for external payloads',
-      author: 'agent-nova-sentinel',
-      branch: 'feat/ed25519-webhooks',
-      risk: 'Medium Risk',
-      riskColor: 'text-amber-500 border-amber-500/30 bg-amber-500/10',
-      diffStats: '+142 / -28',
-    },
-  ];
+  const prList = useMemo(
+    () => [
+      {
+        id: 'PR-104',
+        title: `Fix(ws): Resolve connection leak in ${currentWorkspace.repo} socket heartbeat listener`,
+        author: 'agent-nova-sentinel',
+        branch: `${currentWorkspace.slug}/fix-ws-leak`,
+        risk: 'Low Risk',
+        riskColor: 'text-emerald-500 border-emerald-500/30 bg-emerald-500/10',
+        diffStats: '+18 / -4',
+        filePath: `${currentWorkspace.repo}/services/gateway/wsConnection.js`,
+        oldComment: `// Old Implementation in ${currentWorkspace.repo} (Leaked socket on dropped TCP packet):`,
+        oldLine: "socket.on('heartbeat', () => this.trackConnection(socket));",
+        newComment: `// NOVA Autonomous AST Patch for ${currentWorkspace.name}:`,
+        newLine1: 'const weakSocket = new WeakRef(socket);',
+        newLine2: 'this.cleanupRegistry.register(socket, socket.id);',
+        newLine3: "socket.on('heartbeat', () => this.safeTrack(weakSocket));",
+        tests: `CI Unit Test Suite: 148/148 Passed on ${hostTitle} Runner`,
+        coverage: '96.4%',
+      },
+      {
+        id: 'PR-108',
+        title: `Feat(auth): Enforce Ed25519 webhook signatures for ${currentWorkspace.name} ingress`,
+        author: 'agent-nova-sentinel',
+        branch: `${currentWorkspace.slug}/feat-ed25519`,
+        risk: 'Medium Risk',
+        riskColor: 'text-amber-500 border-amber-500/30 bg-amber-500/10',
+        diffStats: '+142 / -28',
+        filePath: `${currentWorkspace.repo}/src/security/webhookVerifier.ts`,
+        oldComment: `// Old Implementation in ${currentWorkspace.repo} (HMAC-SHA1 legacy):`,
+        oldLine: 'const isValid = crypto.timingSafeEqual(expectedSig, incomingHmacSha1);',
+        newComment: `// NOVA Zero-Trust Ed25519 Signature Verification for ${currentWorkspace.name}:`,
+        newLine1: "const ed25519 = await import('@noble/ed25519');",
+        newLine2: 'const isValid = await ed25519.verify(incomingSig, payload, orgPublicKey);',
+        newLine3: 'this.auditLog.recordSignatureVerification(payload.id, isValid);',
+        tests: `Security Gate: Verified on ${hostTitle} Runner`,
+        coverage: '98.1%',
+      },
+    ],
+    [currentWorkspace, hostTitle]
+  );
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#050614] text-slate-900 dark:text-slate-100 flex flex-col font-sans selection:bg-[#D8B452]/20 selection:text-[#D8B452]">
@@ -242,7 +307,7 @@ export function WorkspaceDashboard({
                 </span>
               </div>
               <p className="text-[11px] text-slate-500 dark:text-slate-400 hidden sm:block">
-                Connected to {currentWorkspace.host === 'github' ? 'GitHub' : currentWorkspace.host === 'gitlab' ? 'GitLab' : 'Bitbucket'} &bull; Isolated Sandbox
+                Connected to {hostTitle} &bull; Repo: <code className="font-mono text-slate-700 dark:text-slate-300">{currentWorkspace.repo}</code> &bull; Isolated Sandbox
               </p>
             </div>
           </div>
@@ -341,18 +406,21 @@ export function WorkspaceDashboard({
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="p-5 rounded-2xl bg-white dark:bg-[#0b0c33] border border-slate-200 dark:border-[#D8B452]/20 shadow-sm hover:shadow-md transition-all">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                  Sprint 48 Velocity
+                  Sprint Velocity ({teamHeadcount} Devs)
                 </span>
                 <div className="mt-2 flex items-baseline justify-between">
                   <h4 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white font-mono">
-                    42 <span className="text-xs font-normal text-slate-400">/ 68 pts</span>
+                    {completedSprintPts} <span className="text-xs font-normal text-slate-400">/ {totalSprintPts} pts</span>
                   </h4>
                   <span className="text-xs font-bold text-emerald-500 flex items-center gap-0.5">
-                    <TrendingUp className="w-3.5 h-3.5" /> +18%
+                    <TrendingUp className="w-3.5 h-3.5" /> {velocityLift}
                   </span>
                 </div>
                 <div className="mt-3 w-full bg-slate-100 dark:bg-white/10 rounded-full h-1.5 overflow-hidden">
-                  <div className="bg-gradient-to-r from-[#D8B452] to-amber-500 h-full rounded-full w-[62%]" />
+                  <div
+                    className="bg-gradient-to-r from-[#D8B452] to-amber-500 h-full rounded-full transition-all duration-500"
+                    style={{ width: `${velocityPct}%` }}
+                  />
                 </div>
               </div>
 
@@ -362,11 +430,11 @@ export function WorkspaceDashboard({
                 </span>
                 <div className="mt-2 flex items-baseline justify-between">
                   <h4 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white font-mono">
-                    18.4 <span className="text-xs font-normal text-slate-400">min</span>
+                    {leadTimeMin} <span className="text-xs font-normal text-slate-400">min</span>
                   </h4>
                   <span className="text-xs font-bold text-emerald-500">Elite DORA</span>
                 </div>
-                <p className="mt-3 text-[11px] text-slate-500 dark:text-slate-400">Automated AST reviews & instant CI</p>
+                <p className="mt-3 text-[11px] text-slate-500 dark:text-slate-400">Automated AST reviews on {hostTitle} CI</p>
               </div>
 
               <div className="p-5 rounded-2xl bg-white dark:bg-[#0b0c33] border border-slate-200 dark:border-[#D8B452]/20 shadow-sm hover:shadow-md transition-all">
@@ -375,11 +443,11 @@ export function WorkspaceDashboard({
                 </span>
                 <div className="mt-2 flex items-baseline justify-between">
                   <h4 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white font-mono">
-                    7.8 <span className="text-xs font-normal text-slate-400">min</span>
+                    {mttrMin} <span className="text-xs font-normal text-slate-400">min</span>
                   </h4>
                   <span className="text-xs font-bold text-emerald-500">Instant Rollback</span>
                 </div>
-                <p className="mt-3 text-[11px] text-slate-500 dark:text-slate-400">Automated canary circuit breaker</p>
+                <p className="mt-3 text-[11px] text-slate-500 dark:text-slate-400">Automated canary circuit breaker for {currentWorkspace.repo}</p>
               </div>
 
               <div className="p-5 rounded-2xl bg-white dark:bg-[#0b0c33] border border-slate-200 dark:border-[#D8B452]/20 shadow-sm hover:shadow-md transition-all">
@@ -388,11 +456,11 @@ export function WorkspaceDashboard({
                 </span>
                 <div className="mt-2 flex items-baseline justify-between">
                   <h4 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white font-mono">
-                    14 <span className="text-xs font-normal text-slate-400">this week</span>
+                    {weeklyPatches} <span className="text-xs font-normal text-slate-400">this week</span>
                   </h4>
                   <span className="text-xs font-bold text-indigo-500">100% Passing</span>
                 </div>
-                <p className="mt-3 text-[11px] text-slate-500 dark:text-slate-400">Zero human intervention required</p>
+                <p className="mt-3 text-[11px] text-slate-500 dark:text-slate-400">Zero regressions across {currentWorkspace.repo}</p>
               </div>
             </div>
 
@@ -404,10 +472,10 @@ export function WorkspaceDashboard({
                   <div>
                     <h4 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
                       <TrendingUp className="w-4 h-4 text-[#a1741a] dark:text-[#D8B452]" />
-                      Predictive Sprint 48 Burndown Trajectory
+                      Predictive Sprint Velocity Trajectory
                     </h4>
                     <p className="text-xs text-slate-500 dark:text-slate-400">
-                      Machine-learning model evaluates historical squad velocity against active WIP.
+                      Evaluating historical velocity for {currentWorkspace.name} ({teamHeadcount} devs) against WIP in {currentWorkspace.repo}.
                     </p>
                   </div>
                   <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-black/40 p-1 rounded-xl">
@@ -481,15 +549,15 @@ export function WorkspaceDashboard({
                     </svg>
                   </div>
                   <div className="flex justify-between text-[11px] text-slate-400 font-mono mt-3 pt-2 border-t border-slate-100 dark:border-white/5">
-                    <span>Day 1 (Plan: 68pts)</span>
-                    <span>Day 5 (Mid-Sprint Checkpoint)</span>
-                    <span className="text-[#a1741a] dark:text-[#D8B452] font-bold">Day 10 (Projected: 0pts)</span>
+                    <span>Day 1 (Plan: {totalSprintPts}pts)</span>
+                    <span>Day 5 (Mid-Sprint: {completedSprintPts}pts)</span>
+                    <span className="text-[#a1741a] dark:text-[#D8B452] font-bold">Day 10 (Target: 0pts remaining)</span>
                   </div>
                 </div>
 
                 <div className="p-3.5 rounded-xl bg-amber-50 dark:bg-[#D8B452]/10 border border-[#D8B452]/30 text-xs flex items-center justify-between">
                   <span className="text-slate-700 dark:text-slate-300">
-                    <strong className="text-slate-900 dark:text-white font-bold">AI Heuristic Insight:</strong> 12 story points projected for delivery 18 hours ahead of schedule.
+                    <strong className="text-slate-900 dark:text-white font-bold">AI Heuristic Insight:</strong> {Math.round(totalSprintPts * 0.22)} story points in {currentWorkspace.repo} projected for delivery 18 hours ahead of schedule.
                   </span>
                   <button
                     type="button"
@@ -567,7 +635,7 @@ export function WorkspaceDashboard({
                     Autonomous PR Code Review Engine
                   </h4>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                    Review and promote AI-generated code patches with automated verification gates.
+                    Review and promote AI-generated code patches for <code className="font-mono text-slate-700 dark:text-slate-300">{repoFullPath}</code>.
                   </p>
                 </div>
                 <button
@@ -577,7 +645,7 @@ export function WorkspaceDashboard({
                   className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#D97706] to-[#F59E0B] dark:from-[#D8B452] dark:to-[#B88A23] text-black font-bold text-xs flex items-center gap-2 shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer shrink-0"
                 >
                   <RefreshCw className={`w-3.5 h-3.5 ${isScanningPR ? 'animate-spin' : ''}`} />
-                  <span>{isScanningPR ? 'Scanning Repository...' : 'Trigger Deep Heuristic AST Scan'}</span>
+                  <span>{isScanningPR ? `Scanning ${currentWorkspace.repo}...` : 'Trigger Deep Heuristic AST Scan'}</span>
                 </button>
               </div>
 
@@ -586,7 +654,7 @@ export function WorkspaceDashboard({
                 {/* PR Selection Column */}
                 <div className="space-y-3">
                   <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                    Active Pull Request Queue
+                    Active Pull Request Queue ({prList.length})
                   </span>
                   {prList.map((pr) => {
                     const isSelected = activePRId === pr.id;
@@ -660,23 +728,23 @@ export function WorkspaceDashboard({
                         {/* Heuristic Code Diff Viewer */}
                         <div className="rounded-xl bg-slate-900 text-slate-200 p-4 font-mono text-xs overflow-x-auto space-y-1">
                           <div className="text-[11px] text-slate-400 pb-2 border-b border-white/10 flex items-center justify-between">
-                            <span>services/gateway/wsConnection.js</span>
+                            <span>{pr.filePath}</span>
                             <span className="text-emerald-400">Heuristic Security: 0 Vulns</span>
                           </div>
-                          <p className="text-slate-500">// Old Implementation (Leaked socket on dropped TCP packet):</p>
-                          <p className="text-red-400 bg-red-950/40 px-2 py-0.5 rounded">-  socket.on(&apos;heartbeat&apos;, () =&gt; this.trackConnection(socket));</p>
-                          <p className="text-slate-500 pt-1">// NOVA Autonomous AST Patch (WeakRef event registration):</p>
-                          <p className="text-emerald-400 bg-emerald-950/40 px-2 py-0.5 rounded">+  const weakSocket = new WeakRef(socket);</p>
-                          <p className="text-emerald-400 bg-emerald-950/40 px-2 py-0.5 rounded">+  this.cleanupRegistry.register(socket, socket.id);</p>
-                          <p className="text-emerald-400 bg-emerald-950/40 px-2 py-0.5 rounded">+  socket.on(&apos;heartbeat&apos;, () =&gt; this.safeTrack(weakSocket));</p>
+                          <p className="text-slate-500">{pr.oldComment}</p>
+                          <p className="text-red-400 bg-red-950/40 px-2 py-0.5 rounded">-  {pr.oldLine}</p>
+                          <p className="text-slate-500 pt-1">{pr.newComment}</p>
+                          <p className="text-emerald-400 bg-emerald-950/40 px-2 py-0.5 rounded">+  {pr.newLine1}</p>
+                          <p className="text-emerald-400 bg-emerald-950/40 px-2 py-0.5 rounded">+  {pr.newLine2}</p>
+                          <p className="text-emerald-400 bg-emerald-950/40 px-2 py-0.5 rounded">+  {pr.newLine3}</p>
                         </div>
 
                         <div className="p-3.5 rounded-xl bg-white dark:bg-[#0b0c33] border border-slate-200 dark:border-white/10 text-xs flex items-center justify-between">
                           <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
                             <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                            <span>CI Unit Test Suite: <strong>148/148 Passed</strong> in 3.4s</span>
+                            <span>{pr.tests}</span>
                           </div>
-                          <span className="text-[10px] font-mono text-slate-400">Coverage: 94.2%</span>
+                          <span className="text-[10px] font-mono text-slate-400">Coverage: {pr.coverage}</span>
                         </div>
                       </div>
                     );
@@ -698,7 +766,7 @@ export function WorkspaceDashboard({
                     Autonomous Agent Workforce Manager
                   </h4>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                    Configure operational autonomy levels, CPU allocation, and event triggers.
+                    Configured for {currentWorkspace.name} &bull; {teamHeadcount} Devs &bull; Repository: <code className="font-mono text-slate-700 dark:text-slate-300">{currentWorkspace.repo}</code>
                   </p>
                 </div>
                 <button
@@ -719,33 +787,33 @@ export function WorkspaceDashboard({
                     key: 'prd',
                     name: 'Agent PRD-Synthesizer',
                     role: 'Autonomous Requirement Engineering',
-                    desc: 'Ingests Figma, Jira, and PRDs to draft actionable tasks with Fibonacci point estimates.',
+                    desc: `Ingests Figma, Jira, and PRDs for ${currentWorkspace.name} to draft actionable tasks with Fibonacci point estimates for your ${teamHeadcount}-dev squad.`,
                     cpu: '0.4 vCPU • 256MB',
-                    events: '1,420 events/day',
+                    events: `${Math.max(120, Math.round(teamHeadcount * 52))} events/day`,
                   },
                   {
                     key: 'sentinel',
                     name: 'Agent AST-Sentinel',
                     role: 'Deep Code Vulnerability & Memory Guard',
-                    desc: 'Scans pull requests for resource leaks, unclosed streams, and zero-day regressions.',
+                    desc: `Scans pull requests in ${currentWorkspace.repo} on ${hostTitle} for resource leaks, unclosed streams, and zero-day regressions.`,
                     cpu: '1.2 vCPU • 512MB',
-                    events: '4,890 events/day',
+                    events: `${Math.max(380, Math.round(teamHeadcount * 180))} events/day`,
                   },
                   {
                     key: 'velocity',
                     name: 'Agent Velocity-Predictor',
                     role: 'Sprint Radar & Blocker Mitigation',
-                    desc: 'Calculates developer burnout indicators and predicts sprint delivery dates with 94% accuracy.',
+                    desc: `Calculates developer burnout indicators for ${currentWorkspace.name} and predicts sprint delivery dates with 96% accuracy.`,
                     cpu: '0.2 vCPU • 128MB',
-                    events: '320 events/day',
+                    events: `${Math.max(60, Math.round(teamHeadcount * 14))} events/day`,
                   },
                   {
                     key: 'canary',
                     name: 'Agent Canary-Deployer',
                     role: 'Automated Staged Promotion & Rollback',
-                    desc: 'Monitors real-time 5xx rates during rolling releases. Triggers sub-second rollbacks on anomaly.',
+                    desc: `Monitors real-time 5xx rates during ${currentWorkspace.repo} rolling releases. Triggers sub-second rollbacks on anomaly.`,
                     cpu: '0.8 vCPU • 256MB',
-                    events: '9,240 events/day',
+                    events: `${Math.max(450, Math.round(teamHeadcount * 240))} events/day`,
                   },
                 ].map((agent) => {
                   const isEnabled = agentStates[agent.key];
@@ -807,7 +875,7 @@ export function WorkspaceDashboard({
                     Zero-Trust Cryptographic Access Token
                   </h4>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                    Used to authenticate CI/CD runners, local CLI, and webhook callbacks.
+                    Used to authenticate CI/CD runners, local CLI, and webhook callbacks for {currentWorkspace.name}.
                   </p>
                 </div>
 
@@ -815,7 +883,7 @@ export function WorkspaceDashboard({
                   <div className="truncate">
                     <span className="text-slate-500 mr-2">TOKEN:</span>
                     <span className="text-[#D8B452] font-bold">
-                      {isTokenVisible ? tokenValue : 'nova_live_' + '•'.repeat(16)}
+                      {isTokenVisible ? tokenValue : 'nova_live_' + '•'.repeat(18)}
                     </span>
                   </div>
                   <div className="flex items-center gap-1 shrink-0">
@@ -839,7 +907,7 @@ export function WorkspaceDashboard({
                 </div>
 
                 <div className="flex items-center justify-between pt-2">
-                  <span className="text-xs text-slate-500">Tier: {currentWorkspace.plan.toUpperCase()} &bull; Expires in 14 days</span>
+                  <span className="text-xs text-slate-500">Tier: {currentWorkspace.plan.toUpperCase()} &bull; Provisioned: {currentWorkspace.createdAt}</span>
                   <button
                     type="button"
                     onClick={handleRegenerateToken}
@@ -859,30 +927,56 @@ export function WorkspaceDashboard({
                     Linked Repository Webhooks
                   </h4>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                    NOVA listens to incoming pull_request, push, and release webhooks.
+                    NOVA listens to incoming pull_request, push, and release webhooks from {hostTitle}.
                   </p>
                 </div>
 
                 <div className="p-4 rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-xs font-bold text-slate-800 dark:text-slate-200">
-                      {currentWorkspace.host}.com/{currentWorkspace.name}/core-app
+                    <span className="font-mono text-xs font-bold text-slate-800 dark:text-slate-200 truncate">
+                      {repoFullPath}
                     </span>
-                    <span className="text-[10px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full">
+                    <span className="text-[10px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full shrink-0">
                       ACTIVE
                     </span>
                   </div>
-                  <p className="text-xs text-slate-500">
-                    Endpoint: <code className="font-mono text-[11px] text-[#a1741a] dark:text-[#D8B452]">https://api.nova.ai/v2/hooks/wh_8f912c</code>
+                  <p className="text-xs text-slate-500 truncate">
+                    Endpoint: <code className="font-mono text-[11px] text-[#a1741a] dark:text-[#D8B452]">https://api.nova.ai/v2/hooks/wh_{currentWorkspace.slug}_{currentWorkspace.host}</code>
                   </p>
                 </div>
 
                 <div className="pt-2 flex items-center justify-between text-xs text-slate-500">
                   <span className="flex items-center gap-1.5">
                     <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-                    <span>Last payload delivery: 12 seconds ago (HTTP 200)</span>
+                    <span>Last payload delivery: 12 seconds ago via {hostTitle}</span>
                   </span>
-                  <span className="font-mono text-[11px]">TLS 1.3</span>
+                  <span className="font-mono text-[11px]">TLS 1.3 &bull; HTTP 200</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Real Workspace Telemetry Specs Card */}
+            <div className="p-6 rounded-3xl bg-white dark:bg-[#0b0c33] border border-slate-200 dark:border-white/10 shadow-sm space-y-4">
+              <h4 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-[#a1741a] dark:text-[#D8B452]" />
+                Live Workspace Specification &amp; Provisioning Profile
+              </h4>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10">
+                  <span className="text-slate-400 uppercase font-bold text-[10px]">Workspace Name</span>
+                  <p className="font-bold text-slate-900 dark:text-white mt-0.5 truncate">{currentWorkspace.name}</p>
+                </div>
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10">
+                  <span className="text-slate-400 uppercase font-bold text-[10px]">Linked Repo</span>
+                  <p className="font-bold text-slate-900 dark:text-white mt-0.5 truncate font-mono">{currentWorkspace.repo}</p>
+                </div>
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10">
+                  <span className="text-slate-400 uppercase font-bold text-[10px]">VCS Provider</span>
+                  <p className="font-bold text-slate-900 dark:text-white mt-0.5">{hostTitle}</p>
+                </div>
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10">
+                  <span className="text-slate-400 uppercase font-bold text-[10px]">Engineering Squad</span>
+                  <p className="font-bold text-slate-900 dark:text-white mt-0.5">{teamHeadcount} Developers</p>
                 </div>
               </div>
             </div>

@@ -58,6 +58,15 @@ function DemoModalContent({ isOpen, onClose, onEnterDashboard, initialTab, selec
 
   // Trial Workspace Creator state
   const [workspaceName, setWorkspaceName] = useState('');
+  const [repoName, setRepoName] = useState('');
+  const [teamSize, setTeamSize] = useState(() => {
+    try {
+      const saved = localStorage.getItem('nova_user_team_size');
+      return saved ? Number(saved) : 25;
+    } catch {
+      return 25;
+    }
+  });
   const [workspaceError, setWorkspaceError] = useState('');
   const workspaceInputRef = useRef(null);
   const [selectedHost, setSelectedHost] = useState('github');
@@ -783,11 +792,19 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                     onClick={() => {
                       playChime('actionClick');
                       const finalName = workspaceName && workspaceName.trim() ? workspaceName.trim() : 'nova-demo-workspace';
+                      const finalSlug = finalName.toLowerCase().replace(/[^a-z0-9-]/g, '-');
+                      const finalRepo = repoName && repoName.trim() ? repoName.trim() : `${finalSlug}-core`;
+                      const tokenHash = Math.random().toString(36).substring(2, 8) + Math.random().toString(36).substring(2, 6);
+                      const generatedToken = `nova_live_${finalSlug.replace(/-/g, '_')}_${tokenHash}`;
+
                       onEnterDashboard?.({
                         name: finalName,
+                        slug: finalSlug,
                         plan: activePlan || 'pro',
                         host: selectedHost || 'github',
-                        token: 'nova_live_9f82d1c7a8',
+                        repo: finalRepo,
+                        teamSize: Number(teamSize) || 25,
+                        token: generatedToken,
                         createdAt: new Date().toLocaleDateString('en-US', {
                           month: 'short',
                           day: 'numeric',
@@ -975,6 +992,35 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                       <option value="github">GitHub Organization</option>
                       <option value="gitlab">GitLab Cloud / Self-Hosted</option>
                       <option value="bitbucket">Bitbucket Cloud</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-2">
+                      Primary Repository Name
+                    </label>
+                    <input
+                      type="text"
+                      value={repoName}
+                      onChange={(e) => setRepoName(e.target.value)}
+                      placeholder={workspaceName.trim() ? `${workspaceName.trim().toLowerCase().replace(/[^a-z0-9-]/g, '-')}-core` : 'e.g. core-platform'}
+                      className="w-full px-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#D8B452]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-2">
+                      Engineering Team Size
+                    </label>
+                    <select
+                      value={teamSize}
+                      onChange={(e) => setTeamSize(Number(e.target.value))}
+                      className="w-full px-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#D8B452]"
+                    >
+                      <option value={15}>10 - 20 Developers (Small Squad)</option>
+                      <option value={25}>20 - 50 Developers (Growing Squad)</option>
+                      <option value={60}>50 - 100 Developers (Scale-Up)</option>
+                      <option value={150}>100+ Developers (Enterprise)</option>
                     </select>
                   </div>
                 </div>
