@@ -33,9 +33,13 @@ export function Button({
     outline:
       'border-2 border-slate-300 text-slate-800 hover:bg-slate-100 hover:border-slate-400 dark:border-[#D8B452]/50 dark:text-[#D8B452] dark:hover:bg-gradient-to-r dark:hover:from-[#D8B452] dark:hover:to-[#C7992A] dark:hover:text-black dark:hover:border-transparent hover:-translate-y-0.5',
     ghost:
-      'text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-[#D8B452] hover:bg-slate-100 dark:hover:bg-[#D8B452]/10 hover:-translate-y-0.5',
+      'text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-[#FF5500] hover:bg-slate-100 dark:hover:bg-[#FF5500]/10 hover:-translate-y-0.5',
     glow:
       'bg-gradient-to-r from-[#D97706] via-[#F59E0B] to-[#D97706] dark:from-[#D8B452] dark:via-[#F3D887] dark:to-[#D8B452] text-white dark:text-black shadow-lg shadow-amber-500/25 hover:shadow-xl hover:shadow-amber-500/35 hover:-translate-y-0.5',
+    orange:
+      'bg-[#FF5500] hover:bg-[#FF6600] text-black font-extrabold shadow-lg shadow-orange-500/35 hover:shadow-xl hover:shadow-orange-500/50 hover:-translate-y-0.5 border border-orange-400/40',
+    orangeGhost:
+      'bg-transparent text-white border border-white/20 hover:bg-white/10 hover:border-white/40 hover:-translate-y-0.5',
   };
 
   return (

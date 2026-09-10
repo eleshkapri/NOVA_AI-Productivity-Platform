@@ -109,7 +109,7 @@ export function VelocityHealthQuiz({ onOpenDemo, defaultTeamSize = 25 }) {
       'Significant review queues and estimation overhead are draining velocity. Automated AI review and autonomous triage can reclaim ~14 hours per dev/week.';
   } else if (totalScore < 90) {
     tierName = 'Moderate Friction';
-    tierColor = 'text-[#D8B452] bg-[#D8B452]/10 border-[#D8B452]/30';
+    tierColor = 'text-[#FF5500] bg-[#FF5500]/10 border-[#FF5500]/30';
     tierDesc =
       'Solid engineering foundation, but manual PR review cycle times and backlog refinement can be accelerated by 3.4x with NOVA.';
   }
@@ -206,7 +206,7 @@ Visit https://nova.internal to activate your 14-day full trial.
           {/* Progress Header */}
           <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-white/10">
             <div>
-              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#a1741a] dark:text-[#D8B452]">
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#EA580C] dark:text-[#FF5500]">
                 Question {currentStep + 1} of {QUESTIONS.length}
               </span>
               <h4 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-0.5">
@@ -219,7 +219,7 @@ Visit https://nova.internal to activate your 14-day full trial.
 
             <div className="w-24 sm:w-36 h-2 rounded-full bg-slate-200 dark:bg-white/10 overflow-hidden shrink-0 ml-4">
               <div
-                className="h-full bg-gradient-to-r from-[#6833FF] via-[#8E6FFF] to-[#D8B452] transition-all duration-300 rounded-full"
+                className="h-full bg-gradient-to-r from-[#EA580C] via-[#FF5500] to-[#FF7700] transition-all duration-300 rounded-full"
                 style={{ width: `${((currentStep + 1) / QUESTIONS.length) * 100}%` }}
               />
             </div>
@@ -231,10 +231,10 @@ Visit https://nova.internal to activate your 14-day full trial.
               <button
                 key={idx}
                 onClick={() => handleSelectOption(option)}
-                className="p-4 rounded-2xl bg-white dark:bg-[#050614] border border-slate-200 dark:border-white/10 hover:border-[#D8B452] hover:bg-amber-50/30 dark:hover:bg-[#0b0c33] hover:shadow-lg hover:shadow-[#D8B452]/10 transition-all text-left flex items-center justify-between gap-4 cursor-pointer group select-none"
+                className="p-4 rounded-2xl bg-white dark:bg-zinc-900/60 border border-slate-200 dark:border-white/10 hover:border-[#FF5500]/60 hover:bg-orange-500/5 dark:hover:bg-[#FF5500]/10 hover:shadow-lg hover:shadow-[#FF5500]/15 transition-all text-left flex items-center justify-between gap-4 cursor-pointer group select-none"
               >
                 <div className="flex items-center gap-3">
-                  <span className="w-7 h-7 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 group-hover:text-black dark:group-hover:text-white group-hover:bg-[#D8B452] text-xs font-mono font-bold flex items-center justify-center transition-colors shrink-0">
+                  <span className="w-7 h-7 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 group-hover:text-black dark:group-hover:text-black group-hover:bg-[#FF5500] text-xs font-mono font-bold flex items-center justify-center transition-colors shrink-0">
                     {String.fromCharCode(65 + idx)}
                   </span>
                   <span className="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
@@ -256,7 +256,7 @@ Visit https://nova.internal to activate your 14-day full trial.
                   >
                     {option.label}
                   </span>
-                  <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-[#D8B452] group-hover:translate-x-0.5 transition-transform" />
+                  <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-[#FF5500] group-hover:translate-x-0.5 transition-transform" />
                 </div>
               </button>
             ))}
@@ -271,10 +271,10 @@ Visit https://nova.internal to activate your 14-day full trial.
         /* ================= RESULTS SCORECARD & REPORT ================= */
         <div className="space-y-6 animate-fade-in">
           {/* Top Score Ribbon */}
-          <div className="p-5 sm:p-6 rounded-3xl bg-[#0b0c33] border border-[#D8B452]/40 text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-xl">
+          <div className="p-5 sm:p-6 rounded-3xl bg-zinc-900/70 border border-[#FF5500]/40 text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-xl backdrop-blur-xl">
             <div className="space-y-2">
               <div className="flex items-center gap-2.5 flex-wrap">
-                <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#D8B452]">
+                <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#FF5500]">
                   Velocity Diagnostic Scorecard
                 </span>
                 <span className={`text-[11px] px-3 py-0.5 rounded-full font-bold border ${tierColor}`}>
@@ -282,7 +282,7 @@ Visit https://nova.internal to activate your 14-day full trial.
                 </span>
               </div>
 
-              <h3 className="text-2xl sm:text-3xl font-black italic text-gold-gradient tracking-tight">
+              <h3 className="text-2xl sm:text-3xl font-black italic text-orange-gradient tracking-tight">
                 {totalScore} / 100 Health Index
               </h3>
               <p className="text-xs text-slate-300 max-w-xl leading-relaxed">
@@ -303,10 +303,10 @@ Visit https://nova.internal to activate your 14-day full trial.
 
           {/* Quantified Impact Metric Tiles */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="p-4 rounded-2xl bg-white dark:bg-[#050614] border border-slate-200 dark:border-white/10">
+            <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900/60 border border-slate-200 dark:border-white/10">
               <div className="flex items-center justify-between text-xs text-slate-400 mb-1">
                 <span>Annual Hours Reclaimed</span>
-                <Clock className="w-4 h-4 text-[#D8B452]" />
+                <Clock className="w-4 h-4 text-[#FF5500]" />
               </div>
               <div className="text-2xl font-black text-slate-900 dark:text-white font-mono">
                 {hoursSavedPerYear.toLocaleString()} <span className="text-xs font-normal text-slate-400">hrs/yr</span>
@@ -316,12 +316,12 @@ Visit https://nova.internal to activate your 14-day full trial.
               </span>
             </div>
 
-            <div className="p-4 rounded-2xl bg-white dark:bg-[#050614] border border-slate-200 dark:border-white/10">
+            <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900/60 border border-slate-200 dark:border-white/10">
               <div className="flex items-center justify-between text-xs text-slate-400 mb-1">
                 <span>Annual Cost Dividend</span>
                 <DollarSign className="w-4 h-4 text-emerald-400" />
               </div>
-              <div className="text-2xl font-black text-slate-900 dark:text-white font-mono text-gold-gradient">
+              <div className="text-2xl font-black text-slate-900 dark:text-white font-mono text-orange-gradient">
                 ${annualSavingsDollars.toLocaleString()}
               </div>
               <span className="text-[11px] text-emerald-500 font-semibold mt-0.5 block">
@@ -329,10 +329,10 @@ Visit https://nova.internal to activate your 14-day full trial.
               </span>
             </div>
 
-            <div className="p-4 rounded-2xl bg-white dark:bg-[#050614] border border-slate-200 dark:border-white/10">
+            <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900/60 border border-slate-200 dark:border-white/10">
               <div className="flex items-center justify-between text-xs text-slate-400 mb-1">
                 <span>Primary Recommendation</span>
-                <Sparkles className="w-4 h-4 text-[#8E6FFF]" />
+                <Sparkles className="w-4 h-4 text-[#FF7700]" />
               </div>
               <div className="text-sm font-bold text-slate-900 dark:text-white leading-snug">
                 Autonomous PR Copilot
@@ -344,14 +344,14 @@ Visit https://nova.internal to activate your 14-day full trial.
           </div>
 
           {/* Tailored Architectural Prescriptions */}
-          <div className="p-5 rounded-2xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 space-y-3">
+          <div className="p-5 rounded-2xl bg-slate-50 dark:bg-zinc-900/40 border border-slate-200 dark:border-white/10 space-y-3">
             <h5 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-[#D8B452]" /> Tailored NOVA Architectural Prescriptions
+              <ShieldCheck className="w-4 h-4 text-[#FF5500]" /> Tailored NOVA Architectural Prescriptions
             </h5>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-              <div className="p-3 rounded-xl bg-white dark:bg-[#0b0c33] border border-slate-200 dark:border-white/5 space-y-1">
-                <span className="font-bold text-[#a1741a] dark:text-[#D8B452] flex items-center gap-1">
+              <div className="p-3 rounded-xl bg-white dark:bg-zinc-900/60 border border-slate-200 dark:border-white/5 space-y-1">
+                <span className="font-bold text-[#EA580C] dark:text-[#FF5500] flex items-center gap-1">
                   <CheckCircle2 className="w-3.5 h-3.5" /> 1. Autonomous PR Code Diff Reasoning
                 </span>
                 <p className="text-slate-600 dark:text-slate-400 text-[11px] leading-relaxed">
@@ -359,8 +359,8 @@ Visit https://nova.internal to activate your 14-day full trial.
                 </p>
               </div>
 
-              <div className="p-3 rounded-xl bg-white dark:bg-[#0b0c33] border border-slate-200 dark:border-white/5 space-y-1">
-                <span className="font-bold text-[#8E6FFF] flex items-center gap-1">
+              <div className="p-3 rounded-xl bg-white dark:bg-zinc-900/60 border border-slate-200 dark:border-white/5 space-y-1">
+                <span className="font-bold text-[#FF7700] flex items-center gap-1">
                   <CheckCircle2 className="w-3.5 h-3.5" /> 2. Continuous Fibonacci Auto-Triage
                 </span>
                 <p className="text-slate-600 dark:text-slate-400 text-[11px] leading-relaxed">
@@ -377,7 +377,7 @@ Visit https://nova.internal to activate your 14-day full trial.
                 type="button"
                 onClick={handleDownloadReport}
                 disabled={isGeneratingPdf}
-                className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#D8B452] hover:bg-[#b5953f] text-black text-xs font-bold transition-all shadow-md cursor-pointer ${
+                className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#FF5500] hover:bg-[#FF6600] text-black text-xs font-bold transition-all shadow-md shadow-[#FF5500]/25 cursor-pointer ${
                   isGeneratingPdf ? 'opacity-80 cursor-wait' : ''
                 }`}
                 title="Download formatted executive report (.pdf)"
@@ -392,7 +392,7 @@ Visit https://nova.internal to activate your 14-day full trial.
 
               <button
                 onClick={handleCopySummary}
-                className="flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#0b0c33] hover:bg-slate-100 dark:hover:bg-white/10 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 text-xs font-semibold transition-all cursor-pointer"
+                className="flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-white dark:bg-zinc-900/60 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 text-xs font-semibold transition-all cursor-pointer"
                 title="Copy report text to clipboard"
               >
                 {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
@@ -402,7 +402,7 @@ Visit https://nova.internal to activate your 14-day full trial.
 
             <button
               onClick={() => onOpenDemo && onOpenDemo('trial')}
-              className="flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#6833FF] to-[#8E6FFF] hover:opacity-90 text-white text-xs font-bold transition-all cursor-pointer shadow-md"
+              className="floria-btn-orange px-5 py-2.5 text-xs font-bold transition-all cursor-pointer"
             >
               <span>Deploy NOVA with this Configuration &rarr;</span>
             </button>

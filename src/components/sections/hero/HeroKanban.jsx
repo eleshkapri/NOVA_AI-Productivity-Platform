@@ -98,9 +98,9 @@ export function HeroKanban({ tasks, onMoveTask, onResetTasks, onOpenDemo }) {
   return (
     <div className="space-y-4">
       {/* Top Sprint Metrics HUD */}
-      <div className="bg-[#0b0c33]/80 rounded-xl p-3 sm:p-4 border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+      <div className="bg-zinc-900/60 rounded-2xl p-3 sm:p-4 border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div className="flex items-center gap-3 w-full sm:w-auto">
-          <div className="p-2 rounded-lg bg-[#D8B452]/10 border border-[#D8B452]/30 text-[#D8B452]">
+          <div className="p-2 rounded-xl bg-[#FF5500]/10 border border-[#FF5500]/30 text-[#FF5500]">
             <TrendingUp className="w-4 h-4" />
           </div>
           <div>
@@ -108,11 +108,11 @@ export function HeroKanban({ tasks, onMoveTask, onResetTasks, onOpenDemo }) {
               <span className="text-xs font-bold text-white tracking-wide">
                 Sprint 48 Velocity
               </span>
-              <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-[#D8B452]/20 text-[#D8B452] font-semibold">
+              <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-[#FF5500]/20 text-[#FF5500] font-bold">
                 {donePoints} / {totalPoints} pts ({progressPercent}%)
               </span>
             </div>
-            <p className="text-[11px] text-slate-400 mt-0.5">
+            <p className="text-[11px] text-zinc-400 mt-0.5">
               Interactive simulator &bull; Drag cards or click action to advance
             </p>
           </div>
@@ -122,7 +122,7 @@ export function HeroKanban({ tasks, onMoveTask, onResetTasks, onOpenDemo }) {
         <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
           <div className="w-28 sm:w-40 h-2 rounded-full bg-white/10 overflow-hidden relative">
             <div
-              className="h-full bg-gradient-to-r from-[#6833FF] via-[#8E6FFF] to-[#D8B452] transition-all duration-500 rounded-full"
+              className="h-full bg-gradient-to-r from-orange-400 to-[#FF5500] transition-all duration-500 rounded-full"
               style={{ width: `${progressPercent}%` }}
             />
           </div>
@@ -137,7 +137,7 @@ export function HeroKanban({ tasks, onMoveTask, onResetTasks, onOpenDemo }) {
             title="Toggle Burndown Velocity Curve"
             className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors cursor-pointer"
           >
-            <Activity className="w-3 h-3 text-[#D8B452]" />
+            <Activity className="w-3 h-3 text-[#FF5500]" />
             <span className="hidden xs:inline">{showBurndown ? 'Hide Chart' : 'Burndown'}</span>
             {showBurndown ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
           </button>
@@ -158,10 +158,10 @@ export function HeroKanban({ tasks, onMoveTask, onResetTasks, onOpenDemo }) {
 
       {/* Agile Sprint Burndown Curve SVG Visualization + Live Telemetry HUD */}
       {showBurndown && (
-        <div className="bg-[#0b0c33]/50 rounded-xl p-3 sm:p-4 border border-white/10 animate-fade-in">
+        <div className="bg-zinc-900/40 rounded-2xl p-3 sm:p-4 border border-white/10 animate-fade-in">
           <div className="flex items-center justify-between pb-2 border-b border-white/5 text-[11px] font-mono">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#D8B452] animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-[#FF5500] animate-pulse" />
               <span className="text-white font-bold">BURNDOWN VELOCITY CURVE</span>
               <span className="text-slate-400 hidden sm:inline">(&bull; Ideal vs &bull; Actual)</span>
             </div>
@@ -169,8 +169,8 @@ export function HeroKanban({ tasks, onMoveTask, onResetTasks, onOpenDemo }) {
               <span className="flex items-center gap-1">
                 <span className="w-3 h-0.5 bg-slate-500 inline-block border-t border-dashed" /> Ideal
               </span>
-              <span className="flex items-center gap-1 text-[#D8B452] font-semibold">
-                <span className="w-3 h-0.5 bg-[#D8B452] inline-block" /> Actual ({remainingPoints} pts remaining)
+              <span className="flex items-center gap-1 text-[#FF5500] font-semibold">
+                <span className="w-3 h-0.5 bg-[#FF5500] inline-block" /> Actual ({remainingPoints} pts remaining)
               </span>
             </div>
           </div>
@@ -184,8 +184,8 @@ export function HeroKanban({ tasks, onMoveTask, onResetTasks, onOpenDemo }) {
             >
               <defs>
                 <linearGradient id="burndownFill" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#D8B452" stopOpacity="0.25" />
-                  <stop offset="100%" stopColor="#D8B452" stopOpacity="0.0" />
+                  <stop offset="0%" stopColor="#FF5500" stopOpacity="0.3" />
+                  <stop offset="100%" stopColor="#FF5500" stopOpacity="0.0" />
                 </linearGradient>
               </defs>
 
@@ -216,23 +216,23 @@ export function HeroKanban({ tasks, onMoveTask, onResetTasks, onOpenDemo }) {
               <path
                 d={pathD}
                 fill="none"
-                stroke="#D8B452"
+                stroke="#FF5500"
                 strokeWidth="2.5"
                 strokeLinecap="round"
-                style={{ filter: 'drop-shadow(0 0 6px rgba(216, 180, 82, 0.5))' }}
+                style={{ filter: 'drop-shadow(0 0 6px rgba(255, 85, 0, 0.6))' }}
               />
 
               {/* Milestone Dots along actual path */}
-              <circle cx="50" cy="18" r="3" fill="#D8B452" />
-              <circle cx="160" cy="32" r="3" fill="#D8B452" />
-              <circle cx="300" cy="52" r="3" fill="#D8B452" />
-              <circle cx="410" cy={curY} r="4" fill="#6833FF" stroke="#D8B452" strokeWidth="2" className="animate-pulse" />
+              <circle cx="50" cy="18" r="3" fill="#FF5500" />
+              <circle cx="160" cy="32" r="3" fill="#FF5500" />
+              <circle cx="300" cy="52" r="3" fill="#FF5500" />
+              <circle cx="410" cy={curY} r="4" fill="#FF5500" stroke="#FFFFFF" strokeWidth="2" className="animate-pulse" />
 
               {/* X Axis Labels */}
               <text x="50" y="87" fill="#64748b" fontSize="8" fontFamily="monospace" textAnchor="middle">Day 1</text>
               <text x="160" y="87" fill="#64748b" fontSize="8" fontFamily="monospace" textAnchor="middle">Day 3</text>
               <text x="300" y="87" fill="#64748b" fontSize="8" fontFamily="monospace" textAnchor="middle">Day 7</text>
-              <text x="410" y="87" fill="#D8B452" fontSize="8" fontFamily="monospace" textAnchor="middle" fontWeight="bold">Today</text>
+              <text x="410" y="87" fill="#FF5500" fontSize="8" fontFamily="monospace" textAnchor="middle" fontWeight="bold">Today</text>
               <text x="460" y="87" fill="#64748b" fontSize="8" fontFamily="monospace" textAnchor="middle">Day 10 (Target)</text>
             </svg>
           </div>
@@ -240,12 +240,12 @@ export function HeroKanban({ tasks, onMoveTask, onResetTasks, onOpenDemo }) {
           {/* 3 Live Telemetry HUD Metrics (Matching Reference Comp) */}
           <div className="pt-2 border-t border-white/5 grid grid-cols-3 gap-2 text-center text-xs font-mono">
             <div className="p-1.5 rounded-lg bg-white/5 border border-white/5 flex items-center justify-center gap-2">
-              <Activity className="w-3.5 h-3.5 text-[#D8B452]" />
+              <Activity className="w-3.5 h-3.5 text-[#FF5500]" />
               <span className="text-slate-400 hidden xs:inline">Throughput:</span>
               <span className="font-bold text-white">3,220 req/s</span>
             </div>
             <div className="p-1.5 rounded-lg bg-white/5 border border-white/5 flex items-center justify-center gap-2">
-              <Cpu className="w-3.5 h-3.5 text-[#8E6FFF]" />
+              <Cpu className="w-3.5 h-3.5 text-orange-400" />
               <span className="text-slate-400 hidden xs:inline">CPU Load:</span>
               <span className="font-bold text-white">4.6%</span>
             </div>

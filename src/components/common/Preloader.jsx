@@ -80,16 +80,16 @@ export function Preloader({ isDark }) {
   return (
     <div
       data-theme={isDark ? 'dark' : 'light'}
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-between bg-[#F8FAFC] dark:bg-[#050614] text-slate-900 dark:text-white p-8 sm:p-12 transition-all duration-900 ease-[cubic-bezier(0.76,0,0.24,1)] will-change-[transform,opacity] ${
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-between bg-[#F8FAFC] dark:bg-[#05060A] text-slate-900 dark:text-white p-8 sm:p-12 transition-all duration-900 ease-[cubic-bezier(0.76,0,0.24,1)] will-change-[transform,opacity] ${
         isDone ? '-translate-y-full opacity-90 pointer-events-none' : 'translate-y-0 opacity-100'
       }`}
     >
-      {/* Background Ambience & Grid Pattern with Complementary Cyan/Violet/Amber Glows */}
+      {/* Background Ambience & Grid Pattern with Electric Orange Glow */}
       <div className="absolute inset-0 bg-grid-pattern opacity-35 dark:opacity-20 pointer-events-none" />
-      <div className="absolute inset-0 bg-radial from-violet-500/10 via-amber-500/6 to-transparent dark:from-[#D8B452]/10 dark:via-transparent dark:to-transparent pointer-events-none" />
-      <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-violet-400/15 dark:bg-violet-600/15 blur-3xl pointer-events-none" />
-      <div className="absolute top-1/3 -right-32 w-96 h-96 rounded-full bg-cyan-400/15 dark:bg-cyan-600/15 blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-32 left-1/4 w-96 h-96 rounded-full bg-amber-400/15 dark:bg-amber-500/10 blur-3xl pointer-events-none" />
+      <div className="absolute inset-0 bg-radial from-orange-500/10 via-amber-500/5 to-transparent dark:from-[#FF5500]/15 dark:via-transparent dark:to-transparent pointer-events-none" />
+      <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-orange-500/15 dark:bg-[#FF5500]/15 blur-3xl pointer-events-none" />
+      <div className="absolute top-1/3 -right-32 w-96 h-96 rounded-full bg-amber-500/15 dark:bg-amber-600/10 blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-32 left-1/4 w-96 h-96 rounded-full bg-orange-600/15 dark:bg-[#FF5500]/10 blur-3xl pointer-events-none" />
 
       {/* Top Header */}
       <div
@@ -98,13 +98,13 @@ export function Preloader({ isDark }) {
         }`}
       >
         <span className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-amber-600 dark:bg-[#D8B452] animate-pulse shadow-[0_0_8px_rgba(217,119,6,0.6)] dark:shadow-[0_0_8px_#D8B452]" />
+          <span className="w-2 h-2 rounded-full bg-[#FF5500] animate-pulse shadow-[0_0_10px_#FF5500]" />
           Autonomous System Initializing
         </span>
 
         <span
           ref={percentTextRef}
-          className="font-mono text-amber-700 dark:text-[#D8B452] text-sm tracking-normal font-semibold"
+          className="font-mono text-[#FF5500] text-sm tracking-normal font-bold"
         >
           00%
         </span>
@@ -116,15 +116,15 @@ export function Preloader({ isDark }) {
           isDone ? 'opacity-0 scale-95 -translate-y-6' : 'opacity-100 scale-100 translate-y-0'
         }`}
       >
-        {/* Animated Totem with Glowing Aura & Silky Multi-Chromatic Orbital Spinner Ring */}
+        {/* Animated Totem with Glowing Aura & Silky Orbital Spinner Ring */}
         <div className="relative flex items-center justify-center">
-          {/* Static Soft Ambient Glow Aura (Hardware accelerated, zero rasterizer jank) */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-violet-500/20 via-amber-400/25 to-cyan-400/20 dark:from-[#8E6FFF]/20 dark:via-[#D8B452]/30 dark:to-cyan-400/15 blur-2xl rounded-full scale-125 pointer-events-none" />
+          {/* Static Soft Ambient Glow Aura */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/20 via-[#FF5500]/30 to-amber-500/20 dark:from-[#FF5500]/30 dark:via-[#FF7700]/20 dark:to-orange-600/15 blur-2xl rounded-full scale-125 pointer-events-none" />
 
           {/* Outer Silky Smooth Orbital Ring */}
           <div className="w-24 h-24 rounded-full border border-slate-300/40 dark:border-white/10 flex items-center justify-center relative pointer-events-none">
-            {/* Spinning Multi-Chromatic Orbital Ring */}
-            <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-violet-600 border-r-amber-500 border-b-cyan-500 dark:border-t-[#D8B452] dark:border-r-[#8E6FFF] dark:border-b-cyan-400 animate-spin-smooth" />
+            {/* Spinning Cyber-Orange Orbital Ring */}
+            <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-[#FF5500] border-r-[#FF7700] border-b-orange-600 dark:border-t-[#FF5500] dark:border-r-[#FF8800] dark:border-b-amber-500 animate-spin-smooth" />
 
             {/* Inner Silky Hardware-Accelerated Totem */}
             <div className="w-14 h-14 relative z-10 flex items-center justify-center animate-totem">
@@ -132,7 +132,7 @@ export function Preloader({ isDark }) {
                 viewBox="0 0 32 32"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-full h-full text-amber-600 dark:text-[#D8B452]"
+                className="w-full h-full text-[#FF5500]"
                 style={{ transformOrigin: 'center center' }}
               >
                 <path
@@ -161,7 +161,7 @@ export function Preloader({ isDark }) {
           <h1 className="text-3xl sm:text-4xl font-black tracking-[0.3em] uppercase text-slate-900 dark:text-white">
             NOVA
           </h1>
-          <p className="text-xs tracking-[0.25em] uppercase text-amber-700 dark:text-[#D8B452] mt-2 font-mono font-bold">
+          <p className="text-xs tracking-[0.25em] uppercase text-[#FF5500] mt-2 font-mono font-bold">
             Build Better &bull; Work Smarter
           </p>
         </div>
@@ -176,7 +176,7 @@ export function Preloader({ isDark }) {
         <div className="w-full h-2 bg-slate-200/80 dark:bg-white/10 rounded-full overflow-hidden p-[1px] border border-slate-300/50 dark:border-white/5 relative shadow-inner">
           <div
             ref={progressBarRef}
-            className="h-full w-full bg-gradient-to-r from-violet-600 via-amber-500 to-cyan-500 dark:from-[#D8B452] dark:via-[#F3D887] dark:to-[#8E6FFF] rounded-full shadow-[0_0_12px_rgba(217,119,6,0.4)] dark:shadow-[0_0_12px_rgba(216,180,82,0.8)] relative overflow-hidden"
+            className="h-full w-full bg-gradient-to-r from-[#EA580C] via-[#FF5500] to-[#FF7700] rounded-full shadow-[0_0_14px_rgba(255,85,0,0.85)] relative overflow-hidden"
             style={{
               transform: 'scale3d(0, 1, 1)',
               transformOrigin: 'left center',
@@ -192,7 +192,7 @@ export function Preloader({ isDark }) {
         </div>
         <div className="flex items-center justify-between w-full text-[11px] text-slate-600 dark:text-slate-400 font-mono">
           <span>Loading Engine Modules</span>
-          <span ref={statusTextRef} className="text-amber-700 dark:text-[#D8B452] font-semibold">
+          <span ref={statusTextRef} className="text-[#FF5500] font-semibold">
             Calibrating...
           </span>
         </div>
