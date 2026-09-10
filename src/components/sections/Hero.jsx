@@ -158,7 +158,7 @@ export function Hero({ onOpenDemo }) {
               icon={Play}
               iconPosition="left"
               onClick={() => onOpenDemo('walkthrough')}
-              className="w-full sm:w-auto text-base h-14 px-8 rounded-full bg-slate-100 dark:bg-transparent text-slate-900 dark:text-white border border-slate-300 dark:border-white/20"
+              className="w-full sm:w-auto text-base h-14 px-8 rounded-full"
             >
               Watch Interactive Demo
             </Button>

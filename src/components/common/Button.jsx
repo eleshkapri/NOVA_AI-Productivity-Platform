@@ -39,7 +39,7 @@ export function Button({
     orange:
       'bg-[#FF5500] hover:bg-[#FF6600] text-black font-extrabold shadow-lg shadow-orange-500/35 hover:shadow-xl hover:shadow-orange-500/50 hover:-translate-y-0.5 border border-orange-400/40',
     orangeGhost:
-      'bg-transparent text-white border border-white/20 hover:bg-white/10 hover:border-white/40 hover:-translate-y-0.5',
+      'bg-slate-100/90 hover:bg-slate-200/90 text-slate-900 border border-slate-300 hover:border-slate-400 dark:bg-white/5 dark:text-white dark:border-white/20 dark:hover:bg-white/10 dark:hover:border-white/40 hover:-translate-y-0.5 shadow-sm dark:shadow-none [&>svg]:text-[#FF5500]',
   };
 
   return (
