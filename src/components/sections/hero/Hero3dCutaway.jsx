@@ -52,6 +52,8 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
     const width = container.clientWidth;
     const height = container.clientHeight;
 
+    const isMobile = width < 768;
+
     // 1. Scene setup
     const scene = new THREE.Scene();
     sceneRef.current = scene;
@@ -62,14 +64,16 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
     camera.lookAt(0, 0.1, 0);
 
     // 3. WebGL Renderer with Alpha Transparency (Completely Clear Background)
+    // On mobile: disable antialias & cap pixel ratio to 1 for silky lag-free rendering
     const renderer = new THREE.WebGLRenderer({
       canvas,
       alpha: true,
-      antialias: true,
+      antialias: !isMobile,
       powerPreference: 'high-performance',
+      precision: isMobile ? 'mediump' : 'highp',
     });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 2));
     renderer.setClearColor(0x000000, 0); // 100% transparent
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.25;
@@ -363,6 +367,7 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
     // 10. Animation & Render Loop
     const clock = new THREE.Clock();
     let isVisible = true;
+    let lastRenderTime = 0;
 
     // IntersectionObserver to pause rendering when scrolled out of view
     const observer = new IntersectionObserver(
@@ -375,9 +380,15 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
     );
     observer.observe(container);
 
-    const animate = () => {
+    const animate = (timestamp) => {
       animFrameRef.current = requestAnimationFrame(animate);
       if (!isVisible) return;
+
+      // Throttle render loop on mobile to 30fps to keep touch scrolling 100% fluid
+      if (isMobile && timestamp) {
+        if (timestamp - lastRenderTime < 33) return;
+        lastRenderTime = timestamp;
+      }
 
       const elapsedTime = clock.getElapsedTime();
 
@@ -434,9 +445,11 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
       if (!container || !renderer) return;
       const w = container.clientWidth;
       const h = container.clientHeight;
+      const isMobileNow = w < 768;
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
+      renderer.setPixelRatio(isMobileNow ? 1 : Math.min(window.devicePixelRatio || 1, 2));
     };
 
     window.addEventListener('resize', handleResize);
@@ -444,6 +457,7 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
     // 12. Mouse & Drag Interaction
     let startX = 0;
     let startY = 0;
+    const hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
     const handlePointerDown = (e) => {
       isInteractingRef.current = true;
@@ -452,10 +466,6 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
     };
 
     const handlePointerMove = (e) => {
-      const rect = container.getBoundingClientRect();
-      const normX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-      const normY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-
       if (isInteractingRef.current) {
         const deltaX = (e.clientX - startX) * 0.007;
         const deltaY = (e.clientY - startY) * 0.007;
@@ -466,8 +476,11 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
         );
         startX = e.clientX;
         startY = e.clientY;
-      } else {
-        // Perspective parallax tilt
+      } else if (hasFinePointer) {
+        // Perspective parallax tilt only for desktop cursor
+        const rect = container.getBoundingClientRect();
+        const normX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+        const normY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
         targetRotationRef.current.y = -0.68 + normX * 0.35;
         targetRotationRef.current.x = 0.32 + normY * 0.22;
       }
@@ -478,7 +491,11 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
     };
 
     canvas.addEventListener('pointerdown', handlePointerDown);
-    window.addEventListener('pointermove', handlePointerMove);
+    if (hasFinePointer) {
+      window.addEventListener('pointermove', handlePointerMove);
+    } else {
+      canvas.addEventListener('pointermove', handlePointerMove);
+    }
     window.addEventListener('pointerup', handlePointerUp);
 
     // 13. Cleanup
@@ -487,6 +504,7 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
       window.removeEventListener('resize', handleResize);
       canvas.removeEventListener('pointerdown', handlePointerDown);
+      canvas.removeEventListener('pointermove', handlePointerMove);
       window.removeEventListener('pointermove', handlePointerMove);
       window.removeEventListener('pointerup', handlePointerUp);
 

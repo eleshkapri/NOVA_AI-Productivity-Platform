@@ -20,7 +20,11 @@ export function AmbientBackground() {
   const spotlightRef = useRef(null);
 
   // Mouse move listener updating spotlight directly without component re-renders
+  // Skip entirely on touch-only devices (no fine pointer) — no GPU cost for useless effect
   useEffect(() => {
+    const hasFinePtinter = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (!hasFinePtinter) return;
+
     let ticking = false;
     const handleMouseMove = (e) => {
       if (!ticking) {
@@ -46,12 +50,14 @@ export function AmbientBackground() {
 
     let width = window.innerWidth;
     let height = window.innerHeight;
-    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const isMobile = width < 768;
+    // Cap DPR at 1 on mobile (was 2) — halves pixel fill rate on Retina phones
+    let dpr = isMobile ? Math.min(window.devicePixelRatio || 1, 1) : Math.min(window.devicePixelRatio || 1, 2);
 
     const setupCanvasSize = () => {
       width = window.innerWidth;
       height = window.innerHeight;
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      dpr = isMobile ? Math.min(window.devicePixelRatio || 1, 1) : Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = width * dpr;
       canvas.height = height * dpr;
       canvas.style.width = `${width}px`;
@@ -64,9 +70,9 @@ export function AmbientBackground() {
     };
     window.addEventListener('resize', handleResize, { passive: true });
 
-    const isMobile = width < 768;
-
     // Interactive mouse tracker for canvas synaptic connections
+    // Only active on pointer devices — skip on touch to avoid pointless scroll listeners
+    const hasFinePtinter = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const mouse = {
       x: -1000,
       y: -1000,
@@ -85,11 +91,14 @@ export function AmbientBackground() {
       mouse.y = -1000;
     };
 
-    window.addEventListener('mousemove', handleCanvasMouseMove, { passive: true });
-    window.addEventListener('mouseleave', handleCanvasMouseLeave, { passive: true });
+    if (hasFinePtinter) {
+      window.addEventListener('mousemove', handleCanvasMouseMove, { passive: true });
+      window.addEventListener('mouseleave', handleCanvasMouseLeave, { passive: true });
+    }
+
 
     // 1. Neural Code Graph Nodes (Orchid Violet, Amber Gold, and Electric Cyan)
-    const nodeCount = isMobile ? 22 : 46;
+    const nodeCount = isMobile ? 12 : 46;
     const nodes = [];
     for (let i = 0; i < nodeCount; i++) {
       const typeChoice = i % 3 === 0 ? 'orchid' : i % 3 === 1 ? 'cyan' : 'gold';
@@ -107,7 +116,7 @@ export function AmbientBackground() {
     }
 
     // 2. High-Speed Synaptic Data Packets (Pulsing code commits / telemetry in 3 complementary colors)
-    const packetCount = isMobile ? 9 : 18;
+    const packetCount = isMobile ? 4 : 18;
     const packets = [];
     for (let i = 0; i < packetCount; i++) {
       const typeChoice = i % 3 === 0 ? 'orchid' : i % 3 === 1 ? 'cyan' : 'gold';
@@ -122,7 +131,7 @@ export function AmbientBackground() {
     }
 
     // 3. Floating Developer & AI Syntax Tokens ({ }, </>, git, AI, λ, fn(), ✦)
-    const tokenCount = isMobile ? 6 : 12;
+    const tokenCount = isMobile ? 3 : 12;
     const tokens = [];
     for (let i = 0; i < tokenCount; i++) {
       const typeChoice = i % 3 === 0 ? 'orchid' : i % 3 === 1 ? 'cyan' : 'gold';
@@ -174,6 +183,7 @@ export function AmbientBackground() {
 
     let animRunning = true;
     let animId = null;
+    let lastFrameTime = 0;
 
     const handleVisibility = () => {
       animRunning = !document.hidden;
@@ -206,9 +216,17 @@ export function AmbientBackground() {
       ctx.restore();
     }
 
-    // Main animation loop
-    function animate() {
+    // Main animation loop (throttled to ~30fps on mobile to minimize battery & GPU usage)
+    function animate(timestamp) {
       if (!animRunning) return;
+
+      if (isMobile && timestamp) {
+        if (timestamp - lastFrameTime < 33) {
+          animId = requestAnimationFrame(animate);
+          return;
+        }
+        lastFrameTime = timestamp;
+      }
 
       const isLight = !document.documentElement.classList.contains('dark');
 

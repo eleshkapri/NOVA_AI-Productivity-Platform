@@ -948,3 +948,56 @@ div[id="roi-calculator"] {
     animation: none !important;
   }
 }
+
+/* ========================================================
+   MOBILE PERFORMANCE OVERRIDES
+   Eliminate GPU-heavy effects on touch/mobile devices
+   Inspired by roamai-travel.vercel.app mobile patterns
+   ======================================================== */
+@media (max-width: 768px) {
+  /* Kill backdrop-filter entirely on mobile — single biggest GPU win */
+  .backdrop-blur-xl,
+  .backdrop-blur-lg,
+  .backdrop-blur-md,
+  .backdrop-blur-sm,
+  .backdrop-blur {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Disable hover transforms on touch — prevents accidental sticky states */
+  .floria-card:hover,
+  [class*="hover:scale"]:hover,
+  [class*="hover:-translate"]:hover {
+    transform: none !important;
+  }
+
+  /* Remove tap highlight flash & improve touch responsiveness */
+  button,
+  a,
+  [role="button"] {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* Kill heavy GPU-composited CSS orb animations */
+  .animate-mesh-1,
+  .animate-mesh-2,
+  .animate-mesh-3,
+  .animate-aurora-beam,
+  .animate-mote {
+    animation: none !important;
+  }
+
+  /* Reduce will-change pressure — fewer compositing layers on mobile */
+  .anime-letter {
+    will-change: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  /* Speed up anime-letter on phones to reduce perceived jank */
+  .anime-letter {
+    animation-duration: 0.7s !important;
+  }
+}
