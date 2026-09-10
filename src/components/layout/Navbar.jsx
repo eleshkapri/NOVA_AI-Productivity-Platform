@@ -49,7 +49,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 768) {
+      if (window.innerWidth >= 1024) {
         setIsOpen(false);
       }
     };
@@ -153,7 +153,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
           <div
             ref={navContainerRef}
             onMouseLeave={handleNavLeave}
-            className="hidden md:flex items-center relative rounded-full p-1 border border-slate-200/60 dark:border-white/10 bg-white/60 dark:bg-[#0b0c33]/60 backdrop-blur-md"
+            className="hidden lg:flex items-center relative rounded-full p-1 border border-slate-200/60 dark:border-white/10 bg-white/60 dark:bg-[#0b0c33]/60 backdrop-blur-md shrink-0"
           >
             {/* The Gliding Magnetic Halo Pill */}
             <div
@@ -171,7 +171,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
                 href={link.href}
                 onMouseEnter={handleLinkHover}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className="relative z-10 text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full text-slate-700 dark:text-slate-200 hover:text-[#a1741a] dark:hover:text-[#D8B452] transition-colors"
+                className="relative z-10 text-[11px] xl:text-xs font-bold uppercase tracking-wider px-2.5 xl:px-3.5 py-1.5 rounded-full text-slate-700 dark:text-slate-200 hover:text-[#a1741a] dark:hover:text-[#D8B452] transition-colors"
               >
                 {link.name}
               </a>
@@ -180,14 +180,14 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
               href="#roi-calculator"
               onMouseEnter={handleLinkHover}
               onClick={(e) => handleNavClick(e, '#roi-calculator')}
-              className="relative z-10 text-xs font-extrabold uppercase tracking-wider px-3.5 py-1.5 rounded-full text-[#a1741a] dark:text-[#D8B452] hover:text-black dark:hover:text-white transition-colors"
+              className="relative z-10 text-[11px] xl:text-xs font-extrabold uppercase tracking-wider px-2.5 xl:px-3.5 py-1.5 rounded-full text-[#a1741a] dark:text-[#D8B452] hover:text-black dark:hover:text-white transition-colors"
             >
               ROI Calculator
             </a>
           </div>
 
           {/* Right Side Actions */}
-          <div className="hidden md:flex items-center gap-2.5">
+          <div className="hidden lg:flex items-center gap-1.5 xl:gap-2.5 shrink-0">
             {/* Live System Status Indicator */}
             <button
               onClick={() => onOpenDemo('status')}
@@ -199,7 +199,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
               </span>
-              <span className="text-[11px] font-mono hidden lg:inline">99.99%</span>
+              <span className="text-[11px] font-mono hidden xl:inline">99.99%</span>
             </button>
 
             {/* Quick Command Palette Button */}
@@ -207,7 +207,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
               onClick={onOpenCommandPalette}
               aria-label="Open Command Palette"
               title="Search / Command Palette (⌘K)"
-              className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b0c33] text-slate-600 dark:text-slate-400 hover:text-[#a1741a] dark:hover:text-[#D8B452] hover:border-[#D8B452]/40 transition-colors text-xs cursor-pointer shadow-xs"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b0c33] text-slate-600 dark:text-slate-400 hover:text-[#a1741a] dark:hover:text-[#D8B452] hover:border-[#D8B452]/40 transition-colors text-xs cursor-pointer shadow-xs"
             >
               <Search className="w-3.5 h-3.5 text-[#a1741a] dark:text-[#D8B452]" />
               <span className="text-[11px] font-mono font-semibold">⌘K</span>
@@ -217,7 +217,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
             <button
               onClick={toggleTheme}
               aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-              className="relative p-2.5 rounded-full border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b0c33] text-slate-700 dark:text-slate-300 hover:text-[#a1741a] dark:hover:text-[#D8B452] hover:border-[#D8B452]/40 transition-all duration-300 cursor-pointer shadow-xs group overflow-hidden"
+              className="relative p-2 rounded-full border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b0c33] text-slate-700 dark:text-slate-300 hover:text-[#a1741a] dark:hover:text-[#D8B452] hover:border-[#D8B452]/40 transition-all duration-300 cursor-pointer shadow-xs group overflow-hidden"
             >
               <div className="relative w-4 h-4 flex items-center justify-center">
                 <Sun
@@ -234,28 +234,29 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
             </button>
 
             {/* Watch Demo CTA */}
-            <Button variant="ghost" size="sm" onClick={onOpenDemo} className="text-slate-700 dark:text-slate-300 hover:text-[#8E6FFF] dark:hover:text-[#A78BFA]">
+            <Button variant="ghost" size="sm" onClick={onOpenDemo} className="text-slate-700 dark:text-slate-300 hover:text-[#8E6FFF] dark:hover:text-[#A78BFA] px-2.5 text-xs">
               Demo
             </Button>
 
             {/* Primary CTA with Orchid Violet Style */}
             <Button
-              variant="orchid"
+              variant={hasActiveWorkspace ? 'outline' : 'orchid'}
               size="sm"
-              icon={ArrowRight}
+              icon={hasActiveWorkspace ? undefined : ArrowRight}
               iconPosition="right"
               onClick={onOpenTrial || onOpenDemo}
+              className="text-xs px-3"
             >
               Free Trial
             </Button>
 
-            {/* Active Workspace Dashboard Fast-Switch */}
+            {/* Active Workspace Dashboard Fast-Switch (ONLY present when all required workspace info is provisioned) */}
             {hasActiveWorkspace && (
               <Button
                 variant="primary"
                 size="sm"
                 onClick={onGoToDashboard}
-                className="shadow-md shadow-amber-500/20"
+                className="shadow-md shadow-amber-500/20 text-xs px-3 font-bold animate-fade-in"
               >
                 🚀 Dashboard
               </Button>
@@ -263,7 +264,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
           </div>
 
           {/* Mobile Menu & Theme Toggle */}
-          <div className="flex items-center gap-2 md:hidden">
+          <div className="flex items-center gap-2 lg:hidden">
             <button
               onClick={onOpenCommandPalette}
               aria-label="Search"
@@ -308,7 +309,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
       {isOpen && (
         <div
           id="mobile-menu"
-          className="md:hidden bg-white/98 dark:bg-[#050614]/98 backdrop-blur-2xl border-b border-slate-200 dark:border-[#D8B452]/20 shadow-2xl px-5 pt-5 pb-8 mt-3 space-y-4 max-h-[calc(100vh-80px)] overflow-y-auto"
+          className="lg:hidden bg-white/98 dark:bg-[#050614]/98 backdrop-blur-2xl border-b border-slate-200 dark:border-[#D8B452]/20 shadow-2xl px-5 pt-5 pb-8 mt-3 space-y-4 max-h-[calc(100vh-80px)] overflow-y-auto"
         >
           <div className="flex flex-col space-y-1">
             {navLinks.map((link) => (

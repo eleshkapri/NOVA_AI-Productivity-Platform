@@ -782,12 +782,19 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                     iconPosition="right"
                     onClick={() => {
                       playChime('actionClick');
+                      const finalName = workspaceName && workspaceName.trim() ? workspaceName.trim() : 'nova-demo-workspace';
                       onEnterDashboard?.({
-                        name: workspaceName || 'nova-demo-workspace',
-                        plan: activePlan,
-                        host: selectedHost,
+                        name: finalName,
+                        plan: activePlan || 'pro',
+                        host: selectedHost || 'github',
                         token: 'nova_live_9f82d1c7a8',
-                        createdAt: 'Active Session',
+                        createdAt: new Date().toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        }),
+                        isProvisioned: true,
                       });
                       onClose();
                     }}

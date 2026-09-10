@@ -25,6 +25,7 @@ import { soundService } from '../../services/SoundService';
 export function WorkspaceDashboard({
   workspace,
   onExit,
+  onResetWorkspace,
   isDark,
   toggleTheme,
   onOpenCommandPalette,
@@ -265,6 +266,17 @@ export function WorkspaceDashboard({
             <span>Search</span>
             <kbd className="px-1 py-0.2 rounded bg-white dark:bg-black/40 text-[10px] text-slate-500">⌘K</kbd>
           </button>
+
+          {onResetWorkspace && (
+            <button
+              type="button"
+              onClick={onResetWorkspace}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold text-rose-600 dark:text-rose-400 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 transition-all cursor-pointer"
+              title="Disconnect & Reset Workspace Session"
+            >
+              <span>Reset Session</span>
+            </button>
+          )}
 
           <button
             type="button"

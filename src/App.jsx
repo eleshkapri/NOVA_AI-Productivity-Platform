@@ -30,6 +30,17 @@ import { WorkspaceDashboard } from './components/dashboard';
 import { Keyboard } from 'lucide-react';
 import { soundService } from './services/SoundService';
 
+const isValidWorkspace = (ws) => {
+  return Boolean(
+    ws &&
+    typeof ws === 'object' &&
+    ws.isProvisioned === true &&
+    typeof ws.name === 'string' &&
+    ws.name.trim().length >= 2 &&
+    ws.token
+  );
+};
+
 export function App() {
   const { toggleTheme, isDark } = useTheme();
   const { showBackToTop, scrollToTop } = useScrollPosition();
@@ -37,11 +48,21 @@ export function App() {
   const [activeWorkspace, setActiveWorkspace] = useState(() => {
     try {
       const saved = localStorage.getItem('nova_active_workspace');
-      return saved ? JSON.parse(saved) : null;
+      if (!saved) return null;
+      const parsed = JSON.parse(saved);
+      if (isValidWorkspace(parsed)) {
+        return parsed;
+      }
+      // Purge any dummy or unprovisioned workspaces from localStorage
+      localStorage.removeItem('nova_active_workspace');
+      return null;
     } catch {
       return null;
     }
   });
+
+  const hasActiveWorkspace = isValidWorkspace(activeWorkspace);
+
   const [modalConfig, setModalConfig] = useState({
     isOpen: false,
     tab: 'walkthrough',
@@ -54,12 +75,17 @@ export function App() {
   const lastKeyRef = useRef({ key: null, time: 0 });
 
   const handleEnterDashboard = (workspaceData) => {
-    const ws = workspaceData || {
-      name: 'nova-sprint-demo',
-      plan: 'pro',
-      host: 'github',
-      token: 'nova_live_9f82d1c7a8',
-      createdAt: 'Active Session',
+    if (!isValidWorkspace(workspaceData)) {
+      handleOpenModal('trial');
+      return;
+    }
+    const ws = {
+      name: workspaceData.name.trim(),
+      plan: workspaceData.plan || 'pro',
+      host: workspaceData.host || 'github',
+      token: workspaceData.token || 'nova_live_9f82d1c7a8',
+      createdAt: workspaceData.createdAt || 'Active Session',
+      isProvisioned: true,
     };
     setActiveWorkspace(ws);
     try {
@@ -105,10 +131,10 @@ export function App() {
         break;
       case 'view-workspace':
         soundService.playChime('actionClick');
-        if (activeWorkspace) {
+        if (hasActiveWorkspace) {
           setCurrentView('dashboard');
         } else {
-          handleEnterDashboard();
+          handleOpenModal('trial');
         }
         break;
       case 'view-status':
@@ -233,10 +259,10 @@ export function App() {
         if (currentView === 'dashboard') {
           setCurrentView('landing');
         } else {
-          if (activeWorkspace) {
+          if (hasActiveWorkspace) {
             setCurrentView('dashboard');
           } else {
-            handleEnterDashboard();
+            handleOpenModal('trial');
           }
         }
       } else if (k === 's') {
@@ -258,7 +284,7 @@ export function App() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [modalConfig.isOpen, isCommandPaletteOpen, isShortcutsHudOpen, toggleTheme, currentView, activeWorkspace]);
+  }, [modalConfig.isOpen, isCommandPaletteOpen, isShortcutsHudOpen, toggleTheme, currentView, hasActiveWorkspace]);
 
   return (
     <div className="min-h-screen flex flex-col text-[#0f172a] dark:text-[#f1f2f6] transition-colors duration-300 font-sans selection:bg-[#D8B452] selection:text-black relative">
@@ -288,15 +314,11 @@ export function App() {
         isDark={isDark}
         onOpenDemo={(tab, extra) => handleOpenModal(tab || 'backlog', extra)}
         currentView={currentView}
-        onGoToDashboard={() => {
+        onGoToDashboard={hasActiveWorkspace ? () => {
           soundService.playChime('actionClick');
-          if (activeWorkspace) {
-            setCurrentView('dashboard');
-          } else {
-            handleEnterDashboard();
-          }
+          setCurrentView('dashboard');
           window.scrollTo({ top: 0, behavior: 'smooth' });
-        }}
+        } : undefined}
         onExitDashboard={() => {
           soundService.playChime('actionClick');
           setCurrentView('landing');
@@ -312,7 +334,7 @@ export function App() {
           onOpenDemo={(tab, extra) => handleOpenModal(tab || 'backlog', extra)}
           onOpenTrial={() => handleOpenModal('trial')}
           onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
-          hasActiveWorkspace={Boolean(activeWorkspace)}
+          hasActiveWorkspace={hasActiveWorkspace}
           onGoToDashboard={() => {
             soundService.playChime('actionClick');
             setCurrentView('dashboard');
@@ -328,6 +350,17 @@ export function App() {
             workspace={activeWorkspace}
             onExit={() => {
               soundService.playChime('actionClick');
+              setCurrentView('landing');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            onResetWorkspace={() => {
+              soundService.playChime('actionClick');
+              setActiveWorkspace(null);
+              try {
+                localStorage.removeItem('nova_active_workspace');
+              } catch {
+                // storage non-blocking
+              }
               setCurrentView('landing');
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
