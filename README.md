@@ -252,7 +252,7 @@ In full compliance with the internship assessment guidelines, AI assistance was 
 
 ---
 
-## 5. 📊 Comprehensive Evaluation Rubric Self-Assessment (100 / 100 Marks + Bonus)
+## 5. 📊 Comprehensive Evaluation Rubric Self-Assessment (100 / 100 Marks + Bonus) 🤞🤞
 
 | Parameter | Marks | Status | Primary Code Files & Evidence |
 |---|:---:|:---:|---|
