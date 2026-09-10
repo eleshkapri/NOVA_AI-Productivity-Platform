@@ -36,22 +36,31 @@
     <!-- Security Policies & Meta Protection -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <!-- Synchronous Theme Initialization to Prevent FOUC -->
+    <!-- Synchronous Theme Initialization to Prevent FOUC & Follow Device System Theme -->
     <script>
       (function() {
         try {
           var raw = localStorage.getItem('nova_theme');
-          var theme = raw ? JSON.parse(raw) : null;
-          var isDark = theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          var theme = null;
+          if (raw) {
+            try {
+              theme = JSON.parse(raw);
+            } catch (err) {
+              theme = raw;
+            }
+          }
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = theme === 'dark' || (theme !== 'light' && prefersDark);
+          var root = document.documentElement;
           if (isDark) {
-            document.documentElement.classList.add('dark');
-            document.documentElement.classList.remove('light');
+            root.classList.add('dark');
+            root.classList.remove('light');
           } else {
-            document.documentElement.classList.remove('dark');
-            document.documentElement.classList.add('light');
+            root.classList.remove('dark');
+            root.classList.add('light');
           }
         } catch (e) {
-          document.documentElement.classList.add('dark');
+          // Graceful fallback for security restricted browsing
         }
       })();
     </script>
