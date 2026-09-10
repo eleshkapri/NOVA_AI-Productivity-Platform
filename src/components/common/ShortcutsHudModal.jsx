@@ -24,6 +24,7 @@ const SHORTCUT_GROUPS = [
     title: 'Views & Deep-Telemetry',
     icon: Activity,
     shortcuts: [
+      { keys: ['W'], label: 'Open Autonomous Workspace Dashboard', actionId: 'view-workspace' },
       { keys: ['S'], label: 'Open Global System Status (99.99%)', actionId: 'view-status' },
       { keys: ['C'], label: 'Open Product Release Changelog', actionId: 'view-changelog' },
       { keys: ['D'], label: 'Open Interactive Demo Studio', actionId: 'view-demo' },

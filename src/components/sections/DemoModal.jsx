@@ -42,7 +42,7 @@ const playChime = (type = 'stepAdvance') => {
   soundService.playChime(type);
 };
 
-function DemoModalContent({ isOpen, onClose, initialTab, selectedPlan, selectedTask, initialStage = 0 }) {
+function DemoModalContent({ isOpen, onClose, onEnterDashboard, initialTab, selectedPlan, selectedTask, initialStage = 0 }) {
   const [activeFeature, setActiveFeature] = useState(initialTab);
   const [copiedCode, setCopiedCode] = useState(false);
 
@@ -750,15 +750,22 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                 <div className="pt-2 flex justify-center gap-3">
                   <Button
                     variant="primary"
-                    size="sm"
+                    size="md"
                     icon={Rocket}
                     iconPosition="right"
                     onClick={() => {
                       playChime('actionClick');
+                      onEnterDashboard?.({
+                        name: workspaceName || 'nova-demo-workspace',
+                        plan: activePlan,
+                        host: selectedHost,
+                        token: 'nova_live_9f82d1c7a8',
+                        createdAt: 'Active Session',
+                      });
                       onClose();
                     }}
                   >
-                    Enter Dashboard
+                    Enter Workspace Dashboard
                   </Button>
                   <Button
                     variant="outline"
@@ -772,6 +779,75 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                   >
                     Configure Another
                   </Button>
+                </div>
+              </div>
+            ) : isDeploying ? (
+              /* Dedicated Production-Grade Cybernetic Provisioning Center */
+              <div className="p-8 rounded-3xl bg-slate-950 dark:bg-[#050614] border border-[#D8B452]/40 text-center space-y-6 animate-fade-in shadow-2xl relative overflow-hidden">
+                {/* Subtle animated ambient aura */}
+                <div className="absolute inset-0 bg-grid-pattern opacity-15 pointer-events-none" />
+                <div className="absolute -top-16 -left-16 w-44 h-44 bg-[#D8B452]/10 rounded-full blur-3xl pointer-events-none" />
+                <div className="absolute -bottom-16 -right-16 w-44 h-44 bg-violet-500/10 rounded-full blur-3xl pointer-events-none" />
+
+                {/* Centered Holographic Orbital Scanner with Dynamic Percentage */}
+                <div className="relative w-28 h-28 mx-auto flex items-center justify-center">
+                  <div className="absolute inset-0 rounded-full border border-dashed border-[#D8B452]/40 animate-spin-slow" />
+                  <div className="absolute inset-2 rounded-full border-2 border-transparent border-t-[#D8B452] border-r-[#8E6FFF] border-b-cyan-400 animate-spin-smooth" />
+                  <div className="w-16 h-16 rounded-full bg-black/80 border border-[#D8B452]/60 flex flex-col items-center justify-center shadow-lg shadow-[#D8B452]/20 relative z-10">
+                    <span className="text-base font-black font-mono text-[#D8B452]">
+                      {deployStep === 1 ? '33%' : deployStep === 2 ? '68%' : '100%'}
+                    </span>
+                    <span className="text-[8px] font-mono uppercase tracking-wider text-slate-400">SYNC</span>
+                  </div>
+                </div>
+
+                {/* Provisioning Headline & Target Spec */}
+                <div className="space-y-1 relative z-10">
+                  <h5 className="text-lg font-black tracking-tight text-white flex items-center justify-center gap-2">
+                    <Loader2 className="w-4 h-4 animate-spin text-[#D8B452]" />
+                    Cloud Provisioning Sequence Active
+                  </h5>
+                  <p className="text-xs text-slate-400 font-mono">
+                    Target: <span className="text-[#D8B452] font-bold">{workspaceName || 'nova-demo-workspace'}</span> &bull; <span className="uppercase">{activePlan}</span> tier on AWS us-east-1
+                  </p>
+                </div>
+
+                {/* 3 Step Milestone Indicators */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-left relative z-10 max-w-xl mx-auto font-mono text-xs">
+                  <div className={`p-3 rounded-xl border transition-all ${deployStep >= 1 ? 'bg-[#D8B452]/10 border-[#D8B452]/40 text-[#D8B452]' : 'bg-white/5 border-white/10 text-slate-500'}`}>
+                    <div className="flex items-center gap-1.5 font-bold mb-1 text-[11px]">
+                      {deployStep > 1 ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Loader2 className="w-3.5 h-3.5 animate-spin text-[#D8B452]" />}
+                      <span>Phase 01</span>
+                    </div>
+                    <p className="text-[10px] text-slate-300">AWS us-east-1 Sandbox Container</p>
+                  </div>
+
+                  <div className={`p-3 rounded-xl border transition-all ${deployStep >= 2 ? 'bg-[#D8B452]/10 border-[#D8B452]/40 text-[#D8B452]' : 'bg-white/5 border-white/10 text-slate-500'}`}>
+                    <div className="flex items-center gap-1.5 font-bold mb-1 text-[11px]">
+                      {deployStep > 2 ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : deployStep === 2 ? <Loader2 className="w-3.5 h-3.5 animate-spin text-[#D8B452]" /> : <span className="w-3.5 h-3.5 rounded-full border border-slate-600 inline-block" />}
+                      <span>Phase 02</span>
+                    </div>
+                    <p className="text-[10px] text-slate-300">Zero-Trust TLS Webhook Linkage</p>
+                  </div>
+
+                  <div className={`p-3 rounded-xl border transition-all ${deployStep >= 3 ? 'bg-[#D8B452]/10 border-[#D8B452]/40 text-[#D8B452]' : 'bg-white/5 border-white/10 text-slate-500'}`}>
+                    <div className="flex items-center gap-1.5 font-bold mb-1 text-[11px]">
+                      {deployStep >= 3 ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <span className="w-3.5 h-3.5 rounded-full border border-slate-600 inline-block" />}
+                      <span>Phase 03</span>
+                    </div>
+                    <p className="text-[10px] text-slate-300">Autonomous Agents & Developer Key</p>
+                  </div>
+                </div>
+
+                {/* Real-Time Cybernetic Log Terminal */}
+                <div className="max-w-xl mx-auto p-3 rounded-xl bg-black/80 border border-white/10 text-left font-mono text-[11px] text-slate-300 space-y-1 relative z-10 shadow-inner">
+                  <div className="flex items-center justify-between text-[10px] text-slate-500 pb-1 border-b border-white/10">
+                    <span>sys.provision.log</span>
+                    <span className="text-[#D8B452]">● STREAMING</span>
+                  </div>
+                  <p className="text-emerald-400">&gt; [0.12s] Cluster node allocated: us-east-1a-sandbox</p>
+                  {deployStep >= 2 && <p className="text-cyan-400">&gt; [0.65s] Bound repository webhook to {selectedHost}.com</p>}
+                  {deployStep >= 3 && <p className="text-[#D8B452]">&gt; [1.25s] Cryptographic token generated. Finalizing workspace...</p>}
                 </div>
               </div>
             ) : (
@@ -838,42 +914,16 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                   <span className="font-bold text-[#a1741a] dark:text-[#D8B452]">SOC2 Compliant</span>
                 </div>
 
-                {isDeploying && (
-                  <div className="p-4 rounded-xl bg-slate-950 dark:bg-[#050614] border border-[#D8B452]/40 space-y-2.5 animate-fade-in font-mono text-xs shadow-inner">
-                    <div className="flex items-center justify-between text-[#D8B452]">
-                      <span className="flex items-center gap-2 font-bold text-[12px]">
-                        <Loader2 className="w-4 h-4 animate-spin text-[#D8B452]" />
-                        Cloud Provisioning Sequence Active
-                      </span>
-                      <span className="text-[11px] text-slate-400">
-                        Step {deployStep} of 3
-                      </span>
-                    </div>
-                    <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-gradient-to-r from-[#D8B452] to-[#B88A23] transition-all duration-500 rounded-full"
-                        style={{ width: `${(deployStep / 3) * 100}%` }}
-                      />
-                    </div>
-                    <p className="text-slate-300 text-[11px] leading-relaxed">
-                      {deployStep === 1 && `> Provisioning isolated sandbox container in us-east-1 for ${workspaceName || 'nova-demo-workspace'}...`}
-                      {deployStep === 2 && `> Linking ${selectedHost === 'github' ? 'GitHub Organization' : selectedHost === 'gitlab' ? 'GitLab Cloud' : 'Bitbucket Cloud'} webhooks & telemetry edge...`}
-                      {deployStep === 3 && `> Finalizing zero-trust API credentials & ${activePlan.toUpperCase()} tier sandbox...`}
-                    </p>
-                  </div>
-                )}
-
                 <Button
                   type="submit"
                   onClick={handleLaunchTrial}
                   variant="primary"
                   size="lg"
-                  icon={isDeploying ? Loader2 : Rocket}
+                  icon={Rocket}
                   iconPosition="right"
-                  className={`w-full justify-center ${isDeploying ? 'cursor-wait' : ''}`}
-                  disabled={isDeploying}
+                  className="w-full justify-center"
                 >
-                  {isDeploying ? 'Configuring Cloud Environment...' : 'Launch Instant Trial Workspace'}
+                  Launch Instant Trial Workspace
                 </Button>
               </form>
             )}
@@ -1103,7 +1153,7 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
   );
 }
 
-export function DemoModal({ isOpen, onClose, initialTab = 'walkthrough', selectedPlan = 'pro', selectedTask = null, initialStage = 0 }) {
+export function DemoModal({ isOpen, onClose, onEnterDashboard, initialTab = 'walkthrough', selectedPlan = 'pro', selectedTask = null, initialStage = 0 }) {
   if (!isOpen) return null;
 
   return (
@@ -1111,6 +1161,7 @@ export function DemoModal({ isOpen, onClose, initialTab = 'walkthrough', selecte
       key={`${initialTab}-${initialStage}-${selectedPlan}`}
       isOpen={isOpen}
       onClose={onClose}
+      onEnterDashboard={onEnterDashboard}
       initialTab={initialTab}
       selectedPlan={selectedPlan}
       selectedTask={selectedTask}

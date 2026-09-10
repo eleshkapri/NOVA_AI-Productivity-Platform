@@ -3,7 +3,7 @@ import { navLinks } from '../../data/navigation';
 import { Button } from '../common/Button';
 import { Sun, Moon, Menu, X, ArrowRight, Search } from 'lucide-react';
 
-export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCommandPalette }) {
+export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCommandPalette, hasActiveWorkspace = false, onGoToDashboard }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
@@ -248,6 +248,18 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
             >
               Free Trial
             </Button>
+
+            {/* Active Workspace Dashboard Fast-Switch */}
+            {hasActiveWorkspace && (
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={onGoToDashboard}
+                className="shadow-md shadow-amber-500/20"
+              >
+                🚀 Dashboard
+              </Button>
+            )}
           </div>
 
           {/* Mobile Menu & Theme Toggle */}
@@ -370,6 +382,19 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
             >
               Start Free Trial
             </Button>
+            {hasActiveWorkspace && (
+              <Button
+                variant="glow"
+                size="md"
+                className="w-full justify-center"
+                onClick={() => {
+                  setIsOpen(false);
+                  onGoToDashboard?.();
+                }}
+              >
+                🚀 Open Workspace Dashboard
+              </Button>
+            )}
           </div>
         </div>
       )}

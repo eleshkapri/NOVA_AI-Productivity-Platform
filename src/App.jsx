@@ -26,12 +26,22 @@ import {
   FinalCTA,
   DemoModal,
 } from './components/sections';
+import { WorkspaceDashboard } from './components/dashboard';
 import { Keyboard } from 'lucide-react';
 import { soundService } from './services/SoundService';
 
 export function App() {
   const { toggleTheme, isDark } = useTheme();
   const { showBackToTop, scrollToTop } = useScrollPosition();
+  const [currentView, setCurrentView] = useState('landing'); // 'landing' | 'dashboard'
+  const [activeWorkspace, setActiveWorkspace] = useState(() => {
+    try {
+      const saved = localStorage.getItem('nova_active_workspace');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
   const [modalConfig, setModalConfig] = useState({
     isOpen: false,
     tab: 'walkthrough',
@@ -42,6 +52,24 @@ export function App() {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isShortcutsHudOpen, setIsShortcutsHudOpen] = useState(false);
   const lastKeyRef = useRef({ key: null, time: 0 });
+
+  const handleEnterDashboard = (workspaceData) => {
+    const ws = workspaceData || {
+      name: 'nova-sprint-demo',
+      plan: 'pro',
+      host: 'github',
+      token: 'nova_live_9f82d1c7a8',
+      createdAt: 'Active Session',
+    };
+    setActiveWorkspace(ws);
+    try {
+      localStorage.setItem('nova_active_workspace', JSON.stringify(ws));
+    } catch {
+      // storage non-blocking
+    }
+    setCurrentView('dashboard');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const handleOpenModal = (tab = 'walkthrough', extra = {}) => {
     setModalConfig({
@@ -74,6 +102,14 @@ export function App() {
         break;
       case 'nav-roi':
         document.getElementById('roi-calculator')?.scrollIntoView({ behavior: 'smooth' });
+        break;
+      case 'view-workspace':
+        soundService.playChime('actionClick');
+        if (activeWorkspace) {
+          setCurrentView('dashboard');
+        } else {
+          handleEnterDashboard();
+        }
         break;
       case 'view-status':
         handleOpenModal('status');
@@ -192,7 +228,18 @@ export function App() {
 
       // Single-letter hotkeys
       const k = e.key.toLowerCase();
-      if (k === 's') {
+      if (k === 'w') {
+        soundService.playChime('actionClick');
+        if (currentView === 'dashboard') {
+          setCurrentView('landing');
+        } else {
+          if (activeWorkspace) {
+            setCurrentView('dashboard');
+          } else {
+            handleEnterDashboard();
+          }
+        }
+      } else if (k === 's') {
         soundService.playChime('actionClick');
         handleOpenModal('status');
       } else if (k === 'c') {
@@ -211,7 +258,7 @@ export function App() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [modalConfig.isOpen, isCommandPaletteOpen, isShortcutsHudOpen, toggleTheme]);
+  }, [modalConfig.isOpen, isCommandPaletteOpen, isShortcutsHudOpen, toggleTheme, currentView, activeWorkspace]);
 
   return (
     <div className="min-h-screen flex flex-col text-[#0f172a] dark:text-[#f1f2f6] transition-colors duration-300 font-sans selection:bg-[#D8B452] selection:text-black relative">
@@ -240,63 +287,105 @@ export function App() {
         onToggleTheme={toggleTheme}
         isDark={isDark}
         onOpenDemo={(tab, extra) => handleOpenModal(tab || 'backlog', extra)}
+        currentView={currentView}
+        onGoToDashboard={() => {
+          soundService.playChime('actionClick');
+          if (activeWorkspace) {
+            setCurrentView('dashboard');
+          } else {
+            handleEnterDashboard();
+          }
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+        onExitDashboard={() => {
+          soundService.playChime('actionClick');
+          setCurrentView('landing');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
       />
 
       {/* 7. Navigation Bar */}
-      <Navbar
-        isDark={isDark}
-        toggleTheme={toggleTheme}
-        onOpenDemo={(tab, extra) => handleOpenModal(tab || 'backlog', extra)}
-        onOpenTrial={() => handleOpenModal('trial')}
-        onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
-      />
+      {currentView === 'landing' && (
+        <Navbar
+          isDark={isDark}
+          toggleTheme={toggleTheme}
+          onOpenDemo={(tab, extra) => handleOpenModal(tab || 'backlog', extra)}
+          onOpenTrial={() => handleOpenModal('trial')}
+          onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
+          hasActiveWorkspace={Boolean(activeWorkspace)}
+          onGoToDashboard={() => {
+            soundService.playChime('actionClick');
+            setCurrentView('dashboard');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+        />
+      )}
 
-      {/* Main Content Area */}
-      <main className="flex-1 relative z-10">
-        {/* 1. Hero Section with Interactive Dashboard Console */}
-        <Hero onOpenDemo={(tab, extra) => handleOpenModal(tab || 'backlog', extra)} />
+      {/* Main Content Area: Landing Page vs Workspace Dashboard */}
+      {currentView === 'dashboard' ? (
+        <main className="flex-1 relative z-10">
+          <WorkspaceDashboard
+            workspace={activeWorkspace}
+            onExit={() => {
+              soundService.playChime('actionClick');
+              setCurrentView('landing');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            isDark={isDark}
+            toggleTheme={toggleTheme}
+            onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
+          />
+        </main>
+      ) : (
+        <>
+          <main className="flex-1 relative z-10">
+            {/* 1. Hero Section with Interactive Dashboard Console */}
+            <Hero onOpenDemo={(tab, extra) => handleOpenModal(tab || 'backlog', extra)} />
 
-        {/* 2. Trusted By / Company Logos */}
-        <TrustedBy />
+            {/* 2. Trusted By / Company Logos */}
+            <TrustedBy />
 
-        {/* 3. Features Section (6+ rich cards) */}
-        <Features onOpenDemo={(tab, extra) => handleOpenModal(tab || 'backlog', extra)} />
+            {/* 3. Features Section (6+ rich cards) */}
+            <Features onOpenDemo={(tab, extra) => handleOpenModal(tab || 'backlog', extra)} />
 
-        {/* 4. Product / About Section (Before vs After) */}
-        <About />
+            {/* 4. Product / About Section (Before vs After) */}
+            <About />
 
-        {/* 5. How It Works Section (4 Steps) */}
-        <HowItWorks />
+            {/* 5. How It Works Section (4 Steps) */}
+            <HowItWorks />
 
-        {/* 6. Statistics Section (Animated Counters) */}
-        <Stats />
+            {/* 6. Statistics Section (Animated Counters) */}
+            <Stats />
 
-        {/* 7. Solutions / Use Cases (4 Personas) */}
-        <Solutions onOpenDemo={(tab, extra) => handleOpenModal(tab || 'backlog', extra)} />
+            {/* 7. Solutions / Use Cases (4 Personas) */}
+            <Solutions onOpenDemo={(tab, extra) => handleOpenModal(tab || 'backlog', extra)} />
 
-        {/* 8. Interactive ROI & Productivity Economics Calculator */}
-        <RoiCalculator onOpenDemo={(tab, extra) => handleOpenModal(tab || 'trial', extra)} />
+            {/* 8. Interactive ROI & Productivity Economics Calculator */}
+            <RoiCalculator onOpenDemo={(tab, extra) => handleOpenModal(tab || 'trial', extra)} />
 
-        {/* 9. Testimonials (Carousel Slider) */}
-        <Testimonials />
+            {/* 9. Testimonials (Carousel Slider) */}
+            <Testimonials />
 
-        {/* 10. Pricing (3 Plans + Monthly/Annual Toggle) */}
-        <Pricing onOpenDemo={(tab, extra) => handleOpenModal(tab || 'trial', extra)} />
+            {/* 10. Pricing (3 Plans + Monthly/Annual Toggle) */}
+            <Pricing onOpenDemo={(tab, extra) => handleOpenModal(tab || 'trial', extra)} />
 
-        {/* 11. FAQ Section (Accordion) */}
-        <FAQ onOpenDemo={(tab, extra) => handleOpenModal(tab || 'contact', extra)} />
+            {/* 11. FAQ Section (Accordion) */}
+            <FAQ onOpenDemo={(tab, extra) => handleOpenModal(tab || 'contact', extra)} />
 
-        {/* 12. Final CTA Banner */}
-        <FinalCTA onOpenDemo={(tab, extra) => handleOpenModal(tab || 'trial', extra)} />
-      </main>
+            {/* 12. Final CTA Banner */}
+            <FinalCTA onOpenDemo={(tab, extra) => handleOpenModal(tab || 'trial', extra)} />
+          </main>
 
-      {/* 13. Footer */}
-      <Footer onOpenModal={(tab, extra) => handleOpenModal(tab, extra)} />
+          {/* 13. Footer */}
+          <Footer onOpenModal={(tab, extra) => handleOpenModal(tab, extra)} />
+        </>
+      )}
 
       {/* Interactive Demo & Workspace Modal */}
       <DemoModal
         isOpen={modalConfig.isOpen}
         onClose={handleCloseModal}
+        onEnterDashboard={handleEnterDashboard}
         initialTab={modalConfig.tab}
         selectedPlan={modalConfig.plan}
         selectedTask={modalConfig.task}
@@ -311,24 +400,26 @@ export function App() {
       />
 
       {/* Bottom-Right Floating Action Dock (Shortcuts + BackToTop) */}
-      <div className="fixed bottom-6 right-4 sm:right-6 z-40 flex items-center gap-2.5">
-        <button
-          type="button"
-          onClick={() => {
-            soundService.playChime('actionClick');
-            setIsShortcutsHudOpen(true);
-          }}
-          aria-label="Open keyboard shortcuts guide"
-          title="View Keyboard Shortcuts (?)"
-          className="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-slate-900/85 dark:bg-[#07081e]/90 text-slate-300 hover:text-white border border-slate-700/60 dark:border-white/10 shadow-lg backdrop-blur-md text-xs font-mono transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
-        >
-          <Keyboard className="w-3.5 h-3.5 text-[#D8B452]" />
-          <span className="text-[11px] font-bold">Shortcuts</span>
-          <kbd className="px-1.5 py-0.2 rounded bg-white/10 text-[10px] text-[#D8B452] font-bold">?</kbd>
-        </button>
+      {currentView === 'landing' && (
+        <div className="fixed bottom-6 right-4 sm:right-6 z-40 flex items-center gap-2.5">
+          <button
+            type="button"
+            onClick={() => {
+              soundService.playChime('actionClick');
+              setIsShortcutsHudOpen(true);
+            }}
+            aria-label="Open keyboard shortcuts guide"
+            title="View Keyboard Shortcuts (?)"
+            className="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-slate-900/85 dark:bg-[#07081e]/90 text-slate-300 hover:text-white border border-slate-700/60 dark:border-white/10 shadow-lg backdrop-blur-md text-xs font-mono transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+          >
+            <Keyboard className="w-3.5 h-3.5 text-[#D8B452]" />
+            <span className="text-[11px] font-bold">Shortcuts</span>
+            <kbd className="px-1.5 py-0.2 rounded bg-white/10 text-[10px] text-[#D8B452] font-bold">?</kbd>
+          </button>
 
-        <BackToTop show={showBackToTop} onScrollToTop={scrollToTop} />
-      </div>
+          <BackToTop show={showBackToTop} onScrollToTop={scrollToTop} />
+        </div>
+      )}
     </div>
   );
 }

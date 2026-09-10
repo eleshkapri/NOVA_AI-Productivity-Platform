@@ -10,6 +10,7 @@ import {
   DollarSign,
   ShieldCheck,
   ChevronRight,
+  Loader2,
 } from 'lucide-react';
 import { soundService } from '../../../services/SoundService';
 import { PdfReportService } from '../../../services/PdfReportService';
@@ -66,6 +67,7 @@ export function VelocityHealthQuiz({ onOpenDemo, defaultTeamSize = 25 }) {
   const [answers, setAnswers] = useState([]);
   const [isCompleted, setIsCompleted] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
 
   const handleSelectOption = (option) => {
     soundService.playChime('actionClick');
@@ -166,17 +168,24 @@ Visit https://nova.internal to activate your 14-day full trial.
 `;
   };
 
-  const handleDownloadReport = () => {
+  const handleDownloadReport = async () => {
+    if (isGeneratingPdf) return;
+    setIsGeneratingPdf(true);
     soundService.playChime('stepAdvance');
-    PdfReportService.generateReport({
-      totalScore,
-      tierName,
-      tierDesc,
-      defaultTeamSize,
-      hoursSavedPerYear,
-      annualSavingsDollars,
-      answers,
-    });
+    try {
+      await PdfReportService.generateReport({
+        totalScore,
+        tierName,
+        tierDesc,
+        defaultTeamSize,
+        hoursSavedPerYear,
+        annualSavingsDollars,
+        answers,
+      });
+      soundService.playChime('goldChord');
+    } finally {
+      setIsGeneratingPdf(false);
+    }
   };
 
   const handleCopySummary = () => {
@@ -365,12 +374,20 @@ Visit https://nova.internal to activate your 14-day full trial.
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2">
             <div className="flex items-center gap-2">
               <button
+                type="button"
                 onClick={handleDownloadReport}
-                className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#D8B452] hover:bg-[#b5953f] text-black text-xs font-bold transition-all shadow-md cursor-pointer"
+                disabled={isGeneratingPdf}
+                className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#D8B452] hover:bg-[#b5953f] text-black text-xs font-bold transition-all shadow-md cursor-pointer ${
+                  isGeneratingPdf ? 'opacity-80 cursor-wait' : ''
+                }`}
                 title="Download formatted executive report (.pdf)"
               >
-                <Download className="w-4 h-4" />
-                <span>Download Executive Report (.pdf)</span>
+                {isGeneratingPdf ? (
+                  <Loader2 className="w-4 h-4 animate-spin text-black" />
+                ) : (
+                  <Download className="w-4 h-4" />
+                )}
+                <span>{isGeneratingPdf ? 'Compiling PDF Engine...' : 'Download Executive Report (.pdf)'}</span>
               </button>
 
               <button

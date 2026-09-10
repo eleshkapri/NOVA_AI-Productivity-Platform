@@ -15,14 +15,43 @@ import {
   Activity,
   Send,
   TrendingUp,
+  Zap,
 } from 'lucide-react';
 
-export function CommandPalette({ isOpen, onClose, onToggleTheme, isDark, onOpenDemo }) {
+export function CommandPalette({ isOpen, onClose, onToggleTheme, isDark, onOpenDemo, onGoToDashboard, onExitDashboard, currentView }) {
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputRef = useRef(null);
 
   const actions = [
+    ...(onGoToDashboard
+      ? [
+          {
+            id: 'go-dashboard',
+            title: 'Open Autonomous Workspace Dashboard',
+            category: 'Workspace',
+            icon: Zap,
+            action: () => {
+              onClose();
+              onGoToDashboard();
+            },
+          },
+        ]
+      : []),
+    ...(currentView === 'dashboard' && onExitDashboard
+      ? [
+          {
+            id: 'exit-dashboard',
+            title: 'Exit to NOVA Main Landing Page',
+            category: 'Workspace',
+            icon: ArrowRight,
+            action: () => {
+              onClose();
+              onExitDashboard();
+            },
+          },
+        ]
+      : []),
     {
       id: 'trial',
       title: 'Start 14-Day Free Trial (All Tiers)',
