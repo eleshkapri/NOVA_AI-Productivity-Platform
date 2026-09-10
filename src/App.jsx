@@ -9,8 +9,9 @@ import {
   LiveActivityToast,
   AmbientBackground,
   ShortcutsHudModal,
+  SectionConnector,
 } from './components/common';
-import { Navbar, Footer, BackToTop } from './components/layout';
+import { Navbar, Footer, BackToTop, FlankTelemetryRails } from './components/layout';
 import {
   Hero,
   TrustedBy,
@@ -405,6 +406,9 @@ export function App() {
         </main>
       ) : (
         <>
+          {/* Cybernetic Edge Margin Rails (visible on xl+ viewports) */}
+          <FlankTelemetryRails />
+
           <main id="main-content" className="flex-1 relative z-10">
             {/* 1. Hero Section with Interactive Dashboard Console */}
             <Hero onOpenDemo={(tab, extra) => handleOpenModal(tab || 'backlog', extra)} />
@@ -415,29 +419,56 @@ export function App() {
             {/* 3. Features Section (6+ rich cards) */}
             <Features onOpenDemo={(tab, extra) => handleOpenModal(tab || 'backlog', extra)} />
 
+            {/* Inter-Section Cybernetic Bridge */}
+            <SectionConnector badge="AST SYNTAX GRAPH CORE" metric="LATENCY < 12MS" icon="terminal" />
+
             {/* 4. Product / About Section (Before vs After) */}
             <About />
+
+            {/* Inter-Section Cybernetic Bridge */}
+            <SectionConnector badge="DISPATCH PIPELINE SYNC" metric="4-STAGE CADENCE" icon="cpu" />
 
             {/* 5. How It Works Section (4 Steps) */}
             <HowItWorks />
 
+            {/* Inter-Section Cybernetic Bridge */}
+            <SectionConnector badge="GLOBAL TELEMETRY CONSENSUS" metric="EDGE SYNC NOMINAL" icon="activity" />
+
             {/* 6. Statistics Section (Animated Counters) */}
             <Stats />
+
+            {/* Inter-Section Cybernetic Bridge */}
+            <SectionConnector badge="MULTI-AGENT ORCHESTRATION" metric="0% CONTEXT LOSS" icon="sparkles" />
 
             {/* 7. Solutions / Use Cases (4 Personas) */}
             <Solutions onOpenDemo={(tab, extra) => handleOpenModal(tab || 'backlog', extra)} />
 
+            {/* Inter-Section Cybernetic Bridge */}
+            <SectionConnector badge="ENGINEERING VALUE HARVEST" metric="4.2X VELOCITY" icon="activity" />
+
             {/* 8. Interactive ROI & Productivity Economics Calculator */}
             <RoiCalculator onOpenDemo={(tab, extra) => handleOpenModal(tab || 'trial', extra)} />
+
+            {/* Inter-Section Cybernetic Bridge */}
+            <SectionConnector badge="ENTERPRISE VALIDATION CLUSTER" metric="SOC-2 COMPLIANT" icon="shield" />
 
             {/* 9. Testimonials (Carousel Slider) */}
             <Testimonials />
 
+            {/* Inter-Section Cybernetic Bridge */}
+            <SectionConnector badge="PREDICTABLE COMPUTE ARCHITECTURE" metric="TRANSPARENT TIERING" icon="terminal" />
+
             {/* 10. Pricing (3 Plans + Monthly/Annual Toggle) */}
             <Pricing onOpenDemo={(tab, extra) => handleOpenModal(tab || 'trial', extra)} />
 
+            {/* Inter-Section Cybernetic Bridge */}
+            <SectionConnector badge="VECTOR KNOWLEDGE RETRIEVAL" metric="SUB-SECOND QUERY" icon="cpu" />
+
             {/* 11. FAQ Section (Accordion) */}
             <FAQ onOpenDemo={(tab, extra) => handleOpenModal(tab || 'contact', extra)} />
+
+            {/* Inter-Section Cybernetic Bridge */}
+            <SectionConnector badge="MISSION CONTROL LAUNCH MATRIX" metric="INSTANT PROVISIONING" icon="sparkles" />
 
             {/* 12. Final CTA Banner */}
             <FinalCTA onOpenDemo={(tab, extra) => handleOpenModal(tab || 'trial', extra)} />

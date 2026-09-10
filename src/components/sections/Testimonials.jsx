@@ -37,7 +37,7 @@ export function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="py-24 md:py-36 bg-amber-50/15 dark:bg-[#07081e]/30 relative overflow-hidden backdrop-blur-xs"
+      className="py-14 md:py-20 bg-amber-50/15 dark:bg-[#07081e]/30 relative overflow-hidden backdrop-blur-xs"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >

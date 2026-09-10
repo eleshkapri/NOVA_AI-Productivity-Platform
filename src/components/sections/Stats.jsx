@@ -36,7 +36,7 @@ function StatCard({ stat }) {
 
 export function Stats() {
   return (
-    <section className="py-24 md:py-36 relative">
+    <section className="py-14 md:py-20 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <MotionReveal animation="fade-up">
           <SectionHeader
@@ -50,11 +50,28 @@ export function Stats() {
         {/* 4 Animated Count-up Cards with Tactile Hover Lift */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {statisticsData.map((stat, idx) => (
-            <MotionReveal key={stat.id} animation="fade-up" delay={idx * 100} className="h-full">
+            <MotionReveal key={stat.id} animation="fade-up" delay={idx * 80} className="h-full">
               <StatCard stat={stat} />
             </MotionReveal>
           ))}
         </div>
+
+        {/* Global Edge Runtime Benchmark Strip */}
+        <MotionReveal animation="fade-up" delay={200}>
+          <div className="mt-8 p-3.5 sm:p-4 rounded-2xl bg-white/70 dark:bg-[#07081e]/80 border border-slate-200/80 dark:border-white/10 shadow-xs backdrop-blur-md flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-slate-600 dark:text-slate-400">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+              <span className="font-bold text-slate-800 dark:text-slate-200 uppercase">EDGE CLUSTER STATUS</span>
+            </div>
+            <div className="flex flex-wrap items-center gap-4 text-[11px]">
+              <span>iad-01: <strong className="text-emerald-500">12ms</strong></span>
+              <span>sfo-02: <strong className="text-emerald-500">14ms</strong></span>
+              <span>fra-01: <strong className="text-emerald-500">18ms</strong></span>
+              <span>bom-01: <strong className="text-emerald-500">24ms</strong></span>
+              <span className="hidden sm:inline font-bold text-[#D8B452]">99.99% SOC2 COMPLIANT</span>
+            </div>
+          </div>
+        </MotionReveal>
       </div>
     </section>
   );

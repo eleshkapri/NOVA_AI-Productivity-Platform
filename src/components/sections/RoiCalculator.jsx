@@ -48,7 +48,7 @@ export function RoiCalculator({ onOpenDemo }) {
   const annualSavings = Math.round(weeklyHoursSaved * 48 * hourlyRate * 0.42);
 
   return (
-    <section id="roi-calculator" className="py-24 md:py-36 bg-amber-50/15 dark:bg-[#07081e]/30 relative overflow-hidden backdrop-blur-xs">
+    <section id="roi-calculator" className="py-14 md:py-20 bg-amber-50/15 dark:bg-[#07081e]/30 relative overflow-hidden backdrop-blur-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <MotionReveal animation="fade-up">
           <SectionHeader

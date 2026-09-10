@@ -13,3 +13,4 @@ export { SectionHeader } from './SectionHeader';
 export { SoundToggle } from './SoundToggle';
 export { TiltCard } from './TiltCard';
 export { ShortcutsHudModal } from './ShortcutsHudModal';
+export { SectionConnector } from './SectionConnector';
