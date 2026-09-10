@@ -45,6 +45,7 @@ export function HeroTerminal({ onOpenDemo }) {
   const [logs, setLogs] = useState(INITIAL_LOGS);
   const [isExecuting, setIsExecuting] = useState(false);
   const terminalEndRef = useRef(null);
+  const inputRef = useRef(null);
 
   useEffect(() => {
     terminalEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -200,7 +201,10 @@ export function HeroTerminal({ onOpenDemo }) {
       </div>
 
       {/* Terminal Screen */}
-      <div className="rounded-xl border border-white/10 bg-[#040510] p-4 font-mono text-xs shadow-inner h-80 overflow-y-auto space-y-3">
+      <div
+        onClick={() => inputRef.current?.focus()}
+        className="rounded-xl border border-white/10 bg-[#040510] p-4 font-mono text-xs shadow-inner h-80 overflow-y-auto space-y-3 cursor-text"
+      >
         {logs.map((entry, idx) => {
           if (entry.type === 'banner') {
             return (
@@ -257,6 +261,7 @@ export function HeroTerminal({ onOpenDemo }) {
           $
         </span>
         <input
+          ref={inputRef}
           type="text"
           value={inputVal}
           onChange={(e) => setInputVal(e.target.value)}

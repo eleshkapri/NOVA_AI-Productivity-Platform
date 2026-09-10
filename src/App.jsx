@@ -125,6 +125,16 @@ export function App() {
 
       if (isInput) return;
 
+      // If a modal or palette or HUD is open, only allow Escape to dismiss
+      if (modalConfig.isOpen || isCommandPaletteOpen || isShortcutsHudOpen) {
+        if (e.key === 'Escape') {
+          setIsShortcutsHudOpen(false);
+          setIsCommandPaletteOpen(false);
+          handleCloseModal();
+        }
+        return;
+      }
+
       // Escape closes any open modal or HUD
       if (e.key === 'Escape') {
         setIsShortcutsHudOpen(false);
@@ -146,11 +156,6 @@ export function App() {
         e.preventDefault();
         soundService.playChime('actionClick');
         setIsCommandPaletteOpen((prev) => !prev);
-        return;
-      }
-
-      // If a modal or HUD is open, don't trigger background single-key navigation
-      if (modalConfig.isOpen || isCommandPaletteOpen || isShortcutsHudOpen) {
         return;
       }
 

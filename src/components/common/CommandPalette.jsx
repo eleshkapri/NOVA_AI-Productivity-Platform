@@ -16,7 +16,6 @@ import {
   Send,
   TrendingUp,
 } from 'lucide-react';
-import { securityService } from '../../services/SecurityService';
 
 export function CommandPalette({ isOpen, onClose, onToggleTheme, isDark, onOpenDemo }) {
   const [query, setQuery] = useState('');
@@ -193,7 +192,13 @@ export function CommandPalette({ isOpen, onClose, onToggleTheme, isDark, onOpenD
         setSelectedIndex(0);
         inputRef.current?.focus();
       }, 10);
-      return () => clearTimeout(timer);
+      const timer2 = setTimeout(() => {
+        inputRef.current?.focus();
+      }, 80);
+      return () => {
+        clearTimeout(timer);
+        clearTimeout(timer2);
+      };
     }
   }, [isOpen]);
 
@@ -213,15 +218,18 @@ export function CommandPalette({ isOpen, onClose, onToggleTheme, isDark, onOpenD
 
       <div className="relative w-full max-w-xl bg-[#0b0c33] rounded-3xl border border-[#D8B452]/40 shadow-2xl overflow-hidden z-10 flex flex-col">
         {/* Search Bar */}
-        <div className="flex items-center px-5 py-4 border-b border-white/10 gap-3">
+        <div
+          onClick={() => inputRef.current?.focus()}
+          className="flex items-center px-5 py-4 border-b border-white/10 gap-3 cursor-text"
+        >
           <Search className="w-5 h-5 text-[#D8B452] shrink-0" />
           <input
             ref={inputRef}
             type="text"
             value={query}
+            autoFocus
             onChange={(e) => {
-              const clean = securityService.sanitizeString(e.target.value, 100);
-              setQuery(clean);
+              setQuery(e.target.value.slice(0, 100));
               setSelectedIndex(0);
             }}
             placeholder="Type a command or search sections..."

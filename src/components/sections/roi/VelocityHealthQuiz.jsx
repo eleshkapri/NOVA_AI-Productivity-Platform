@@ -12,6 +12,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { soundService } from '../../../services/SoundService';
+import { PdfReportService } from '../../../services/PdfReportService';
 
 const QUESTIONS = [
   {
@@ -167,16 +168,15 @@ Visit https://nova.internal to activate your 14-day full trial.
 
   const handleDownloadReport = () => {
     soundService.playChime('stepAdvance');
-    const text = generateReportText();
-    const blob = new Blob([text], { type: 'text/markdown;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `NOVA_Velocity_Report_${totalScore}pts.md`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    PdfReportService.generateReport({
+      totalScore,
+      tierName,
+      tierDesc,
+      defaultTeamSize,
+      hoursSavedPerYear,
+      annualSavingsDollars,
+      answers,
+    });
   };
 
   const handleCopySummary = () => {
@@ -367,10 +367,10 @@ Visit https://nova.internal to activate your 14-day full trial.
               <button
                 onClick={handleDownloadReport}
                 className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#D8B452] hover:bg-[#b5953f] text-black text-xs font-bold transition-all shadow-md cursor-pointer"
-                title="Download formatted executive report (.md)"
+                title="Download formatted executive report (.pdf)"
               >
                 <Download className="w-4 h-4" />
-                <span>Download Executive Report (.md)</span>
+                <span>Download Executive Report (.pdf)</span>
               </button>
 
               <button
