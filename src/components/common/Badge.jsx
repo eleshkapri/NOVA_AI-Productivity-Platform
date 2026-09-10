@@ -8,11 +8,9 @@ export function Badge({
 }) {
   const variants = {
     gold:
-      'bg-amber-50 text-amber-800 border-amber-200/80 dark:bg-[#D8B452]/10 dark:text-[#D8B452] dark:border-[#D8B452]/30 dark:shadow-[0_0_12px_rgba(216,180,82,0.15)] hover:border-[#D8B452]/60',
-    purple:
-      'bg-violet-50 text-violet-900 border-violet-200/80 shadow-xs dark:bg-[#6833FF]/15 dark:text-[#E0E7FF] dark:border-[#8E6FFF]/40 dark:shadow-[0_0_12px_rgba(104,51,255,0.25)] hover:border-[#8E6FFF]/80',
+      'bg-amber-50 text-amber-800 border-amber-200/80 dark:bg-[#D8B452]/10 dark:text-[#D8B452] dark:border-[#D8B452]/30',
     orange:
-      'bg-orange-50 text-orange-800 border-orange-200/80 shadow-xs dark:bg-[#D8B452]/15 dark:text-[#F3D887] dark:border-[#D8B452]/40 dark:shadow-[0_0_12px_rgba(216,180,82,0.25)] hover:border-amber-300 dark:hover:border-[#D8B452]/80',
+      'bg-orange-50 text-orange-800 border-orange-200/80 shadow-xs dark:bg-[#FF5500]/15 dark:text-[#FF7700] dark:border-[#FF5500]/40 dark:shadow-[0_0_12px_rgba(255,85,0,0.25)] hover:border-orange-300 dark:hover:border-[#FF5500]/80',
     orchid:
       'bg-violet-50 text-violet-900 border-violet-200/80 shadow-xs dark:bg-[#6833FF]/15 dark:text-[#E0E7FF] dark:border-[#8E6FFF]/40 dark:shadow-[0_0_12px_rgba(104,51,255,0.25)] hover:border-violet-300 dark:hover:border-[#8E6FFF]/80',
     navy:
@@ -26,9 +24,8 @@ export function Badge({
   };
 
   const dotColors = {
-    gold: 'bg-amber-600 dark:bg-[#D8B452] dark:shadow-[0_0_8px_#D8B452]',
-    purple: 'bg-violet-600 dark:bg-[#8E6FFF] dark:shadow-[0_0_8px_#8E6FFF]',
-    orange: 'bg-amber-600 dark:bg-[#D8B452] dark:shadow-[0_0_8px_#D8B452]',
+    gold: 'bg-amber-600 dark:bg-[#D8B452]',
+    orange: 'bg-orange-600 dark:bg-[#FF5500] dark:shadow-[0_0_8px_#FF5500]',
     orchid: 'bg-violet-600 dark:bg-[#A78BFA] dark:shadow-[0_0_8px_#A78BFA]',
     navy: 'bg-slate-700 dark:bg-indigo-400',
     indigo: 'bg-indigo-600 dark:bg-indigo-500',
