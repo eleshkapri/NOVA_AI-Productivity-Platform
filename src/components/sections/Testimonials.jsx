@@ -35,8 +35,9 @@ export function Testimonials() {
   const current = testimonialsData[currentIndex];
 
   return (
-    <div
-      className="py-14 md:py-20 relative overflow-hidden"
+    <section
+      id="testimonials"
+      className="py-14 md:py-20 bg-amber-50/15 dark:bg-[#07081e]/30 relative overflow-hidden backdrop-blur-xs"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
@@ -134,6 +135,6 @@ export function Testimonials() {
         </div>
         </MotionReveal>
       </div>
-    </div>
+    </section>
   );
 }

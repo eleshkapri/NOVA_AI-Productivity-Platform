@@ -13,23 +13,23 @@ export function FlankTelemetryRails() {
       >
         {/* Top Node Indicator */}
         <div className="flex flex-col items-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity">
-          <div className="w-6 h-6 rounded-full bg-white/80 dark:bg-[#07081e]/80 border border-[#FF5500]/40 flex items-center justify-center shadow-xs backdrop-blur-md">
-            <Radio className="w-3 h-3 text-[#FF5500] animate-pulse" />
+          <div className="w-6 h-6 rounded-full bg-white/80 dark:bg-[#07081e]/80 border border-[#8E6FFF]/40 flex items-center justify-center shadow-xs backdrop-blur-md">
+            <Radio className="w-3 h-3 text-[#8E6FFF] animate-pulse" />
           </div>
-          <span className="text-[9px] font-bold tracking-widest text-[#FF5500] dark:text-[#FF7700] uppercase">
+          <span className="text-[9px] font-bold tracking-widest text-[#8E6FFF] dark:text-[#A78BFA] uppercase">
             EDGE
           </span>
         </div>
 
         {/* Vertical Metric Ruler Line with Live Scanner Pulse */}
         <div className="relative flex-1 my-4 w-px bg-gradient-to-b from-transparent via-slate-300 dark:via-white/15 to-transparent flex flex-col items-center justify-around py-4">
-          <div className="absolute top-0 w-1.5 h-6 bg-gradient-to-b from-[#FF5500] to-transparent rounded-full animate-bounce duration-1000 opacity-80" />
+          <div className="absolute top-0 w-1.5 h-6 bg-gradient-to-b from-[#8E6FFF] to-transparent rounded-full animate-bounce duration-1000 opacity-80" />
           
           {/* Tick marks */}
           {[...Array(12)].map((_, i) => (
             <div
               key={i}
-              className={`w-2 h-px bg-slate-400 dark:bg-white/20 ${i % 3 === 0 ? 'w-3.5 bg-[#FF5500] dark:bg-[#FF7700]' : ''}`}
+              className={`w-2 h-px bg-slate-400 dark:bg-white/20 ${i % 3 === 0 ? 'w-3.5 bg-[#8E6FFF] dark:bg-[#A78BFA]' : ''}`}
             />
           ))}
 
@@ -41,8 +41,8 @@ export function FlankTelemetryRails() {
 
         {/* Bottom Hardware Core */}
         <div className="flex flex-col items-center gap-1 opacity-70">
-          <Cpu className="w-3.5 h-3.5 text-[#FF5500]" />
-          <span className="text-[8px] font-extrabold text-[#FF5500] tracking-wider">
+          <Cpu className="w-3.5 h-3.5 text-[#D8B452]" />
+          <span className="text-[8px] font-extrabold text-[#D8B452] tracking-wider">
             99.99%
           </span>
         </div>
@@ -57,23 +57,23 @@ export function FlankTelemetryRails() {
       >
         {/* Top Node Indicator */}
         <div className="flex flex-col items-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity">
-          <div className="w-6 h-6 rounded-full bg-white/80 dark:bg-[#07081e]/80 border border-[#FF7700]/40 flex items-center justify-center shadow-xs backdrop-blur-md">
-            <Activity className="w-3 h-3 text-[#FF7700] animate-pulse" />
+          <div className="w-6 h-6 rounded-full bg-white/80 dark:bg-[#07081e]/80 border border-[#D8B452]/40 flex items-center justify-center shadow-xs backdrop-blur-md">
+            <Activity className="w-3 h-3 text-[#D8B452] animate-pulse" />
           </div>
-          <span className="text-[9px] font-bold tracking-widest text-[#FF7700] uppercase">
+          <span className="text-[9px] font-bold tracking-widest text-[#D8B452] uppercase">
             BURNDOWN
           </span>
         </div>
 
         {/* Vertical Metric Ruler Line with Live Scanner Pulse */}
         <div className="relative flex-1 my-4 w-px bg-gradient-to-b from-transparent via-slate-300 dark:via-white/15 to-transparent flex flex-col items-center justify-around py-4">
-          <div className="absolute bottom-0 w-1.5 h-6 bg-gradient-to-t from-[#FF7700] to-transparent rounded-full animate-bounce duration-1000 opacity-80" />
+          <div className="absolute bottom-0 w-1.5 h-6 bg-gradient-to-t from-[#D8B452] to-transparent rounded-full animate-bounce duration-1000 opacity-80" />
 
           {/* Tick marks */}
           {[...Array(12)].map((_, i) => (
             <div
               key={i}
-              className={`w-2 h-px bg-slate-400 dark:bg-white/20 ${i % 3 === 0 ? 'w-3.5 bg-[#FF7700]' : ''}`}
+              className={`w-2 h-px bg-slate-400 dark:bg-white/20 ${i % 3 === 0 ? 'w-3.5 bg-[#D8B452]' : ''}`}
             />
           ))}
 

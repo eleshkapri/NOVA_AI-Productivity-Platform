@@ -18,37 +18,12 @@
     background-color: transparent;
     color: #0f172a;
     font-family: 'Inter', sans-serif;
-    overflow-x: clip;
+    overflow-x: hidden;
   }
 
   html.dark body {
     background-color: transparent;
     color: #f1f2f6;
-  }
-}
-
-/* Floria Stacking Card Scroll Dynamics */
-.floria-stack-card {
-  transform-origin: center top;
-}
-
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .floria-stack-card {
-      view-timeline-name: --floria-card-view;
-      view-timeline-axis: block;
-      animation: floria-stack-recede cubic-bezier(0.16, 1, 0.3, 1) both;
-      animation-timeline: --floria-card-view;
-      animation-range: exit 0% exit 100%;
-    }
-
-    @keyframes floria-stack-recede {
-      to {
-        transform: scale(0.96);
-        filter: brightness(0.7);
-        opacity: 0.85;
-      }
-    }
   }
 }
 

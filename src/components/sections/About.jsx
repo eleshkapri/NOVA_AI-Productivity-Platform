@@ -12,7 +12,7 @@ export function About() {
   const statIcons = [Clock, Target, Shuffle];
 
   return (
-    <div className="py-16 md:py-24 relative">
+    <section id="about" className="py-16 md:py-24 bg-orange-500/[0.015] dark:bg-zinc-950/40 relative backdrop-blur-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <MotionReveal animation="fade-up">
           <SectionHeader
@@ -355,6 +355,6 @@ export function About() {
           </div>
         </div>
       )}
-    </div>
+    </section>
   );
 }

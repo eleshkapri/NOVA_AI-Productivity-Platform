@@ -9,7 +9,7 @@ import {
   LiveActivityToast,
   AmbientBackground,
   ShortcutsHudModal,
-  StackedCardSection,
+  SectionConnector,
 } from './components/common';
 import { Navbar, Footer, BackToTop, FlankTelemetryRails } from './components/layout';
 import {
@@ -409,128 +409,51 @@ export function App() {
           {/* Cybernetic Edge Margin Rails (visible on xl+ viewports) */}
           <FlankTelemetryRails />
 
-          <main id="main-content" className="flex-1 relative z-10 w-full">
-            {/* Card 0: The Arrival & Social Proof Shelf */}
-            <StackedCardSection
-              index={0}
-              total={11}
-              id="hero"
-              badge="AUTONOMOUS RUNTIME // OS CORE"
-              eyebrow="Prism Optics & Sprint Simulator"
-            >
-              <Hero onOpenDemo={(tab, extra) => handleOpenModal(tab || 'backlog', extra)} />
-              <TrustedBy />
-            </StackedCardSection>
+          <main id="main-content" className="flex-1 relative z-10">
+            {/* 1. Hero Section with Interactive Dashboard Console */}
+            <Hero onOpenDemo={(tab, extra) => handleOpenModal(tab || 'backlog', extra)} />
 
-            {/* Card 1: Features Section (6+ rich cards) */}
-            <StackedCardSection
-              index={1}
-              total={11}
-              id="features"
-              badge="AST SYNTAX ENGINE // BENTO"
-              eyebrow="6 Flagship Capabilities"
-            >
-              <Features onOpenDemo={(tab, extra) => handleOpenModal(tab || 'backlog', extra)} />
-            </StackedCardSection>
+            {/* 2. Trusted By / Company Logos */}
+            <TrustedBy />
 
-            {/* Card 2: Product / About Section (Neural Mesh & Transformation) */}
-            <StackedCardSection
-              index={2}
-              total={11}
-              id="about"
-              badge="CYBERNETIC NEURAL MESH // ARCHITECTURE"
-              eyebrow="Workflow Transformation"
-            >
-              <About />
-            </StackedCardSection>
+            {/* 3. Features Section (6+ rich cards) */}
+            <Features onOpenDemo={(tab, extra) => handleOpenModal(tab || 'backlog', extra)} />
 
-            {/* Card 3: How It Works Section (Floria Sticky Timeline) */}
-            <StackedCardSection
-              index={3}
-              total={11}
-              id="how-it-works"
-              badge="CADENCE TIMELINE // STICKY CONDUIT"
-              eyebrow="01-04 Node Orchestration"
-            >
-              <HowItWorks />
-            </StackedCardSection>
+            {/* Architectural Transition 1: Core Engine Bridge */}
+            <SectionConnector badge="AST SYNTAX GRAPH CORE" metric="LATENCY < 12MS" icon="terminal" />
 
-            {/* Card 4: Statistics Section (Waveform Telemetry & Global Grid) */}
-            <StackedCardSection
-              index={4}
-              total={11}
-              id="telemetry"
-              badge="WAVEFORM TELEMETRY // HUD"
-              eyebrow="Global Edge Benchmarks"
-            >
-              <Stats />
-            </StackedCardSection>
+            {/* 4. Product / About Section (Before vs After) */}
+            <About />
 
-            {/* Card 5: Solutions / Use Cases (4 Personas) */}
-            <StackedCardSection
-              index={5}
-              total={11}
-              id="solutions"
-              badge="PERSONA MISSIONS // DEV CONSOLE"
-              eyebrow="CTO · Architect · SRE · Lead"
-            >
-              <Solutions onOpenDemo={(tab, extra) => handleOpenModal(tab || 'backlog', extra)} />
-            </StackedCardSection>
+            {/* 5. How It Works Section (4 Steps) */}
+            <HowItWorks />
 
-            {/* Card 6: Interactive ROI & Productivity Economics Calculator */}
-            <StackedCardSection
-              index={6}
-              total={11}
-              id="roi-calculator"
-              badge="PRODUCTIVITY DIVIDEND // ROI"
-              eyebrow="Live Economic Diagnostic"
-            >
-              <RoiCalculator onOpenDemo={(tab, extra) => handleOpenModal(tab || 'trial', extra)} />
-            </StackedCardSection>
+            {/* 6. Statistics Section (Animated Counters) */}
+            <Stats />
 
-            {/* Card 7: Testimonials (Floria Dark Glass Carousel) */}
-            <StackedCardSection
-              index={7}
-              total={11}
-              id="testimonials"
-              badge="VERIFIED VOICES // RATINGS"
-              eyebrow="Engineering Leadership"
-            >
-              <Testimonials />
-            </StackedCardSection>
+            {/* 7. Solutions / Use Cases (4 Personas) */}
+            <Solutions onOpenDemo={(tab, extra) => handleOpenModal(tab || 'backlog', extra)} />
 
-            {/* Card 8: Pricing (3 Plans + Monthly/Annual Toggle) */}
-            <StackedCardSection
-              index={8}
-              total={11}
-              id="pricing"
-              badge="COMPUTE TIERING // ASSURANCE"
-              eyebrow="Transparent Enterprise Pricing"
-            >
-              <Pricing onOpenDemo={(tab, extra) => handleOpenModal(tab || 'trial', extra)} />
-            </StackedCardSection>
+            {/* Architectural Transition 2: Economic Value Bridge */}
+            <SectionConnector badge="ENGINEERING VALUE HARVEST" metric="4.2X VELOCITY" icon="activity" />
 
-            {/* Card 9: FAQ Section (Floria Glass Accordions) */}
-            <StackedCardSection
-              index={9}
-              total={11}
-              id="faq"
-              badge="TECHNICAL ARCHITECTURE // FAQ"
-              eyebrow="Zero-CLS Technical Inquiries"
-            >
-              <FAQ onOpenDemo={(tab, extra) => handleOpenModal(tab || 'contact', extra)} />
-            </StackedCardSection>
+            {/* 8. Interactive ROI & Productivity Economics Calculator */}
+            <RoiCalculator onOpenDemo={(tab, extra) => handleOpenModal(tab || 'trial', extra)} />
 
-            {/* Card 10: Final CTA Horizon Banner */}
-            <StackedCardSection
-              index={10}
-              total={11}
-              id="cta"
-              badge="HORIZON LAUNCH TERMINAL"
-              eyebrow="14-Day Full Access"
-            >
-              <FinalCTA onOpenDemo={(tab, extra) => handleOpenModal(tab || 'trial', extra)} />
-            </StackedCardSection>
+            {/* 9. Testimonials (Carousel Slider) */}
+            <Testimonials />
+
+            {/* Architectural Transition 3: Commitment & Provisioning Bridge */}
+            <SectionConnector badge="PREDICTABLE COMPUTE ARCHITECTURE" metric="TRANSPARENT TIERING" icon="cpu" />
+
+            {/* 10. Pricing (3 Plans + Monthly/Annual Toggle) */}
+            <Pricing onOpenDemo={(tab, extra) => handleOpenModal(tab || 'trial', extra)} />
+
+            {/* 11. FAQ Section (Accordion) */}
+            <FAQ onOpenDemo={(tab, extra) => handleOpenModal(tab || 'contact', extra)} />
+
+            {/* 12. Final CTA Banner */}
+            <FinalCTA onOpenDemo={(tab, extra) => handleOpenModal(tab || 'trial', extra)} />
           </main>
 
           {/* 13. Footer */}

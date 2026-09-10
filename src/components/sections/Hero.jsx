@@ -73,7 +73,7 @@ const INITIAL_TASKS = [
 ];
 
 export function Hero({ onOpenDemo }) {
-  const [activeTab, setActiveTab] = useState('prism'); // 'prism' | 'sprint' | 'diff' | 'terminal'
+  const [activeTab, setActiveTab] = useState('sprint'); // 'sprint' | 'diff' | 'terminal'
   const [tasks, setTasks] = useState(INITIAL_TASKS);
   const [isPrMerged, setIsPrMerged] = useState(false);
 
@@ -213,22 +213,6 @@ export function Hero({ onOpenDemo }) {
                   type="button"
                   onClick={() => {
                     soundService.playChime('actionClick');
-                    setActiveTab('prism');
-                  }}
-                  className={`px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
-                    activeTab === 'prism'
-                      ? 'bg-[#FF5500] text-black shadow-xs font-extrabold'
-                      : 'text-slate-400 hover:text-white hover:bg-white/5'
-                  }`}
-                >
-                  <Bot className="w-3 h-3" />
-                  <span>3D Optics Engine</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    soundService.playChime('actionClick');
                     setActiveTab('sprint');
                   }}
                   className={`px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
@@ -289,25 +273,6 @@ export function Hero({ onOpenDemo }) {
 
             {/* Mockup Dashboard Content */}
             <div className="bg-[#05060A] p-4 sm:p-6 overflow-hidden">
-              {activeTab === 'prism' && (
-                <div className="relative rounded-2xl overflow-hidden aspect-video max-h-[460px] flex items-center justify-center bg-black group/prism cursor-pointer" onClick={() => setActiveTab('sprint')}>
-                  <img
-                    src="/images/nova_sections/hero_prism.jpg"
-                    alt="NOVA 3D Optical Glass Prism Architecture"
-                    className="w-full h-full object-cover object-center group-hover/prism:scale-103 transition-transform duration-700 ease-out"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
-                  <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between pointer-events-none">
-                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/70 backdrop-blur-md border border-white/10 text-xs font-mono text-white">
-                      <span className="w-2 h-2 rounded-full bg-[#FF5500] animate-ping" />
-                      <span>AST Optical Refraction Engine Active</span>
-                    </div>
-                    <span className="text-xs text-orange-400 font-bold bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-orange-500/30">
-                      Switch to Live Simulator &rarr;
-                    </span>
-                  </div>
-                </div>
-              )}
               {activeTab === 'sprint' && (
                 <HeroKanban
                   tasks={tasks}

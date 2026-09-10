@@ -14,4 +14,3 @@ export { SoundToggle } from './SoundToggle';
 export { TiltCard } from './TiltCard';
 export { ShortcutsHudModal } from './ShortcutsHudModal';
 export { SectionConnector } from './SectionConnector';
-export { StackedCardSection } from './StackedCardSection';

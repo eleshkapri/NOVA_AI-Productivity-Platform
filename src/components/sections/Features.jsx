@@ -13,7 +13,6 @@ import {
   Cpu,
   ShieldCheck,
   ArrowRight,
-  Sparkles,
 } from 'lucide-react';
 
 const iconMap = {
@@ -29,7 +28,7 @@ const featureModels = featuresData.map((data, index) => new FeatureModel({ ...da
 
 export function Features({ onOpenDemo }) {
   return (
-    <div className="py-16 md:py-24 relative">
+    <section id="features" className="py-16 md:py-24 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <MotionReveal animation="fade-up">
           <SectionHeader
@@ -46,14 +45,13 @@ export function Features({ onOpenDemo }) {
           {featureModels.map((feature, i) => {
             const Icon = iconMap[feature.iconName] || Bot;
             const targetTab = feature.getTargetTab();
-            const isFlagship = i === 0;
 
             return (
               <MotionReveal
                 key={feature.id}
                 delay={i * 70}
                 animation="fade-up"
-                className={`h-full ${isFlagship ? 'md:col-span-2 lg:col-span-2' : 'col-span-1'}`}
+                className="h-full col-span-1"
               >
                 <TiltCard
                   onClick={() => onOpenDemo && onOpenDemo(targetTab)}
@@ -79,28 +77,6 @@ export function Features({ onOpenDemo }) {
                         <Badge variant="orange">{feature.badge}</Badge>
                       </div>
                     </div>
-
-                    {/* Flagship Card Visual Integration (features_bento.jpg) */}
-                    {isFlagship && (
-                      <div className="mb-6 relative rounded-2xl overflow-hidden aspect-21/9 bg-zinc-950 border border-white/10 group-hover:border-[#FF5500]/40 transition-colors">
-                        <img
-                          src="/images/nova_sections/features_bento.jpg"
-                          alt="NOVA 3D Illuminated Crystal AST Architecture"
-                          className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
-                          loading="lazy"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-transparent to-transparent pointer-events-none" />
-                        <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-[11px] font-mono text-white">
-                          <span className="flex items-center gap-1.5 text-orange-400 font-bold">
-                            <Sparkles className="w-3.5 h-3.5" />
-                            <span>AST SYNTHESIS CORE</span>
-                          </span>
-                          <span className="px-2 py-0.5 rounded bg-black/60 border border-white/20 text-[10px] font-mono text-emerald-400">
-                            ONLINE // 148 NODES/S
-                          </span>
-                        </div>
-                      </div>
-                    )}
 
                     {/* Title & Description */}
                     <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-2.5 group-hover:text-orange-500 dark:group-hover:text-orange-400 transition-colors tracking-tight">
@@ -132,6 +108,6 @@ export function Features({ onOpenDemo }) {
           <div className="w-full h-px bg-gradient-to-r from-transparent via-[#FF5500]/40 to-transparent" />
         </div>
       </div>
-    </div>
+    </section>
   );
 }

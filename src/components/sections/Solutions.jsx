@@ -13,7 +13,7 @@ export function Solutions({ onOpenDemo }) {
     solutionsData.find((s) => s.id === activePersonaId) || solutionsData[0];
 
   return (
-    <div className="py-14 md:py-20 relative">
+    <section id="solutions" className="py-14 md:py-20 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <MotionReveal animation="fade-up">
           <SectionHeader
@@ -158,6 +158,6 @@ export function Solutions({ onOpenDemo }) {
           </div>
         </MotionReveal>
       </div>
-    </div>
+    </section>
   );
 }
