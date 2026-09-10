@@ -904,14 +904,47 @@ div[id="roi-calculator"] {
   padding-left: clamp(1.5rem, 7vw, 6rem);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .rapid-line-content,
-  .rapid-fade-up {
-    transform: none !important;
-    opacity: 1 !important;
-    transition: none !important;
+/* ========================================================
+   WEBFLOWTIPS ANIME.JS LETTER-BY-LETTER WAVE ANIMATION
+   Matches https://text-animations-anime-js.webflow.io/
+   ======================================================== */
+.anime-letter-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  line-height: 0.94;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+@keyframes animeLetterRise {
+  0% {
+    transform: translateY(110%) rotateX(-10deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0%) rotateX(0deg);
+    opacity: 1;
   }
 }
 
+.anime-letter {
+  display: inline-block;
+  will-change: transform, opacity;
+  animation: animeLetterRise 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--delay, 0s);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s ease;
+}
 
+.anime-letter:hover {
+  transform: translateY(-4px);
+  color: #FF5500;
+}
 
+@media (prefers-reduced-motion: reduce) {
+  .anime-letter {
+    transform: none !important;
+    opacity: 1 !important;
+    animation: none !important;
+  }
+}
