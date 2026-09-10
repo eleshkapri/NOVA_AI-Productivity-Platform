@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { SectionHeader } from '../common/SectionHeader';
 import { MotionReveal } from '../common/MotionReveal';
 import { aboutData } from '../../data/about';
-import { CheckCircle2, XCircle, Clock, Target, Shuffle, Cpu, Sparkles, Activity } from 'lucide-react';
+import { CheckCircle2, XCircle, Clock, Target, Shuffle, Cpu, Sparkles, Activity, Maximize2, Minus, X, ZoomIn } from 'lucide-react';
 
 export function About() {
   const [activeTab, setActiveTab] = useState('after');
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [isLightboxMinimized, setIsLightboxMinimized] = useState(false);
 
   const statIcons = [Clock, Target, Shuffle];
 
@@ -133,60 +135,102 @@ export function About() {
           {/* Right Column: Unique 3D Cybernetic Architecture Visual Showcase */}
           <div className="lg:col-span-6 flex flex-col">
             <MotionReveal animation="fade-up" delay={150} className="h-full">
-              <div className="group relative rounded-3xl overflow-hidden bg-white/95 dark:bg-[#07081e] border border-slate-200/90 dark:border-[#8E6FFF]/40 shadow-xl dark:shadow-2xl flex flex-col justify-between h-full orchid-card">
+              <div className="group relative rounded-3xl overflow-hidden bg-gradient-to-b from-[#090b2c] via-[#070822] to-[#040514] text-white border border-[#8E6FFF]/40 shadow-2xl flex flex-col justify-between h-full orchid-card">
+                {/* Ambient Orchid Glow behind console */}
+                <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-[#6833FF]/20 blur-3xl pointer-events-none" />
+                <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-64 h-64 rounded-full bg-[#D8B452]/15 blur-3xl pointer-events-none" />
+
                 {/* Visual Header Console Bar */}
-                <div className="px-5 py-3.5 border-b border-slate-200 dark:border-white/10 bg-slate-50/80 dark:bg-[#050614]/80 flex items-center justify-between">
+                <div className="relative z-10 px-5 py-3.5 border-b border-white/10 bg-[#050614]/90 backdrop-blur-md flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
-                    <span className="ml-2 text-[11px] font-mono font-bold tracking-wider text-slate-600 dark:text-slate-400 uppercase">
+                    <span className="w-2.5 h-2.5 rounded-full bg-rose-500/90" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-amber-500/90" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/90" />
+                    <span className="ml-2 text-[11px] font-mono font-bold tracking-wider text-slate-300 uppercase">
                       AST // INTELLIGENCE MESH ARCHITECTURE
                     </span>
                   </div>
-                  <div className="inline-flex items-center gap-1 text-[10px] font-mono text-[#8E6FFF] dark:text-[#A78BFA] font-bold">
-                    <Activity className="w-3 h-3 animate-pulse" />
-                    <span>60 FPS REAL-TIME</span>
+
+                  <div className="flex items-center gap-2.5">
+                    <div className="hidden sm:inline-flex items-center gap-1 text-[10px] font-mono text-[#A78BFA] font-bold">
+                      <Activity className="w-3 h-3 animate-pulse" />
+                      <span>60 FPS REAL-TIME</span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setIsLightboxOpen(true)}
+                      aria-label="Inspect uncompressed architecture diagram"
+                      title="Inspect Architecture Diagram"
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/10 hover:bg-[#D8B452]/20 border border-white/15 hover:border-[#D8B452]/50 text-slate-200 hover:text-white text-[10px] font-mono font-bold uppercase tracking-wider transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95"
+                    >
+                      <Maximize2 className="w-3 h-3 text-[#D8B452]" />
+                      <span>Inspect</span>
+                    </button>
                   </div>
                 </div>
 
-                {/* Main 3D Cybernetic Architecture Image */}
-                <div className="relative overflow-hidden aspect-video sm:aspect-16/10 group-hover:shadow-2xl transition-all duration-500">
+                {/* Main 3D Cybernetic Architecture Image Frame */}
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setIsLightboxOpen(true)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setIsLightboxOpen(true);
+                    }
+                  }}
+                  className="relative overflow-hidden flex-1 min-h-[280px] sm:min-h-[340px] bg-[#050614] flex items-center justify-center cursor-zoom-in group/img select-none"
+                  title="Click to inspect AST diagram in full resolution"
+                >
                   <img
                     src="/images/nova_architecture_mesh.jpg"
                     alt="NOVA 3D Cybernetic Autonomous Intelligence Mesh Architecture"
-                    className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-700 ease-out"
+                    className="w-full h-full object-cover object-center group-hover/img:scale-103 transition-transform duration-700 ease-out"
                     loading="lazy"
                   />
-                  {/* Subtle Gradient Vignette */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#07081e]/90 via-transparent to-transparent pointer-events-none" />
+                  {/* Subtle Vignette Ring */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#050614]/80 via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute inset-0 ring-1 ring-inset ring-white/10 pointer-events-none" />
 
-                  {/* Floating Live Telemetry Badge */}
-                  <div className="absolute bottom-4 left-4 right-4 flex flex-wrap items-center justify-between gap-2 p-3 rounded-2xl bg-black/70 border border-white/15 backdrop-blur-md text-white text-xs font-mono">
-                    <div className="flex items-center gap-2">
-                      <Cpu className="w-4 h-4 text-[#D8B452]" />
-                      <span className="font-bold">CORE ENGINE: ACTIVE</span>
+                  {/* Hover Quick Zoom Cue */}
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+                    <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#07081e]/90 border border-[#D8B452]/60 text-white text-xs font-mono shadow-2xl backdrop-blur-md">
+                      <ZoomIn className="w-3.5 h-3.5 text-[#D8B452]" />
+                      <span>Click to inspect AST diagram</span>
                     </div>
-                    <div className="flex items-center gap-1 text-[#A78BFA]">
-                      <Sparkles className="w-3 h-3" />
-                      <span>AST RESOLVER: ZERO DELAY</span>
-                    </div>
+                  </div>
+                </div>
+
+                {/* Clean Telemetry Strip Below Image */}
+                <div className="relative z-10 px-4 py-2.5 bg-[#050614]/95 border-t border-white/10 flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono text-slate-300">
+                  <div className="flex items-center gap-2">
+                    <Cpu className="w-3.5 h-3.5 text-[#D8B452]" />
+                    <span className="font-bold text-white">CORE ENGINE: ACTIVE</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-[#A78BFA]">
+                    <Sparkles className="w-3 h-3" />
+                    <span>AST RESOLVER: ZERO DELAY</span>
+                  </div>
+                  <div className="inline-flex items-center gap-1.5 text-emerald-400 font-bold text-[10px]">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                    <span>SYNCHRONIZED</span>
                   </div>
                 </div>
 
                 {/* Bottom Architectural Specification Matrix */}
-                <div className="p-5 sm:p-6 bg-slate-50/50 dark:bg-[#07081e]/90 border-t border-slate-100 dark:border-white/10 grid grid-cols-3 gap-3 text-center">
-                  <div className="p-2.5 rounded-xl bg-white dark:bg-[#050614] border border-slate-200 dark:border-white/10">
+                <div className="p-4 sm:p-5 bg-[#050614]/80 border-t border-white/10 grid grid-cols-3 gap-3 text-center">
+                  <div className="p-2.5 rounded-xl bg-[#080a24]/90 border border-white/10">
                     <div className="text-xs sm:text-sm font-black text-[#D8B452]">4,820</div>
-                    <div className="text-[10px] font-mono text-slate-500 uppercase mt-0.5">AST Nodes/s</div>
+                    <div className="text-[10px] font-mono text-slate-400 uppercase mt-0.5">AST Nodes/s</div>
                   </div>
-                  <div className="p-2.5 rounded-xl bg-white dark:bg-[#050614] border border-slate-200 dark:border-white/10">
-                    <div className="text-xs sm:text-sm font-black text-[#8E6FFF] dark:text-[#A78BFA]">12ms</div>
-                    <div className="text-[10px] font-mono text-slate-500 uppercase mt-0.5">P99 Latency</div>
+                  <div className="p-2.5 rounded-xl bg-[#080a24]/90 border border-white/10">
+                    <div className="text-xs sm:text-sm font-black text-[#A78BFA]">12ms</div>
+                    <div className="text-[10px] font-mono text-slate-400 uppercase mt-0.5">P99 Latency</div>
                   </div>
-                  <div className="p-2.5 rounded-xl bg-white dark:bg-[#050614] border border-slate-200 dark:border-white/10">
-                    <div className="text-xs sm:text-sm font-black text-emerald-500">100%</div>
-                    <div className="text-[10px] font-mono text-slate-500 uppercase mt-0.5">Zero-Trust</div>
+                  <div className="p-2.5 rounded-xl bg-[#080a24]/90 border border-white/10">
+                    <div className="text-xs sm:text-sm font-black text-emerald-400">100%</div>
+                    <div className="text-[10px] font-mono text-slate-400 uppercase mt-0.5">Zero-Trust</div>
                   </div>
                 </div>
               </div>
@@ -194,6 +238,123 @@ export function About() {
           </div>
         </div>
       </div>
+
+      {/* Lightbox Minimized Dock Capsule */}
+      {isLightboxMinimized && (
+        <div className="fixed bottom-6 left-4 sm:left-6 z-50 animate-fade-in pointer-events-auto">
+          <div className="flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-white/95 dark:bg-[#07081e]/95 border border-[#8E6FFF]/50 shadow-2xl backdrop-blur-xl text-slate-900 dark:text-white">
+            <span className="flex h-2.5 w-2.5 relative">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#8E6FFF] opacity-75" />
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#8E6FFF]" />
+            </span>
+            <span className="text-xs font-mono font-bold">
+              AST Architecture Diagram
+            </span>
+            <div className="flex items-center gap-1">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsLightboxMinimized(false);
+                  setIsLightboxOpen(true);
+                }}
+                className="p-1.5 rounded-lg bg-indigo-500/15 text-[#8E6FFF] dark:text-[#A78BFA] hover:bg-[#8E6FFF] hover:text-white transition-all cursor-pointer"
+                title="Restore diagram"
+                aria-label="Restore diagram"
+              >
+                <Maximize2 className="w-3.5 h-3.5" />
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsLightboxMinimized(false)}
+                className="p-1.5 rounded-lg text-slate-400 hover:text-rose-500 hover:bg-slate-100 dark:hover:bg-white/10 transition-all cursor-pointer"
+                title="Close"
+                aria-label="Close"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Lightbox Full Inspection Modal */}
+      {isLightboxOpen && !isLightboxMinimized && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 md:p-8 animate-fade-in pointer-events-auto"
+          role="dialog"
+          aria-modal="true"
+          aria-label="AST Architecture Inspection Modal"
+        >
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/85 backdrop-blur-md transition-opacity cursor-pointer"
+            onClick={() => setIsLightboxOpen(false)}
+            aria-hidden="true"
+          />
+
+          {/* Modal Shell */}
+          <div className="relative w-full max-w-5xl bg-[#07081e] rounded-3xl shadow-2xl border border-[#8E6FFF]/50 overflow-hidden z-10 flex flex-col max-h-[92vh] animate-modal-pop text-white">
+            {/* Header with Traffic Lights, Title, Minimize and Close */}
+            <div className="px-5 py-3.5 border-b border-white/10 bg-[#050614] flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-rose-500" />
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+                <span className="ml-2 text-xs font-mono font-bold tracking-wider text-slate-300 uppercase">
+                  NOVA AST INTELLIGENCE MESH // ULTRA-HD SPECIFICATION
+                </span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                {/* Minimize Button */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsLightboxOpen(false);
+                    setIsLightboxMinimized(true);
+                  }}
+                  aria-label="Minimize architecture diagram"
+                  title="Minimize Diagram"
+                  className="p-1.5 rounded-full text-slate-400 hover:text-[#D8B452] hover:bg-white/10 transition-all cursor-pointer"
+                >
+                  <Minus className="w-4 h-4" />
+                </button>
+                {/* Close Button */}
+                <button
+                  type="button"
+                  onClick={() => setIsLightboxOpen(false)}
+                  aria-label="Close architecture diagram"
+                  title="Close Diagram"
+                  className="p-1.5 rounded-full text-slate-400 hover:text-rose-400 hover:bg-white/10 transition-all cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Content Area: Image */}
+            <div className="relative overflow-auto p-4 bg-[#03040c] flex items-center justify-center">
+              <div className="relative max-w-4xl w-full rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+                <img
+                  src="/images/nova_architecture_mesh.jpg"
+                  alt="NOVA AST Intelligence Mesh Full Diagram"
+                  className="w-full h-auto object-contain select-none"
+                />
+              </div>
+            </div>
+
+            {/* Footer Bar */}
+            <div className="px-5 py-3 bg-[#050614] border-t border-white/10 flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-slate-400">
+              <div className="flex items-center gap-4">
+                <span className="text-emerald-400 font-bold">&bull; 4,820 Nodes/s</span>
+                <span className="text-[#A78BFA]">&bull; Sub-12ms Latency</span>
+                <span className="text-[#D8B452]">&bull; Zero Context Loss</span>
+              </div>
+              <span className="text-[11px] text-slate-500">ESC or Click Outside to Exit</span>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

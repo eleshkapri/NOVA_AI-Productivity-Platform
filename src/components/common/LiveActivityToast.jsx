@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles, X, ArrowRight } from 'lucide-react';
+import { Sparkles, X, ArrowRight, Minus, Maximize2 } from 'lucide-react';
 import { ActivityModel } from '../../models/ActivityModel';
 import { soundService } from '../../services/SoundService';
 
@@ -54,6 +54,7 @@ export function LiveActivityToast({ onOpenDemo }) {
   const [index, setIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
@@ -94,6 +95,74 @@ export function LiveActivityToast({ onOpenDemo }) {
     });
   };
 
+  // Minimized state dock pill
+  if (isMinimized) {
+    return (
+      <div
+        className="fixed bottom-20 left-4 right-4 sm:left-auto sm:right-6 sm:bottom-24 sm:max-w-xs z-30 animate-fade-in pointer-events-auto"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+      >
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={() => {
+            soundService.playChime('actionClick');
+            setIsMinimized(false);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              soundService.playChime('actionClick');
+              setIsMinimized(false);
+            }
+          }}
+          className="bg-white/95 dark:bg-[#0b0c33]/95 backdrop-blur-xl border border-slate-200/90 dark:border-[#D8B452]/40 rounded-full py-1.5 px-3.5 shadow-xl dark:shadow-2xl flex items-center justify-between gap-3 transition-all duration-300 hover:border-[#D8B452] hover:scale-105 active:scale-95 cursor-pointer group select-none outline-none"
+          title="Click to expand live activity feed"
+          aria-label="Expand live activity feed"
+        >
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="flex h-2 w-2 relative shrink-0">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D8B452] opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#D8B452]" />
+            </span>
+            <span className="text-[11px] font-mono font-bold tracking-wider text-slate-700 dark:text-slate-300 uppercase truncate">
+              {current.company}
+            </span>
+          </div>
+          <div className="flex items-center gap-1 shrink-0">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                soundService.playChime('actionClick');
+                setIsMinimized(false);
+              }}
+              aria-label="Maximize notification"
+              title="Maximize"
+              className="p-1 rounded-full text-[#B45309] dark:text-[#D8B452] hover:bg-amber-50 dark:hover:bg-[#D8B452]/20 transition-all cursor-pointer"
+            >
+              <Maximize2 className="w-3.5 h-3.5" />
+            </button>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                soundService.playChime('actionClick');
+                setIsDismissed(true);
+              }}
+              aria-label="Dismiss notification"
+              title="Dismiss"
+              className="p-1 rounded-full text-slate-400 hover:text-rose-500 hover:bg-slate-100 dark:hover:bg-white/10 transition-all cursor-pointer ml-0.5"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       className="fixed bottom-20 left-4 right-4 sm:left-auto sm:right-6 sm:bottom-24 sm:max-w-sm z-30 animate-fade-in pointer-events-auto"
@@ -131,17 +200,36 @@ export function LiveActivityToast({ onOpenDemo }) {
             </span>
           </div>
         </div>
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsDismissed(true);
-          }}
-          aria-label="Dismiss live notification"
-          title="Dismiss"
-          className="text-slate-400 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white p-1 rounded-md transition-all hover:scale-120 active:scale-90 hover:bg-slate-100 dark:hover:bg-white/10 cursor-pointer shrink-0 outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0"
-        >
-          <X className="w-3.5 h-3.5" />
-        </button>
+
+        {/* Dual Actions: Minimize & Dismiss */}
+        <div className="flex items-center gap-0.5 shrink-0">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              soundService.playChime('actionClick');
+              setIsMinimized(true);
+            }}
+            aria-label="Minimize live notification"
+            title="Minimize Notification"
+            className="text-slate-400 hover:text-slate-700 dark:text-slate-400 dark:hover:text-[#D8B452] p-1 rounded-md transition-all hover:scale-115 active:scale-90 hover:bg-slate-100 dark:hover:bg-white/10 cursor-pointer shrink-0 outline-none"
+          >
+            <Minus className="w-3.5 h-3.5" />
+          </button>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              soundService.playChime('actionClick');
+              setIsDismissed(true);
+            }}
+            aria-label="Dismiss live notification"
+            title="Dismiss"
+            className="text-slate-400 hover:text-slate-700 dark:text-slate-400 dark:hover:text-rose-400 p-1 rounded-md transition-all hover:scale-115 active:scale-90 hover:bg-slate-100 dark:hover:bg-white/10 cursor-pointer shrink-0 outline-none"
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </div>
       </div>
     </div>
   );
