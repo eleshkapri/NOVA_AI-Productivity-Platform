@@ -88,11 +88,11 @@ export function ProgressBar() {
     >
       <div
         ref={barRef}
-        className="h-full bg-gradient-to-r from-[#EA580C] via-[#FF5500] to-[#FF7700] shadow-[0_0_14px_rgba(255,85,0,0.85)] will-change-[width] relative rounded-r-full"
+        className="h-full bg-gradient-to-r from-[#6833FF] via-[#8E6FFF] to-[#D8B452] shadow-[0_0_14px_rgba(216,180,82,0.85)] will-change-[width] relative rounded-r-full"
         style={{ width: '0%' }}
       >
-        {/* Sleek Pure Cyber-Orange Leading Glow */}
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-2 h-2 rounded-full bg-[#FF5500] shadow-[0_0_8px_#FF5500,0_0_14px_#FF7700]" />
+        {/* Sleek Pure Liquid Gold Leading Glow */}
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-2 h-2 rounded-full bg-[#D8B452] shadow-[0_0_8px_#D8B452,0_0_14px_#F3D887]" />
       </div>
     </div>
   );

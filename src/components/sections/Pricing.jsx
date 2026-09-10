@@ -40,7 +40,7 @@ export function Pricing({ onOpenDemo }) {
               type="button"
               onClick={() => setIsAnnual(false)}
               className={`text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-colors cursor-pointer ${
-                !isAnnual ? 'text-[#FF5500]' : 'text-slate-500 hover:text-slate-800 dark:hover:text-zinc-300'
+                !isAnnual ? 'text-[#D8B452]' : 'text-slate-500 hover:text-slate-800 dark:hover:text-zinc-300'
               }`}
             >
               Monthly Billing
@@ -52,10 +52,10 @@ export function Pricing({ onOpenDemo }) {
               aria-checked={isAnnual}
               aria-label="Toggle annual billing with 20% savings"
               onClick={() => setIsAnnual(!isAnnual)}
-              className="w-14 h-7 flex items-center bg-slate-200 dark:bg-zinc-900 border border-slate-300/80 dark:border-white/15 rounded-full p-0.5 cursor-pointer transition-all duration-300 hover:border-[#FF5500] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5500]"
+              className="w-14 h-7 flex items-center bg-slate-200 dark:bg-zinc-900 border border-slate-300/80 dark:border-white/15 rounded-full p-0.5 cursor-pointer transition-all duration-300 hover:border-[#D8B452] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8E6FFF]"
             >
               <div
-                className={`w-5.5 h-5.5 rounded-full bg-[#FF5500] shadow-md transform transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                className={`w-5.5 h-5.5 rounded-full bg-[#D8B452] shadow-[0_0_10px_rgba(216,180,82,0.6)] transform transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
                   isAnnual ? 'translate-x-7' : 'translate-x-0.5'
                 }`}
               />
@@ -66,12 +66,12 @@ export function Pricing({ onOpenDemo }) {
                 type="button"
                 onClick={() => setIsAnnual(true)}
                 className={`text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-colors cursor-pointer ${
-                  isAnnual ? 'text-[#FF5500]' : 'text-slate-500 hover:text-slate-800 dark:hover:text-zinc-300'
+                  isAnnual ? 'text-[#D8B452]' : 'text-slate-500 hover:text-slate-800 dark:hover:text-zinc-300'
                 }`}
               >
                 Annual Commitment
               </button>
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-orange-500/15 text-orange-600 dark:text-orange-400 border border-orange-500/30">
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-[#D8B452]/15 text-[#D8B452] dark:text-[#F3D887] border border-[#D8B452]/30">
                 Save <span className="font-mono">{proSavings}%</span>
               </span>
             </div>
@@ -85,16 +85,16 @@ export function Pricing({ onOpenDemo }) {
               ======================================================== */}
           <div className="lg:col-span-7 flex flex-col">
             <MotionReveal animation="fade-up" delay={120} className="h-full">
-              <div className="relative rounded-[2.5rem] overflow-hidden bg-zinc-950 text-white border-2 border-[#FF5500] shadow-2xl shadow-[#FF5500]/20 p-7 sm:p-10 flex flex-col justify-between h-full group ring-1 ring-inset ring-white/10">
-                {/* Ambient Cyber-Orange Radial Glow */}
-                <div className="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 rounded-full bg-[#FF5500]/20 blur-3xl pointer-events-none group-hover:opacity-100 transition-opacity duration-700" />
-                <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-[#FF5500]/10 blur-3xl pointer-events-none group-hover:opacity-100 transition-opacity duration-700" />
+              <div className="relative rounded-[2.5rem] overflow-hidden bg-[#07081e]/90 text-white border-2 border-[#D8B452] shadow-[0_0_40px_rgba(216,180,82,0.25)] p-7 sm:p-10 flex flex-col justify-between h-full group ring-1 ring-inset ring-[#D8B452]/30">
+                {/* Ambient Radial Glow */}
+                <div className="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 rounded-full bg-[#6833FF]/20 blur-3xl pointer-events-none group-hover:opacity-100 transition-opacity duration-700" />
+                <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-[#D8B452]/15 blur-3xl pointer-events-none group-hover:opacity-100 transition-opacity duration-700" />
 
                 <div>
                   {/* Top Status HUD Strip */}
                   <div className="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-white/10 mb-6">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/15 border border-orange-500/40 text-orange-400 text-[11px] font-mono font-bold uppercase tracking-wider">
-                      <Sparkles className="w-3.5 h-3.5 text-orange-400" />
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D8B452]/15 border border-[#D8B452]/40 text-[#D8B452] dark:text-[#F3D887] text-[11px] font-mono font-bold uppercase tracking-wider">
+                      <Sparkles className="w-3.5 h-3.5 text-[#D8B452]" />
                       <span>FLAGSHIP // SPRINT OPTIMIZER</span>
                     </div>
                     <div className="inline-flex items-center gap-1.5 text-[10px] font-mono text-emerald-400 font-bold">
@@ -107,7 +107,7 @@ export function Pricing({ onOpenDemo }) {
                   <div className="mb-6">
                     <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center gap-3">
                       <span>{proPlan.name}</span>
-                      <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-md bg-orange-500/20 text-orange-300 border border-orange-500/30 uppercase">
+                      <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-md bg-[#D8B452]/20 text-[#F3D887] border border-[#D8B452]/40 uppercase">
                         Active Tier
                       </span>
                     </h3>
@@ -119,7 +119,7 @@ export function Pricing({ onOpenDemo }) {
                   {/* Price Tag with High-Precision Monospace Numbers */}
                   <div className="p-5 rounded-2xl bg-zinc-900/80 border border-white/10 backdrop-blur-md mb-8 flex flex-col sm:flex-row sm:items-baseline justify-between gap-4">
                     <div className="flex items-baseline gap-2">
-                      <span className="text-5xl sm:text-6xl font-black font-mono text-orange-gradient tracking-tight">
+                      <span className="text-5xl sm:text-6xl font-black font-mono text-gold-gradient tracking-tight">
                         ${proPrice}
                       </span>
                       <span className="text-xs sm:text-sm font-mono text-zinc-400 uppercase">
@@ -138,7 +138,7 @@ export function Pricing({ onOpenDemo }) {
 
                   {/* 2-Column Feature Breakdown */}
                   <div className="mb-8">
-                    <p className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#FF5500] mb-4 flex items-center gap-2">
+                    <p className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#D8B452] mb-4 flex items-center gap-2">
                       <Terminal className="w-3.5 h-3.5" />
                       <span>Engine Capabilities Matrix:</span>
                     </p>
@@ -146,7 +146,7 @@ export function Pricing({ onOpenDemo }) {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-zinc-200">
                       {proPlan.features.map((feature, i) => (
                         <div key={i} className="flex items-start gap-2.5 p-2 rounded-xl bg-white/[0.03] border border-white/5">
-                          <Check className="w-4 h-4 text-[#FF5500] shrink-0 mt-0.5" />
+                          <Check className="w-4 h-4 text-[#D8B452] shrink-0 mt-0.5" />
                           <span className="leading-snug">{feature}</span>
                         </div>
                       ))}
@@ -157,11 +157,11 @@ export function Pricing({ onOpenDemo }) {
                 {/* Card CTA & Reassurance */}
                 <div className="pt-6 border-t border-white/10 space-y-4">
                   <Button
-                    variant="orange"
+                    variant="purple"
                     size="lg"
                     icon={ArrowRight}
                     iconPosition="right"
-                    className="w-full justify-center text-base font-bold shadow-xl shadow-[#FF5500]/25 cursor-pointer hover:scale-[1.01] active:scale-[0.99] transition-all"
+                    className="w-full justify-center text-base font-bold shadow-xl shadow-[#6833FF]/25 cursor-pointer hover:scale-[1.01] active:scale-[0.99] transition-all"
                     onClick={() => onOpenDemo ? onOpenDemo('trial', { plan: 'pro' }) : null}
                   >
                     Start 14-Day Free Pro Trial
@@ -183,11 +183,11 @@ export function Pricing({ onOpenDemo }) {
           <div className="lg:col-span-5 flex flex-col justify-between gap-6">
             {/* TILE 1: STARTER / SOLO DEVELOPER SANDBOX */}
             <MotionReveal animation="fade-up" delay={180} className="flex-1">
-              <div className="rounded-[2.25rem] p-6 sm:p-7 bg-white/95 dark:bg-zinc-900/40 border border-slate-200/90 dark:border-white/10 shadow-lg dark:shadow-xl flex flex-col justify-between h-full transition-all duration-300 hover:border-[#FF5500]/40 ring-1 ring-inset ring-white/5">
+              <div className="rounded-[2.25rem] p-6 sm:p-7 bg-white/95 dark:bg-[#07081e]/60 border border-slate-200/90 dark:border-white/10 shadow-lg dark:shadow-xl flex flex-col justify-between h-full transition-all duration-300 hover:border-[#D8B452]/40 ring-1 ring-inset ring-white/5">
                 <div>
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
-                      <Zap className="w-4 h-4 text-orange-500 dark:text-orange-400" />
+                      <Zap className="w-4 h-4 text-[#D8B452]" />
                       <h4 className="text-lg font-bold text-slate-900 dark:text-white tracking-tight">
                         {starterPlan.name}
                       </h4>
@@ -213,7 +213,7 @@ export function Pricing({ onOpenDemo }) {
                   <div className="space-y-2 mb-6 text-xs text-slate-700 dark:text-zinc-300">
                     {starterPlan.features.slice(0, 3).map((f, i) => (
                       <div key={i} className="flex items-start gap-2">
-                        <Check className="w-3.5 h-3.5 text-[#FF5500] shrink-0 mt-0.5" />
+                        <Check className="w-3.5 h-3.5 text-[#D8B452] shrink-0 mt-0.5" />
                         <span className="line-clamp-1">{f}</span>
                       </div>
                     ))}
@@ -223,7 +223,7 @@ export function Pricing({ onOpenDemo }) {
                 <button
                   type="button"
                   onClick={() => onOpenDemo ? onOpenDemo('trial', { plan: 'starter' }) : null}
-                  className="w-full py-2.5 px-4 rounded-xl text-xs font-mono font-bold uppercase tracking-wider bg-slate-100 dark:bg-zinc-800/80 text-slate-800 dark:text-white hover:bg-slate-200 dark:hover:bg-zinc-700 border border-slate-200 dark:border-white/10 transition-all cursor-pointer hover:scale-[1.01] active:scale-[0.99]"
+                  className="w-full py-2.5 px-4 rounded-xl text-xs font-mono font-bold uppercase tracking-wider bg-slate-100 dark:bg-zinc-800/80 text-slate-800 dark:text-white hover:bg-slate-200 dark:hover:bg-zinc-700 border border-slate-200 dark:border-white/10 hover:border-[#D8B452]/50 transition-all cursor-pointer hover:scale-[1.01] active:scale-[0.99]"
                 >
                   Launch Solo Sandbox
                 </button>
@@ -232,16 +232,16 @@ export function Pricing({ onOpenDemo }) {
 
             {/* TILE 2: ENTERPRISE ZERO-TRUST CLUSTER */}
             <MotionReveal animation="fade-up" delay={240} className="flex-1">
-              <div className="rounded-[2.25rem] p-6 sm:p-7 bg-zinc-950 text-white border border-white/10 shadow-xl flex flex-col justify-between h-full transition-all duration-300 hover:border-[#FF5500]/50 ring-1 ring-inset ring-white/5">
+              <div className="rounded-[2.25rem] p-6 sm:p-7 bg-[#07081e]/80 text-white border border-white/10 shadow-xl flex flex-col justify-between h-full transition-all duration-300 hover:border-[#8E6FFF]/50 ring-1 ring-inset ring-white/5">
                 <div>
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
-                      <Lock className="w-4 h-4 text-[#FF5500]" />
+                      <Lock className="w-4 h-4 text-[#8E6FFF]" />
                       <h4 className="text-lg font-bold text-white tracking-tight">
                         {enterprisePlan.name}
                       </h4>
                     </div>
-                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-orange-500/15 text-orange-400 border border-orange-500/30 uppercase">
+                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-violet-500/15 text-violet-300 border border-violet-500/30 uppercase">
                       {enterprisePlan.badge}
                     </span>
                   </div>
@@ -251,7 +251,7 @@ export function Pricing({ onOpenDemo }) {
                   </p>
 
                   <div className="flex items-baseline gap-2 mb-4 pb-4 border-b border-white/10">
-                    <span className="text-3xl sm:text-4xl font-black font-mono text-orange-gradient tracking-tight">
+                    <span className="text-3xl sm:text-4xl font-black font-mono text-gold-gradient tracking-tight">
                       ${enterprisePrice}
                     </span>
                     <span className="text-xs font-mono text-zinc-400 uppercase">
@@ -261,16 +261,16 @@ export function Pricing({ onOpenDemo }) {
 
                   <div className="space-y-2 mb-6 text-xs text-zinc-300">
                     <div className="flex items-center gap-2">
-                      <Check className="w-3.5 h-3.5 text-[#FF5500] shrink-0" />
+                      <Check className="w-3.5 h-3.5 text-[#8E6FFF] shrink-0" />
                       <span>Zero-data retention guarantee (no training)</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Check className="w-3.5 h-3.5 text-[#FF5500] shrink-0" />
+                      <Check className="w-3.5 h-3.5 text-[#8E6FFF] shrink-0" />
                       <span>Dedicated VPC, SCIM & granular RBAC</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Check className="w-3.5 h-3.5 text-[#FF5500] shrink-0" />
-                      <span><span className="font-mono font-bold text-[#FF5500]">99.99%</span> guaranteed uptime SLA</span>
+                      <Check className="w-3.5 h-3.5 text-[#8E6FFF] shrink-0" />
+                      <span><span className="font-mono font-bold text-[#D8B452]">99.99%</span> guaranteed uptime SLA</span>
                     </div>
                   </div>
                 </div>
@@ -278,9 +278,9 @@ export function Pricing({ onOpenDemo }) {
                 <button
                   type="button"
                   onClick={() => onOpenDemo ? onOpenDemo('contact', { plan: 'enterprise' }) : null}
-                  className="w-full py-2.5 px-4 rounded-xl text-xs font-mono font-bold uppercase tracking-wider bg-zinc-900 hover:bg-zinc-800 text-white border border-white/10 hover:border-[#FF5500]/50 transition-all cursor-pointer hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-1.5"
+                  className="w-full py-2.5 px-4 rounded-xl text-xs font-mono font-bold uppercase tracking-wider bg-zinc-900 hover:bg-zinc-800 text-white border border-white/10 hover:border-[#8E6FFF]/50 transition-all cursor-pointer hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-1.5"
                 >
-                  <Radio className="w-3.5 h-3.5 text-orange-400 animate-pulse" />
+                  <Radio className="w-3.5 h-3.5 text-[#8E6FFF] animate-pulse" />
                   <span>Consult Enterprise Team</span>
                 </button>
               </div>
@@ -290,9 +290,9 @@ export function Pricing({ onOpenDemo }) {
 
         {/* 4. Full-Width Cybernetic Security & Compliance Assurance Strip */}
         <MotionReveal animation="fade-up" delay={280}>
-          <div className="rounded-2xl bg-white/90 dark:bg-zinc-950 border border-slate-200/90 dark:border-white/10 p-4 sm:p-5 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-600 dark:text-zinc-300">
+          <div className="rounded-2xl bg-white/90 dark:bg-[#07081e]/80 border border-slate-200/90 dark:border-white/10 p-4 sm:p-5 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-600 dark:text-zinc-300">
             <div className="flex items-center gap-2.5">
-              <ShieldCheck className="w-4 h-4 text-[#FF5500] shrink-0" />
+              <ShieldCheck className="w-4 h-4 text-[#D8B452] shrink-0" />
               <span className="font-bold text-slate-900 dark:text-white uppercase tracking-wider">
                 Enterprise Assurance Protocol
               </span>
@@ -308,7 +308,7 @@ export function Pricing({ onOpenDemo }) {
             <button
               type="button"
               onClick={() => onOpenDemo && onOpenDemo('contact', { plan: 'enterprise' })}
-              className="text-orange-600 dark:text-orange-400 font-bold uppercase tracking-wider hover:underline flex items-center gap-1 cursor-pointer shrink-0"
+              className="text-[#D8B452] dark:text-[#F3D887] font-bold uppercase tracking-wider hover:underline flex items-center gap-1 cursor-pointer shrink-0"
             >
               <span>Review Security Whitepaper</span>
               <ArrowRight className="w-3.5 h-3.5" />

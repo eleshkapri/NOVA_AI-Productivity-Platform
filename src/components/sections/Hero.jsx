@@ -98,97 +98,97 @@ export function Hero({ onOpenDemo }) {
 
   return (
     <section className="relative pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden">
-      {/* Ambient Atmospheric Orange Glow */}
+      {/* Ambient Atmospheric Cosmic Glow */}
       <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[500px] pointer-events-none opacity-30 dark:opacity-20 blur-3xl -z-10"
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[500px] pointer-events-none opacity-30 dark:opacity-25 blur-3xl -z-10"
         style={{
           background:
-            'radial-gradient(ellipse at center, rgba(255, 85, 0, 0.15) 0%, rgba(255, 120, 0, 0.05) 40%, transparent 70%)',
+            'radial-gradient(ellipse at center, rgba(104, 51, 255, 0.2) 0%, rgba(216, 180, 82, 0.08) 45%, transparent 70%)',
         }}
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Main Hero Copy (Floria Signature Minimalist Typography) */}
+        {/* Main Hero Copy matching reference image */}
         <div className="text-center max-w-4xl mx-auto">
-          {/* Eyebrow Announcement Pill with Orange Radiant Border */}
+          {/* Eyebrow Announcement Pill with Purple/Gold Radiant Border */}
           <button
             onClick={() => {
               const aboutSec = document.getElementById('about');
               aboutSec?.scrollIntoView({ behavior: 'smooth' });
             }}
-            className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-white/20 bg-white/5 dark:bg-zinc-900/60 text-slate-800 dark:text-white backdrop-blur-md mb-8 hover:border-[#FF5500]/60 transition-all cursor-pointer group hover:scale-105 active:scale-95 shadow-xs"
+            className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-[#8E6FFF]/40 bg-white/5 dark:bg-[#07081e]/60 text-slate-800 dark:text-slate-200 backdrop-blur-md mb-8 hover:border-[#D8B452]/60 transition-all cursor-pointer group hover:scale-105 active:scale-95 shadow-xs"
           >
-            <span className="flex h-2 w-2 rounded-full bg-[#FF5500] shadow-[0_0_8px_#FF5500] animate-ping" />
-            <span className="text-xs font-bold tracking-widest uppercase text-slate-900 dark:text-white">
+            <span className="flex h-2 w-2 rounded-full bg-[#8E6FFF] shadow-[0_0_8px_#8E6FFF] animate-ping" />
+            <span className="text-xs font-bold tracking-widest uppercase text-slate-900 dark:text-slate-100">
               NOVA 2.0 &bull; Autonomous AI Orchestration
             </span>
-            <span className="text-xs text-[#FF5500] font-semibold hidden sm:inline group-hover:translate-x-0.5 transition-transform">
+            <span className="text-xs text-[#D8B452] font-semibold hidden sm:inline group-hover:translate-x-0.5 transition-transform">
               Read editorial &rarr;
             </span>
           </button>
 
-          {/* Main H1 Headline with Floria-Style Ultra-Tight Tracking & Italic Accent */}
-          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-tighter text-slate-900 dark:text-white leading-[0.92] mb-8">
+          {/* Main H1 Headline: Build Better. Work Smarter. in Liquid Gold */}
+          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter text-slate-900 dark:text-white leading-[0.92] mb-8">
             Build Better.{' '}
-            <span className="text-[#FF5500] italic font-normal">
+            <span className="text-gold-gradient italic font-bold">
               Work Smarter.
             </span>
           </h1>
 
-          {/* Concise Subtitle */}
-          <p className="text-lg sm:text-xl md:text-2xl text-slate-700 dark:text-zinc-400 max-w-[42ch] mx-auto leading-relaxed mb-10 font-normal text-balance">
+          {/* Concise Subtitle matching reference image */}
+          <p className="text-lg sm:text-xl md:text-2xl text-slate-700 dark:text-slate-300 max-w-[42ch] mx-auto leading-relaxed mb-10 font-normal text-balance">
             An elevated AI productivity platform engineered for visionary engineering squads to master backlogs, eliminate developer toil, and ship with unmatched precision.
           </p>
 
-          {/* Dual CTAs in Floria Pill Style */}
+          {/* Dual CTAs: Electric Purple Pill + Dark Glass */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
             <Button
-              variant="orange"
+              variant="purple"
               size="lg"
               icon={ArrowRight}
               iconPosition="right"
               onClick={() => onOpenDemo('trial')}
-              className="w-full sm:w-auto text-base h-14 px-8 rounded-full"
+              className="w-full sm:w-auto text-base h-14 px-8 rounded-full shadow-[0_0_30px_rgba(104,51,255,0.5)]"
             >
               Experience Free Trial
             </Button>
             <Button
-              variant="orangeGhost"
+              variant="darkGlass"
               size="lg"
               icon={Play}
               iconPosition="left"
               onClick={() => onOpenDemo('walkthrough')}
-              className="w-full sm:w-auto text-base h-14 px-8 rounded-full bg-slate-100 dark:bg-transparent text-slate-900 dark:text-white border border-slate-300 dark:border-white/20"
+              className="w-full sm:w-auto text-base h-14 px-8 rounded-full bg-slate-100 dark:bg-white/5 text-slate-900 dark:text-white border border-slate-300 dark:border-white/15"
             >
               Watch Interactive Demo
             </Button>
           </div>
 
           {/* Trust Badges */}
-          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs font-semibold tracking-wider uppercase text-slate-600 dark:text-zinc-400">
+          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs font-semibold tracking-wider uppercase text-slate-600 dark:text-slate-400">
             <span className="flex items-center gap-2 hover:text-slate-900 dark:hover:text-white transition-colors cursor-default">
-              <Check className="w-4 h-4 text-[#FF5500]" /> No credit card required
+              <Check className="w-4 h-4 text-[#8E6FFF]" /> No credit card required
             </span>
             <span className="flex items-center gap-2 hover:text-slate-900 dark:hover:text-white transition-colors cursor-default">
-              <Check className="w-4 h-4 text-[#FF5500]" /> 60-second GitHub setup
+              <Check className="w-4 h-4 text-[#8E6FFF]" /> 60-second GitHub setup
             </span>
             <span className="flex items-center gap-2 hover:text-slate-900 dark:hover:text-white transition-colors cursor-default">
-              <Check className="w-4 h-4 text-[#FF5500]" /> SOC2 Type II Certified
+              <Check className="w-4 h-4 text-[#8E6FFF]" /> SOC2 Type II Certified
             </span>
           </div>
 
-          {/* Floria Subtle Orange Laser Line Divider */}
+          {/* Subtle Purple-Gold Laser Line Divider */}
           <div className="mt-12 max-w-2xl mx-auto">
-            <div className="h-px bg-gradient-to-r from-transparent via-[#FF5500]/40 to-transparent" />
+            <div className="h-px bg-gradient-to-r from-transparent via-[#8E6FFF]/40 to-transparent" />
           </div>
         </div>
 
         {/* Interactive Platform Mockup (Floria-Style Ultra-Rounded Glass Window) */}
         <div className="mt-12 md:mt-16 max-w-5xl mx-auto animate-float-subtle relative">
           {/* Subtle Ambient Depth Glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[850px] h-[400px] rounded-full bg-gradient-to-tr from-[#FF5500]/20 via-[#FF7700]/10 to-transparent blur-[100px] pointer-events-none -z-10" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[850px] h-[400px] rounded-full bg-gradient-to-tr from-[#6833FF]/20 via-[#D8B452]/10 to-transparent blur-[100px] pointer-events-none -z-10" />
 
-          <div className="relative rounded-[2rem] md:rounded-[2.5rem] bg-[#05060A] shadow-2xl shadow-black/80 border border-slate-200/20 dark:border-white/10 backdrop-blur-2xl overflow-hidden ring-1 ring-inset ring-white/10">
+          <div className="relative rounded-[2rem] md:rounded-[2.5rem] bg-[#050614] shadow-2xl shadow-black/80 border border-slate-200/20 dark:border-white/10 backdrop-blur-2xl overflow-hidden ring-1 ring-inset ring-white/10">
             {/* Top Mockup Title Bar */}
             <div className="bg-zinc-900/90 px-4 sm:px-6 py-3.5 flex flex-col md:flex-row items-stretch md:items-center justify-between border-b border-white/10 gap-2.5">
               <div className="flex items-center justify-between md:justify-start gap-3 shrink-0">
@@ -198,7 +198,7 @@ export function Hero({ onOpenDemo }) {
                   <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80 inline-block" />
                 </div>
                 <span className="ml-1 text-[11px] sm:text-xs font-mono font-bold tracking-wider text-slate-300 flex items-center gap-2 truncate">
-                  <Bot className="w-3.5 h-3.5 text-[#FF5500] shrink-0" />
+                  <Bot className="w-3.5 h-3.5 text-[#D8B452] shrink-0" />
                   <span className="truncate">nova-kernel // mission-control.ast</span>
                   <span className="hidden sm:inline-flex items-center gap-1 text-[10px] text-emerald-400 font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -217,7 +217,7 @@ export function Hero({ onOpenDemo }) {
                   }}
                   className={`px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
                     activeTab === 'prism'
-                      ? 'bg-[#FF5500] text-black shadow-xs font-extrabold'
+                      ? 'bg-gradient-to-r from-[#6833FF] to-[#8E6FFF] text-white shadow-xs font-extrabold'
                       : 'text-slate-400 hover:text-white hover:bg-white/5'
                   }`}
                 >
@@ -233,7 +233,7 @@ export function Hero({ onOpenDemo }) {
                   }}
                   className={`px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
                     activeTab === 'sprint'
-                      ? 'bg-[#FF5500] text-black shadow-xs font-extrabold'
+                      ? 'bg-gradient-to-r from-[#6833FF] to-[#8E6FFF] text-white shadow-xs font-extrabold'
                       : 'text-slate-400 hover:text-white hover:bg-white/5'
                   }`}
                 >
@@ -249,7 +249,7 @@ export function Hero({ onOpenDemo }) {
                   }}
                   className={`px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
                     activeTab === 'diff'
-                      ? 'bg-[#FF5500] text-black shadow-xs font-extrabold'
+                      ? 'bg-gradient-to-r from-[#6833FF] to-[#8E6FFF] text-white shadow-xs font-extrabold'
                       : 'text-slate-400 hover:text-white hover:bg-white/5'
                   }`}
                 >
@@ -268,7 +268,7 @@ export function Hero({ onOpenDemo }) {
                   }}
                   className={`px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
                     activeTab === 'terminal'
-                      ? 'bg-[#FF5500] text-black shadow-xs font-extrabold'
+                      ? 'bg-gradient-to-r from-[#6833FF] to-[#8E6FFF] text-white shadow-xs font-extrabold'
                       : 'text-slate-400 hover:text-white hover:bg-white/5'
                   }`}
                 >
@@ -282,13 +282,13 @@ export function Hero({ onOpenDemo }) {
                   title="Launch full interactive demo studio"
                   className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer hover:scale-105 active:scale-95 bg-white/10 hover:bg-white/20 text-white border border-white/10 shadow-sm whitespace-nowrap ml-1"
                 >
-                  <Play className="w-3 h-3 text-[#FF5500] fill-current" /> Demo Studio
+                  <Play className="w-3 h-3 text-[#D8B452] fill-current" /> Demo Studio
                 </button>
               </div>
             </div>
 
             {/* Mockup Dashboard Content */}
-            <div className="bg-[#05060A] p-4 sm:p-6 overflow-hidden">
+            <div className="bg-[#050614] p-4 sm:p-6 overflow-hidden">
               {activeTab === 'prism' && (
                 <div className="relative rounded-2xl overflow-hidden aspect-video max-h-[460px] flex items-center justify-center bg-black group/prism cursor-pointer" onClick={() => setActiveTab('sprint')}>
                   <img
@@ -299,10 +299,10 @@ export function Hero({ onOpenDemo }) {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
                   <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between pointer-events-none">
                     <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/70 backdrop-blur-md border border-white/10 text-xs font-mono text-white">
-                      <span className="w-2 h-2 rounded-full bg-[#FF5500] animate-ping" />
+                      <span className="w-2 h-2 rounded-full bg-[#D8B452] animate-ping" />
                       <span>AST Optical Refraction Engine Active</span>
                     </div>
-                    <span className="text-xs text-orange-400 font-bold bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-orange-500/30">
+                    <span className="text-xs text-amber-300 font-bold bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-amber-500/30">
                       Switch to Live Simulator &rarr;
                     </span>
                   </div>

@@ -117,9 +117,9 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
           <a
             href="#"
             onClick={(e) => handleNavClick(e, '#')}
-            className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5500] rounded-lg p-1"
+            className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D8B452] rounded-lg p-1"
           >
-            <div className="w-9 h-9 flex items-center justify-center text-[#FF5500] transition-transform duration-500 group-hover:rotate-90">
+            <div className="w-9 h-9 flex items-center justify-center text-[#D8B452] transition-transform duration-500 group-hover:rotate-90">
               <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
                 <path
                   d="M4.919 20.0389L6.967 17.9751H13.918V24.9797L11.87 27.0435C8.72 30.2174 4.453 31.9999 0 31.9999C0 27.5126 1.769 23.2129 4.919 20.0389Z"
@@ -143,7 +143,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
               <span className="text-xl font-black tracking-widest uppercase text-slate-900 dark:text-white">
                 NOVA
               </span>
-              <span className="text-[9px] uppercase tracking-[0.25em] text-[#FF5500] font-bold -mt-1">
+              <span className="text-[9px] uppercase tracking-[0.25em] text-[#D8B452] font-bold -mt-1">
                 AI Platform
               </span>
             </div>
@@ -157,7 +157,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
           >
             {/* The Gliding Magnetic Halo Pill */}
             <div
-              className="absolute top-1 bottom-1 rounded-full transition-all duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] pointer-events-none bg-[#FF5500]/15 border border-[#FF5500]/30 shadow-xs"
+              className="absolute top-1 bottom-1 rounded-full transition-all duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] pointer-events-none bg-[#D8B452]/15 border border-[#D8B452]/30 shadow-xs"
               style={{
                 transform: `translateX(${haloStyle.left}px)`,
                 width: `${haloStyle.width}px`,
@@ -171,7 +171,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
                 href={link.href}
                 onMouseEnter={handleLinkHover}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className="relative z-10 text-[11px] xl:text-xs font-bold uppercase tracking-wider px-2.5 xl:px-3.5 py-1.5 rounded-full text-slate-700 dark:text-slate-200 hover:text-[#FF5500] dark:hover:text-[#FF5500] transition-colors"
+                className="relative z-10 text-[11px] xl:text-xs font-bold uppercase tracking-wider px-2.5 xl:px-3.5 py-1.5 rounded-full text-slate-700 dark:text-slate-200 hover:text-[#D8B452] dark:hover:text-[#D8B452] transition-colors"
               >
                 {link.name}
               </a>
@@ -180,7 +180,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
               href="#roi-calculator"
               onMouseEnter={handleLinkHover}
               onClick={(e) => handleNavClick(e, '#roi-calculator')}
-              className="relative z-10 text-[11px] xl:text-xs font-extrabold uppercase tracking-wider px-2.5 xl:px-3.5 py-1.5 rounded-full text-[#FF5500] hover:text-black dark:hover:text-white transition-colors"
+              className="relative z-10 text-[11px] xl:text-xs font-extrabold uppercase tracking-wider px-2.5 xl:px-3.5 py-1.5 rounded-full text-[#D8B452] hover:text-black dark:hover:text-white transition-colors"
             >
               ROI Calculator
             </a>
@@ -207,9 +207,9 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
               onClick={onOpenCommandPalette}
               aria-label="Open Command Palette"
               title="Search / Command Palette (⌘K)"
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-slate-200 dark:border-white/10 bg-white dark:bg-zinc-900 text-slate-600 dark:text-slate-400 hover:text-[#FF5500] dark:hover:text-[#FF5500] hover:border-[#FF5500]/40 transition-colors text-xs cursor-pointer shadow-xs"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-slate-200 dark:border-white/10 bg-white dark:bg-zinc-900 text-slate-600 dark:text-slate-400 hover:text-[#D8B452] dark:hover:text-[#D8B452] hover:border-[#D8B452]/40 transition-colors text-xs cursor-pointer shadow-xs"
             >
-              <Search className="w-3.5 h-3.5 text-[#FF5500]" />
+              <Search className="w-3.5 h-3.5 text-[#D8B452]" />
               <span className="text-[11px] font-mono font-semibold">⌘K</span>
             </button>
 
@@ -217,16 +217,16 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
             <button
               onClick={toggleTheme}
               aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-              className="relative p-2 rounded-full border border-slate-200 dark:border-white/10 bg-white dark:bg-zinc-900 text-slate-700 dark:text-slate-300 hover:text-[#FF5500] dark:hover:text-[#FF5500] hover:border-[#FF5500]/40 transition-all duration-300 cursor-pointer shadow-xs group overflow-hidden"
+              className="relative p-2 rounded-full border border-slate-200 dark:border-white/10 bg-white dark:bg-zinc-900 text-slate-700 dark:text-slate-300 hover:text-[#D8B452] dark:hover:text-[#D8B452] hover:border-[#D8B452]/40 transition-all duration-300 cursor-pointer shadow-xs group overflow-hidden"
             >
               <div className="relative w-4 h-4 flex items-center justify-center">
                 <Sun
-                  className={`w-4 h-4 text-[#FF5500] absolute transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+                  className={`w-4 h-4 text-[#D8B452] absolute transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
                     isDark ? 'rotate-0 scale-100 opacity-100' : 'rotate-90 scale-0 opacity-0'
                   }`}
                 />
                 <Moon
-                  className={`w-4 h-4 text-orange-600 absolute transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+                  className={`w-4 h-4 text-amber-500 absolute transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
                     isDark ? '-rotate-90 scale-0 opacity-0' : 'rotate-0 scale-100 opacity-100'
                   }`}
                 />
@@ -234,26 +234,26 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
             </button>
 
             {/* Watch Demo CTA */}
-            <Button variant="ghost" size="sm" onClick={onOpenDemo} className="text-slate-700 dark:text-slate-300 hover:text-[#FF5500] dark:hover:text-[#FF5500] px-2.5 text-xs">
+            <Button variant="ghost" size="sm" onClick={onOpenDemo} className="text-slate-700 dark:text-slate-300 hover:text-[#D8B452] dark:hover:text-[#D8B452] px-2.5 text-xs">
               Demo
             </Button>
 
-            {/* Primary CTA with Floria Electric Orange Style */}
+            {/* Primary CTA with Electric Purple Gradient (from reference image) */}
             <Button
-              variant={hasActiveWorkspace ? 'outline' : 'orange'}
+              variant={hasActiveWorkspace ? 'outline' : 'purple'}
               size="sm"
               icon={hasActiveWorkspace ? undefined : ArrowRight}
               iconPosition="right"
               onClick={onOpenTrial || onOpenDemo}
-              className="text-xs px-3.5"
+              className="text-xs px-4"
             >
               Free Trial
             </Button>
 
-            {/* Active Workspace Dashboard Fast-Switch (ONLY present when all required workspace info is provisioned) */}
+            {/* Active Workspace Dashboard Fast-Switch */}
             {hasActiveWorkspace && (
               <Button
-                variant="primary"
+                variant="gold"
                 size="sm"
                 onClick={onGoToDashboard}
                 className="shadow-md shadow-amber-500/20 text-xs px-3 font-bold animate-fade-in"
