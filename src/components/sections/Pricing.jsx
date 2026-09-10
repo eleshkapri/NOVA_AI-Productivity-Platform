@@ -22,7 +22,7 @@ export function Pricing({ onOpenDemo }) {
   const proSavings = proPlan.getAnnualSavingsPercent() || 20;
 
   return (
-    <section id="pricing" className="pt-6 pb-14 md:pt-8 md:pb-18 relative overflow-hidden bg-noise">
+    <section id="pricing" className="py-16 md:py-20 relative overflow-hidden bg-noise">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* 1. Section Header */}
         <MotionReveal animation="fade-up">
@@ -45,7 +45,7 @@ export function Pricing({ onOpenDemo }) {
                 setIsAnnual(false);
               }}
               className={`text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-colors cursor-pointer ${
-                !isAnnual ? 'text-[#FF5500]' : 'text-slate-500 hover:text-slate-800 dark:hover:text-zinc-300'
+                !isAnnual ? 'text-[#FF5500]' : 'text-slate-600 hover:text-slate-900 dark:hover:text-zinc-300'
               }`}
             >
               Monthly Billing
@@ -60,7 +60,7 @@ export function Pricing({ onOpenDemo }) {
                 soundService.playChime('actionClick');
                 setIsAnnual(!isAnnual);
               }}
-              className="w-14 h-7 flex items-center bg-slate-200 dark:bg-zinc-900 border border-slate-300/80 dark:border-white/15 rounded-full p-0.5 cursor-pointer transition-all duration-300 hover:border-[#FF5500] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5500]"
+              className="w-14 h-7 flex items-center bg-slate-200 dark:bg-zinc-900 border border-slate-300 dark:border-white/15 rounded-full p-0.5 cursor-pointer transition-all duration-300 hover:border-[#FF5500] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5500]"
             >
               <div
                 className={`w-5.5 h-5.5 rounded-full bg-[#FF5500] shadow-[0_0_12px_rgba(255,85,0,0.6)] transform transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
@@ -77,12 +77,12 @@ export function Pricing({ onOpenDemo }) {
                   setIsAnnual(true);
                 }}
                 className={`text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-colors cursor-pointer ${
-                  isAnnual ? 'text-[#FF5500]' : 'text-slate-500 hover:text-slate-800 dark:hover:text-zinc-300'
+                  isAnnual ? 'text-[#FF5500]' : 'text-slate-600 hover:text-slate-900 dark:hover:text-zinc-300'
                 }`}
               >
                 Annual Commitment
               </button>
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-orange-500/15 text-orange-500 dark:text-orange-400 border border-orange-500/30">
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-extrabold uppercase tracking-wider bg-orange-50 dark:bg-orange-500/15 text-orange-950 dark:text-orange-400 border border-orange-300 dark:border-orange-500/30 shadow-2xs">
                 Save <span className="font-mono">{proSavings}%</span>
               </span>
             </div>
@@ -106,7 +106,7 @@ export function Pricing({ onOpenDemo }) {
                       {starterPlan.name}
                     </h4>
                   </div>
-                  <span className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-zinc-300 uppercase">
+                  <span className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-white/10 text-slate-800 dark:text-zinc-300 border border-slate-300 dark:border-transparent uppercase shadow-2xs whitespace-nowrap shrink-0">
                     {starterPlan.badge}
                   </span>
                 </div>
@@ -142,7 +142,7 @@ export function Pricing({ onOpenDemo }) {
               <button
                 type="button"
                 onClick={() => onOpenDemo ? onOpenDemo('trial', { plan: 'starter' }) : null}
-                className="w-full py-3 px-5 rounded-full text-xs font-mono font-bold uppercase tracking-wider bg-slate-100 dark:bg-zinc-800/90 text-slate-800 dark:text-white hover:bg-slate-200 dark:hover:bg-zinc-700 border border-slate-200 dark:border-white/10 hover:border-[#FF5500]/50 transition-all cursor-pointer hover:scale-[1.01] active:scale-[0.99]"
+                className="w-full py-3 px-5 rounded-full text-xs font-mono font-bold uppercase tracking-wider bg-slate-100 dark:bg-zinc-800/90 text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-zinc-700 border border-slate-300 dark:border-white/10 hover:border-[#FF5500]/50 transition-all cursor-pointer hover:scale-[1.01] active:scale-[0.99] shadow-2xs"
               >
                 Launch Solo Sandbox
               </button>
@@ -167,7 +167,7 @@ export function Pricing({ onOpenDemo }) {
                       {proPlan.name}
                     </h4>
                   </div>
-                  <span className="inline-flex items-center gap-1.5 text-[10px] font-mono font-bold px-2.5 py-1 rounded-full bg-[#FF5500]/20 text-[#FF5500] border border-[#FF5500]/40 uppercase shadow-sm">
+                  <span className="inline-flex items-center gap-1.5 text-[10px] font-mono font-bold px-2.5 py-1 rounded-full bg-[#FF5500]/20 text-[#FF5500] border border-[#FF5500]/40 uppercase shadow-sm whitespace-nowrap shrink-0">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#FF5500] animate-pulse" />
                     {proPlan.badge}
                   </span>
@@ -239,7 +239,7 @@ export function Pricing({ onOpenDemo }) {
                       {enterprisePlan.name}
                     </h4>
                   </div>
-                  <span className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-full bg-orange-500/15 text-orange-500 dark:text-orange-400 border border-orange-500/30 uppercase">
+                  <span className="text-[10px] font-mono font-extrabold px-2.5 py-1 rounded-full bg-orange-50 dark:bg-orange-500/15 text-orange-950 dark:text-orange-400 border border-orange-300 dark:border-orange-500/30 uppercase shadow-2xs whitespace-nowrap shrink-0">
                     {enterprisePlan.badge}
                   </span>
                 </div>

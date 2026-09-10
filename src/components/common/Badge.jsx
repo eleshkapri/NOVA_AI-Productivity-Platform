@@ -8,26 +8,26 @@ export function Badge({
 }) {
   const variants = {
     gold:
-      'bg-amber-50 text-amber-800 border-amber-200/80 dark:bg-[#D8B452]/10 dark:text-[#D8B452] dark:border-[#D8B452]/30',
+      'bg-orange-50 text-orange-950 border-orange-300 font-extrabold shadow-xs dark:bg-[#FF5500]/15 dark:text-[#FF7700] dark:border-[#FF5500]/40 dark:shadow-[0_0_12px_rgba(255,85,0,0.25)] hover:border-orange-400 dark:hover:border-[#FF5500]/80',
     orange:
-      'bg-orange-50 text-orange-800 border-orange-200/80 shadow-xs dark:bg-[#FF5500]/15 dark:text-[#FF7700] dark:border-[#FF5500]/40 dark:shadow-[0_0_12px_rgba(255,85,0,0.25)] hover:border-orange-300 dark:hover:border-[#FF5500]/80',
+      'bg-orange-50 text-orange-950 border-orange-300 font-extrabold shadow-xs dark:bg-[#FF5500]/15 dark:text-[#FF7700] dark:border-[#FF5500]/40 dark:shadow-[0_0_12px_rgba(255,85,0,0.25)] hover:border-orange-400 dark:hover:border-[#FF5500]/80',
     orchid:
-      'bg-violet-50 text-violet-900 border-violet-200/80 shadow-xs dark:bg-[#6833FF]/15 dark:text-[#E0E7FF] dark:border-[#8E6FFF]/40 dark:shadow-[0_0_12px_rgba(104,51,255,0.25)] hover:border-violet-300 dark:hover:border-[#8E6FFF]/80',
+      'bg-violet-50 text-violet-950 border-violet-300 font-extrabold shadow-xs dark:bg-[#6833FF]/15 dark:text-[#E0E7FF] dark:border-[#8E6FFF]/40 dark:shadow-[0_0_12px_rgba(104,51,255,0.25)] hover:border-violet-400 dark:hover:border-[#8E6FFF]/80',
     navy:
-      'bg-slate-100 text-slate-800 border-slate-200 dark:bg-[#0b0c33] dark:text-slate-200 dark:border-white/10',
+      'bg-slate-100 text-slate-900 border-slate-300 font-extrabold shadow-xs dark:bg-zinc-900 dark:text-slate-200 dark:border-white/10',
     indigo:
-      'bg-indigo-50 text-indigo-800 border-indigo-200 dark:bg-indigo-500/10 dark:text-indigo-400 dark:border-indigo-500/30',
+      'bg-indigo-50 text-indigo-950 border-indigo-300 font-extrabold shadow-xs dark:bg-indigo-500/10 dark:text-indigo-400 dark:border-indigo-500/30',
     emerald:
-      'bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30',
+      'bg-emerald-50 text-emerald-950 border-emerald-300 font-extrabold shadow-xs dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30',
     slate:
-      'bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-800/80 dark:text-slate-300 dark:border-slate-700',
+      'bg-slate-100 text-slate-900 border-slate-300 font-extrabold shadow-xs dark:bg-slate-800/80 dark:text-slate-300 dark:border-slate-700',
   };
 
   const dotColors = {
-    gold: 'bg-amber-600 dark:bg-[#D8B452]',
+    gold: 'bg-orange-600 dark:bg-[#FF5500] dark:shadow-[0_0_8px_#FF5500]',
     orange: 'bg-orange-600 dark:bg-[#FF5500] dark:shadow-[0_0_8px_#FF5500]',
     orchid: 'bg-violet-600 dark:bg-[#A78BFA] dark:shadow-[0_0_8px_#A78BFA]',
-    navy: 'bg-slate-700 dark:bg-indigo-400',
+    navy: 'bg-slate-700 dark:bg-zinc-400',
     indigo: 'bg-indigo-600 dark:bg-indigo-500',
     emerald: 'bg-emerald-600 dark:bg-emerald-500',
     slate: 'bg-slate-600 dark:bg-slate-400',
@@ -35,12 +35,13 @@ export function Badge({
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold tracking-widest uppercase border shadow-xs transition-all duration-200 ${variants[variant] || variants.gold} ${className}`}
+      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold tracking-wider uppercase border shadow-xs transition-all duration-200 whitespace-nowrap shrink-0 ${variants[variant] || variants.orange} ${className}`}
     >
       {dot && (
-        <span className={`w-1.5 h-1.5 rounded-full ${dotColors[variant] || 'bg-[#D8B452]'} animate-pulse`} />
+        <span className={`w-1.5 h-1.5 rounded-full ${dotColors[variant] || 'bg-[#FF5500]'} animate-pulse`} />
       )}
       {children}
     </span>
   );
+
 }

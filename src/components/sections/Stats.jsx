@@ -91,7 +91,7 @@ function VelocityTelemetryHud() {
         </div>
 
         {/* Channel Selection Buttons */}
-        <div className="flex items-center gap-1.5 p-1 bg-slate-100 dark:bg-zinc-900/80 rounded-2xl border border-slate-200 dark:border-white/10">
+        <div className="flex items-center gap-1.5 p-1 bg-slate-100 dark:bg-zinc-900/80 rounded-2xl border border-slate-300 dark:border-white/10 shadow-xs">
           {TELEMETRY_MODES.map((mode) => (
             <button
               key={mode.id}
@@ -103,7 +103,7 @@ function VelocityTelemetryHud() {
               className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer whitespace-nowrap ${
                 activeMode === mode.id
                   ? 'bg-[#FF5500] text-black shadow-sm font-extrabold'
-                  : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white'
+                  : 'text-slate-700 dark:text-zinc-400 font-bold hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-zinc-800'
               }`}
             >
               {mode.label}
@@ -179,7 +179,13 @@ function VelocityTelemetryHud() {
               className="cursor-pointer"
               onMouseEnter={() => setHoveredIdx(idx)}
               onMouseLeave={() => setHoveredIdx(null)}
+              onTouchStart={(e) => {
+                e.stopPropagation();
+                setHoveredIdx(idx);
+              }}
             >
+              {/* Invisible larger touch target for mobile fingers */}
+              <circle cx={pt.x} cy={pt.y} r="14" className="fill-transparent" />
               <circle
                 cx={pt.x}
                 cy={pt.y}
@@ -256,7 +262,7 @@ function StatCard({ stat }) {
 
 export function Stats() {
   return (
-    <section className="py-12 md:py-16 relative">
+    <section id="stats" className="py-16 md:py-20 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <MotionReveal animation="fade-up">
           <SectionHeader

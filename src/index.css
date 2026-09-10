@@ -7,10 +7,13 @@
     scroll-behavior: smooth;
     color-scheme: light dark;
     background-color: #F8FAFC;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(234, 88, 12, 0.4) transparent;
   }
 
   html.dark {
     background-color: #05060A;
+    scrollbar-color: rgba(255, 85, 0, 0.45) transparent;
   }
 
   body {
@@ -25,6 +28,28 @@
     background-color: transparent;
     color: #f1f2f6;
   }
+}
+
+/* Custom Scrollbar with Floria Orange Accent */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(234, 88, 12, 0.4);
+  border-radius: 9999px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 85, 0, 0.45);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 85, 0, 0.85);
 }
 
 /* Subtle Geometric Matrix Grid */
@@ -235,10 +260,19 @@ html.theme-transitioning *::after {
 /* Infinite Smooth Motion Marquee Ticker */
 @keyframes marqueeScroll {
   0% {
-    transform: translateX(0%);
+    transform: translate3d(0%, 0, 0);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes marqueeScrollReverse {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0%, 0, 0);
   }
 }
 
@@ -246,9 +280,32 @@ html.theme-transitioning *::after {
   display: flex;
   width: max-content;
   animation: marqueeScroll 25s linear infinite;
+  will-change: transform;
 }
 
 .animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+.animate-marquee-slow {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 50s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-slow:hover {
+  animation-play-state: paused;
+}
+
+.animate-marquee-reverse {
+  display: flex;
+  width: max-content;
+  animation: marqueeScrollReverse 55s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-reverse:hover {
   animation-play-state: paused;
 }
 
@@ -638,10 +695,223 @@ html.theme-transitioning *::after {
   animation: modalPopIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* ========================================================
+   CRENCY-STYLE TWO-TIER SIGNATURE MENU ROLL
+   ======================================================== */
+.menu-roll {
+  display: inline-block;
+  overflow: hidden;
+  height: 1.25em;
+  line-height: 1.25em;
+  position: relative;
+  vertical-align: middle;
+}
+
+.menu-roll-stack {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.group:hover .menu-roll-stack,
+a:hover .menu-roll-stack,
+button:hover .menu-roll-stack {
+  transform: translateY(-50%);
+}
+
+.menu-roll-line {
+  display: block;
+  height: 1.25em;
+  line-height: 1.25em;
+}
+
+/* ========================================================
+   CRENCY KINETIC SVG ENERGY CONDUIT & PHOTON BEAD
+   ======================================================== */
+@keyframes conduitDraw {
+  0% {
+    stroke-dashoffset: 2400;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-conduit-draw {
+  stroke-dasharray: 2400;
+  animation: conduitDraw 2.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes photonPulse {
+  0%, 100% {
+    opacity: 0.95;
+    transform: scale(1);
+    filter: drop-shadow(0 0 10px #FF5500);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.85);
+    filter: drop-shadow(0 0 5px #FF5500);
+  }
+}
+
+.animate-photon {
+  animation: photonPulse 2.4s ease-in-out infinite;
+}
+
+/* ========================================================
+   CRENCY-STYLE FLOATING PHYSICS SWAY BADGES
+   ======================================================== */
+@keyframes floatSway1 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(-2deg);
+  }
+  50% {
+    transform: translate3d(4px, -10px, 0) rotate(2deg);
+  }
+}
+
+@keyframes floatSway2 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(2deg);
+  }
+  50% {
+    transform: translate3d(-5px, -9px, 0) rotate(-1.5deg);
+  }
+}
+
+.animate-float-sway-1 {
+  animation: floatSway1 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  will-change: transform;
+}
+
+.animate-float-sway-2 {
+  animation: floatSway2 7.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  will-change: transform;
+}
+
+/* ========================================================
+   SECTION SCROLL MARGIN ALIGNMENT
+   Calibrated offset ensures sticky navbar never covers headings
+   ======================================================== */
+section[id],
+div[id="roi-calculator"] {
+  scroll-margin-top: 4.5rem;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .animate-modal-pop {
+  .animate-modal-pop,
+  .animate-conduit-draw,
+  .animate-photon,
+  .animate-float-sway-1,
+  .animate-float-sway-2 {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
   }
+  .menu-roll-stack {
+    transition: none !important;
+  }
 }
+
+/* ========================================================
+   MOBILE PERFORMANCE: DISABLE HEAVY BACKGROUND ANIMATIONS
+   Mesh drifts, aurora beams, and ambient orbs consume GPU
+   compositor layers that cause scroll stutter on phones.
+   ======================================================== */
+@media (max-width: 768px) {
+  .animate-mesh-1,
+  .animate-mesh-2,
+  .animate-mesh-3,
+  .animate-aurora-beam,
+  .animate-mote,
+  .orchid-ambient-orb {
+    animation: none !important;
+    transform: none !important;
+    opacity: 0.3 !important;
+  }
+
+  /* Remove expensive GPU blur from MotionReveal entrance states on mobile */
+  .blur-\[2px\],
+  .blur-\[3px\] {
+    filter: none !important;
+  }
+}
+
+/* ========================================================
+   TOUCH DEVICE: GUARD HOVER-ONLY STATES
+   Ensure cards and pills don't get "sticky hover" on touch.
+   Add active feedback for tap-to-interact elements.
+   ======================================================== */
+@media (hover: none) and (pointer: coarse) {
+  /* Prevent marquee from getting stuck paused on tap */
+  .animate-marquee:hover {
+    animation-play-state: running !important;
+  }
+
+  /* Orchid card hover should not stick */
+  .orchid-card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+/* ========================================================
+   RAPIDKERT-INSPIRED LINE-MASKED TEXT COMING ANIMATION
+   Calibrated with spring ease cubic-bezier(0.16, 1, 0.3, 1)
+   ======================================================== */
+.rapid-line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+
+.rapid-line-content {
+  display: block;
+  font-weight: inherit;
+  will-change: transform, opacity;
+  transform: translateY(115%);
+  opacity: 0;
+  transition: transform 1.05s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0s),
+              opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0s);
+}
+
+.hero-revealed .rapid-line-content {
+  transform: translateY(0%);
+  opacity: 1;
+}
+
+.rapid-fade-up {
+  will-change: transform, opacity;
+  transform: translateY(24px);
+  opacity: 0;
+  transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0s),
+              opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0s);
+}
+
+.hero-revealed .rapid-fade-up {
+  transform: translateY(0%);
+  opacity: 1;
+}
+
+.rapid-indent-1 {
+  padding-left: clamp(0.75rem, 3.5vw, 3rem);
+}
+
+.rapid-indent-2 {
+  padding-left: clamp(1.5rem, 7vw, 6rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rapid-line-content,
+  .rapid-fade-up {
+    transform: none !important;
+    opacity: 1 !important;
+    transition: none !important;
+  }
+}
+
+
+

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { footerLinks } from '../../data/navigation';
 import { securityService } from '../../services/SecurityService';
 import { soundService } from '../../services/SoundService';
+import { smoothScrollService } from '../../services/SmoothScrollService';
 import { ArrowRight, Check, AlertCircle, MessageSquare } from 'lucide-react';
 
 export function Footer({ onOpenModal }) {
@@ -43,15 +44,7 @@ export function Footer({ onOpenModal }) {
       try {
         const el = document.querySelector(item.href);
         if (el) {
-          const offset = 80;
-          const bodyRect = document.body.getBoundingClientRect().top;
-          const elementRect = el.getBoundingClientRect().top;
-          const elementPosition = elementRect - bodyRect;
-          const offsetPosition = elementPosition - offset;
-          window.scrollTo({
-            top: Math.max(0, offsetPosition),
-            behavior: 'smooth',
-          });
+          smoothScrollService.scrollTo(el, { offset: -80, duration: 1.5 });
           return;
         }
       } catch {
@@ -94,7 +87,7 @@ export function Footer({ onOpenModal }) {
               href="#"
               onClick={(e) => {
                 e.preventDefault();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                smoothScrollService.scrollTo(0, { duration: 1.5 });
               }}
               className="inline-flex items-center gap-2.5 group cursor-pointer"
             >

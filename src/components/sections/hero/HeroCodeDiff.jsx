@@ -261,7 +261,7 @@ export function HeroCodeDiff({ isPrMerged, onMergePr, onOpenDemo }) {
             <div className="p-3 sm:p-4 bg-emerald-950/15">
               <div className="flex items-center justify-between pb-2 mb-3 border-b border-emerald-500/20 text-[11px] text-emerald-400 font-bold uppercase tracking-wider">
                 <span className="flex items-center gap-1.5">
-                  <Sparkles className="w-3 h-3 text-[#D8B452]" /> NOVA AI Zero-Trust Refactor
+                  <Sparkles className="w-3 h-3 text-[#FF5500]" /> NOVA AI Zero-Trust Refactor
                 </span>
                 <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">+12 lines</span>
               </div>

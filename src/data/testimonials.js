@@ -47,4 +47,28 @@ export const testimonialsData = [
       'The enterprise security and zero-data retention commitment gave our compliance team total peace of mind. NOVA is the only AI tool we have approved for our production repos.',
     highlight: '100% compliant with zero leaks',
   },
+  {
+    id: 5,
+    name: 'Liam Gallagher',
+    role: 'Staff Infrastructure Lead',
+    company: 'CloudCore Platform',
+    avatarInitials: 'LG',
+    avatarBg: 'from-amber-600 to-orange-600',
+    rating: 5,
+    quote:
+      'The AST dependency analyzer caught 3 cyclic deadlocks before our deployment reached staging. We have scaled to 14 squads without adding a single sprint coordinator.',
+    highlight: 'Zero staging rollbacks in Q3',
+  },
+  {
+    id: 6,
+    name: 'Priya Sharma',
+    role: 'VP of Technology',
+    company: 'Nexus Labs',
+    avatarInitials: 'PS',
+    avatarBg: 'from-cyan-600 to-blue-600',
+    rating: 5,
+    quote:
+      'Deploying autonomous canary gates reduced our MTTR by 84%. Our senior architects can finally stay in flow state instead of attending endless status alignment meetings.',
+    highlight: '84% reduction in MTTR',
+  },
 ];

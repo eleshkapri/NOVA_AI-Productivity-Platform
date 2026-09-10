@@ -1,12 +1,13 @@
 import React from 'react';
 import { trustedCompanies } from '../../data/logos';
 import { ShieldCheck, Zap, Rocket } from 'lucide-react';
+import { smoothScrollService } from '../../services/SmoothScrollService';
 
 export function TrustedBy() {
   const marqueeItems = [...trustedCompanies, ...trustedCompanies];
 
   return (
-    <section className="py-16 md:py-20 border-y border-slate-200/50 dark:border-white/5 bg-white/40 dark:bg-[#05060A]/80 backdrop-blur-md transition-colors overflow-hidden relative">
+    <section id="trusted-by" className="py-12 md:py-16 border-y border-slate-200/50 dark:border-white/5 bg-white/40 dark:bg-[#05060A]/80 backdrop-blur-md transition-colors overflow-hidden relative">
       {/* Ambient Cyber-Orange Glow behind the conduit */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#FF5500]/40 to-transparent" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#FF5500]/30 to-transparent" />
@@ -17,7 +18,7 @@ export function TrustedBy() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 text-center">
         {/* Eyebrow */}
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-600 dark:text-orange-400 text-[11px] font-mono font-bold tracking-[0.2em] uppercase mb-4 shadow-xs">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 dark:bg-orange-500/10 border border-orange-300 dark:border-orange-500/20 text-orange-950 dark:text-orange-400 text-[11px] font-mono font-extrabold tracking-[0.2em] uppercase mb-4 shadow-xs">
           <span className="w-1.5 h-1.5 rounded-full bg-[#FF5500] animate-pulse" />
           <span>CONDUIT OF TRUST // ENTERPRISE VALIDATION</span>
         </div>
@@ -29,7 +30,7 @@ export function TrustedBy() {
 
         {/* 3 Telemetry Counters */}
         <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto">
-          <div className="flex items-center justify-center gap-3 py-2.5 px-4 rounded-2xl bg-zinc-900/30 dark:bg-zinc-950/60 border border-slate-200/70 dark:border-white/5 backdrop-blur-md">
+          <div className="flex items-center justify-center gap-3 py-2.5 px-4 rounded-2xl bg-white dark:bg-zinc-950/60 border border-slate-300 dark:border-white/5 backdrop-blur-md shadow-xs">
             <ShieldCheck className="w-4 h-4 text-[#FF5500] shrink-0" />
             <div className="text-left">
               <div className="text-sm font-black font-mono text-slate-900 dark:text-white">99.99%</div>
@@ -37,7 +38,7 @@ export function TrustedBy() {
             </div>
           </div>
 
-          <div className="flex items-center justify-center gap-3 py-2.5 px-4 rounded-2xl bg-zinc-900/30 dark:bg-zinc-950/60 border border-slate-200/70 dark:border-white/5 backdrop-blur-md">
+          <div className="flex items-center justify-center gap-3 py-2.5 px-4 rounded-2xl bg-white dark:bg-zinc-950/60 border border-slate-300 dark:border-white/5 backdrop-blur-md shadow-xs">
             <Zap className="w-4 h-4 text-[#FF5500] shrink-0" />
             <div className="text-left">
               <div className="text-sm font-black font-mono text-slate-900 dark:text-white">4.2x</div>
@@ -45,7 +46,7 @@ export function TrustedBy() {
             </div>
           </div>
 
-          <div className="flex items-center justify-center gap-3 py-2.5 px-4 rounded-2xl bg-zinc-900/30 dark:bg-zinc-950/60 border border-slate-200/70 dark:border-white/5 backdrop-blur-md">
+          <div className="flex items-center justify-center gap-3 py-2.5 px-4 rounded-2xl bg-white dark:bg-zinc-950/60 border border-slate-300 dark:border-white/5 backdrop-blur-md shadow-xs">
             <Rocket className="w-4 h-4 text-[#FF5500] shrink-0" />
             <div className="text-left">
               <div className="text-sm font-black font-mono text-slate-900 dark:text-white">14,000+</div>
@@ -62,8 +63,7 @@ export function TrustedBy() {
             <div
               key={`${company.name}-${index}`}
               onClick={() => {
-                const target = document.getElementById('testimonials');
-                target?.scrollIntoView({ behavior: 'smooth' });
+                smoothScrollService.scrollTo('#testimonials', { offset: -70, duration: 1.5 });
               }}
               title={`Read how ${company.name} scales velocity with NOVA`}
               className="flex items-center gap-3.5 px-6 py-4 rounded-2xl border border-slate-200/70 dark:border-white/10 bg-white/90 dark:bg-zinc-900/50 hover:border-[#FF5500]/50 hover:bg-zinc-900/80 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#FF5500]/15 transition-all duration-300 cursor-pointer group shrink-0 backdrop-blur-xl"

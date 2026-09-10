@@ -1,11 +1,18 @@
 import React, { useRef, useState, useCallback } from 'react';
 
-function checkMotionDisabled() {
+function checkReducedMotion() {
   if (typeof window === 'undefined') return false;
   try {
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    return Boolean(prefersReduced || isTouch);
+    return Boolean(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  } catch {
+    return false;
+  }
+}
+
+function checkIsTouchDevice() {
+  if (typeof window === 'undefined') return false;
+  try {
+    return Boolean('ontouchstart' in window || navigator.maxTouchPoints > 0);
   } catch {
     return false;
   }
@@ -27,12 +34,14 @@ export function TiltCard({
   );
   const [glarePosition, setGlarePosition] = useState({ x: 50, y: 50 });
   const [isHovered, setIsHovered] = useState(false);
-  const [isDisabled] = useState(checkMotionDisabled);
+  const [reducedMotion] = useState(checkReducedMotion);
+  const [isTouch] = useState(checkIsTouchDevice);
+  const tiltDisabled = reducedMotion || isTouch;
   const rafRef = useRef(null);
 
   const handleMouseMove = useCallback(
     (e) => {
-      if (isDisabled || !cardRef.current) return;
+      if (tiltDisabled || !cardRef.current) return;
 
       if (rafRef.current) {
         cancelAnimationFrame(rafRef.current);
@@ -63,16 +72,16 @@ export function TiltCard({
         }
       });
     },
-    [isDisabled, maxTilt, scale, glare]
+    [tiltDisabled, maxTilt, scale, glare]
   );
 
   const handleMouseEnter = () => {
-    if (isDisabled) return;
+    if (tiltDisabled) return;
     setIsHovered(true);
   };
 
   const handleMouseLeave = () => {
-    if (isDisabled) return;
+    if (tiltDisabled) return;
     if (rafRef.current) {
       cancelAnimationFrame(rafRef.current);
     }
@@ -89,18 +98,18 @@ export function TiltCard({
       onClick={onClick}
       title={title}
       style={{
-        transform: isDisabled ? undefined : transform,
+        transform: reducedMotion ? undefined : transform,
         transformStyle: 'preserve-3d',
         transition: isHovered
           ? 'transform 0.08s ease-out'
           : 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
-        willChange: isDisabled ? 'auto' : 'transform',
+        willChange: reducedMotion ? 'auto' : 'transform',
       }}
-      className={`relative ${className}`}
+      className={`relative active:scale-[0.98] active:transition-transform active:duration-150 ${className}`}
       {...props}
     >
       {/* Moving Specular Holographic Glare Layer */}
-      {glare && !isDisabled && (
+      {glare && !tiltDisabled && (
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 rounded-[inherit] overflow-hidden transition-opacity duration-300 z-20"

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { navLinks } from '../../data/navigation';
 import { Button } from '../common/Button';
 import { Sun, Moon, Menu, X, ArrowRight, Search } from 'lucide-react';
+import { smoothScrollService } from '../../services/SmoothScrollService';
 
 export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCommandPalette, hasActiveWorkspace = false, onGoToDashboard }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -78,22 +79,13 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
     e.preventDefault();
     setIsOpen(false);
     if (!href || href === '#') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      smoothScrollService.scrollTo(0, { duration: 1.5 });
       return;
     }
     try {
       const targetElement = document.querySelector(href);
       if (targetElement) {
-        const offset = 80;
-        const bodyRect = document.body.getBoundingClientRect().top;
-        const elementRect = targetElement.getBoundingClientRect().top;
-        const elementPosition = elementRect - bodyRect;
-        const offsetPosition = elementPosition - offset;
-
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth',
-        });
+        smoothScrollService.scrollTo(targetElement, { offset: -80, duration: 1.5 });
       }
     } catch {
       // Ignore invalid query selector
@@ -153,7 +145,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
           <div
             ref={navContainerRef}
             onMouseLeave={handleNavLeave}
-            className="hidden lg:flex items-center relative rounded-full p-1 border border-slate-200/60 dark:border-white/10 bg-white/60 dark:bg-zinc-900/60 backdrop-blur-md shrink-0"
+            className="hidden lg:flex items-center relative rounded-full p-1 border border-slate-300 dark:border-white/10 bg-white/95 dark:bg-zinc-900/60 shadow-sm backdrop-blur-md shrink-0"
           >
             {/* The Gliding Magnetic Halo Pill */}
             <div
@@ -171,18 +163,28 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
                 href={link.href}
                 onMouseEnter={handleLinkHover}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className="relative z-10 text-[11px] xl:text-xs font-bold uppercase tracking-wider px-2.5 xl:px-3.5 py-1.5 rounded-full text-slate-700 dark:text-slate-200 hover:text-[#FF5500] dark:hover:text-[#FF5500] transition-colors"
+                className="relative z-10 text-[11px] xl:text-xs font-bold uppercase tracking-wider px-2.5 xl:px-3.5 py-1.5 rounded-full text-slate-800 dark:text-slate-200 hover:text-[#FF5500] dark:hover:text-[#FF5500] transition-colors group/navlink"
               >
-                {link.name}
+                <span className="menu-roll">
+                  <span className="menu-roll-stack">
+                    <span className="menu-roll-line">{link.name}</span>
+                    <span className="menu-roll-line text-[#FF5500]">{link.name}</span>
+                  </span>
+                </span>
               </a>
             ))}
             <a
               href="#roi-calculator"
               onMouseEnter={handleLinkHover}
               onClick={(e) => handleNavClick(e, '#roi-calculator')}
-              className="relative z-10 text-[11px] xl:text-xs font-extrabold uppercase tracking-wider px-2.5 xl:px-3.5 py-1.5 rounded-full text-[#FF5500] hover:text-black dark:hover:text-white transition-colors"
+              className="relative z-10 text-[11px] xl:text-xs font-extrabold uppercase tracking-wider px-2.5 xl:px-3.5 py-1.5 rounded-full text-[#FF5500] hover:text-slate-900 dark:hover:text-white transition-colors group/navlink"
             >
-              ROI Calculator
+              <span className="menu-roll">
+                <span className="menu-roll-stack">
+                  <span className="menu-roll-line">ROI Calculator</span>
+                  <span className="menu-roll-line text-emerald-500">ROI Calculator</span>
+                </span>
+              </span>
             </a>
           </div>
 
@@ -193,7 +195,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
               onClick={() => onOpenDemo('status')}
               aria-label="Open System Status"
               title="Global Systems: 99.99% Operational"
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:border-emerald-500/40 transition-colors text-xs font-semibold cursor-pointer shadow-xs"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-emerald-300 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 hover:border-emerald-500 transition-colors text-xs font-bold cursor-pointer shadow-xs"
             >
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
@@ -207,7 +209,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
               onClick={onOpenCommandPalette}
               aria-label="Open Command Palette"
               title="Search / Command Palette (⌘K)"
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-slate-200 dark:border-white/10 bg-white dark:bg-zinc-900 text-slate-600 dark:text-slate-400 hover:text-[#FF5500] dark:hover:text-[#FF5500] hover:border-[#FF5500]/40 transition-colors text-xs cursor-pointer shadow-xs"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-slate-300 dark:border-white/10 bg-white dark:bg-zinc-900 text-slate-700 dark:text-slate-400 hover:text-[#FF5500] dark:hover:text-[#FF5500] hover:border-[#FF5500]/50 transition-colors text-xs cursor-pointer shadow-xs"
             >
               <Search className="w-3.5 h-3.5 text-[#FF5500]" />
               <span className="text-[11px] font-mono font-semibold">⌘K</span>
@@ -217,7 +219,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
             <button
               onClick={toggleTheme}
               aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-              className="relative p-2 rounded-full border border-slate-200 dark:border-white/10 bg-white dark:bg-zinc-900 text-slate-700 dark:text-slate-300 hover:text-[#FF5500] dark:hover:text-[#FF5500] hover:border-[#FF5500]/40 transition-all duration-300 cursor-pointer shadow-xs group overflow-hidden"
+              className="relative p-2 rounded-full border border-slate-300 dark:border-white/10 bg-white dark:bg-zinc-900 text-slate-800 dark:text-slate-300 hover:text-[#FF5500] dark:hover:text-[#FF5500] hover:border-[#FF5500]/50 transition-all duration-300 cursor-pointer shadow-xs group overflow-hidden"
             >
               <div className="relative w-4 h-4 flex items-center justify-center">
                 <Sun
@@ -234,7 +236,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
             </button>
 
             {/* Watch Demo CTA */}
-            <Button variant="ghost" size="sm" onClick={onOpenDemo} className="text-slate-700 dark:text-slate-300 hover:text-[#FF5500] dark:hover:text-[#FF5500] px-2.5 text-xs">
+            <Button variant="ghost" size="sm" onClick={onOpenDemo} className="text-slate-800 dark:text-slate-300 hover:text-[#FF5500] dark:hover:text-[#FF5500] px-2.5 text-xs font-bold">
               Demo
             </Button>
 
@@ -268,7 +270,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
             <button
               onClick={onOpenCommandPalette}
               aria-label="Search"
-              className="p-2 rounded-full border border-slate-200 dark:border-white/10 text-[#a1741a] dark:text-[#D8B452]"
+              className="p-2 rounded-full border border-slate-200 dark:border-white/10 text-orange-600 dark:text-[#FF5500]"
             >
               <Search className="w-4 h-4" />
             </button>
@@ -276,16 +278,16 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
             <button
               onClick={toggleTheme}
               aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-              className="relative p-2 rounded-full border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b0c33] text-slate-700 dark:text-slate-300 cursor-pointer overflow-hidden"
+              className="relative p-2 rounded-full border border-slate-200 dark:border-white/10 bg-white dark:bg-zinc-900 text-slate-700 dark:text-slate-300 cursor-pointer overflow-hidden"
             >
               <div className="relative w-4 h-4 flex items-center justify-center">
                 <Sun
-                  className={`w-4 h-4 text-[#D8B452] absolute transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+                  className={`w-4 h-4 text-[#FF5500] absolute transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
                     isDark ? 'rotate-0 scale-100 opacity-100' : 'rotate-90 scale-0 opacity-0'
                   }`}
                 />
                 <Moon
-                  className={`w-4 h-4 text-[#B45309] absolute transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+                  className={`w-4 h-4 text-orange-400 absolute transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
                     isDark ? '-rotate-90 scale-0 opacity-0' : 'rotate-0 scale-100 opacity-100'
                   }`}
                 />
@@ -297,7 +299,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
               aria-expanded={isOpen}
               aria-controls="mobile-menu"
               aria-label="Toggle navigation menu"
-              className="p-2 rounded-lg text-slate-800 dark:text-slate-200 hover:text-[#D8B452] cursor-pointer"
+              className="p-2 rounded-lg text-slate-800 dark:text-slate-200 hover:text-[#FF5500] cursor-pointer"
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -309,7 +311,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
       {isOpen && (
         <div
           id="mobile-menu"
-          className="lg:hidden bg-white/98 dark:bg-[#050614]/98 backdrop-blur-2xl border-b border-slate-200 dark:border-[#D8B452]/20 shadow-2xl px-5 pt-5 pb-8 mt-3 space-y-4 max-h-[calc(100vh-80px)] overflow-y-auto"
+          className="lg:hidden bg-white/98 dark:bg-zinc-950/98 backdrop-blur-2xl border-b border-slate-200 dark:border-white/10 shadow-2xl px-5 pt-5 pb-8 mt-3 space-y-4 max-h-[calc(100vh-80px)] overflow-y-auto"
         >
           <div className="flex flex-col space-y-1">
             {navLinks.map((link) => (
@@ -317,7 +319,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
                 key={link.name}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className="px-4 py-3 rounded-xl text-sm font-bold tracking-wider uppercase text-slate-800 dark:text-slate-200 hover:text-[#a1741a] dark:hover:text-[#D8B452] hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
+                className="px-4 py-3 rounded-xl text-sm font-bold tracking-wider uppercase text-slate-800 dark:text-slate-200 hover:text-orange-600 dark:hover:text-[#FF5500] hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
               >
                 {link.name}
               </a>
@@ -325,7 +327,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
             <a
               href="#roi-calculator"
               onClick={(e) => handleNavClick(e, '#roi-calculator')}
-              className="px-4 py-3 rounded-xl text-sm font-bold tracking-wider uppercase text-[#a1741a] dark:text-[#D8B452] hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
+              className="px-4 py-3 rounded-xl text-sm font-bold tracking-wider uppercase text-orange-600 dark:text-[#FF5500] hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
             >
               ROI Calculator
             </a>
@@ -350,7 +352,7 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
                 setIsOpen(false);
                 onOpenDemo('changelog');
               }}
-              className="flex-1 py-2 px-3 rounded-xl bg-slate-100 dark:bg-[#0b0c33] border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer"
+              className="flex-1 py-2 px-3 rounded-xl bg-slate-100 dark:bg-zinc-900 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer"
             >
               <span>Changelog v2.4.1</span>
             </button>

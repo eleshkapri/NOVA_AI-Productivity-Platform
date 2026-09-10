@@ -272,9 +272,9 @@ export function WorkspaceDashboard({
   );
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#050614] text-slate-900 dark:text-slate-100 flex flex-col font-sans selection:bg-[#D8B452]/20 selection:text-[#D8B452]">
+    <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#05060A] text-slate-900 dark:text-slate-100 flex flex-col font-sans selection:bg-[#FF5500]/20 selection:text-[#FF5500]">
       {/* Top Cybernetic Navigation & Workspace Header */}
-      <header className="sticky top-0 z-40 bg-white/90 dark:bg-[#07081e]/90 backdrop-blur-md border-b border-slate-200 dark:border-white/10 px-4 sm:px-8 py-3.5 flex items-center justify-between gap-4 transition-colors">
+      <header className="sticky top-0 z-40 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md border-b border-slate-200 dark:border-white/10 px-4 sm:px-8 py-3.5 flex items-center justify-between gap-4 transition-colors">
         {/* Left: Exit to Website + Brand Identifier */}
         <div className="flex items-center gap-3 sm:gap-4">
           <button
@@ -294,7 +294,7 @@ export function WorkspaceDashboard({
           <div className="h-5 w-px bg-slate-200 dark:bg-white/15 hidden sm:block" />
 
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#D97706] to-[#F59E0B] dark:from-[#D8B452] dark:to-[#B88A23] flex items-center justify-center text-black font-black text-xs shadow-md shadow-amber-500/20">
+            <div className="w-8 h-8 rounded-xl bg-[#FF5500] flex items-center justify-center text-black font-black text-xs shadow-md shadow-orange-500/20">
               <Zap className="w-4 h-4 fill-current" />
             </div>
             <div>
@@ -302,7 +302,7 @@ export function WorkspaceDashboard({
                 <span className="font-extrabold text-sm tracking-tight text-slate-900 dark:text-white">
                   {currentWorkspace.name}
                 </span>
-                <span className="px-2 py-0.5 rounded-md bg-[#D8B452]/15 border border-[#D8B452]/40 text-[10px] font-black uppercase tracking-wider text-[#a1741a] dark:text-[#D8B452]">
+                <span className="px-2 py-0.5 rounded-md bg-orange-500/15 border border-orange-500/40 text-[10px] font-black uppercase tracking-wider text-orange-600 dark:text-[#FF5500]">
                   {currentWorkspace.plan}
                 </span>
               </div>
@@ -324,7 +324,7 @@ export function WorkspaceDashboard({
           <button
             type="button"
             onClick={onOpenCommandPalette}
-            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-mono bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:text-[#a1741a] dark:hover:text-[#D8B452] hover:border-[#D8B452]/40 transition-all cursor-pointer"
+            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-mono bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:text-orange-600 dark:hover:text-[#FF5500] hover:border-orange-500/40 transition-all cursor-pointer"
             title="Open Command Palette (⌘K)"
           >
             <Terminal className="w-3.5 h-3.5" />
@@ -379,8 +379,8 @@ export function WorkspaceDashboard({
                 }}
                 className={`px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer ${
                   isActive
-                    ? 'bg-[#D8B452] text-black shadow-md shadow-[#D8B452]/25 scale-102 font-black'
-                    : 'bg-slate-100 dark:bg-[#0b0c33] text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-[#12144b]'
+                    ? 'bg-[#FF5500] text-black shadow-md shadow-orange-500/25 scale-102 font-black'
+                    : 'bg-slate-100 dark:bg-zinc-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-zinc-800'
                 }`}
               >
                 <Icon className="w-4 h-4" />
@@ -388,7 +388,7 @@ export function WorkspaceDashboard({
                 {tab.badge && (
                   <span
                     className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
-                      isActive ? 'bg-black/20 text-black' : 'bg-[#D8B452]/20 text-[#a1741a] dark:text-[#D8B452]'
+                      isActive ? 'bg-black/20 text-black' : 'bg-orange-500/20 text-orange-600 dark:text-[#FF5500]'
                     }`}
                   >
                     {tab.badge}
@@ -404,7 +404,7 @@ export function WorkspaceDashboard({
           <div className="space-y-6 animate-fade-in">
             {/* Top KPI Metrics Grid */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="p-5 rounded-2xl bg-white dark:bg-[#0b0c33] border border-slate-200 dark:border-[#D8B452]/20 shadow-sm hover:shadow-md transition-all">
+              <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900/70 border border-slate-200 dark:border-white/10 shadow-sm hover:shadow-md transition-all">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                   Sprint Velocity ({teamHeadcount} Devs)
                 </span>
@@ -418,13 +418,13 @@ export function WorkspaceDashboard({
                 </div>
                 <div className="mt-3 w-full bg-slate-100 dark:bg-white/10 rounded-full h-1.5 overflow-hidden">
                   <div
-                    className="bg-gradient-to-r from-[#D8B452] to-amber-500 h-full rounded-full transition-all duration-500"
+                    className="bg-gradient-to-r from-[#FF5500] to-orange-400 h-full rounded-full transition-all duration-500"
                     style={{ width: `${velocityPct}%` }}
                   />
                 </div>
               </div>
 
-              <div className="p-5 rounded-2xl bg-white dark:bg-[#0b0c33] border border-slate-200 dark:border-[#D8B452]/20 shadow-sm hover:shadow-md transition-all">
+              <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900/70 border border-slate-200 dark:border-white/10 shadow-sm hover:shadow-md transition-all">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                   Lead Time to Change
                 </span>
@@ -437,7 +437,7 @@ export function WorkspaceDashboard({
                 <p className="mt-3 text-[11px] text-slate-500 dark:text-slate-400">Automated AST reviews on {hostTitle} CI</p>
               </div>
 
-              <div className="p-5 rounded-2xl bg-white dark:bg-[#0b0c33] border border-slate-200 dark:border-[#D8B452]/20 shadow-sm hover:shadow-md transition-all">
+              <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900/70 border border-slate-200 dark:border-white/10 shadow-sm hover:shadow-md transition-all">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                   Mean Time to Recover
                 </span>
@@ -450,7 +450,7 @@ export function WorkspaceDashboard({
                 <p className="mt-3 text-[11px] text-slate-500 dark:text-slate-400">Automated canary circuit breaker for {currentWorkspace.repo}</p>
               </div>
 
-              <div className="p-5 rounded-2xl bg-white dark:bg-[#0b0c33] border border-slate-200 dark:border-[#D8B452]/20 shadow-sm hover:shadow-md transition-all">
+              <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900/70 border border-slate-200 dark:border-white/10 shadow-sm hover:shadow-md transition-all">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                   Autonomous Patches
                 </span>
@@ -467,11 +467,11 @@ export function WorkspaceDashboard({
             {/* Velocity Burndown Simulator & Live Heuristic Stream */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Burndown Chart Card (2 cols) */}
-              <div className="lg:col-span-2 p-6 rounded-3xl bg-white dark:bg-[#0b0c33] border border-slate-200 dark:border-white/10 shadow-sm space-y-4">
+              <div className="lg:col-span-2 p-6 rounded-3xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-white/10 shadow-sm space-y-4">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-white/10">
                   <div>
                     <h4 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                      <TrendingUp className="w-4 h-4 text-[#a1741a] dark:text-[#D8B452]" />
+                      <TrendingUp className="w-4 h-4 text-orange-600 dark:text-[#FF5500]" />
                       Predictive Sprint Velocity Trajectory
                     </h4>
                     <p className="text-xs text-slate-500 dark:text-slate-400">
@@ -487,7 +487,7 @@ export function WorkspaceDashboard({
                       }}
                       className={`px-2.5 py-1 rounded-lg text-xs font-bold cursor-pointer transition-all ${
                         projectionMode === 'optimal'
-                          ? 'bg-[#D8B452] text-black shadow-xs'
+                          ? 'bg-[#FF5500] text-black shadow-xs shadow-orange-500/25'
                           : 'text-slate-500 hover:text-slate-800 dark:hover:text-white'
                       }`}
                     >
@@ -501,7 +501,7 @@ export function WorkspaceDashboard({
                       }}
                       className={`px-2.5 py-1 rounded-lg text-xs font-bold cursor-pointer transition-all ${
                         projectionMode === 'conservative'
-                          ? 'bg-[#D8B452] text-black shadow-xs'
+                          ? 'bg-[#FF5500] text-black shadow-xs shadow-orange-500/25'
                           : 'text-slate-500 hover:text-slate-800 dark:hover:text-white'
                       }`}
                     >
@@ -517,8 +517,8 @@ export function WorkspaceDashboard({
                     <svg className="w-full h-full overflow-visible" viewBox="0 0 500 150" preserveAspectRatio="none">
                       <defs>
                         <linearGradient id="burnGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                          <stop offset="0%" stopColor="#D8B452" stopOpacity="0.3" />
-                          <stop offset="100%" stopColor="#D8B452" stopOpacity="0.0" />
+                          <stop offset="0%" stopColor="#FF5500" stopOpacity="0.3" />
+                          <stop offset="100%" stopColor="#FF5500" stopOpacity="0.0" />
                         </linearGradient>
                       </defs>
                       {/* Ideal Guideline */}
@@ -531,7 +531,7 @@ export function WorkspaceDashboard({
                             : 'M 10 10 L 100 40 L 200 70 L 300 105 L 400 130 L 490 140'
                         }
                         fill="none"
-                        stroke="#D8B452"
+                        stroke="#FF5500"
                         strokeWidth="3"
                         strokeLinecap="round"
                       />
@@ -545,17 +545,17 @@ export function WorkspaceDashboard({
                         fill="url(#burnGrad)"
                       />
                       {/* Current Day Milestone marker */}
-                      <circle cx="300" cy="85" r="5" fill="#D8B452" stroke="#000" strokeWidth="2" />
+                      <circle cx="300" cy="85" r="5" fill="#FF5500" stroke="#000" strokeWidth="2" />
                     </svg>
                   </div>
                   <div className="flex justify-between text-[11px] text-slate-400 font-mono mt-3 pt-2 border-t border-slate-100 dark:border-white/5">
                     <span>Day 1 (Plan: {totalSprintPts}pts)</span>
                     <span>Day 5 (Mid-Sprint: {completedSprintPts}pts)</span>
-                    <span className="text-[#a1741a] dark:text-[#D8B452] font-bold">Day 10 (Target: 0pts remaining)</span>
+                    <span className="text-orange-600 dark:text-[#FF5500] font-bold">Day 10 (Target: 0pts remaining)</span>
                   </div>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-amber-50 dark:bg-[#D8B452]/10 border border-[#D8B452]/30 text-xs flex items-center justify-between">
+                <div className="p-3.5 rounded-xl bg-orange-500/5 dark:bg-zinc-900/80 border border-white/10 text-xs flex items-center justify-between">
                   <span className="text-slate-700 dark:text-slate-300">
                     <strong className="text-slate-900 dark:text-white font-bold">AI Heuristic Insight:</strong> {Math.round(totalSprintPts * 0.22)} story points in {currentWorkspace.repo} projected for delivery 18 hours ahead of schedule.
                   </span>
@@ -563,7 +563,7 @@ export function WorkspaceDashboard({
                     type="button"
                     onClick={handleRunHeuristicSweep}
                     disabled={isSweepRunning}
-                    className="shrink-0 px-3 py-1.5 rounded-lg bg-[#D8B452] text-black font-bold hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5"
+                    className="shrink-0 px-3 py-1.5 rounded-lg bg-[#FF5500] hover:bg-[#FF6600] text-black font-extrabold shadow-md shadow-orange-500/25 hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5"
                   >
                     <RefreshCw className={`w-3.5 h-3.5 ${isSweepRunning ? 'animate-spin' : ''}`} />
                     <span>{isSweepRunning ? 'Evaluating...' : 'Re-Calibrate'}</span>
@@ -572,7 +572,7 @@ export function WorkspaceDashboard({
               </div>
 
               {/* Real-time Activity Stream (1 col) */}
-              <div className="p-6 rounded-3xl bg-white dark:bg-[#0b0c33] border border-slate-200 dark:border-white/10 shadow-sm flex flex-col justify-between space-y-4">
+              <div className="p-6 rounded-3xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-white/10 shadow-sm flex flex-col justify-between space-y-4">
                 <div>
                   <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-white/10">
                     <h4 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
@@ -586,7 +586,7 @@ export function WorkspaceDashboard({
                     {activityFeed.map((item) => (
                       <div
                         key={item.id}
-                        className="p-3 rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-100 dark:border-white/5 text-xs space-y-1"
+                        className="p-3 rounded-xl bg-slate-50 dark:bg-zinc-950 border border-slate-100 dark:border-white/5 text-xs space-y-1"
                       >
                         <div className="flex items-center justify-between">
                           <span
@@ -594,7 +594,7 @@ export function WorkspaceDashboard({
                               item.status === 'success'
                                 ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
                                 : item.status === 'warning'
-                                ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400'
+                                ? 'bg-orange-500/10 text-orange-600 dark:text-[#FF7700]'
                                 : 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400'
                             }`}
                           >
@@ -615,7 +615,7 @@ export function WorkspaceDashboard({
                     disabled={isSweepRunning}
                     className="w-full py-2.5 rounded-xl bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/15 text-slate-800 dark:text-white font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer"
                   >
-                    <Sparkles className="w-3.5 h-3.5 text-[#a1741a] dark:text-[#D8B452]" />
+                    <Sparkles className="w-3.5 h-3.5 text-orange-600 dark:text-[#FF5500]" />
                     <span>Run Full Heuristic Inspection</span>
                   </button>
                 </div>
@@ -627,11 +627,11 @@ export function WorkspaceDashboard({
         {/* TAB 2: PULL REQUESTS & CODE REVIEWS */}
         {activeTab === 'prs' && (
           <div className="space-y-6 animate-fade-in">
-            <div className="p-6 rounded-3xl bg-white dark:bg-[#0b0c33] border border-slate-200 dark:border-white/10 shadow-sm space-y-6">
+            <div className="p-6 rounded-3xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-white/10 shadow-sm space-y-6">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100 dark:border-white/10">
                 <div>
                   <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                    <GitPullRequest className="w-5 h-5 text-[#a1741a] dark:text-[#D8B452]" />
+                    <GitPullRequest className="w-5 h-5 text-orange-600 dark:text-[#FF5500]" />
                     Autonomous PR Code Review Engine
                   </h4>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
@@ -642,7 +642,7 @@ export function WorkspaceDashboard({
                   type="button"
                   onClick={handleTriggerPRScan}
                   disabled={isScanningPR}
-                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#D97706] to-[#F59E0B] dark:from-[#D8B452] dark:to-[#B88A23] text-black font-bold text-xs flex items-center gap-2 shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer shrink-0"
+                  className="px-4 py-2 rounded-xl bg-[#FF5500] hover:bg-[#FF6600] text-black font-extrabold text-xs flex items-center gap-2 shadow-md shadow-orange-500/25 hover:scale-105 active:scale-95 transition-all cursor-pointer shrink-0"
                 >
                   <RefreshCw className={`w-3.5 h-3.5 ${isScanningPR ? 'animate-spin' : ''}`} />
                   <span>{isScanningPR ? `Scanning ${currentWorkspace.repo}...` : 'Trigger Deep Heuristic AST Scan'}</span>
@@ -668,12 +668,12 @@ export function WorkspaceDashboard({
                         }}
                         className={`p-4 rounded-2xl border cursor-pointer transition-all ${
                           isSelected
-                            ? 'bg-amber-50 dark:bg-[#D8B452]/10 border-[#D8B452] shadow-sm scale-101'
-                            : 'bg-slate-50 dark:bg-[#050614] border-slate-200 dark:border-white/10 hover:border-slate-300'
+                            ? 'bg-orange-500/10 dark:bg-orange-500/15 border-[#FF5500] shadow-sm scale-101'
+                            : 'bg-slate-50 dark:bg-zinc-950 border-slate-200 dark:border-white/10 hover:border-slate-300'
                         }`}
                       >
                         <div className="flex items-center justify-between mb-2">
-                          <span className="font-mono font-bold text-xs text-[#a1741a] dark:text-[#D8B452]">
+                          <span className="font-mono font-bold text-xs text-orange-600 dark:text-[#FF5500]">
                             {pr.id}
                           </span>
                           <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${pr.riskColor}`}>
@@ -693,7 +693,7 @@ export function WorkspaceDashboard({
                 </div>
 
                 {/* PR Inspector Panel (2 cols) */}
-                <div className="lg:col-span-2 p-5 rounded-2xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 space-y-4">
+                <div className="lg:col-span-2 p-5 rounded-2xl bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-white/10 space-y-4">
                   {prList.filter((p) => p.id === activePRId).map((pr) => {
                     const isMerged = mergedPRs.has(pr.id);
                     return (
@@ -701,7 +701,7 @@ export function WorkspaceDashboard({
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-200 dark:border-white/10">
                           <div>
                             <div className="flex items-center gap-2">
-                              <span className="font-mono text-xs font-black text-[#D8B452]">{pr.id}</span>
+                              <span className="font-mono text-xs font-black text-[#FF5500]">{pr.id}</span>
                               <span className="text-xs font-mono text-slate-400">({pr.branch})</span>
                             </div>
                             <h4 className="text-sm font-bold text-slate-900 dark:text-white mt-0.5">
@@ -739,7 +739,7 @@ export function WorkspaceDashboard({
                           <p className="text-emerald-400 bg-emerald-950/40 px-2 py-0.5 rounded">+  {pr.newLine3}</p>
                         </div>
 
-                        <div className="p-3.5 rounded-xl bg-white dark:bg-[#0b0c33] border border-slate-200 dark:border-white/10 text-xs flex items-center justify-between">
+                        <div className="p-3.5 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-white/10 text-xs flex items-center justify-between">
                           <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
                             <ShieldCheck className="w-4 h-4 text-emerald-500" />
                             <span>{pr.tests}</span>
@@ -758,11 +758,11 @@ export function WorkspaceDashboard({
         {/* TAB 3: AUTONOMOUS AGENTS */}
         {activeTab === 'agents' && (
           <div className="space-y-6 animate-fade-in">
-            <div className="p-6 rounded-3xl bg-white dark:bg-[#0b0c33] border border-slate-200 dark:border-white/10 shadow-sm space-y-6">
+            <div className="p-6 rounded-3xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-white/10 shadow-sm space-y-6">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100 dark:border-white/10">
                 <div>
                   <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                    <Bot className="w-5 h-5 text-[#a1741a] dark:text-[#D8B452]" />
+                    <Bot className="w-5 h-5 text-orange-600 dark:text-[#FF5500]" />
                     Autonomous Agent Workforce Manager
                   </h4>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
@@ -773,7 +773,7 @@ export function WorkspaceDashboard({
                   type="button"
                   onClick={handleRunHeuristicSweep}
                   disabled={isSweepRunning}
-                  className="px-4 py-2 rounded-xl bg-[#D8B452] text-black font-bold text-xs flex items-center gap-2 shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer shrink-0"
+                  className="px-4 py-2 rounded-xl bg-[#FF5500] hover:bg-[#FF6600] text-black font-bold text-xs flex items-center gap-2 shadow-md shadow-orange-500/25 hover:scale-105 active:scale-95 transition-all cursor-pointer shrink-0"
                 >
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>{isSweepRunning ? 'Executing Sweep...' : 'Trigger Full Squad Sweep'}</span>
@@ -820,7 +820,7 @@ export function WorkspaceDashboard({
                   return (
                     <div
                       key={agent.key}
-                      className="p-5 rounded-2xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 space-y-3 flex flex-col justify-between"
+                      className="p-5 rounded-2xl bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-white/10 space-y-3 flex flex-col justify-between"
                     >
                       <div>
                         <div className="flex items-center justify-between mb-2">
@@ -843,7 +843,7 @@ export function WorkspaceDashboard({
                             <span>{isEnabled ? 'Active' : 'Paused'}</span>
                           </button>
                         </div>
-                        <span className="text-[11px] font-bold text-[#a1741a] dark:text-[#D8B452]">
+                        <span className="text-[11px] font-bold text-orange-600 dark:text-[#FF5500]">
                           {agent.role}
                         </span>
                         <p className="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">
@@ -868,10 +868,10 @@ export function WorkspaceDashboard({
           <div className="space-y-6 animate-fade-in">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* API Token Security Card */}
-              <div className="p-6 rounded-3xl bg-white dark:bg-[#0b0c33] border border-slate-200 dark:border-white/10 shadow-sm space-y-4">
+              <div className="p-6 rounded-3xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-white/10 shadow-sm space-y-4">
                 <div>
                   <h4 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4 text-[#a1741a] dark:text-[#D8B452]" />
+                    <ShieldCheck className="w-4 h-4 text-orange-600 dark:text-[#FF5500]" />
                     Zero-Trust Cryptographic Access Token
                   </h4>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
@@ -882,7 +882,7 @@ export function WorkspaceDashboard({
                 <div className="p-4 rounded-xl bg-slate-900 text-slate-100 font-mono text-xs border border-white/10 flex items-center justify-between gap-3">
                   <div className="truncate">
                     <span className="text-slate-500 mr-2">TOKEN:</span>
-                    <span className="text-[#D8B452] font-bold">
+                    <span className="text-[#FF5500] font-bold">
                       {isTokenVisible ? tokenValue : 'nova_live_' + '•'.repeat(18)}
                     </span>
                   </div>
@@ -911,7 +911,7 @@ export function WorkspaceDashboard({
                   <button
                     type="button"
                     onClick={handleRegenerateToken}
-                    className="text-xs font-bold text-[#a1741a] dark:text-[#D8B452] hover:underline cursor-pointer flex items-center gap-1"
+                    className="text-xs font-bold text-orange-600 dark:text-[#FF5500] hover:underline cursor-pointer flex items-center gap-1"
                   >
                     <RefreshCw className="w-3 h-3" />
                     <span>Regenerate Key</span>
@@ -920,10 +920,10 @@ export function WorkspaceDashboard({
               </div>
 
               {/* Connected Repository Card */}
-              <div className="p-6 rounded-3xl bg-white dark:bg-[#0b0c33] border border-slate-200 dark:border-white/10 shadow-sm space-y-4">
+              <div className="p-6 rounded-3xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-white/10 shadow-sm space-y-4">
                 <div>
                   <h4 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                    <GitBranch className="w-4 h-4 text-[#a1741a] dark:text-[#D8B452]" />
+                    <GitBranch className="w-4 h-4 text-orange-600 dark:text-[#FF5500]" />
                     Linked Repository Webhooks
                   </h4>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
@@ -931,7 +931,7 @@ export function WorkspaceDashboard({
                   </p>
                 </div>
 
-                <div className="p-4 rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 space-y-2">
+                <div className="p-4 rounded-xl bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-white/10 space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-xs font-bold text-slate-800 dark:text-slate-200 truncate">
                       {repoFullPath}
@@ -941,7 +941,7 @@ export function WorkspaceDashboard({
                     </span>
                   </div>
                   <p className="text-xs text-slate-500 truncate">
-                    Endpoint: <code className="font-mono text-[11px] text-[#a1741a] dark:text-[#D8B452]">https://api.nova.ai/v2/hooks/wh_{currentWorkspace.slug}_{currentWorkspace.host}</code>
+                    Endpoint: <code className="font-mono text-[11px] text-orange-600 dark:text-[#FF5500]">https://api.nova.ai/v2/hooks/wh_{currentWorkspace.slug}_{currentWorkspace.host}</code>
                   </p>
                 </div>
 
@@ -956,25 +956,25 @@ export function WorkspaceDashboard({
             </div>
 
             {/* Real Workspace Telemetry Specs Card */}
-            <div className="p-6 rounded-3xl bg-white dark:bg-[#0b0c33] border border-slate-200 dark:border-white/10 shadow-sm space-y-4">
+            <div className="p-6 rounded-3xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-white/10 shadow-sm space-y-4">
               <h4 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-[#a1741a] dark:text-[#D8B452]" />
+                <Sparkles className="w-4 h-4 text-orange-600 dark:text-[#FF5500]" />
                 Live Workspace Specification &amp; Provisioning Profile
               </h4>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
-                <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10">
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-white/10">
                   <span className="text-slate-400 uppercase font-bold text-[10px]">Workspace Name</span>
                   <p className="font-bold text-slate-900 dark:text-white mt-0.5 truncate">{currentWorkspace.name}</p>
                 </div>
-                <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10">
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-white/10">
                   <span className="text-slate-400 uppercase font-bold text-[10px]">Linked Repo</span>
                   <p className="font-bold text-slate-900 dark:text-white mt-0.5 truncate font-mono">{currentWorkspace.repo}</p>
                 </div>
-                <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10">
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-white/10">
                   <span className="text-slate-400 uppercase font-bold text-[10px]">VCS Provider</span>
                   <p className="font-bold text-slate-900 dark:text-white mt-0.5">{hostTitle}</p>
                 </div>
-                <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10">
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-white/10">
                   <span className="text-slate-400 uppercase font-bold text-[10px]">Engineering Squad</span>
                   <p className="font-bold text-slate-900 dark:text-white mt-0.5">{teamHeadcount} Developers</p>
                 </div>

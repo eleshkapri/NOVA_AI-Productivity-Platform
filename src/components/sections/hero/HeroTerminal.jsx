@@ -140,9 +140,9 @@ export function HeroTerminal({ onOpenDemo }) {
   return (
     <div className="space-y-4">
       {/* Terminal Title Bar */}
-      <div className="bg-[#0b0c33]/80 rounded-xl p-3 sm:p-4 border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 font-mono text-xs">
+      <div className="bg-zinc-900/80 rounded-xl p-3 sm:p-4 border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 font-mono text-xs">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-lg bg-[#D8B452]/10 border border-[#D8B452]/30 text-[#D8B452]">
+          <div className="p-2 rounded-lg bg-orange-500/10 border border-orange-500/30 text-[#FF5500]">
             <Terminal className="w-4 h-4" />
           </div>
           <div>

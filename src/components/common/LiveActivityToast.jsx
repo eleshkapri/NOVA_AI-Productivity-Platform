@@ -84,6 +84,22 @@ export function LiveActivityToast({ onOpenDemo }) {
     };
   }, [isDismissed, isPaused]);
 
+  useEffect(() => {
+    const handleToggle = () => {
+      soundService.playChime('actionClick');
+      if (isDismissed) {
+        setIsDismissed(false);
+        setIsVisible(true);
+        setIsMinimized(false);
+      } else {
+        setIsMinimized((prev) => !prev);
+      }
+    };
+
+    window.addEventListener('toggle-popup-minimize', handleToggle);
+    return () => window.removeEventListener('toggle-popup-minimize', handleToggle);
+  }, [isDismissed]);
+
   if (isDismissed || !isVisible) return null;
 
   const current = activities[index];
@@ -117,20 +133,23 @@ export function LiveActivityToast({ onOpenDemo }) {
               setIsMinimized(false);
             }
           }}
-          className="bg-white/95 dark:bg-[#0b0c33]/95 backdrop-blur-xl border border-slate-200/90 dark:border-[#D8B452]/40 rounded-full py-1.5 px-3.5 shadow-xl dark:shadow-2xl flex items-center justify-between gap-3 transition-all duration-300 hover:border-[#D8B452] hover:scale-105 active:scale-95 cursor-pointer group select-none outline-none"
-          title="Click to expand live activity feed"
+          className="bg-white/95 dark:bg-zinc-950/95 backdrop-blur-xl border border-slate-300 dark:border-[#FF5500]/40 rounded-full py-1.5 px-3.5 shadow-xl dark:shadow-2xl flex items-center justify-between gap-3 transition-all duration-300 hover:border-[#FF5500] hover:scale-105 active:scale-95 cursor-pointer group select-none outline-none"
+          title="Press 'Z' or click to expand live activity feed"
           aria-label="Expand live activity feed"
         >
           <div className="flex items-center gap-2 min-w-0">
             <span className="flex h-2 w-2 relative shrink-0">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D8B452] opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#D8B452]" />
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF5500] opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF5500]" />
             </span>
             <span className="text-[11px] font-mono font-bold tracking-wider text-slate-700 dark:text-slate-300 uppercase truncate">
               {current.company}
             </span>
           </div>
           <div className="flex items-center gap-1 shrink-0">
+            <kbd className="hidden sm:inline-block px-1.5 py-0.5 rounded bg-slate-100 dark:bg-white/10 text-[9px] font-mono font-bold text-slate-500 dark:text-zinc-400 border border-slate-300 dark:border-white/10">
+              Z
+            </kbd>
             <button
               type="button"
               onClick={(e) => {
@@ -139,8 +158,8 @@ export function LiveActivityToast({ onOpenDemo }) {
                 setIsMinimized(false);
               }}
               aria-label="Maximize notification"
-              title="Maximize"
-              className="p-1 rounded-full text-[#B45309] dark:text-[#D8B452] hover:bg-amber-50 dark:hover:bg-[#D8B452]/20 transition-all cursor-pointer"
+              title="Maximize (Z)"
+              className="p-1 rounded-full text-orange-600 dark:text-[#FF5500] hover:bg-orange-50 dark:hover:bg-[#FF5500]/20 transition-all cursor-pointer"
             >
               <Maximize2 className="w-3.5 h-3.5" />
             </button>
@@ -180,21 +199,21 @@ export function LiveActivityToast({ onOpenDemo }) {
           }
         }}
         style={{ outline: 'none' }}
-        className="bg-white/95 dark:bg-[#0b0c33]/95 backdrop-blur-xl border border-slate-200/90 dark:border-[#D8B452]/40 rounded-2xl p-3 sm:p-3.5 shadow-xl dark:shadow-2xl flex items-center gap-3 transition-all duration-300 hover:border-[#D8B452] focus-visible:border-[#D8B452] hover:scale-105 hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#D8B452]/15 cursor-pointer group select-none outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0"
+        className="bg-white dark:bg-zinc-950/95 backdrop-blur-xl border border-slate-300 dark:border-[#FF5500]/40 rounded-2xl p-3 sm:p-3.5 shadow-xl dark:shadow-2xl flex items-center gap-3 transition-all duration-300 hover:border-[#FF5500] focus-visible:border-[#FF5500] hover:scale-105 hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#FF5500]/15 cursor-pointer group select-none outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0"
       >
-        <div className="w-8 h-8 rounded-xl bg-amber-50 dark:bg-[#050614] border border-amber-200/80 dark:border-[#D8B452]/30 flex items-center justify-center text-[#B45309] dark:text-[#D8B452] shrink-0 text-xs font-bold group-hover:scale-110 group-hover:border-[#D8B452] group-hover:bg-[#D8B452]/10 transition-all duration-300 shadow-xs">
+        <div className="w-8 h-8 rounded-xl bg-orange-50 dark:bg-zinc-900 border border-orange-300 dark:border-[#FF5500]/30 flex items-center justify-center text-[#FF5500] shrink-0 text-xs font-bold group-hover:scale-110 group-hover:border-[#FF5500] group-hover:bg-[#FF5500]/10 transition-all duration-300 shadow-xs">
           {current.icon}
         </div>
         <div className="flex-1 min-w-0 pr-1">
-          <p className="text-xs font-bold text-slate-900 dark:text-white truncate group-hover:text-[#B45309] dark:group-hover:text-[#D8B452] transition-colors">
+          <p className="text-xs font-bold text-slate-900 dark:text-white truncate group-hover:text-[#FF5500] transition-colors">
             {current.company}{' '}
             <span className="font-normal text-slate-600 dark:text-slate-300">{current.action}</span>
           </p>
           <div className="flex items-center gap-2 mt-1">
             <p className="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1 font-mono">
-              <Sparkles className="w-2.5 h-2.5 text-[#B45309] dark:text-[#D8B452]" /> {current.time}
+              <Sparkles className="w-2.5 h-2.5 text-[#FF5500]" /> {current.time}
             </p>
-            <span className="inline-flex items-center gap-0.5 text-[9px] font-bold text-[#B45309] bg-amber-50 border border-amber-200/80 dark:text-[#D8B452] dark:bg-[#D8B452]/15 dark:border-[#D8B452]/30 px-1.5 py-0.5 rounded-md group-hover:bg-[#D8B452] group-hover:text-black transition-all">
+            <span className="inline-flex items-center gap-0.5 text-[9px] font-extrabold text-orange-950 bg-orange-50 border border-orange-300 dark:text-[#FF7700] dark:bg-[#FF5500]/15 dark:border-[#FF5500]/30 px-1.5 py-0.5 rounded-md group-hover:bg-[#FF5500] group-hover:text-black transition-all shadow-2xs">
               {current.actionBadge}
               <ArrowRight className="w-2.5 h-2.5 group-hover:translate-x-0.5 transition-transform" />
             </span>
@@ -202,7 +221,10 @@ export function LiveActivityToast({ onOpenDemo }) {
         </div>
 
         {/* Dual Actions: Minimize & Dismiss */}
-        <div className="flex items-center gap-0.5 shrink-0">
+        <div className="flex items-center gap-1 shrink-0">
+          <kbd className="hidden sm:inline-block px-1.5 py-0.5 rounded bg-slate-100 dark:bg-white/10 text-[9px] font-mono font-bold text-slate-500 dark:text-zinc-400 border border-slate-300 dark:border-white/10">
+            Z
+          </kbd>
           <button
             type="button"
             onClick={(e) => {
@@ -211,8 +233,8 @@ export function LiveActivityToast({ onOpenDemo }) {
               setIsMinimized(true);
             }}
             aria-label="Minimize live notification"
-            title="Minimize Notification"
-            className="text-slate-400 hover:text-slate-700 dark:text-slate-400 dark:hover:text-[#D8B452] p-1 rounded-md transition-all hover:scale-115 active:scale-90 hover:bg-slate-100 dark:hover:bg-white/10 cursor-pointer shrink-0 outline-none"
+            title="Minimize Notification (Z)"
+            className="text-slate-400 hover:text-slate-700 dark:text-slate-400 dark:hover:text-[#FF5500] p-1 rounded-md transition-all hover:scale-115 active:scale-90 hover:bg-slate-100 dark:hover:bg-white/10 cursor-pointer shrink-0 outline-none"
           >
             <Minus className="w-3.5 h-3.5" />
           </button>

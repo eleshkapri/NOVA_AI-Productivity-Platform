@@ -1,4 +1,4 @@
-﻿/**
+/**
  * PdfReportService generates executive-ready, pixel-perfect PDF reports
  * formatted to standard A4 (210mm x 297mm) with zero trailing whitespace,
  * harmonious spacing, and verified single-page geometry.
@@ -43,17 +43,17 @@ export class PdfReportService {
     const headerHeight = 28;
 
     // Dark luxury background
-    doc.setFillColor(11, 12, 51); // #0B0C33
+    doc.setFillColor(10, 10, 14); // #0A0A0E Obsidian
     doc.roundedRect(margin, headerY, contentWidth, headerHeight, 4, 4, 'F');
 
-    // Gold top accent line
-    doc.setFillColor(216, 180, 82); // #D8B452
+    // Cyber-Orange top accent line
+    doc.setFillColor(255, 85, 0); // #FF5500 Floria Cyber-Orange
     doc.rect(margin + 4, headerY, contentWidth - 8, 1.2, 'F');
 
     // Brand Logo Pill
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(14);
-    doc.setTextColor(216, 180, 82);
+    doc.setTextColor(255, 85, 0);
     doc.text('NOVA', margin + 7, headerY + 11);
 
     doc.setFontSize(8);
@@ -92,12 +92,12 @@ export class PdfReportService {
     doc.roundedRect(margin, scoreY, contentWidth, scoreHeight, 3.5, 3.5, 'FD');
 
     // Left Score Block
-    doc.setFillColor(11, 12, 51);
+    doc.setFillColor(10, 10, 14);
     doc.roundedRect(margin + 3.5, scoreY + 3, 42, 22, 3, 3, 'F');
 
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(17);
-    doc.setTextColor(216, 180, 82);
+    doc.setTextColor(255, 85, 0);
     doc.text(`${totalScore}`, margin + 24.5, scoreY + 11, { align: 'center' });
 
     doc.setFontSize(7);
@@ -109,7 +109,7 @@ export class PdfReportService {
     if (totalScore >= 90) {
       doc.setTextColor(52, 211, 153);
     } else if (totalScore >= 70) {
-      doc.setTextColor(216, 180, 82);
+      doc.setTextColor(255, 85, 0);
     } else if (totalScore >= 45) {
       doc.setTextColor(251, 191, 36);
     } else {
@@ -142,7 +142,7 @@ export class PdfReportService {
 
     // Tile 1: Hours Reclaimed
     doc.setFillColor(248, 250, 252);
-    doc.setDrawColor(216, 180, 82);
+    doc.setDrawColor(255, 85, 0);
     doc.setLineWidth(0.3);
     doc.roundedRect(margin, metricY, colWidth, metricHeight, 3, 3, 'FD');
 
@@ -163,7 +163,7 @@ export class PdfReportService {
     // Tile 2: Cost Dividend
     const col2X = margin + colWidth + colGap;
     doc.setFillColor(248, 250, 252);
-    doc.setDrawColor(216, 180, 82);
+    doc.setDrawColor(255, 85, 0);
     doc.roundedRect(col2X, metricY, colWidth, metricHeight, 3, 3, 'FD');
 
     doc.setFont('helvetica', 'bold');
@@ -172,7 +172,7 @@ export class PdfReportService {
     doc.text('PRODUCTIVITY DIVIDEND', col2X + 5, metricY + 5.5);
 
     doc.setFontSize(12.5);
-    doc.setTextColor(180, 83, 9); // Amber gold
+    doc.setTextColor(255, 85, 0); // Cyber-orange
     doc.text(`$${annualSavingsDollars.toLocaleString()} USD`, col2X + 5, metricY + 13.5);
 
     doc.setFont('helvetica', 'normal');
@@ -233,11 +233,11 @@ export class PdfReportService {
       doc.roundedRect(margin, rowY, contentWidth, rowHeight, 2.5, 2.5, 'FD');
 
       // Left Index Pill
-      doc.setFillColor(11, 12, 51);
+      doc.setFillColor(10, 10, 14);
       doc.roundedRect(margin + 3, rowY + 2.5, 5, 4.5, 1, 1, 'F');
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(6.5);
-      doc.setTextColor(216, 180, 82);
+      doc.setTextColor(255, 85, 0);
       doc.text(`${idx + 1}`, margin + 5.5, rowY + 5.8, { align: 'center' });
 
       // Dimension Name
@@ -318,9 +318,9 @@ export class PdfReportService {
 
       // Left vertical accent strip
       doc.setFillColor(
-        idx === 0 ? 216 : idx === 1 ? 142 : 52,
-        idx === 0 ? 180 : idx === 1 ? 111 : 211,
-        idx === 0 ? 82 : idx === 1 ? 255 : 153
+        idx === 0 ? 255 : idx === 1 ? 142 : 52,
+        idx === 0 ? 85 : idx === 1 ? 111 : 211,
+        idx === 0 ? 0 : idx === 1 ? 255 : 153
       );
       doc.rect(margin, pY + 2, 1.5, pHeight - 4, 'F');
 
@@ -338,7 +338,7 @@ export class PdfReportService {
       // Badge on Right
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(6.8);
-      doc.setTextColor(11, 12, 51);
+      doc.setTextColor(10, 10, 14);
       doc.text(item.badge, pageWidth - margin - 4, pY + 5.2, { align: 'right' });
 
       pY += pHeight + pGap;
@@ -351,8 +351,8 @@ export class PdfReportService {
     // footerLineY is placed at 260mm -> 7mm clean gap, ZERO OVERLAP!
     const footerLineY = 260;
 
-    // Gold divider line
-    doc.setDrawColor(216, 180, 82);
+    // Cyber-orange divider line
+    doc.setDrawColor(255, 85, 0);
     doc.setLineWidth(0.4);
     doc.line(margin, footerLineY, pageWidth - margin, footerLineY);
 

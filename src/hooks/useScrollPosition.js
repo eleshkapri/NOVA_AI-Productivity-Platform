@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { smoothScrollService } from '../services/SmoothScrollService';
 
 export function useScrollPosition() {
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -25,10 +26,7 @@ export function useScrollPosition() {
   }, []);
 
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
+    smoothScrollService.scrollTo(0, { duration: 1.5 });
   };
 
   return {

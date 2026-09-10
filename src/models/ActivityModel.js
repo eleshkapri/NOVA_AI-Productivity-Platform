@@ -1,4 +1,5 @@
 import { BaseModel } from './BaseModel';
+import { smoothScrollService } from '../services/SmoothScrollService';
 
 /**
  * ActivityModel encapsulates live activity notifications.
@@ -110,15 +111,7 @@ export class ActivityModel extends BaseModel {
       try {
         const targetElement = document.querySelector(this.#targetSection);
         if (targetElement) {
-          const offset = 80;
-          const bodyRect = document.body.getBoundingClientRect().top;
-          const elementRect = targetElement.getBoundingClientRect().top;
-          const elementPosition = elementRect - bodyRect;
-          const offsetPosition = elementPosition - offset;
-          window.scrollTo({
-            top: Math.max(0, offsetPosition),
-            behavior: 'smooth',
-          });
+          smoothScrollService.scrollTo(targetElement, { offset: -80, duration: 1.5 });
         }
       } catch {
         // Element scroll non-blocking fallback

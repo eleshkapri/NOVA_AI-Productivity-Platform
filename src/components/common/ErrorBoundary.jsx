@@ -46,15 +46,15 @@ export class ErrorBoundary extends Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#050614] text-slate-900 dark:text-white flex items-center justify-center p-4 sm:p-6 font-sans selection:bg-[#D8B452]/20 selection:text-[#D8B452]">
-          <div className="max-w-xl w-full p-6 sm:p-8 rounded-3xl bg-white/95 dark:bg-[#0b0c33]/90 backdrop-blur-2xl border border-slate-200 dark:border-[#D8B452]/30 shadow-2xl space-y-6 text-center">
+        <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#05060A] text-slate-900 dark:text-white flex items-center justify-center p-4 sm:p-6 font-sans selection:bg-[#FF5500]/20 selection:text-[#FF5500]">
+          <div className="max-w-xl w-full p-6 sm:p-8 rounded-3xl bg-white/95 dark:bg-zinc-950/90 backdrop-blur-2xl border border-slate-200 dark:border-white/10 shadow-2xl space-y-6 text-center">
             {/* Holographic Alert Icon */}
-            <div className="w-16 h-16 mx-auto rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-500 dark:text-[#D8B452] shadow-lg shadow-amber-500/20">
+            <div className="w-16 h-16 mx-auto rounded-2xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-[#FF5500] shadow-lg shadow-orange-500/20">
               <AlertTriangle className="w-8 h-8" />
             </div>
 
             <div className="space-y-2">
-              <span className="text-[11px] font-mono font-black uppercase tracking-widest text-[#a1741a] dark:text-[#D8B452]">
+              <span className="text-[11px] font-mono font-black uppercase tracking-widest text-orange-600 dark:text-[#FF5500]">
                 Runtime Protection Circuit Engaged
               </span>
               <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
@@ -68,7 +68,7 @@ export class ErrorBoundary extends Component {
             {/* Collapsible Error Log (Non-intrusive) */}
             {this.state.error && (
               <details className="text-left rounded-xl bg-slate-900 text-slate-300 p-3.5 text-xs font-mono border border-white/10 overflow-x-auto cursor-pointer group">
-                <summary className="font-bold text-slate-400 hover:text-[#D8B452] select-none transition-colors">
+                <summary className="font-bold text-slate-400 hover:text-[#FF5500] select-none transition-colors">
                   Diagnostic Telemetry Details
                 </summary>
                 <div className="mt-2 pt-2 border-t border-white/10 text-[11px] text-rose-400 space-y-1">
@@ -87,7 +87,7 @@ export class ErrorBoundary extends Component {
               <button
                 type="button"
                 onClick={this.handleReload}
-                className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[#D8B452] hover:bg-[#F3D887] text-black font-bold text-xs flex items-center justify-center gap-2 shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[#FF5500] hover:bg-[#FF6600] text-black font-extrabold text-xs flex items-center justify-center gap-2 shadow-md shadow-orange-500/25 hover:scale-105 active:scale-95 transition-all cursor-pointer"
               >
                 <RefreshCw className="w-3.5 h-3.5" />
                 <span>Reload Application</span>

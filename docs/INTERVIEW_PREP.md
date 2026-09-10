@@ -1,7 +1,8 @@
 # Live Review & Code Defense Preparation Guide
 
-> Comprehensive Technical Walkthrough & Code Defense Guide.  
-> Review these key architectural and design talking points.
+> **Comprehensive Technical Walkthrough & Code Defense Guide for Evaluators**  
+> Candidate: **Elesh Kapri**  
+> Review these architectural talking points, live coding tasks, and deep-dive answers.
 
 ---
 
@@ -10,8 +11,8 @@
 > *"The application follows a modular, single-responsibility component architecture. `App.jsx` acts as the root coordinator that mounts global providers and layout elements.
 > 
 > UI components are split into two categories:
-> 1. **Common primitives** (`Button`, `Badge`, `SectionHeader`, `Modal`) which are stateless, reusable presentation components.
-> 2. **Section components** (`Hero`, `Features`, `Pricing`, `FAQ`, etc.) which receive decoupled data from `src/data/*.js` and render cards dynamically.
+> 1. **Common primitives** (`Button`, `Badge`, `SectionHeader`, `Modal`, `TiltCard`) which are stateless, reusable presentation components.
+> 2. **Section components** (`Hero`, `Features`, `Pricing`, `FAQ`, `Solutions`, etc.) which receive decoupled data from `src/data/*.js` and render cards dynamically.
 > 
 > State is lifted only where necessary: for instance, the theme state lives in `useTheme` and is shared with `Navbar` and the `<html>` root, while the interactive `DemoModal` visibility state is toggled from the Hero and Navbar CTAs."*
 
@@ -55,7 +56,7 @@
 **Answer:**  
 > *"Three reasons:
 > 1. **Core React Competency**: React is the modern standard for reactive web engineering. Using React 19 allowed me to showcase my mastery of core React patterns (custom hooks, state synchronization, virtual DOM, event delegation).
-> 2. **Vite over Create React App**: Vite uses native ES modules (ESM) in development for instant HMR and Rollup for production bundling. Our production build completes in under 250 milliseconds with a minified bundle of just 83 KB, which is critical for Google Lighthouse performance.
+> 2. **Vite over Create React App**: Vite uses native ES modules (ESM) in development for instant HMR and Rollup for production bundling. Our production build completes in under 700 milliseconds with isolated vendor chunking, which is critical for Google Lighthouse performance.
 > 3. **Tailwind CSS v4**: It provides a unified design token system. We get responsive utility classes, consistent 4px/8px spacing, and built-in dark mode support without runtime CSS-in-JS overhead."*
 
 ---
@@ -81,7 +82,7 @@
 
 ### Q8: "How would you optimize performance for a high-traffic production release?"
 **Answer:**  
-> *"1. **Code-Splitting**: Wrap heavier components that appear below the fold (like the `DemoModal` or `Testimonials`) in `React.lazy()` and `Suspense` so they are only loaded when requested or scrolled into view.
+> *"1. **Code-Splitting**: Wrap heavier components that appear below the fold (like the `DemoModal` or `WorkspaceDashboard`) in `React.lazy()` and `Suspense` so they are only loaded when requested or scrolled into view.
 > 2. **Modern Image Formats**: Convert any raster mockups into modern AVIF and WebP formats with responsive `<picture>` srcset definitions and explicit `width` and `height` attributes to prevent Cumulative Layout Shift (CLS).
 > 3. **Edge Caching & CDN**: Host static assets on Cloudflare or Vercel Edge Network with aggressive `Cache-Control: public, max-age=31536000, immutable` headers."*
 

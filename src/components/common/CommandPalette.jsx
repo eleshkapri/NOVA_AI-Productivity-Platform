@@ -17,6 +17,7 @@ import {
   TrendingUp,
   Zap,
 } from 'lucide-react';
+import { smoothScrollService } from '../../services/SmoothScrollService';
 
 export function CommandPalette({ isOpen, onClose, onToggleTheme, isDark, onOpenDemo, onGoToDashboard, onExitDashboard, currentView }) {
   const [query, setQuery] = useState('');
@@ -78,7 +79,7 @@ export function CommandPalette({ isOpen, onClose, onToggleTheme, isDark, onOpenD
       category: 'Navigation',
       icon: Layers,
       action: () => {
-        document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
+        smoothScrollService.scrollTo('#features', { offset: -70, duration: 1.5 });
         onClose();
       },
     },
@@ -88,7 +89,7 @@ export function CommandPalette({ isOpen, onClose, onToggleTheme, isDark, onOpenD
       category: 'Tools',
       icon: Sparkles,
       action: () => {
-        document.getElementById('roi-calculator')?.scrollIntoView({ behavior: 'smooth' });
+        smoothScrollService.scrollTo('#roi-calculator', { offset: -70, duration: 1.5 });
         onClose();
       },
     },
@@ -98,7 +99,7 @@ export function CommandPalette({ isOpen, onClose, onToggleTheme, isDark, onOpenD
       category: 'Tools',
       icon: TrendingUp,
       action: () => {
-        document.getElementById('roi-calculator')?.scrollIntoView({ behavior: 'smooth' });
+        smoothScrollService.scrollTo('#roi-calculator', { offset: -70, duration: 1.5 });
         window.dispatchEvent(new CustomEvent('activate-velocity-quiz'));
         onClose();
       },
@@ -109,7 +110,7 @@ export function CommandPalette({ isOpen, onClose, onToggleTheme, isDark, onOpenD
       category: 'Navigation',
       icon: CheckCircle2,
       action: () => {
-        document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
+        smoothScrollService.scrollTo('#pricing', { offset: -70, duration: 1.5 });
         onClose();
       },
     },
@@ -169,7 +170,7 @@ export function CommandPalette({ isOpen, onClose, onToggleTheme, isDark, onOpenD
       category: 'Navigation',
       icon: HelpCircle,
       action: () => {
-        document.getElementById('faq')?.scrollIntoView({ behavior: 'smooth' });
+        smoothScrollService.scrollTo('#faq', { offset: -70, duration: 1.5 });
         onClose();
       },
     },
@@ -245,13 +246,13 @@ export function CommandPalette({ isOpen, onClose, onToggleTheme, isDark, onOpenD
         aria-hidden="true"
       />
 
-      <div className="relative w-full max-w-xl bg-[#0b0c33] rounded-3xl border border-[#D8B452]/40 shadow-2xl overflow-hidden z-10 flex flex-col">
+      <div className="relative w-full max-w-xl bg-zinc-950/95 backdrop-blur-2xl rounded-3xl border border-white/15 shadow-2xl overflow-hidden z-10 flex flex-col">
         {/* Search Bar */}
         <div
           onClick={() => inputRef.current?.focus()}
           className="flex items-center px-5 py-4 border-b border-white/10 gap-3 cursor-text"
         >
-          <Search className="w-5 h-5 text-[#D8B452] shrink-0" />
+          <Search className="w-5 h-5 text-[#FF5500] shrink-0" />
           <input
             ref={inputRef}
             type="text"
@@ -260,6 +261,12 @@ export function CommandPalette({ isOpen, onClose, onToggleTheme, isDark, onOpenD
             onChange={(e) => {
               setQuery(e.target.value.slice(0, 100));
               setSelectedIndex(0);
+            }}
+            onKeyDown={(e) => {
+              // Strictly isolate search bar typing: never let keystrokes bubble up to global shortcut listeners
+              if (e.key !== 'Escape' && e.key !== 'ArrowDown' && e.key !== 'ArrowUp' && e.key !== 'Enter') {
+                e.stopPropagation();
+              }
             }}
             placeholder="Type a command or search sections..."
             className="w-full bg-transparent text-sm text-white placeholder-slate-400 focus:outline-none"
@@ -276,7 +283,7 @@ export function CommandPalette({ isOpen, onClose, onToggleTheme, isDark, onOpenD
         <div className="p-2 max-h-72 overflow-y-auto space-y-1">
           {filtered.length === 0 ? (
             <div className="p-8 text-center space-y-3">
-              <div className="w-10 h-10 mx-auto rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-[#D8B452]">
+              <div className="w-10 h-10 mx-auto rounded-full bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-[#FF5500]">
                 <Search className="w-5 h-5 opacity-80" />
               </div>
               <div>
@@ -293,7 +300,7 @@ export function CommandPalette({ isOpen, onClose, onToggleTheme, isDark, onOpenD
                     key={tag}
                     type="button"
                     onClick={() => setQuery(tag.toLowerCase())}
-                    className="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-white/5 hover:bg-[#D8B452]/20 text-slate-300 hover:text-[#D8B452] border border-white/10 hover:border-[#D8B452]/40 transition-all cursor-pointer"
+                    className="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-white/5 hover:bg-orange-500/20 text-slate-300 hover:text-[#FF7700] border border-white/10 hover:border-[#FF5500]/40 transition-all cursor-pointer"
                   >
                     #{tag}
                   </button>
@@ -311,14 +318,14 @@ export function CommandPalette({ isOpen, onClose, onToggleTheme, isDark, onOpenD
                   onMouseEnter={() => setSelectedIndex(index)}
                   className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl text-left transition-all duration-150 cursor-pointer ${
                     isSelected
-                      ? 'bg-[#D8B452]/15 text-[#D8B452] border border-[#D8B452]/30'
+                      ? 'bg-orange-500/15 text-[#FF7700] border border-orange-500/30'
                       : 'text-slate-300 hover:bg-white/5'
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <div
                       className={`p-2 rounded-xl ${
-                        isSelected ? 'bg-[#D8B452] text-black' : 'bg-white/5 text-slate-400'
+                        isSelected ? 'bg-[#FF5500] text-black shadow-md shadow-orange-500/25' : 'bg-white/5 text-slate-400'
                       }`}
                     >
                       <Icon className="w-4 h-4" />
@@ -332,7 +339,7 @@ export function CommandPalette({ isOpen, onClose, onToggleTheme, isDark, onOpenD
                   </div>
                   <ArrowRight
                     className={`w-4 h-4 transition-transform ${
-                      isSelected ? 'translate-x-1 text-[#D8B452]' : 'opacity-0'
+                      isSelected ? 'translate-x-1 text-[#FF5500]' : 'opacity-0'
                     }`}
                   />
                 </button>
@@ -342,7 +349,7 @@ export function CommandPalette({ isOpen, onClose, onToggleTheme, isDark, onOpenD
         </div>
 
         {/* Footer shortcuts */}
-        <div className="px-5 py-3 border-t border-white/10 bg-[#050614] flex items-center justify-between text-[11px] text-slate-400">
+        <div className="px-5 py-3 border-t border-white/10 bg-zinc-950 flex items-center justify-between text-[11px] text-slate-400">
           <div className="flex items-center gap-3">
             <span>
               <kbd className="px-1.5 py-0.5 rounded bg-white/10 text-white font-mono text-[10px]">↑</kbd>{' '}

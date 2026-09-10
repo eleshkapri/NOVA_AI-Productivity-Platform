@@ -22,7 +22,6 @@ import {
   ChevronRight,
   ArrowRight,
   CheckCircle2,
-  Layers,
   Loader2,
   AlertCircle,
 } from 'lucide-react';
@@ -311,7 +310,7 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
             <h4 className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
               {activeFeature === 'walkthrough' ? (
                 <>
-                  <Sparkles className="w-5 h-5 text-[#a1741a] dark:text-[#D8B452]" />
+                  <Sparkles className="w-5 h-5 text-orange-600 dark:text-[#FF5500]" />
                   Interactive Demo Studio
                 </>
               ) : activeFeature === 'trial' ? (
@@ -365,8 +364,8 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
             }}
             className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer hover:scale-105 active:scale-95 ${
               activeFeature === 'walkthrough'
-                ? 'bg-gradient-to-r from-[#D8B452] to-[#B88A23] text-black shadow-md shadow-[#D8B452]/25 font-black'
-                : 'bg-amber-500/15 border border-[#D8B452]/40 text-[#a1741a] dark:text-[#D8B452] hover:bg-[#D8B452]/25'
+                ? 'bg-[#FF5500] text-black shadow-md shadow-orange-500/30 font-black'
+                : 'bg-orange-500/10 border border-orange-500/30 text-orange-600 dark:text-[#FF7700] hover:bg-orange-500/20'
             }`}
           >
             <Play className="w-3.5 h-3.5 fill-current" /> Interactive Studio
@@ -375,8 +374,8 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
             onClick={() => setActiveFeature('backlog')}
             className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer hover:scale-105 active:scale-95 ${
               activeFeature === 'backlog'
-                ? 'bg-[#D8B452] text-black shadow-md'
-                : 'bg-slate-100 dark:bg-[#0b0c33] text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-[#12144b]'
+                ? 'bg-slate-900 text-white dark:bg-white dark:text-black font-bold shadow-xs'
+                : 'bg-slate-100 dark:bg-zinc-900/90 text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-white/5 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-zinc-800'
             }`}
           >
             <Bot className="w-3.5 h-3.5" /> Backlog AI
@@ -385,8 +384,8 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
             onClick={() => setActiveFeature('pr')}
             className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer hover:scale-105 active:scale-95 ${
               activeFeature === 'pr'
-                ? 'bg-[#D8B452] text-black shadow-md'
-                : 'bg-slate-100 dark:bg-[#0b0c33] text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-[#12144b]'
+                ? 'bg-slate-900 text-white dark:bg-white dark:text-black font-bold shadow-xs'
+                : 'bg-slate-100 dark:bg-zinc-900/90 text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-white/5 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-zinc-800'
             }`}
           >
             <GitPullRequest className="w-3.5 h-3.5" /> PR Summaries
@@ -395,8 +394,8 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
             onClick={() => setActiveFeature('velocity')}
             className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer hover:scale-105 active:scale-95 ${
               activeFeature === 'velocity'
-                ? 'bg-[#D8B452] text-black shadow-md'
-                : 'bg-slate-100 dark:bg-[#0b0c33] text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-[#12144b]'
+                ? 'bg-slate-900 text-white dark:bg-white dark:text-black font-bold shadow-xs'
+                : 'bg-slate-100 dark:bg-zinc-900/90 text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-white/5 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-zinc-800'
             }`}
           >
             <TrendingUp className="w-3.5 h-3.5" /> Velocity Radar
@@ -405,8 +404,8 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
             onClick={() => setActiveFeature('trial')}
             className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer hover:scale-105 active:scale-95 ${
               activeFeature === 'trial'
-                ? 'bg-gradient-to-r from-[#D8B452] to-[#B88A23] text-black shadow-md'
-                : 'bg-amber-500/10 border border-[#D8B452]/40 text-[#a1741a] dark:text-[#D8B452] hover:bg-[#D8B452]/20'
+                ? 'bg-[#FF5500] text-black shadow-md shadow-orange-500/30 font-black'
+                : 'bg-orange-500/10 border border-orange-500/30 text-orange-600 dark:text-[#FF7700] hover:bg-orange-500/20'
             }`}
           >
             <Rocket className="w-3.5 h-3.5" /> Start Free Trial
@@ -415,8 +414,8 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
             onClick={() => setActiveFeature('docs')}
             className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer hover:scale-105 active:scale-95 ${
               activeFeature === 'docs'
-                ? 'bg-[#D8B452] text-black shadow-md'
-                : 'bg-slate-100 dark:bg-[#0b0c33] text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                ? 'bg-slate-900 text-white dark:bg-white dark:text-black font-bold shadow-xs'
+                : 'bg-slate-100 dark:bg-zinc-900/90 text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-white/5 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             <Code2 className="w-3.5 h-3.5" /> API & Docs
@@ -425,8 +424,8 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
             onClick={() => setActiveFeature('contact')}
             className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer hover:scale-105 active:scale-95 ${
               activeFeature === 'contact'
-                ? 'bg-[#D8B452] text-black shadow-md'
-                : 'bg-slate-100 dark:bg-[#0b0c33] text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                ? 'bg-slate-900 text-white dark:bg-white dark:text-black font-bold shadow-xs'
+                : 'bg-slate-100 dark:bg-zinc-900/90 text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-white/5 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             <Send className="w-3.5 h-3.5" /> Consultation
@@ -438,8 +437,8 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
             }}
             className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer hover:scale-105 active:scale-95 ${
               activeFeature === 'status'
-                ? 'bg-[#D8B452] text-black shadow-md'
-                : 'bg-slate-100 dark:bg-[#0b0c33] text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                ? 'bg-slate-900 text-white dark:bg-white dark:text-black font-bold shadow-xs'
+                : 'bg-slate-100 dark:bg-zinc-900/90 text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-white/5 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             <Activity className="w-3.5 h-3.5" /> Status
@@ -451,11 +450,11 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
             }}
             className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer hover:scale-105 active:scale-95 ${
               activeFeature === 'changelog'
-                ? 'bg-[#D8B452] text-black shadow-md'
-                : 'bg-slate-100 dark:bg-[#0b0c33] text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                ? 'bg-slate-900 text-white dark:bg-white dark:text-black font-bold shadow-xs'
+                : 'bg-slate-100 dark:bg-zinc-900/90 text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-white/5 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
-            <Layers className="w-3.5 h-3.5" /> Changelog
+            <Sparkles className="w-3.5 h-3.5" /> Changelog
           </button>
         </div>
 
@@ -465,27 +464,27 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
         {activeFeature === 'walkthrough' && (
           <div className="space-y-6 animate-fade-in">
             {/* Walkthrough Player Controller Bar */}
-            <div className="p-4 rounded-2xl bg-slate-100 dark:bg-[#07081e] border border-slate-200 dark:border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="p-4 rounded-2xl bg-slate-100 dark:bg-zinc-900/60 border border-slate-200 dark:border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
               {/* Left: Playback controls */}
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setIsWalkthroughPlaying(!isWalkthroughPlaying)}
                   title={isWalkthroughPlaying ? 'Pause Simulation' : 'Resume Simulation'}
-                  className="w-10 h-10 rounded-full bg-[#D8B452] hover:bg-[#E5C773] text-black flex items-center justify-center font-bold shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                  className="w-10 h-10 rounded-full bg-[#FF5500] hover:bg-[#FF6600] text-black flex items-center justify-center font-bold shadow-md shadow-orange-500/25 hover:scale-105 active:scale-95 transition-all cursor-pointer"
                 >
                   {isWalkthroughPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-current ml-0.5" />}
                 </button>
                 <button
                   onClick={handleRestart}
                   title="Restart Walkthrough"
-                  className="p-2.5 rounded-full bg-white dark:bg-[#0b0c33] border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:text-[#D8B452] cursor-pointer hover:scale-105 active:scale-95 transition-all"
+                  className="p-2.5 rounded-full bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:text-[#FF5500] cursor-pointer hover:scale-105 active:scale-95 transition-all"
                 >
                   <RotateCcw className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => setWalkthroughSpeed(walkthroughSpeed === 1 ? 2 : 1)}
                   title="Playback Speed"
-                  className="px-2.5 py-1.5 rounded-lg bg-white dark:bg-[#0b0c33] border border-slate-200 dark:border-white/10 text-xs font-mono font-bold text-[#a1741a] dark:text-[#D8B452] hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                  className="px-2.5 py-1.5 rounded-lg bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-white/10 text-xs font-mono font-bold text-orange-600 dark:text-[#FF5500] hover:scale-105 active:scale-95 transition-all cursor-pointer"
                 >
                   {walkthroughSpeed}x Speed
                 </button>
@@ -499,8 +498,8 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                     onClick={() => handleSelectStage(idx)}
                     className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
                       walkthroughStage === idx
-                        ? 'bg-[#D8B452] text-black shadow-sm scale-102 font-black'
-                        : 'bg-white/80 dark:bg-[#0b0c33] text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200/60 dark:border-white/5'
+                        ? 'bg-[#FF5500] text-black shadow-sm shadow-orange-500/25 scale-102 font-black'
+                        : 'bg-white/80 dark:bg-zinc-900/60 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200/60 dark:border-white/5'
                     }`}
                   >
                     0{idx + 1}. {ch.badge.split('• ')[1]}
@@ -512,28 +511,28 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
             {/* Scrubber Progress Bar for current stage */}
             <div className="space-y-1.5">
               <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-slate-400">
-                <span className="font-bold text-[#a1741a] dark:text-[#D8B452] uppercase">
+                <span className="font-bold text-orange-600 dark:text-[#FF5500] uppercase">
                   {walkthroughChapters[walkthroughStage].badge}
                 </span>
                 <span>Auto-Advancing: {Math.round(walkthroughProgress)}%</span>
               </div>
               <div className="w-full h-1.5 rounded-full bg-slate-200 dark:bg-white/10 overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-[#a1741a] via-[#D8B452] to-[#B38722] rounded-full transition-all duration-100 ease-linear shadow-[0_0_8px_#D8B452]"
+                  className="h-full bg-gradient-to-r from-[#EA580C] via-[#FF5500] to-[#FF7700] rounded-full transition-all duration-100 ease-linear shadow-[0_0_8px_#FF5500]"
                   style={{ width: `${walkthroughProgress}%` }}
                 />
               </div>
             </div>
 
             {/* Chapter Display Screen (Mac-style terminal / console) */}
-            <div className="bg-[#050614] rounded-3xl p-6 md:p-8 border border-[#D8B452]/30 shadow-2xl text-white relative overflow-hidden group">
+            <div className="bg-zinc-950 rounded-3xl p-6 md:p-8 border border-white/10 shadow-2xl text-white relative overflow-hidden group">
               {/* Ambient Glow */}
-              <div className="absolute top-0 right-0 w-80 h-80 rounded-full bg-[#D8B452]/10 blur-3xl pointer-events-none" />
+              <div className="absolute top-0 right-0 w-80 h-80 rounded-full bg-[#FF5500]/10 blur-3xl pointer-events-none" />
 
               {/* Stage Header */}
               <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-6 border-b border-white/10">
                 <div>
-                  <span className="text-xs font-bold uppercase tracking-widest text-[#D8B452] flex items-center gap-1.5">
+                  <span className="text-xs font-bold uppercase tracking-widest text-[#FF5500] flex items-center gap-1.5">
                     <Zap className="w-3.5 h-3.5" /> Stage 0{walkthroughStage + 1} of 04
                   </span>
                   <h3 className="text-xl md:text-2xl font-black mt-1 text-white tracking-tight">
@@ -559,8 +558,8 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
               <div className="relative z-10 pt-6">
                 {walkthroughStage === 0 && (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="p-4 rounded-2xl bg-[#0b0c33]/90 border border-white/10 space-y-3 font-mono text-xs">
-                      <div className="text-[#D8B452] flex items-center justify-between font-bold">
+                    <div className="p-4 rounded-2xl bg-zinc-900/80 border border-white/10 space-y-3 font-mono text-xs">
+                      <div className="text-[#FF5500] flex items-center justify-between font-bold">
                         <span>&gt; Ingesting Jira / PRD Payload...</span>
                         <span className="text-emerald-400">● 100% Parsed</span>
                       </div>
@@ -568,20 +567,20 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                         <p className="text-white font-semibold">PRD-409: "Multi-Region Auth Token Rotation"</p>
                         <p className="text-slate-400">&bull; Target SLA: Sub-200ms failover switch</p>
                         <p className="text-slate-400">&bull; Touched Repos: auth-core, gateway, web-client</p>
-                        <p className="text-[#D8B452]">&bull; Dependencies: Zero cyclic locks detected</p>
+                        <p className="text-[#FF5500]">&bull; Dependencies: Zero cyclic locks detected</p>
                       </div>
                     </div>
 
-                    <div className="p-4 rounded-2xl bg-[#0b0c33]/90 border border-white/10 space-y-2 text-xs">
+                    <div className="p-4 rounded-2xl bg-zinc-900/80 border border-white/10 space-y-2 text-xs">
                       <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Generated Task Graph</span>
                       <div className="space-y-2 pt-1">
                         <div className="p-2 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between text-xs">
                           <span className="text-slate-200">NOV-249: OAuth token failover hook</span>
-                          <span className="px-2 py-0.5 rounded-full bg-[#D8B452]/20 text-[#D8B452] font-bold text-[10px]">3 pts</span>
+                          <span className="px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-600 dark:text-[#FF7700] font-bold text-[10px]">3 pts</span>
                         </div>
                         <div className="p-2 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between text-xs">
                           <span className="text-slate-200">NOV-250: Redis cluster multi-write mirror</span>
-                          <span className="px-2 py-0.5 rounded-full bg-[#D8B452]/20 text-[#D8B452] font-bold text-[10px]">5 pts</span>
+                          <span className="px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-600 dark:text-[#FF7700] font-bold text-[10px]">5 pts</span>
                         </div>
                       </div>
                     </div>
@@ -590,27 +589,27 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
 
                 {walkthroughStage === 1 && (
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3 font-mono text-xs">
-                    <div className="p-4 rounded-2xl bg-[#0b0c33]/80 border border-white/10 space-y-2">
+                    <div className="p-4 rounded-2xl bg-zinc-900/80 border border-white/10 space-y-2">
                       <div className="flex items-center justify-between">
-                        <span className="text-[#D8B452] font-bold">Frontend Squad</span>
+                        <span className="text-[#FF5500] font-bold">Frontend Squad</span>
                         <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold">8 pts</span>
                       </div>
                       <p className="text-[11px] text-slate-300 font-sans">Auth refresh hook + fallback toast matrix</p>
                       <p className="text-[10px] text-slate-500 font-mono">Assigned: @alex &bull; 99% velocity match</p>
                     </div>
 
-                    <div className="p-4 rounded-2xl bg-[#0b0c33]/80 border border-white/10 space-y-2">
+                    <div className="p-4 rounded-2xl bg-zinc-900/80 border border-white/10 space-y-2">
                       <div className="flex items-center justify-between">
-                        <span className="text-[#D8B452] font-bold">Backend Squad</span>
+                        <span className="text-[#FF5500] font-bold">Backend Squad</span>
                         <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold">13 pts</span>
                       </div>
                       <p className="text-[11px] text-slate-300 font-sans">Session revocation endpoint & JWT replication</p>
                       <p className="text-[10px] text-slate-500 font-mono">Assigned: @sarah &bull; 97% velocity match</p>
                     </div>
 
-                    <div className="p-4 rounded-2xl bg-[#0b0c33]/80 border border-white/10 space-y-2">
+                    <div className="p-4 rounded-2xl bg-zinc-900/80 border border-white/10 space-y-2">
                       <div className="flex items-center justify-between">
-                        <span className="text-[#D8B452] font-bold">QA & E2E</span>
+                        <span className="text-[#FF5500] font-bold">QA & E2E</span>
                         <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold">5 pts</span>
                       </div>
                       <p className="text-[11px] text-slate-300 font-sans">Simulated multi-region latency chaos testing</p>
@@ -621,9 +620,9 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
 
                 {walkthroughStage === 2 && (
                   <div className="space-y-3 font-mono text-xs">
-                    <div className="p-4 rounded-2xl bg-[#0b0c33]/90 border border-white/10 space-y-2">
+                    <div className="p-4 rounded-2xl bg-zinc-900/80 border border-white/10 space-y-2">
                       <div className="flex items-center justify-between text-[11px] text-slate-400">
-                        <span className="text-[#D8B452] font-bold">PR #192: src/auth/TokenManager.ts</span>
+                        <span className="text-[#FF5500] font-bold">PR #192: src/auth/TokenManager.ts</span>
                         <span className={patchApplied ? 'text-emerald-400 font-bold' : 'text-amber-400 font-bold'}>
                           {patchApplied ? '✓ Memory Leak Fixed & Merged' : '⚠️ 1 Memory Leak Detected'}
                         </span>
@@ -642,7 +641,7 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                         <span className="text-slate-400">Automated AST reasoning: Unit tests passing (24/24)</span>
                         <button
                           onClick={() => handleInteractiveTrigger('patch', 'Auto-patch staged and verified by NOVA bot.')}
-                          className="px-3 py-1 rounded-lg bg-[#D8B452] hover:bg-[#F3D887] text-black font-bold text-xs cursor-pointer hover:scale-105 active:scale-95 transition-all"
+                          className="px-3 py-1 rounded-lg bg-[#FF5500] hover:bg-[#FF6600] text-black font-extrabold text-xs cursor-pointer hover:scale-105 active:scale-95 transition-all shadow-md shadow-orange-500/25"
                         >
                           {patchApplied ? '✓ Fix Staged in Git' : '⚡ Auto-Apply Fix Patch'}
                         </button>
@@ -653,20 +652,20 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
 
                 {walkthroughStage === 3 && (
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
-                    <div className="p-4 rounded-2xl bg-[#0b0c33]/80 border border-white/10 space-y-1 text-center">
-                      <span className="text-2xl font-black text-gold-gradient font-sans">4.2x</span>
+                    <div className="p-4 rounded-2xl bg-zinc-900/80 border border-white/10 space-y-1 text-center">
+                      <span className="text-2xl font-black text-[#FF5500] font-sans">4.2x</span>
                       <p className="text-slate-300 font-bold font-sans text-xs">Sprint Velocity Boost</p>
                       <p className="text-[10px] text-slate-500">vs historical baseline</p>
                     </div>
 
-                    <div className="p-4 rounded-2xl bg-[#0b0c33]/80 border border-white/10 space-y-1 text-center">
+                    <div className="p-4 rounded-2xl bg-zinc-900/80 border border-white/10 space-y-1 text-center">
                       <span className="text-2xl font-black text-emerald-400 font-sans">0.00%</span>
                       <p className="text-slate-300 font-bold font-sans text-xs">Regression Rate</p>
                       <p className="text-[10px] text-slate-500">99.98% PR test precision</p>
                     </div>
 
-                    <div className="p-4 rounded-2xl bg-[#0b0c33]/80 border border-white/10 space-y-1 text-center">
-                      <span className="text-2xl font-black text-[#D8B452] font-sans">2.5 Days</span>
+                    <div className="p-4 rounded-2xl bg-zinc-900/80 border border-white/10 space-y-1 text-center">
+                      <span className="text-2xl font-black text-[#FF5500] font-sans">2.5 Days</span>
                       <p className="text-slate-300 font-bold font-sans text-xs">Ahead of Deadline</p>
                       <button
                         onClick={() => handleInteractiveTrigger('canary', 'Canary rollout promoted to 100% traffic.')}
@@ -682,7 +681,7 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
               {/* Live Terminal Activity Stream */}
               <div className="mt-6 pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] font-mono text-slate-400">
                 <div className="flex items-center gap-2">
-                  <Terminal className="w-3.5 h-3.5 text-[#D8B452]" />
+                  <Terminal className="w-3.5 h-3.5 text-[#FF5500]" />
                   <span>Log: <strong className="text-white">{activeSimulationLog}</strong></span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -694,7 +693,7 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                   </button>
                   <button
                     onClick={() => setActiveFeature('trial')}
-                    className="px-3 py-1 rounded-lg bg-[#D8B452] text-black font-sans font-bold text-xs flex items-center gap-1 cursor-pointer hover:bg-[#F3D887] transition-all hover:scale-105"
+                    className="px-3 py-1 rounded-lg bg-[#FF5500] text-black font-sans font-extrabold text-xs flex items-center gap-1 cursor-pointer hover:bg-[#FF6600] transition-all hover:scale-105 shadow-md shadow-orange-500/25 active:scale-95"
                   >
                     Start 14-Day Trial <ArrowRight className="w-3 h-3" />
                   </button>
@@ -709,7 +708,7 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 animate-fade-in">
             <div className="lg:col-span-6 space-y-4">
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#a1741a] dark:text-[#D8B452]">
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-orange-600 dark:text-[#FF5500]">
                   {demoFeatures[activeFeature].badge}
                 </span>
                 <h5 className="text-lg font-bold text-slate-900 dark:text-white mt-1">
@@ -723,7 +722,7 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
               <div className="space-y-3 pt-2">
                 {demoFeatures[activeFeature].steps.map((step, i) => (
                   <div key={i} className="flex items-start gap-2.5 text-xs text-slate-700 dark:text-slate-300">
-                    <CheckCircle className="w-4 h-4 text-[#a1741a] dark:text-[#D8B452] shrink-0 mt-0.5" />
+                    <CheckCircle className="w-4 h-4 text-orange-600 dark:text-[#FF5500] shrink-0 mt-0.5" />
                     <span>{step}</span>
                   </div>
                 ))}
@@ -742,12 +741,12 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
               </div>
             </div>
 
-            <div className="lg:col-span-6 bg-[#050614] rounded-2xl p-5 border border-white/10 font-mono text-xs text-slate-300 shadow-inner flex flex-col justify-between overflow-x-auto transition-all duration-300 hover:border-[#D8B452]/40 hover:shadow-lg hover:shadow-[#D8B452]/10">
+            <div className="lg:col-span-6 bg-zinc-950 rounded-2xl p-5 border border-white/10 font-mono text-xs text-slate-300 shadow-inner flex flex-col justify-between overflow-x-auto transition-all duration-300 hover:border-[#FF5500]/40 hover:shadow-lg hover:shadow-[#FF5500]/10">
               <div className="flex items-center justify-between pb-2 border-b border-white/10 mb-3 text-[11px] text-slate-400">
                 <span>nova-cli v2.4.0 --interactive</span>
-                <span className="text-[#D8B452] font-bold">● Active</span>
+                <span className="text-[#FF5500] font-bold">● Active</span>
               </div>
-              <pre className="whitespace-pre-wrap text-[11px] text-[#D8B452] leading-relaxed font-mono">
+              <pre className="whitespace-pre-wrap text-[11px] text-[#FF7700] leading-relaxed font-mono">
                 {demoFeatures[activeFeature].previewSnippet}
               </pre>
               <div className="mt-4 pt-2 border-t border-white/10 text-[10px] text-slate-500 flex items-center justify-between">
@@ -762,17 +761,17 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
         {activeFeature === 'trial' && (
           <div className="space-y-6 animate-fade-in">
             {deploySuccess ? (
-              <div className="p-8 rounded-3xl bg-amber-50 dark:bg-[#D8B452]/10 border border-[#D8B452]/40 text-center space-y-4">
-                <div className="w-14 h-14 mx-auto rounded-full bg-[#D8B452] text-black flex items-center justify-center font-bold shadow-lg shadow-[#D8B452]/30">
+              <div className="p-8 rounded-3xl bg-orange-500/5 dark:bg-zinc-900/80 border border-orange-500/30 text-center space-y-4">
+                <div className="w-14 h-14 mx-auto rounded-full bg-[#FF5500] text-black flex items-center justify-center font-bold shadow-lg shadow-orange-500/30">
                   <Check className="w-8 h-8" />
                 </div>
                 <h5 className="text-xl font-bold text-slate-900 dark:text-white">
                   Workspace Initialized Successfully!
                 </h5>
                 <p className="text-sm text-slate-600 dark:text-slate-300 max-w-md mx-auto">
-                  Your repository <span className="font-mono font-bold text-[#a1741a] dark:text-[#D8B452]">{workspaceName || 'nova-sprint-demo'}</span> is connected on the <span className="uppercase font-bold">{activePlan}</span> tier.
+                  Your repository <span className="font-mono font-bold text-orange-600 dark:text-[#FF5500]">{workspaceName || 'nova-sprint-demo'}</span> is connected on the <span className="uppercase font-bold">{activePlan}</span> tier.
                 </p>
-                <div className="max-w-md mx-auto p-3.5 bg-black/80 rounded-xl border border-white/10 flex items-center justify-between text-xs font-mono text-[#D8B452]">
+                <div className="max-w-md mx-auto p-3.5 bg-black/80 rounded-xl border border-white/10 flex items-center justify-between text-xs font-mono text-[#FF5500]">
                   <span>TOKEN: nova_live_9f82d1c7a8</span>
                   <button
                     type="button"
@@ -834,18 +833,18 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
               </div>
             ) : isDeploying ? (
               /* Dedicated Production-Grade Cybernetic Provisioning Center */
-              <div className="p-8 rounded-3xl bg-slate-950 dark:bg-[#050614] border border-[#D8B452]/40 text-center space-y-6 animate-fade-in shadow-2xl relative overflow-hidden">
+              <div className="p-8 rounded-3xl bg-slate-950 dark:bg-zinc-950 border border-[#FF5500]/40 text-center space-y-6 animate-fade-in shadow-2xl relative overflow-hidden">
                 {/* Subtle animated ambient aura */}
                 <div className="absolute inset-0 bg-grid-pattern opacity-15 pointer-events-none" />
-                <div className="absolute -top-16 -left-16 w-44 h-44 bg-[#D8B452]/10 rounded-full blur-3xl pointer-events-none" />
+                <div className="absolute -top-16 -left-16 w-44 h-44 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
                 <div className="absolute -bottom-16 -right-16 w-44 h-44 bg-violet-500/10 rounded-full blur-3xl pointer-events-none" />
 
                 {/* Centered Holographic Orbital Scanner with Dynamic Percentage */}
                 <div className="relative w-28 h-28 mx-auto flex items-center justify-center">
-                  <div className="absolute inset-0 rounded-full border border-dashed border-[#D8B452]/40 animate-spin-slow" />
-                  <div className="absolute inset-2 rounded-full border-2 border-transparent border-t-[#D8B452] border-r-[#8E6FFF] border-b-cyan-400 animate-spin-smooth" />
-                  <div className="w-16 h-16 rounded-full bg-black/80 border border-[#D8B452]/60 flex flex-col items-center justify-center shadow-lg shadow-[#D8B452]/20 relative z-10">
-                    <span className="text-base font-black font-mono text-[#D8B452]">
+                  <div className="absolute inset-0 rounded-full border border-dashed border-[#FF5500]/40 animate-spin-slow" />
+                  <div className="absolute inset-2 rounded-full border-2 border-transparent border-t-[#FF5500] border-r-[#8E6FFF] border-b-cyan-400 animate-spin-smooth" />
+                  <div className="w-16 h-16 rounded-full bg-black/80 border border-[#FF5500]/60 flex flex-col items-center justify-center shadow-lg shadow-[#FF5500]/20 relative z-10">
+                    <span className="text-base font-black font-mono text-[#FF5500]">
                       {deployStep === 1 ? '33%' : deployStep === 2 ? '68%' : '100%'}
                     </span>
                     <span className="text-[8px] font-mono uppercase tracking-wider text-slate-400">SYNC</span>
@@ -855,33 +854,33 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                 {/* Provisioning Headline & Target Spec */}
                 <div className="space-y-1 relative z-10">
                   <h5 className="text-lg font-black tracking-tight text-white flex items-center justify-center gap-2">
-                    <Loader2 className="w-4 h-4 animate-spin text-[#D8B452]" />
+                    <Loader2 className="w-4 h-4 animate-spin text-[#FF5500]" />
                     Cloud Provisioning Sequence Active
                   </h5>
                   <p className="text-xs text-slate-400 font-mono">
-                    Target: <span className="text-[#D8B452] font-bold">{workspaceName || 'nova-demo-workspace'}</span> &bull; <span className="uppercase">{activePlan}</span> tier on AWS us-east-1
+                    Target: <span className="text-[#FF5500] font-bold">{workspaceName || 'nova-demo-workspace'}</span> &bull; <span className="uppercase">{activePlan}</span> tier on AWS us-east-1
                   </p>
                 </div>
 
                 {/* 3 Step Milestone Indicators */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-left relative z-10 max-w-xl mx-auto font-mono text-xs">
-                  <div className={`p-3 rounded-xl border transition-all ${deployStep >= 1 ? 'bg-[#D8B452]/10 border-[#D8B452]/40 text-[#D8B452]' : 'bg-white/5 border-white/10 text-slate-500'}`}>
+                  <div className={`p-3 rounded-xl border transition-all ${deployStep >= 1 ? 'bg-orange-500/10 border-[#FF5500]/40 text-[#FF5500]' : 'bg-white/5 border-white/10 text-slate-500'}`}>
                     <div className="flex items-center gap-1.5 font-bold mb-1 text-[11px]">
-                      {deployStep > 1 ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Loader2 className="w-3.5 h-3.5 animate-spin text-[#D8B452]" />}
+                      {deployStep > 1 ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Loader2 className="w-3.5 h-3.5 animate-spin text-[#FF5500]" />}
                       <span>Phase 01</span>
                     </div>
                     <p className="text-[10px] text-slate-300">AWS us-east-1 Sandbox Container</p>
                   </div>
 
-                  <div className={`p-3 rounded-xl border transition-all ${deployStep >= 2 ? 'bg-[#D8B452]/10 border-[#D8B452]/40 text-[#D8B452]' : 'bg-white/5 border-white/10 text-slate-500'}`}>
+                  <div className={`p-3 rounded-xl border transition-all ${deployStep >= 2 ? 'bg-orange-500/10 border-[#FF5500]/40 text-[#FF5500]' : 'bg-white/5 border-white/10 text-slate-500'}`}>
                     <div className="flex items-center gap-1.5 font-bold mb-1 text-[11px]">
-                      {deployStep > 2 ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : deployStep === 2 ? <Loader2 className="w-3.5 h-3.5 animate-spin text-[#D8B452]" /> : <span className="w-3.5 h-3.5 rounded-full border border-slate-600 inline-block" />}
+                      {deployStep > 2 ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : deployStep === 2 ? <Loader2 className="w-3.5 h-3.5 animate-spin text-[#FF5500]" /> : <span className="w-3.5 h-3.5 rounded-full border border-slate-600 inline-block" />}
                       <span>Phase 02</span>
                     </div>
                     <p className="text-[10px] text-slate-300">Zero-Trust TLS Webhook Linkage</p>
                   </div>
 
-                  <div className={`p-3 rounded-xl border transition-all ${deployStep >= 3 ? 'bg-[#D8B452]/10 border-[#D8B452]/40 text-[#D8B452]' : 'bg-white/5 border-white/10 text-slate-500'}`}>
+                  <div className={`p-3 rounded-xl border transition-all ${deployStep >= 3 ? 'bg-orange-500/10 border-[#FF5500]/40 text-[#FF5500]' : 'bg-white/5 border-white/10 text-slate-500'}`}>
                     <div className="flex items-center gap-1.5 font-bold mb-1 text-[11px]">
                       {deployStep >= 3 ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <span className="w-3.5 h-3.5 rounded-full border border-slate-600 inline-block" />}
                       <span>Phase 03</span>
@@ -894,11 +893,11 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                 <div className="max-w-xl mx-auto p-3 rounded-xl bg-black/80 border border-white/10 text-left font-mono text-[11px] text-slate-300 space-y-1 relative z-10 shadow-inner">
                   <div className="flex items-center justify-between text-[10px] text-slate-500 pb-1 border-b border-white/10">
                     <span>sys.provision.log</span>
-                    <span className="text-[#D8B452]">● STREAMING</span>
+                    <span className="text-[#FF5500]">● STREAMING</span>
                   </div>
                   <p className="text-emerald-400">&gt; [0.12s] Cluster node allocated: us-east-1a-sandbox</p>
                   {deployStep >= 2 && <p className="text-cyan-400">&gt; [0.65s] Bound repository webhook to {selectedHost}.com</p>}
-                  {deployStep >= 3 && <p className="text-[#D8B452]">&gt; [1.25s] Cryptographic token generated. Finalizing workspace...</p>}
+                  {deployStep >= 3 && <p className="text-[#FF5500]">&gt; [1.25s] Cryptographic token generated. Finalizing workspace...</p>}
                 </div>
               </div>
             ) : (
@@ -936,10 +935,10 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                           if (workspaceError) setWorkspaceError('');
                         }}
                         placeholder="e.g. acme-engineering"
-                        className={`w-full px-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-[#050614] border text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none transition-all ${
+                        className={`w-full px-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-zinc-900/90 border text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-zinc-500 focus:outline-none transition-all ${
                           workspaceError
                             ? 'border-rose-500 focus:ring-2 focus:ring-rose-500/30 bg-rose-50/50 dark:bg-rose-950/20'
-                            : 'border-slate-200 dark:border-white/10 focus:ring-2 focus:ring-[#D8B452]'
+                            : 'border-slate-200 dark:border-white/10 focus:ring-2 focus:ring-[#FF5500]/50 focus:border-[#FF5500]'
                         }`}
                       />
                     </div>
@@ -972,7 +971,7 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                             setWorkspaceError('');
                             workspaceInputRef.current?.focus();
                           }}
-                          className="px-2 py-0.5 rounded-md text-[10px] font-mono font-medium bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:border-[#D8B452]/50 hover:text-[#D8B452] transition-colors cursor-pointer"
+                          className="px-2 py-0.5 rounded-md text-[10px] font-mono font-medium bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:border-[#FF5500]/50 hover:text-[#FF5500] transition-colors cursor-pointer"
                         >
                           +{preset}
                         </button>
@@ -987,7 +986,7 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                     <select
                       value={selectedHost}
                       onChange={(e) => setSelectedHost(e.target.value)}
-                      className="w-full px-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#D8B452]"
+                      className="w-full px-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-zinc-900/90 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF5500]/50 focus:border-[#FF5500]"
                     >
                       <option value="github">GitHub Organization</option>
                       <option value="gitlab">GitLab Cloud / Self-Hosted</option>
@@ -1004,7 +1003,7 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                       value={repoName}
                       onChange={(e) => setRepoName(e.target.value)}
                       placeholder={workspaceName.trim() ? `${workspaceName.trim().toLowerCase().replace(/[^a-z0-9-]/g, '-')}-core` : 'e.g. core-platform'}
-                      className="w-full px-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#D8B452]"
+                      className="w-full px-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-zinc-900/90 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-[#FF5500]/50 focus:border-[#FF5500]"
                     />
                   </div>
 
@@ -1015,7 +1014,7 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                     <select
                       value={teamSize}
                       onChange={(e) => setTeamSize(Number(e.target.value))}
-                      className="w-full px-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#D8B452]"
+                      className="w-full px-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-zinc-900/90 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF5500]/50 focus:border-[#FF5500]"
                     >
                       <option value={15}>10 - 20 Developers (Small Squad)</option>
                       <option value={25}>20 - 50 Developers (Growing Squad)</option>
@@ -1039,8 +1038,8 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                         }}
                         className={`p-3 rounded-xl border text-center cursor-pointer transition-all ${
                           activePlan === p
-                            ? 'border-[#D8B452] bg-[#D8B452]/10 font-bold text-slate-900 dark:text-white scale-102 shadow-xs'
-                            : 'border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 hover:border-slate-300'
+                            ? 'border-[#FF5500] bg-[#FF5500]/15 font-bold text-orange-600 dark:text-[#FF7700] scale-102 shadow-xs ring-1 ring-[#FF5500]/40'
+                            : 'border-slate-200 dark:border-white/10 text-slate-600 dark:text-zinc-400 hover:border-slate-300 dark:hover:border-white/20'
                         }`}
                       >
                         <span className="capitalize text-xs tracking-wider">{p}</span>
@@ -1049,12 +1048,12 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                   </div>
                 </div>
 
-                <div className="p-4 rounded-xl bg-slate-100 dark:bg-[#07081e] border border-slate-200 dark:border-white/10 flex items-center justify-between text-xs text-slate-600 dark:text-slate-400">
+                <div className="p-4 rounded-xl bg-slate-50 dark:bg-zinc-900/80 border border-slate-200 dark:border-white/10 flex items-center justify-between text-xs text-slate-600 dark:text-zinc-400">
                   <div className="flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4 text-[#a1741a] dark:text-[#D8B452]" />
+                    <ShieldCheck className="w-4 h-4 text-orange-600 dark:text-[#FF5500]" />
                     <span>No credit card required. 14 days unrestricted access.</span>
                   </div>
-                  <span className="font-bold text-[#a1741a] dark:text-[#D8B452]">SOC2 Compliant</span>
+                  <span className="font-bold text-orange-600 dark:text-[#FF7700]">SOC2 Compliant</span>
                 </div>
 
                 <Button
@@ -1077,14 +1076,14 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
         {activeFeature === 'docs' && (
           <div className="space-y-4 animate-fade-in">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="p-4 rounded-2xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 space-y-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#a1741a] dark:text-[#D8B452]">
+              <div className="p-4 rounded-2xl bg-slate-50 dark:bg-zinc-900/60 border border-slate-200 dark:border-white/10 space-y-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-orange-600 dark:text-[#FF5500]">
                   REST API Endpoint
                 </span>
                 <p className="text-xs text-slate-600 dark:text-slate-400">
                   Trigger autonomous backlog synthesis programmatically via webhooks.
                 </p>
-                <div className="p-2.5 bg-black/80 rounded-xl font-mono text-[11px] text-[#D8B452] flex items-center justify-between">
+                <div className="p-2.5 bg-black/80 rounded-xl font-mono text-[11px] text-[#FF5500] flex items-center justify-between">
                   <span>POST /v2/backlog/synthesize</span>
                   <button
                     onClick={() => handleCopyCode('curl -X POST https://api.nova.ai/v2/backlog/synthesize -H "Authorization: Bearer $NOVA_KEY"')}
@@ -1095,14 +1094,14 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                 </div>
               </div>
 
-              <div className="p-4 rounded-2xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 space-y-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#a1741a] dark:text-[#D8B452]">
+              <div className="p-4 rounded-2xl bg-slate-50 dark:bg-zinc-900/60 border border-slate-200 dark:border-white/10 space-y-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-orange-600 dark:text-[#FF5500]">
                   Developer CLI
                 </span>
                 <p className="text-xs text-slate-600 dark:text-slate-400">
                   Run diff analysis and velocity checks directly in your local terminal.
                 </p>
-                <div className="p-2.5 bg-black/80 rounded-xl font-mono text-[11px] text-[#D8B452] flex items-center justify-between">
+                <div className="p-2.5 bg-black/80 rounded-xl font-mono text-[11px] text-[#FF5500] flex items-center justify-between">
                   <span>npx nova-cli review --strict</span>
                   <button
                     onClick={() => handleCopyCode('npx nova-cli review --strict')}
@@ -1114,7 +1113,7 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
               </div>
             </div>
 
-            <div className="p-4 rounded-2xl bg-amber-50 dark:bg-[#0b0c33] border border-[#D8B452]/30 flex items-center justify-between">
+            <div className="p-4 rounded-2xl bg-orange-500/5 dark:bg-zinc-900/60 border border-white/10 flex items-center justify-between">
               <div>
                 <h6 className="text-sm font-bold text-slate-900 dark:text-white">
                   Need Custom Webhook Integration?
@@ -1134,8 +1133,8 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
         {activeFeature === 'contact' && (
           <div className="space-y-4 animate-fade-in">
             {contactSubmitted ? (
-              <div className="p-8 rounded-3xl bg-amber-50 dark:bg-[#D8B452]/10 border border-[#D8B452]/40 text-center space-y-3">
-                <div className="w-12 h-12 mx-auto rounded-full bg-[#D8B452] text-black flex items-center justify-center font-bold">
+              <div className="p-8 rounded-3xl bg-orange-500/5 dark:bg-zinc-900/80 border border-orange-500/30 text-center space-y-3">
+                <div className="w-12 h-12 mx-auto rounded-full bg-[#FF5500] text-black flex items-center justify-center font-bold shadow-lg shadow-orange-500/30">
                   <Check className="w-6 h-6" />
                 </div>
                 <h5 className="text-lg font-bold text-slate-900 dark:text-white">
@@ -1161,7 +1160,7 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                       value={contactForm.name}
                       onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
                       placeholder="Jane Doe"
-                      className="w-full px-4 py-2.5 text-sm rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#D8B452]"
+                      className="w-full px-4 py-2.5 text-sm rounded-xl bg-slate-50 dark:bg-zinc-900/90 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF5500] focus:border-[#FF5500]"
                     />
                   </div>
                   <div>
@@ -1174,7 +1173,7 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                       value={contactForm.email}
                       onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
                       placeholder="jane@company.com"
-                      className="w-full px-4 py-2.5 text-sm rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#D8B452]"
+                      className="w-full px-4 py-2.5 text-sm rounded-xl bg-slate-50 dark:bg-zinc-900/90 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF5500] focus:border-[#FF5500]"
                     />
                   </div>
                 </div>
@@ -1186,7 +1185,7 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                   <select
                     value={contactForm.teamSize}
                     onChange={(e) => setContactForm({ ...contactForm, teamSize: e.target.value })}
-                    className="w-full px-4 py-2.5 text-sm rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#D8B452]"
+                    className="w-full px-4 py-2.5 text-sm rounded-xl bg-slate-50 dark:bg-zinc-900/90 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF5500] focus:border-[#FF5500]"
                   >
                     <option value="10-25">10 - 25 Developers</option>
                     <option value="25-50">25 - 50 Developers</option>
@@ -1204,7 +1203,7 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                     value={contactForm.message}
                     onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
                     placeholder="Tell us about your CI/CD stack (GitHub Actions, GitLab, Jenkins) and compliance requirements..."
-                    className="w-full px-4 py-2.5 text-sm rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#D8B452]"
+                    className="w-full px-4 py-2.5 text-sm rounded-xl bg-slate-50 dark:bg-zinc-900/90 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FF5500] focus:border-[#FF5500]"
                   />
                 </div>
 
@@ -1234,9 +1233,9 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
         {/* TAB 8: Task Intelligence Inspector */}
         {activeFeature === 'task' && (
           <div className="space-y-4 animate-fade-in">
-            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-[#050614] border border-[#D8B452]/40 space-y-3">
+            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-zinc-900/80 border border-white/10 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="px-2.5 py-1 rounded-full bg-[#D8B452]/20 text-[#a1741a] dark:text-[#D8B452] font-mono font-bold text-xs">
+                <span className="px-2.5 py-1 rounded-full bg-orange-500/20 text-orange-600 dark:text-[#FF5500] font-mono font-bold text-xs">
                   {selectedTask?.id || 'NOV-249'}
                 </span>
                 <span className="text-xs text-emerald-500 font-bold flex items-center gap-1">
@@ -1259,12 +1258,12 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                 </div>
                 <div>
                   <span className="text-slate-400 block text-[10px] uppercase">Sprint Target</span>
-                  <span className="font-bold text-[#a1741a] dark:text-[#D8B452]">Sprint 48</span>
+                  <span className="font-bold text-orange-600 dark:text-[#FF5500]">Sprint 48</span>
                 </div>
               </div>
             </div>
 
-            <div className="p-4 rounded-xl bg-amber-50 dark:bg-[#0b0c33] border border-[#D8B452]/30 text-xs text-slate-700 dark:text-slate-300">
+            <div className="p-4 rounded-xl bg-orange-500/5 dark:bg-zinc-900/80 border border-white/10 text-xs text-slate-700 dark:text-slate-300">
               <p className="font-bold text-slate-900 dark:text-white mb-1">
                 AI Heuristic Summary:
               </p>

@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 import { soundService } from '../../../services/SoundService';
 
-export function HeroKanban({ tasks, onMoveTask, onResetTasks, onOpenDemo }) {
+export function HeroKanban({ tasks, onMoveTask, onResetTasks, onOpenDemo, velocityMode = 'hyperscale' }) {
   const [showBurndown, setShowBurndown] = useState(true);
   const totalPoints = tasks.reduce((sum, t) => sum + t.points, 0);
   const donePoints = tasks
@@ -110,6 +110,13 @@ export function HeroKanban({ tasks, onMoveTask, onResetTasks, onOpenDemo }) {
               </span>
               <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-[#FF5500]/20 text-[#FF5500] font-bold">
                 {donePoints} / {totalPoints} pts ({progressPercent}%)
+              </span>
+              <span className="hidden sm:inline-flex text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-orange-400">
+                {velocityMode === 'hyperscale'
+                  ? '⚡ 4.2x Burndown'
+                  : velocityMode === 'zerotrust'
+                  ? '🛡️ SOC2 Gate'
+                  : '🧠 AI Copilot'}
               </span>
             </div>
             <p className="text-[11px] text-zinc-400 mt-0.5">

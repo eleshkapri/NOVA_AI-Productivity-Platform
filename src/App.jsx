@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTheme, useScrollPosition, useDocumentTitle } from './hooks';
 import {
   CustomCursor,
@@ -11,7 +11,12 @@ import {
   ShortcutsHudModal,
   SectionConnector,
 } from './components/common';
-import { Navbar, Footer, BackToTop, FlankTelemetryRails } from './components/layout';
+import {
+  Navbar,
+  Footer,
+  BackToTop,
+  FlankTelemetryRails,
+} from './components/layout';
 import {
   Hero,
   TrustedBy,
@@ -29,7 +34,9 @@ import {
 } from './components/sections';
 import { Keyboard } from 'lucide-react';
 import { soundService } from './services/SoundService';
+import { smoothScrollService } from './services/SmoothScrollService';
 import { Analytics } from '@vercel/analytics/react';
+
 
 const WorkspaceDashboard = React.lazy(() => import('./components/dashboard'));
 
@@ -81,7 +88,19 @@ export function App() {
   });
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isShortcutsHudOpen, setIsShortcutsHudOpen] = useState(false);
-  const lastKeyRef = useRef({ key: null, time: 0 });
+
+  // Initialize Lenis smooth momentum scroll engine
+  useEffect(() => {
+    smoothScrollService.init();
+    return () => {
+      smoothScrollService.destroy();
+    };
+  }, []);
+
+  // Recalculate dimensions on view change
+  useEffect(() => {
+    smoothScrollService.resize();
+  }, [currentView]);
 
   const handleEnterDashboard = (workspaceData) => {
     if (!isValidWorkspace(workspaceData)) {
@@ -108,7 +127,7 @@ export function App() {
       // storage non-blocking
     }
     setCurrentView('dashboard');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    smoothScrollService.scrollTo(0, { immediate: true });
   };
 
   const handleOpenModal = (tab = 'walkthrough', extra = {}) => {
@@ -129,26 +148,39 @@ export function App() {
     setIsShortcutsHudOpen(false);
     switch (actionId) {
       case 'nav-hero':
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        smoothScrollService.scrollTo(0, { duration: 1.5 });
         break;
       case 'nav-features':
-        document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
+        smoothScrollService.scrollTo('#features', { offset: -70, duration: 1.5 });
         break;
       case 'nav-solutions':
-        document.getElementById('solutions')?.scrollIntoView({ behavior: 'smooth' });
+        smoothScrollService.scrollTo('#solutions', { offset: -70, duration: 1.5 });
         break;
       case 'nav-pricing':
-        document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
+        smoothScrollService.scrollTo('#pricing', { offset: -70, duration: 1.5 });
         break;
       case 'nav-roi':
-        document.getElementById('roi-calculator')?.scrollIntoView({ behavior: 'smooth' });
+        smoothScrollService.scrollTo('#roi-calculator', { offset: -70, duration: 1.5 });
         break;
       case 'view-workspace':
         soundService.playChime('actionClick');
-        if (hasActiveWorkspace) {
-          setCurrentView('dashboard');
+        if (currentView === 'dashboard') {
+          setCurrentView('landing');
+          smoothScrollService.scrollTo(0, { immediate: true });
         } else {
-          handleOpenModal('trial');
+          if (!hasActiveWorkspace) {
+            handleEnterDashboard({
+              name: 'Acme Autonomous Lab',
+              slug: 'acme-lab',
+              plan: 'pro',
+              host: 'github',
+              repo: 'nova-core-mesh',
+              teamSize: 25,
+            });
+          } else {
+            setCurrentView('dashboard');
+            smoothScrollService.scrollTo(0, { immediate: true });
+          }
         }
         break;
       case 'view-status':
@@ -172,6 +204,44 @@ export function App() {
       case 'toggle-hud':
         setIsShortcutsHudOpen((prev) => !prev);
         break;
+      case 'toggle-minimize':
+        soundService.playChime('actionClick');
+        if (modalConfig.isOpen) {
+          window.dispatchEvent(new CustomEvent('toggle-modal-minimize'));
+        } else {
+          window.dispatchEvent(new CustomEvent('toggle-popup-minimize'));
+        }
+        break;
+      case 'snap-next': {
+        soundService.playChime('actionClick');
+        const sections = ['hero', 'features', 'about', 'how-it-works', 'stats', 'solutions', 'pricing', 'faq'];
+        const scrollPos = window.scrollY + 120;
+        const nextSec = sections.find((id) => {
+          const el = document.getElementById(id);
+          return el && el.offsetTop > scrollPos;
+        });
+        if (nextSec) {
+          smoothScrollService.scrollTo('#' + nextSec, { offset: -70, duration: 1.5 });
+        }
+        break;
+      }
+      case 'snap-prev': {
+        soundService.playChime('actionClick');
+        const sections = ['hero', 'features', 'about', 'how-it-works', 'stats', 'solutions', 'pricing', 'faq'];
+        const scrollPos = window.scrollY - 80;
+        const prevSec = [...sections].reverse().find((id) => {
+          const el = document.getElementById(id);
+          return el && el.offsetTop < scrollPos;
+        });
+        if (prevSec) {
+          if (prevSec === 'hero') {
+            smoothScrollService.scrollTo(0, { duration: 1.5 });
+          } else {
+            smoothScrollService.scrollTo('#' + prevSec, { offset: -70, duration: 1.5 });
+          }
+        }
+        break;
+      }
       case 'close-all':
         setIsShortcutsHudOpen(false);
         setIsCommandPaletteOpen(false);
@@ -191,27 +261,27 @@ export function App() {
   // Global Keyboard Shortcuts Listener (with Input Protection)
   useEffect(() => {
     const handleKeyDown = (e) => {
+      // 1. Strict Search Bar Guard: When search bar / Command Palette is open, NO single-key shortcuts trigger
+      if (isCommandPaletteOpen) {
+        if (e.key === 'Escape') {
+          setIsCommandPaletteOpen(false);
+        }
+        return;
+      }
+
+      // 2. Strict Input Guard: If typing on ANY input, textarea, or editable element, bypass shortcuts
       const target = e.target;
       const isInput =
         target &&
         (target.tagName === 'INPUT' ||
           target.tagName === 'TEXTAREA' ||
           target.tagName === 'SELECT' ||
-          target.isContentEditable);
+          target.isContentEditable ||
+          Boolean(target.closest && target.closest('input, textarea, select, [contenteditable="true"]')));
 
       if (isInput) return;
 
-      // If a modal or palette or HUD is open, only allow Escape to dismiss
-      if (modalConfig.isOpen || isCommandPaletteOpen || isShortcutsHudOpen) {
-        if (e.key === 'Escape') {
-          setIsShortcutsHudOpen(false);
-          setIsCommandPaletteOpen(false);
-          handleCloseModal();
-        }
-        return;
-      }
-
-      // Escape closes any open modal or HUD
+      // 3. Escape closes any open modal, palette, or HUD
       if (e.key === 'Escape') {
         setIsShortcutsHudOpen(false);
         setIsCommandPaletteOpen(false);
@@ -219,80 +289,122 @@ export function App() {
         return;
       }
 
-      // '?' or Shift + '/' opens shortcuts HUD
-      if (e.key === '?' || (e.shiftKey && e.key === '/')) {
+      // 4. Modal Active Guard: If a modal dialog is open, only allow 'Z' (minimize/restore toggle) and Escape
+      if (modalConfig.isOpen) {
+        if (e.key.toLowerCase() === 'z') {
+          e.preventDefault();
+          soundService.playChime('actionClick');
+          window.dispatchEvent(new CustomEvent('toggle-modal-minimize'));
+        }
+        return;
+      }
+
+      // 5. '/' opens or dismisses shortcuts HUD (1-button toggle!)
+      if (e.key === '/') {
         e.preventDefault();
         soundService.playChime('actionClick');
         setIsShortcutsHudOpen((prev) => !prev);
         return;
       }
 
-      // Command / Ctrl + K opens Command Palette
-      if ((e.metaKey || e.ctrlKey) && (e.key === 'k' || e.key === 'K')) {
+      // 6. 'k' or Command / Ctrl + K opens Command Palette (1-button 'k' supported!)
+      if (e.key.toLowerCase() === 'k' || ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k')) {
         e.preventDefault();
         soundService.playChime('actionClick');
+        setIsShortcutsHudOpen(false);
         setIsCommandPaletteOpen((prev) => !prev);
         return;
       }
 
-      const now = Date.now();
-      const last = lastKeyRef.current;
-
-      // Two-key 'g' sequences (e.g. g h, g f, g s, g p, g r)
-      if (last.key === 'g' && now - last.time < 1000) {
-        lastKeyRef.current = { key: null, time: 0 };
-        const lower = e.key.toLowerCase();
-        if (lower === 'h') {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-          soundService.playChime('actionClick');
-        } else if (lower === 'f') {
-          document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
-          soundService.playChime('actionClick');
-        } else if (lower === 's') {
-          document.getElementById('solutions')?.scrollIntoView({ behavior: 'smooth' });
-          soundService.playChime('actionClick');
-        } else if (lower === 'p') {
-          document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
-          soundService.playChime('actionClick');
-        } else if (lower === 'r') {
-          document.getElementById('roi-calculator')?.scrollIntoView({ behavior: 'smooth' });
-          soundService.playChime('actionClick');
-        }
-        return;
-      }
-
-      if (e.key.toLowerCase() === 'g') {
-        lastKeyRef.current = { key: 'g', time: now };
-        return;
-      }
-
-      // Single-letter hotkeys
+      // 7. Single-button hotkeys (1-key immediate execution)
       const k = e.key.toLowerCase();
-      if (k === 'w') {
+      if (k === 'z') {
         soundService.playChime('actionClick');
+        window.dispatchEvent(new CustomEvent('toggle-popup-minimize'));
+      } else if (k === 'h') {
+        setIsShortcutsHudOpen(false);
+        smoothScrollService.scrollTo(0, { duration: 1.5 });
+        soundService.playChime('actionClick');
+      } else if (k === 'f') {
+        setIsShortcutsHudOpen(false);
+        smoothScrollService.scrollTo('#features', { offset: -70, duration: 1.5 });
+        soundService.playChime('actionClick');
+      } else if (k === 's') {
+        setIsShortcutsHudOpen(false);
+        smoothScrollService.scrollTo('#solutions', { offset: -70, duration: 1.5 });
+        soundService.playChime('actionClick');
+      } else if (k === 'p') {
+        setIsShortcutsHudOpen(false);
+        smoothScrollService.scrollTo('#pricing', { offset: -70, duration: 1.5 });
+        soundService.playChime('actionClick');
+      } else if (k === 'r') {
+        setIsShortcutsHudOpen(false);
+        smoothScrollService.scrollTo('#roi-calculator', { offset: -70, duration: 1.5 });
+        soundService.playChime('actionClick');
+      } else if (k === 'w') {
+        soundService.playChime('actionClick');
+        setIsShortcutsHudOpen(false);
         if (currentView === 'dashboard') {
           setCurrentView('landing');
+          smoothScrollService.scrollTo(0, { immediate: true });
         } else {
-          if (hasActiveWorkspace) {
-            setCurrentView('dashboard');
+          if (!hasActiveWorkspace) {
+            handleEnterDashboard({
+              name: 'Acme Autonomous Lab',
+              slug: 'acme-lab',
+              plan: 'pro',
+              host: 'github',
+              repo: 'nova-core-mesh',
+              teamSize: 25,
+            });
           } else {
-            handleOpenModal('trial');
+            setCurrentView('dashboard');
+            smoothScrollService.scrollTo(0, { immediate: true });
           }
         }
-      } else if (k === 's') {
+      } else if (k === 'g') {
         soundService.playChime('actionClick');
+        setIsShortcutsHudOpen(false);
         handleOpenModal('status');
       } else if (k === 'c') {
         soundService.playChime('actionClick');
+        setIsShortcutsHudOpen(false);
         handleOpenModal('changelog');
       } else if (k === 'd') {
         soundService.playChime('actionClick');
+        setIsShortcutsHudOpen(false);
         handleOpenModal('walkthrough');
       } else if (k === 't') {
         soundService.playChime('actionClick');
         toggleTheme();
       } else if (k === 'm') {
         soundService.toggle();
+      } else if (k === 'j') {
+        soundService.playChime('actionClick');
+        const sections = ['hero', 'features', 'about', 'how-it-works', 'stats', 'solutions', 'pricing', 'faq'];
+        const scrollPos = window.scrollY + 120;
+        const nextSec = sections.find((id) => {
+          const el = document.getElementById(id);
+          return el && el.offsetTop > scrollPos;
+        });
+        if (nextSec) {
+          smoothScrollService.scrollTo('#' + nextSec, { offset: -70, duration: 1.5 });
+        }
+      } else if (k === 'u') {
+        soundService.playChime('actionClick');
+        const sections = ['hero', 'features', 'about', 'how-it-works', 'stats', 'solutions', 'pricing', 'faq'];
+        const scrollPos = window.scrollY - 80;
+        const prevSec = [...sections].reverse().find((id) => {
+          const el = document.getElementById(id);
+          return el && el.offsetTop < scrollPos;
+        });
+        if (prevSec) {
+          if (prevSec === 'hero') {
+            smoothScrollService.scrollTo(0, { duration: 1.5 });
+          } else {
+            smoothScrollService.scrollTo('#' + prevSec, { offset: -70, duration: 1.5 });
+          }
+        }
       }
     };
 
@@ -301,11 +413,11 @@ export function App() {
   }, [modalConfig.isOpen, isCommandPaletteOpen, isShortcutsHudOpen, toggleTheme, currentView, hasActiveWorkspace]);
 
   return (
-    <div className="min-h-screen flex flex-col text-[#0f172a] dark:text-[#f1f2f6] transition-colors duration-300 font-sans selection:bg-[#D8B452] selection:text-black relative">
+    <div className="min-h-screen flex flex-col text-[#0f172a] dark:text-[#f1f2f6] transition-colors duration-300 font-sans selection:bg-[#FF5500] selection:text-black relative">
       {/* 0. Accessible Skip to Main Content Landmark */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:rounded-xl focus:bg-[#D8B452] focus:text-black focus:font-extrabold focus:text-xs focus:shadow-2xl focus:ring-2 focus:ring-black dark:focus:ring-white transition-all cursor-pointer"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:rounded-xl focus:bg-[#FF5500] focus:text-black focus:font-extrabold focus:text-xs focus:shadow-2xl focus:ring-2 focus:ring-black dark:focus:ring-white transition-all cursor-pointer"
       >
         Skip to main content &darr;
       </a>
@@ -339,12 +451,12 @@ export function App() {
         onGoToDashboard={hasActiveWorkspace ? () => {
           soundService.playChime('actionClick');
           setCurrentView('dashboard');
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          smoothScrollService.scrollTo(0, { immediate: true });
         } : undefined}
         onExitDashboard={() => {
           soundService.playChime('actionClick');
           setCurrentView('landing');
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          smoothScrollService.scrollTo(0, { immediate: true });
         }}
       />
 
@@ -360,7 +472,7 @@ export function App() {
           onGoToDashboard={() => {
             soundService.playChime('actionClick');
             setCurrentView('dashboard');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            smoothScrollService.scrollTo(0, { immediate: true });
           }}
         />
       )}
@@ -370,9 +482,9 @@ export function App() {
         <main id="main-content" className="flex-1 relative z-10">
           <React.Suspense
             fallback={
-              <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#050614] flex flex-col items-center justify-center p-6 space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-[#D8B452]/15 border border-[#D8B452]/40 flex items-center justify-center animate-pulse">
-                  <span className="w-6 h-6 border-2 border-[#D8B452] border-t-transparent rounded-full animate-spin" />
+              <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#05060A] flex flex-col items-center justify-center p-6 space-y-4">
+                <div className="w-12 h-12 rounded-2xl bg-[#FF5500]/15 border border-[#FF5500]/40 flex items-center justify-center animate-pulse">
+                  <span className="w-6 h-6 border-2 border-[#FF5500] border-t-transparent rounded-full animate-spin" />
                 </div>
                 <p className="text-xs font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                   Initializing Isolated Sandbox Environment...
@@ -385,7 +497,7 @@ export function App() {
               onExit={() => {
                 soundService.playChime('actionClick');
                 setCurrentView('landing');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                smoothScrollService.scrollTo(0, { immediate: true });
               }}
               onResetWorkspace={() => {
                 soundService.playChime('actionClick');
@@ -396,7 +508,7 @@ export function App() {
                   // storage non-blocking
                 }
                 setCurrentView('landing');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                smoothScrollService.scrollTo(0, { immediate: true });
               }}
               isDark={isDark}
               toggleTheme={toggleTheme}
@@ -489,12 +601,12 @@ export function App() {
               setIsShortcutsHudOpen(true);
             }}
             aria-label="Open keyboard shortcuts guide"
-            title="View Keyboard Shortcuts (?)"
-            className="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-slate-900/85 dark:bg-[#07081e]/90 text-slate-300 hover:text-white border border-slate-700/60 dark:border-white/10 shadow-lg backdrop-blur-md text-xs font-mono transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+            title="View Keyboard Shortcuts (/)"
+            className="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white dark:bg-zinc-950/90 text-slate-800 dark:text-slate-200 hover:text-black dark:hover:text-white border border-slate-300 dark:border-white/10 shadow-lg backdrop-blur-md text-xs font-mono transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
           >
-            <Keyboard className="w-3.5 h-3.5 text-[#D8B452]" />
+            <Keyboard className="w-3.5 h-3.5 text-[#FF5500]" />
             <span className="text-[11px] font-bold">Shortcuts</span>
-            <kbd className="px-1.5 py-0.2 rounded bg-white/10 text-[10px] text-[#D8B452] font-bold">?</kbd>
+            <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-white/10 text-[10px] text-[#FF5500] font-bold border border-slate-200 dark:border-white/10">/</kbd>
           </button>
 
           <BackToTop show={showBackToTop} onScrollToTop={scrollToTop} />

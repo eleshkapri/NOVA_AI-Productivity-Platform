@@ -135,9 +135,9 @@ export function ChangelogView({ onClose: _onClose }) {
   return (
     <div className="space-y-6">
       {/* Top Banner Ribbon */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#6833FF]/15 via-[#0b0c33] to-[#D8B452]/15 border border-[#8E6FFF]/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#6833FF]/15 via-zinc-950 to-[#FF5500]/15 border border-[#8E6FFF]/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3.5">
-          <div className="p-2.5 rounded-xl bg-[#D8B452]/15 border border-[#D8B452]/30 text-[#D8B452] shrink-0">
+          <div className="p-2.5 rounded-xl bg-orange-500/15 border border-orange-500/30 text-[#FF5500] shrink-0">
             <Layers className="w-5 h-5" />
           </div>
           <div>
@@ -145,7 +145,7 @@ export function ChangelogView({ onClose: _onClose }) {
               <h4 className="text-base font-bold text-slate-900 dark:text-white">
                 NOVA Engine Release History
               </h4>
-              <span className="text-[11px] px-2 py-0.5 rounded-full bg-[#D8B452]/20 text-[#D8B452] font-mono font-bold">
+              <span className="text-[11px] px-2 py-0.5 rounded-full bg-orange-500/20 text-[#FF5500] font-mono font-bold">
                 Latest: v2.4.1
               </span>
             </div>
@@ -157,7 +157,7 @@ export function ChangelogView({ onClose: _onClose }) {
 
         <button
           onClick={handleCopyRss}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white dark:bg-[#050614] border border-slate-200 dark:border-white/10 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-white transition-colors cursor-pointer shrink-0"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-white/10 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-white transition-colors cursor-pointer shrink-0 active:scale-95"
           title="Copy RSS Feed URL"
         >
           {copiedRss ? (
@@ -167,7 +167,7 @@ export function ChangelogView({ onClose: _onClose }) {
             </>
           ) : (
             <>
-              <Rss className="w-3.5 h-3.5 text-[#D8B452]" />
+              <Rss className="w-3.5 h-3.5 text-[#FF5500]" />
               <span>RSS Feed</span>
             </>
           )}
@@ -187,8 +187,8 @@ export function ChangelogView({ onClose: _onClose }) {
               }}
               className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
                 selectedCategory === cat
-                  ? 'bg-[#D8B452] text-black shadow-xs font-bold'
-                  : 'bg-slate-100 dark:bg-[#050614] text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-white/5'
+                  ? 'bg-[#FF5500] text-black shadow-xs font-bold'
+                  : 'bg-slate-100 dark:bg-zinc-900/80 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-white/5'
               }`}
             >
               {cat}
@@ -204,7 +204,7 @@ export function ChangelogView({ onClose: _onClose }) {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search releases..."
-            className="w-full pl-8 pr-3 py-1.5 text-xs rounded-xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-500 focus:outline-none focus:border-[#D8B452]"
+            className="w-full pl-8 pr-3 py-1.5 text-xs rounded-xl bg-slate-50 dark:bg-zinc-900/80 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-500 focus:outline-none focus:border-[#FF5500] focus:ring-1 focus:ring-[#FF5500]"
           />
         </div>
       </div>
@@ -212,7 +212,7 @@ export function ChangelogView({ onClose: _onClose }) {
       {/* Release Items Timeline */}
       <div className="space-y-4">
         {filteredReleases.length === 0 ? (
-          <div className="p-8 text-center rounded-2xl bg-slate-50 dark:bg-[#050614] border border-slate-200 dark:border-white/10 text-slate-500 text-xs italic">
+          <div className="p-8 text-center rounded-2xl bg-slate-50 dark:bg-zinc-900/60 border border-slate-200 dark:border-white/10 text-slate-500 text-xs italic">
             No release notes match your search criteria.
           </div>
         ) : (
@@ -223,8 +223,8 @@ export function ChangelogView({ onClose: _onClose }) {
                 key={rel.version}
                 className={`rounded-2xl border transition-all ${
                   rel.isLatest
-                    ? 'bg-slate-50 dark:bg-[#050614] border-[#D8B452]/40 shadow-sm'
-                    : 'bg-slate-50 dark:bg-[#050614] border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20'
+                    ? 'bg-slate-50 dark:bg-zinc-900/60 border-[#FF5500]/40 shadow-sm'
+                    : 'bg-slate-50 dark:bg-zinc-900/60 border border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20'
                 }`}
               >
                 {/* Header Row */}
@@ -246,7 +246,7 @@ export function ChangelogView({ onClose: _onClose }) {
                         {rel.tag}
                       </span>
                       <span className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1">
-                        <Calendar className="w-3 h-3 text-[#D8B452]" /> {rel.date}
+                        <Calendar className="w-3 h-3 text-[#FF5500]" /> {rel.date}
                       </span>
                     </div>
 
@@ -257,7 +257,7 @@ export function ChangelogView({ onClose: _onClose }) {
 
                   <div className="flex items-center gap-3 self-end sm:self-center shrink-0">
                     <div className="flex items-center gap-1 text-[11px] font-mono text-slate-400 hidden md:flex">
-                      <GitPullRequest className="w-3 h-3 text-[#D8B452]" />
+                      <GitPullRequest className="w-3 h-3 text-[#FF5500]" />
                       <span>{rel.stats.pr}</span>
                     </div>
 
@@ -295,7 +295,7 @@ export function ChangelogView({ onClose: _onClose }) {
                           <span
                             className={`px-1.5 py-0.2 rounded font-bold uppercase text-[9px] shrink-0 mt-0.5 ${
                               change.type === 'feat'
-                                ? 'bg-[#D8B452]/20 text-[#D8B452]'
+                                ? 'bg-orange-500/20 text-[#FF5500]'
                                 : change.type === 'security'
                                 ? 'bg-emerald-500/20 text-emerald-400'
                                 : change.type === 'perf'

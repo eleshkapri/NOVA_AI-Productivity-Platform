@@ -26,7 +26,7 @@ export function AmbientBackground() {
       if (!ticking) {
         requestAnimationFrame(() => {
           if (spotlightRef.current) {
-            spotlightRef.current.style.background = `radial-gradient(650px circle at ${e.clientX}px ${e.clientY}px, rgba(216, 180, 82, 0.12), transparent 75%)`;
+            spotlightRef.current.style.background = `radial-gradient(650px circle at ${e.clientX}px ${e.clientY}px, rgba(255, 85, 0, 0.10), transparent 75%)`;
           }
           ticking = false;
         });
@@ -221,11 +221,11 @@ export function AmbientBackground() {
       const mouseConnectDist = isMobile ? 120 : 180;
       const mouseConnectDistSq = mouseConnectDist * mouseConnectDist;
 
-      // Color paletting for Light & Dark mode (Crisp, High-Contrast Amber, Orchid & Cyber Cyan in Light mode)
-      const primaryGold = isLight ? '#B45309' : '#D8B452';
-      const secondaryGold = isLight ? '#D97706' : '#F3D887';
-      const nodeFill = isLight ? '#B45309' : '#D8B452';
-      const lineRgb = isLight ? '180, 83, 9' : '216, 180, 82';
+      // Color paletting for Light & Dark mode (Crisp Cyber-Orange, Orchid & Cyber Cyan)
+      const primaryGold = isLight ? '#EA580C' : '#FF5500';
+      const secondaryGold = isLight ? '#F97316' : '#FF7700';
+      const nodeFill = isLight ? '#EA580C' : '#FF5500';
+      const lineRgb = isLight ? '234, 88, 12' : '255, 85, 0';
       const cyanAccentRgb = isLight ? '2, 132, 199' : '34, 211, 238';
 
       // Orchid Security Neon Violet / Dark-Matter Palette
@@ -458,21 +458,14 @@ export function AmbientBackground() {
         // Orchid purple packet vs Cyber Cyan packet vs NOVA gold packet
         if (p.type === 'orchid') {
           ctx.fillStyle = isLight ? '#7C3AED' : orchidLavender;
-          ctx.shadowColor = isLight ? 'rgba(109, 40, 217, 0.75)' : orchidViolet;
-          ctx.shadowBlur = isLight ? 8 : 10;
         } else if (p.type === 'cyan') {
           ctx.fillStyle = isLight ? '#0284C7' : cyanGlow;
-          ctx.shadowColor = isLight ? 'rgba(2, 132, 199, 0.75)' : cyanElectric;
-          ctx.shadowBlur = isLight ? 8 : 10;
         } else {
           ctx.fillStyle = isLight ? '#D97706' : secondaryGold;
-          ctx.shadowColor = isLight ? 'rgba(180, 83, 9, 0.75)' : primaryGold;
-          ctx.shadowBlur = isLight ? 7 : 8;
         }
         ctx.beginPath();
         ctx.arc(px, py, isLight ? p.size * 1.15 : p.size, 0, Math.PI * 2);
         ctx.fill();
-        ctx.shadowBlur = 0;
       });
 
       // -------------------------------------------------------------
@@ -598,16 +591,16 @@ export function AmbientBackground() {
 
       {/* 2. Sweeping Luminous Multi-Chromatic Auroras (Royal Orchid, Amber Gold, and Cyber Cyan) */}
       <div className="absolute -top-40 left-1/4 w-[750px] h-[1200px] bg-gradient-to-b from-[#7C3AED]/14 via-[#A78BFA]/10 to-transparent dark:from-[#6833FF]/20 dark:via-[#8E6FFF]/10 blur-[120px] animate-aurora-beam pointer-events-none" />
-      <div className="absolute -top-60 right-1/4 w-[650px] h-[1100px] bg-gradient-to-b from-[#D97706]/14 via-amber-300/10 to-transparent dark:from-[#D8B452]/15 dark:via-indigo-600/10 blur-[110px] animate-aurora-beam pointer-events-none [animation-delay:4s]" />
+      <div className="absolute -top-60 right-1/4 w-[650px] h-[1100px] bg-gradient-to-b from-[#EA580C]/12 via-orange-300/10 to-transparent dark:from-[#FF5500]/15 dark:via-orange-950/20 blur-[110px] animate-aurora-beam pointer-events-none [animation-delay:4s]" />
       <div className="absolute top-1/4 left-1/3 w-[600px] h-[1000px] bg-gradient-to-b from-[#0284C7]/12 via-[#38BDF8]/8 to-transparent dark:from-[#0284C7]/15 dark:via-cyan-600/10 blur-[120px] animate-aurora-beam pointer-events-none [animation-delay:8s]" />
 
       {/* 3. Fluid Animated Ambient Gradient Orbs (Lavender, Gold & Cyber Cyan in light, Cosmic in dark) */}
       <div className="absolute -top-32 -left-32 w-[720px] h-[720px] rounded-full bg-gradient-to-br from-[#7C3AED]/10 via-[#DDD6FE]/14 to-transparent dark:from-[#6833FF]/25 dark:via-[#8E6FFF]/10 blur-[140px] animate-mesh-1" />
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[850px] h-[850px] rounded-full bg-gradient-to-tr from-[#7C3AED]/9 via-[#EDE9FE]/14 to-transparent dark:from-[#6833FF]/20 dark:via-[#4E29D4]/15 blur-[160px] pointer-events-none orchid-ambient-orb" />
-      <div className="absolute top-1/3 -right-44 w-[780px] h-[780px] rounded-full bg-gradient-to-bl from-amber-400/12 via-amber-200/10 to-transparent dark:from-indigo-600/25 dark:via-[#0b0c33]/70 blur-[150px] animate-mesh-2" />
+      <div className="absolute top-1/3 -right-44 w-[780px] h-[780px] rounded-full bg-gradient-to-bl from-amber-400/12 via-amber-200/10 to-transparent dark:from-indigo-600/25 dark:via-zinc-950/70 blur-[150px] animate-mesh-2" />
       <div className="absolute bottom-1/4 -left-20 w-[620px] h-[620px] rounded-full bg-gradient-to-tr from-[#0284C7]/10 via-[#BAE6FD]/12 to-transparent dark:from-[#0284C7]/20 dark:via-[#0369a1]/10 blur-[140px] animate-mesh-2" />
-      <div className="absolute top-2/3 left-1/5 w-[620px] h-[620px] rounded-full bg-gradient-to-tr from-[#F59E0B]/12 via-[#FDE68A]/14 to-transparent dark:from-[#D8B452]/15 dark:via-[#C49A32]/10 blur-[130px] animate-mesh-3" />
-      <div className="absolute -bottom-40 right-1/3 w-[700px] h-[700px] rounded-full bg-gradient-to-tl from-[#7C3AED]/9 via-[#EDE9FE]/12 to-transparent dark:from-[#6833FF]/20 dark:via-[#07081e]/65 blur-[140px] animate-mesh-1" />
+      <div className="absolute top-2/3 left-1/5 w-[620px] h-[620px] rounded-full bg-gradient-to-tr from-[#EA580C]/10 via-[#FFEDD5]/14 to-transparent dark:from-[#FF5500]/12 dark:via-orange-950/20 blur-[130px] animate-mesh-3" />
+      <div className="absolute -bottom-40 right-1/3 w-[700px] h-[700px] rounded-full bg-gradient-to-tl from-[#7C3AED]/9 via-[#EDE9FE]/12 to-transparent dark:from-[#6833FF]/20 dark:via-zinc-950/65 blur-[140px] animate-mesh-1" />
 
       {/* 4. Floating Multi-Chromatic Jewel Energy Motes (Visible in Both Light & Dark) */}
       <div className="absolute inset-0 pointer-events-none">
@@ -617,7 +610,7 @@ export function AmbientBackground() {
               ? 'from-[#0284C7] via-[#0EA5E9] to-[#38BDF8] dark:from-[#22D3EE] dark:to-[#FFF] shadow-cyan-600/50 dark:shadow-[#22D3EE]/40'
               : mote.color === 'orchid'
               ? 'from-[#6D28D9] via-[#7C3AED] to-[#A78BFA] dark:from-[#8E6FFF] dark:to-[#FFF] shadow-violet-600/50 dark:shadow-[#8E6FFF]/40'
-              : 'from-[#B45309] via-[#D97706] to-[#F59E0B] dark:from-[#D8B452] dark:to-[#FFF] shadow-amber-600/50 dark:shadow-[#D8B452]/40';
+              : 'from-[#EA580C] via-[#FF5500] to-[#FF7700] dark:from-[#FF5500] dark:to-[#FFF] shadow-orange-600/50 dark:shadow-[#FF5500]/40';
 
           return (
             <span

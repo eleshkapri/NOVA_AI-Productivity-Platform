@@ -9,12 +9,18 @@ export function ProgressBar() {
   const animId = useRef(null);
 
   useEffect(() => {
-    const calculateProgress = () => {
+    let cachedHeight = 0;
+    const measureHeight = () => {
       const scrollElement = document.scrollingElement || document.documentElement;
-      const totalHeight = scrollElement.scrollHeight - window.innerHeight;
-      if (totalHeight > 0) {
-        const currentScroll = window.scrollY || scrollElement.scrollTop || 0;
-        return Math.min(Math.max((currentScroll / totalHeight) * 100, 0), 100);
+      cachedHeight = scrollElement.scrollHeight - window.innerHeight;
+    };
+    measureHeight();
+
+    const calculateProgress = () => {
+      if (cachedHeight <= 0) measureHeight();
+      if (cachedHeight > 0) {
+        const currentScroll = window.scrollY || 0;
+        return Math.min(Math.max((currentScroll / cachedHeight) * 100, 0), 100);
       }
       return 0;
     };

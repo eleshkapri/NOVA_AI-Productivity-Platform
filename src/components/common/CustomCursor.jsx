@@ -116,25 +116,25 @@ export function CustomCursor() {
         <div
           className={`rounded-full border border-dashed transition-all duration-300 ${
             isHovering
-              ? 'w-18 h-18 border-[#D8B452] dark:border-[#F3D887] shadow-lg shadow-[#D8B452]/30'
-              : 'w-14 h-14 border-[#a1741a]/60 dark:border-[#D8B452]/70 shadow-xs'
+              ? 'w-18 h-18 border-[#FF5500] dark:border-[#FF7700] shadow-lg shadow-[#FF5500]/30'
+              : 'w-14 h-14 border-orange-500/50 dark:border-[#FF5500]/60 shadow-xs'
           } animate-spin-slow`}
         >
           {/* Orbiting Satellite Star Accent at top */}
-          <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#a1741a] dark:bg-[#F3D887] shadow-xs shadow-[#D8B452]" />
+          <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-orange-600 dark:bg-[#FF7700] shadow-xs shadow-[#FF5500]" />
         </div>
 
         {/* 2. Inner Solid Concentric Ring */}
         <div
           className={`absolute rounded-full border transition-all duration-300 flex items-center justify-center ${
             isHovering
-              ? 'w-9 h-9 border-[#a1741a] dark:border-[#F3D887] bg-amber-400/15 dark:bg-[#D8B452]/20 shadow-md shadow-[#D8B452]/30'
-              : 'w-7 h-7 border-[#a1741a] dark:border-[#D8B452] bg-[#D8B452]/10 dark:bg-[#D8B452]/10'
+              ? 'w-9 h-9 border-orange-500 dark:border-[#FF7700] bg-orange-500/15 dark:bg-[#FF5500]/20 shadow-md shadow-[#FF5500]/30'
+              : 'w-7 h-7 border-orange-500/60 dark:border-[#FF5500]/70 bg-orange-500/10 dark:bg-[#FF5500]/10'
           }`}
         >
           {/* 3. Center Target Core Dot */}
           <div
-            className={`rounded-full bg-[#a1741a] dark:bg-[#F3D887] transition-all duration-200 ${
+            className={`rounded-full bg-orange-600 dark:bg-[#FF5500] transition-all duration-200 ${
               isHovering ? 'w-2 h-2 scale-125' : 'w-1.5 h-1.5'
             }`}
           />

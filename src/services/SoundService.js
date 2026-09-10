@@ -413,6 +413,20 @@ export class SoundService {
     this.#notify();
   }
 
+  /**
+   * Toggles soundtrack playback between play and pause.
+   * Starts or stops audio cleanly and notifies all subscribers.
+   * @returns {boolean} true if now playing, false if stopped.
+   */
+  toggle() {
+    if (this.#isPlaying && this.#isEnabled) {
+      this.stopTheme();
+      return false;
+    } else {
+      this.startTheme(true);
+      return true;
+    }
+  }
 
   /**
    * Web Audio API generative peaceful feel-good major ambient fallback.

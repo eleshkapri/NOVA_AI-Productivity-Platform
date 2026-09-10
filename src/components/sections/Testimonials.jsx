@@ -1,46 +1,28 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { SectionHeader } from '../common/SectionHeader';
 import { MotionReveal } from '../common/MotionReveal';
 import { testimonialsData } from '../../data/testimonials';
-import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
+import { Star, Quote, ShieldCheck, Zap, Sparkles, Play, Pause } from 'lucide-react';
 
 export function Testimonials() {
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const total = testimonialsData.length;
-  const timeoutRef = useRef(null);
 
-  useEffect(() => {
-    if (!isPaused) {
-      timeoutRef.current = setInterval(() => {
-        setCurrentIndex((prev) => (prev + 1) % total);
-      }, 5000);
-    }
-
-    return () => {
-      if (timeoutRef.current) {
-        clearInterval(timeoutRef.current);
-      }
-    };
-  }, [isPaused, total]);
-
-  const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + total) % total);
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % total);
-  };
-
-  const current = testimonialsData[currentIndex];
+  // Triple the data items to guarantee a 100% seamless, gapless infinite loop
+  const marqueeCards = [...testimonialsData, ...testimonialsData, ...testimonialsData];
 
   return (
     <section
       id="testimonials"
-      className="pt-12 md:pt-16 pb-4 md:pb-6 bg-amber-50/15 dark:bg-[#07081e]/30 relative overflow-hidden backdrop-blur-xs"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
+      className="py-16 md:py-20 bg-amber-50/15 dark:bg-zinc-950/40 relative overflow-hidden backdrop-blur-xs"
     >
+      {/* Ambient Cyber-Orange Glow behind the conduit */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#FF5500]/30 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#FF5500]/20 to-transparent" />
+
+      {/* Left & Right Edge Dissolve Gradient Masks */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-20 sm:w-44 bg-gradient-to-r from-[#F8FAFC] dark:from-[#05060A] to-transparent z-20" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-20 sm:w-44 bg-gradient-to-l from-[#F8FAFC] dark:from-[#05060A] to-transparent z-20" />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <MotionReveal animation="fade-up">
           <SectionHeader
@@ -51,89 +33,122 @@ export function Testimonials() {
           />
         </MotionReveal>
 
-        {/* Carousel Container */}
-        <MotionReveal animation="fade-up" delay={120}>
-          <div className="max-w-4xl mx-auto relative">
-          <div className="group bg-white/95 dark:bg-zinc-900/40 rounded-[2.5rem] p-8 sm:p-14 border border-slate-200/90 dark:border-white/10 shadow-xl dark:shadow-2xl backdrop-blur-2xl transition-all duration-500 hover:border-[#FF5500]/50 hover:shadow-2xl hover:shadow-[#FF5500]/15 ring-1 ring-inset ring-white/5">
-            {/* Top Stars & Orange Quote Icon */}
-            <div className="flex items-center justify-between mb-8">
-              <div className="flex items-center gap-1.5 group-hover:scale-105 transition-transform duration-300">
-                {[...Array(current.rating)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 fill-[#FF5500] text-[#FF5500]" />
+        {/* Live Peer Validation Telemetry Bar */}
+        <MotionReveal animation="fade-up" delay={80}>
+          <div className="mt-8 mb-12 flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-xs font-mono text-slate-600 dark:text-zinc-400">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white dark:bg-zinc-950/70 border border-slate-200 dark:border-white/10 shadow-xs backdrop-blur-md">
+              <div className="flex items-center text-[#FF5500]">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-3 h-3 fill-current" />
                 ))}
               </div>
-              <Quote className="w-10 h-10 text-orange-500/20 group-hover:text-orange-500/40 group-hover:rotate-6 transition-all duration-300" />
+              <span className="font-bold text-slate-900 dark:text-white">4.98 / 5.0</span>
+              <span className="text-[10px] text-slate-400">(1,240+ Reviews)</span>
             </div>
 
-            {/* Quote Body with Editorial Typography */}
-            <p className="text-xl sm:text-2xl md:text-3xl font-medium text-slate-800 dark:text-slate-100 leading-relaxed min-h-[110px] mb-10 tracking-tight">
-              "{current.quote}"
-            </p>
-
-            {/* Author Details & Highlight */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5 pt-8 border-t border-slate-100 dark:border-white/10">
-              <div className="flex items-center gap-4">
-                {/* Initials Avatar */}
-                <div
-                  className="w-13 h-13 rounded-full bg-gradient-to-tr from-[#FF5500] to-[#CC4400] flex items-center justify-center text-black font-extrabold text-sm shadow-md group-hover:scale-105 transition-transform duration-300"
-                >
-                  {current.avatarInitials}
-                </div>
-                <div>
-                  <h4 className="text-base font-bold text-slate-900 dark:text-white tracking-wide">
-                    {current.name}
-                  </h4>
-                  <p className="text-xs text-slate-500 dark:text-zinc-400 mt-0.5">
-                    {current.role} &bull; <span className="font-bold text-orange-500 dark:text-[#FF7700]">{current.company}</span>
-                  </p>
-                </div>
-              </div>
-
-              {/* Highlight Metric in Orange Badge */}
-              <div className="inline-flex items-center px-4 py-2 rounded-full bg-orange-50 dark:bg-orange-500/10 border border-orange-500/30 text-xs font-mono font-bold uppercase tracking-wider text-orange-600 dark:text-orange-400 self-start sm:self-auto hover:scale-105 transition-transform cursor-default">
-                ★ {current.highlight}
-              </div>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white dark:bg-zinc-950/70 border border-slate-200 dark:border-white/10 shadow-xs backdrop-blur-md">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+              <span className="font-bold text-slate-900 dark:text-white">100% Verified Production Teams</span>
             </div>
+
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white dark:bg-zinc-950/70 border border-slate-200 dark:border-white/10 shadow-xs backdrop-blur-md">
+              <Zap className="w-3.5 h-3.5 text-[#FF5500]" />
+              <span className="font-bold text-slate-900 dark:text-white">14.2 hrs/week</span>
+              <span className="text-[10px] text-slate-400">Saved per Dev</span>
+            </div>
+
+            {/* Play/Pause Motion Toggle Control */}
+            <button
+              type="button"
+              onClick={() => setIsPaused((prev) => !prev)}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-zinc-900 border border-slate-200 dark:border-white/10 hover:border-[#FF5500]/40 text-slate-700 dark:text-zinc-300 hover:text-[#FF5500] transition-all duration-200 cursor-pointer text-[11px] font-mono active:scale-95 shadow-2xs"
+              title={isPaused ? 'Resume ticker motion' : 'Pause ticker motion'}
+              aria-label={isPaused ? 'Resume motion' : 'Pause motion'}
+            >
+              {isPaused ? (
+                <>
+                  <Play className="w-3 h-3 fill-current text-[#FF5500]" />
+                  <span>RESUME</span>
+                </>
+              ) : (
+                <>
+                  <Pause className="w-3 h-3 fill-current text-slate-400" />
+                  <span>PAUSE</span>
+                </>
+              )}
+            </button>
           </div>
-
-          {/* Carousel Controls: Arrows & Dots */}
-          <div className="flex items-center justify-between mt-10 px-3">
-            {/* Dots */}
-            <div className="flex items-center gap-2.5">
-              {testimonialsData.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setCurrentIndex(i)}
-                  aria-label={`Go to testimonial ${i + 1}`}
-                  className={`h-2 rounded-full transition-all duration-300 cursor-pointer hover:scale-125 ${
-                    currentIndex === i
-                      ? 'w-9 bg-[#FF5500]'
-                      : 'w-2 bg-slate-300 dark:bg-white/20 hover:bg-slate-400 dark:hover:bg-white/50'
-                  }`}
-                />
-              ))}
-            </div>
-
-            {/* Prev/Next Arrows */}
-            <div className="flex items-center gap-3">
-              <button
-                onClick={handlePrev}
-                aria-label="Previous testimonial"
-                className="p-3 rounded-full border border-slate-200 dark:border-white/10 bg-white dark:bg-zinc-900 text-slate-700 dark:text-zinc-300 hover:text-black dark:hover:text-black hover:bg-[#FF5500] dark:hover:bg-[#FF5500] hover:border-[#FF5500] hover:scale-115 active:scale-90 hover:shadow-lg hover:shadow-[#FF5500]/30 transition-all duration-300 shadow-sm cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5500]"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <button
-                onClick={handleNext}
-                aria-label="Next testimonial"
-                className="p-3 rounded-full border border-slate-200 dark:border-white/10 bg-white dark:bg-zinc-900 text-slate-700 dark:text-zinc-300 hover:text-black dark:hover:text-black hover:bg-[#FF5500] dark:hover:bg-[#FF5500] hover:border-[#FF5500] hover:scale-115 active:scale-90 hover:shadow-lg hover:shadow-[#FF5500]/30 transition-all duration-300 shadow-sm cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5500]"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
-        </div>
         </MotionReveal>
+      </div>
+
+      {/* Infinite Smooth Motion Marquee Track (Like in the photo) */}
+      <div
+        className="relative overflow-hidden py-3"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        onTouchStart={() => setIsPaused(true)}
+        onTouchEnd={() => setIsPaused(false)}
+      >
+        <div
+          className="animate-marquee-slow flex items-center gap-5 sm:gap-7"
+          style={{
+            animationPlayState: isPaused ? 'paused' : 'running',
+          }}
+        >
+          {marqueeCards.map((testimonial, idx) => (
+            <div
+              key={`${testimonial.id}-${idx}`}
+              className="w-[340px] sm:w-[410px] shrink-0 group bg-white/95 dark:bg-zinc-900/60 rounded-[2rem] p-6 sm:p-7 border border-slate-200/80 dark:border-white/10 shadow-lg dark:shadow-2xl backdrop-blur-xl transition-all duration-300 hover:border-[#FF5500]/50 hover:shadow-2xl hover:shadow-[#FF5500]/15 hover:-translate-y-1 ring-1 ring-inset ring-white/5 select-none"
+            >
+              {/* Top Row: Stars + Quote Icon + Category */}
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-1 group-hover:scale-105 transition-transform duration-200">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 fill-[#FF5500] text-[#FF5500]" />
+                  ))}
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex items-center gap-1 text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                    <Sparkles className="w-2.5 h-2.5" />
+                    Verified
+                  </span>
+                  <Quote className="w-6 h-6 text-orange-500/25 group-hover:text-orange-500/50 group-hover:rotate-6 transition-all duration-300" />
+                </div>
+              </div>
+
+              {/* Quote Body with Editorial Typography */}
+              <p className="text-sm sm:text-[15px] font-medium text-slate-800 dark:text-slate-100 leading-relaxed min-h-[82px] mb-6 tracking-tight line-clamp-4">
+                &ldquo;{testimonial.quote}&rdquo;
+              </p>
+
+              {/* Bottom Row: Author + Company + Highlight Badge */}
+              <div className="pt-4 border-t border-slate-100 dark:border-white/10 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  {/* Initials Avatar */}
+                  <div
+                    className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#FF5500] to-[#CC4400] flex items-center justify-center text-black font-extrabold text-xs shadow-md group-hover:scale-105 transition-transform duration-300 shrink-0"
+                  >
+                    {testimonial.avatarInitials}
+                  </div>
+                  <div className="truncate">
+                    <h4 className="text-sm font-bold text-slate-900 dark:text-white tracking-wide truncate">
+                      {testimonial.name}
+                    </h4>
+                    <p className="text-[11px] text-slate-500 dark:text-zinc-400 truncate">
+                      {testimonial.role} &bull; <span className="font-bold text-orange-500 dark:text-[#FF7700]">{testimonial.company}</span>
+                    </p>
+                  </div>
+                </div>
+
+                {/* Highlight Metric Badge */}
+                <div className="inline-flex items-center px-2.5 py-1 rounded-full bg-orange-50 dark:bg-orange-500/10 border border-orange-300 dark:border-orange-500/30 text-[10px] font-mono font-extrabold uppercase tracking-wider text-orange-950 dark:text-orange-400 shrink-0 group-hover:scale-105 transition-transform shadow-2xs whitespace-nowrap">
+                  ★ {testimonial.highlight}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -12,7 +12,7 @@ export function About() {
   const statIcons = [Clock, Target, Shuffle];
 
   return (
-    <section id="about" className="pt-6 pb-14 md:pt-8 md:pb-18 bg-orange-500/[0.015] dark:bg-zinc-950/40 relative backdrop-blur-xs">
+    <section id="about" className="py-16 md:py-20 bg-orange-500/[0.015] dark:bg-zinc-950/40 relative backdrop-blur-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <MotionReveal animation="fade-up">
           <SectionHeader
@@ -35,7 +35,7 @@ export function About() {
                 return (
                   <MotionReveal key={stat.label} delay={idx * 80} animation="fade-up">
                     <div
-                      className="group bg-white/90 dark:bg-zinc-900/40 p-5 rounded-2xl border border-slate-200/80 dark:border-white/10 text-center shadow-sm dark:shadow-md hover:border-[#FF5500]/50 hover:shadow-lg transition-all duration-300 h-full flex flex-col justify-between backdrop-blur-xl"
+                      className="group bg-white dark:bg-zinc-900/40 p-5 rounded-2xl border border-slate-200 dark:border-white/10 text-center shadow-sm dark:shadow-md hover:border-[#FF5500]/50 hover:shadow-lg transition-all duration-300 h-full flex flex-col justify-between backdrop-blur-xl"
                     >
                       <div className="w-10 h-10 mx-auto rounded-xl bg-orange-500/10 dark:bg-zinc-950 border border-orange-500/30 flex items-center justify-center text-[#FF5500] mb-3 group-hover:scale-110 group-hover:rotate-6 transition-transform">
                         <Icon className="w-5 h-5" />
@@ -43,7 +43,7 @@ export function About() {
                       <div className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white font-mono">
                         <span className="text-orange-gradient">{stat.value}</span>
                       </div>
-                      <div className="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-zinc-400 mt-1">
+                      <div className="text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:text-zinc-400 mt-1">
                         {stat.label}
                       </div>
                     </div>
@@ -67,13 +67,13 @@ export function About() {
                     </div>
 
                     {/* Toggle Pills */}
-                    <div className="inline-flex p-1 bg-slate-100 dark:bg-zinc-950 rounded-full border border-slate-200 dark:border-white/10 self-start sm:self-auto">
+                    <div className="inline-flex p-1 bg-slate-100 dark:bg-zinc-950 rounded-full border border-slate-300 dark:border-white/10 self-start sm:self-auto shadow-xs">
                       <button
                         onClick={() => setActiveTab('before')}
                         className={`px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
                           activeTab === 'before'
                             ? 'bg-rose-500 text-white shadow-xs'
-                            : 'text-slate-500 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white'
+                            : 'text-slate-700 dark:text-zinc-400 font-bold hover:text-slate-900 dark:hover:text-white'
                         }`}
                       >
                         Legacy Chaos
@@ -83,7 +83,7 @@ export function About() {
                         className={`px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
                           activeTab === 'after'
                             ? 'bg-[#FF5500] text-black font-extrabold shadow-xs'
-                            : 'text-slate-500 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white'
+                            : 'text-slate-700 dark:text-zinc-400 font-bold hover:text-slate-900 dark:hover:text-white'
                         }`}
                       >
                         ✨ With NOVA

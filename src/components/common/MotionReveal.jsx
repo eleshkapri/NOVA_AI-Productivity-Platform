@@ -11,7 +11,7 @@ export function MotionReveal({
   className = '',
   animation = 'fade-up', // 'fade-up' | 'fade-in' | 'zoom-in' | 'slide-right'
   delay = 0,
-  duration = 800,
+  duration = 350,
   threshold = 0.12,
   once = true,
 }) {
@@ -41,8 +41,8 @@ export function MotionReveal({
         }
       },
       {
-        threshold,
-        rootMargin: '0px 0px -40px 0px',
+        threshold: typeof window !== 'undefined' && window.innerWidth < 768 ? 0.05 : threshold,
+        rootMargin: typeof window !== 'undefined' && window.innerWidth < 768 ? '0px 0px 40px 0px' : '0px 0px -20px 0px',
       }
     );
 
@@ -58,35 +58,35 @@ export function MotionReveal({
     };
   }, [threshold, once]);
 
-  // Animation initial & active styles
+  // Animation initial & active styles (pure GPU transform & opacity — no CPU blurs)
   const getAnimationStyles = () => {
     switch (animation) {
       case 'fade-up':
         return isVisible
-          ? 'opacity-100 translate-y-0 filter-none'
-          : 'opacity-0 translate-y-10 blur-[2px]';
+          ? 'opacity-100 translate-y-0'
+          : 'opacity-0 translate-y-3';
       case 'fade-in':
-        return isVisible ? 'opacity-100 filter-none' : 'opacity-0 blur-[3px]';
+        return isVisible ? 'opacity-100' : 'opacity-0';
       case 'zoom-in':
         return isVisible
-          ? 'opacity-100 scale-100 filter-none'
-          : 'opacity-0 scale-95 blur-[2px]';
+          ? 'opacity-100 scale-100'
+          : 'opacity-0 scale-[0.98]';
       case 'slide-right':
         return isVisible
-          ? 'opacity-100 translate-x-0 filter-none'
-          : 'opacity-0 -translate-x-10 blur-[2px]';
+          ? 'opacity-100 translate-x-0'
+          : 'opacity-0 -translate-x-3';
       default:
-        return isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8';
+        return isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3';
     }
   };
 
   return (
     <div
       ref={elementRef}
-      className={`transition-all ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[transform,opacity,filter] ${getAnimationStyles()} ${className}`}
+      className={`transition-[transform,opacity] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[transform,opacity] ${getAnimationStyles()} ${className}`}
       style={{
-        transitionDuration: `${duration}ms`,
-        transitionDelay: `${delay}ms`,
+        transitionDuration: `${Math.min(duration, 380)}ms`,
+        transitionDelay: `${Math.min(delay, 100)}ms`,
       }}
     >
       {children}

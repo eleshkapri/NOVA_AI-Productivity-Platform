@@ -5,7 +5,7 @@ export const featuresData = [
     badge: 'Autonomous AI',
     title: 'Autonomous Sprint Planning',
     description: 'Transform ambiguous stakeholder requests into decomposed, story-pointed engineering tasks in seconds with context-aware AI.',
-    metric: '78% faster sprint setup',
+    metric: '78% Faster Setup',
   },
   {
     id: 'codebase-copilot',
@@ -13,7 +13,7 @@ export const featuresData = [
     badge: 'Real-Time Intelligence',
     title: 'Codebase-Aware Copilot',
     description: 'Understands your entire repository architecture, dependencies, and PR conventions to suggest contextual implementation steps.',
-    metric: '3.4x faster PR authoring',
+    metric: '3.4x Faster Authoring',
   },
   {
     id: 'predictive-velocity',
@@ -21,7 +21,7 @@ export const featuresData = [
     badge: 'Predictive Analytics',
     title: 'Predictive Velocity Engine',
     description: 'Eliminates sprint spillovers by forecasting bottlenecks, blocker dependencies, and engineering burnout before they manifest.',
-    metric: '94% forecast accuracy',
+    metric: '94% Forecast Accuracy',
   },
   {
     id: 'automated-pr',
@@ -29,7 +29,7 @@ export const featuresData = [
     badge: 'Automated CI/CD',
     title: 'Intelligent PR Summaries',
     description: 'Auto-generates semantic changelogs, test execution checklists, and architectural diff summaries for effortless code reviews.',
-    metric: '52% shorter review cycles',
+    metric: '52% Shorter Cycles',
   },
   {
     id: 'stack-sync',
@@ -37,7 +37,7 @@ export const featuresData = [
     badge: 'Universal Connectors',
     title: 'Bi-Directional Tool Sync',
     description: 'Seamlessly mirrors and synchronizes tasks across GitHub, GitLab, Linear, Jira, Slack, and Notion without duplicate data entry.',
-    metric: 'Instant two-way sync',
+    metric: 'Instant 2-Way Sync',
   },
   {
     id: 'enterprise-security',
@@ -45,6 +45,7 @@ export const featuresData = [
     badge: 'Enterprise Grade',
     title: 'Zero-Trust Data Protection',
     description: 'SOC2 Type II certified, GDPR compliant, and strict zero-data retention policies. Your source code and IP never train public models.',
-    metric: 'Bank-grade 256-bit AES',
+    metric: '256-Bit AES Security',
   },
 ];
+

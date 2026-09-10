@@ -5,6 +5,7 @@ import { Button } from '../common/Button';
 import { MotionReveal } from '../common/MotionReveal';
 import { solutionsData } from '../../data/solutions';
 import { CheckCircle2, ArrowRight, Radio, Activity, Sparkles, Terminal } from 'lucide-react';
+import { smoothScrollService } from '../../services/SmoothScrollService';
 
 export function Solutions({ onOpenDemo }) {
   const [activePersonaId, setActivePersonaId] = useState('engineering');
@@ -13,7 +14,7 @@ export function Solutions({ onOpenDemo }) {
     solutionsData.find((s) => s.id === activePersonaId) || solutionsData[0];
 
   return (
-    <section id="solutions" className="pt-12 md:pt-16 pb-4 md:pb-6 relative">
+    <section id="solutions" className="py-16 md:py-20 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <MotionReveal animation="fade-up">
           <SectionHeader
@@ -36,7 +37,7 @@ export function Solutions({ onOpenDemo }) {
                   className={`px-5 sm:px-6 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-200 cursor-pointer active:scale-95 ${
                     isActive
                       ? 'bg-[#FF5500] text-black font-extrabold shadow-lg shadow-[#FF5500]/25 border border-[#FF6600]'
-                      : 'bg-white/80 dark:bg-zinc-900/50 text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-white/10 hover:border-[#FF5500]/50 hover:text-black dark:hover:text-white shadow-xs'
+                      : 'bg-white dark:bg-zinc-900/50 text-slate-800 dark:text-zinc-300 border border-slate-300 dark:border-white/10 hover:border-[#FF5500]/60 hover:text-black dark:hover:text-white shadow-xs font-bold'
                   }`}
                 >
                   {sol.title}
@@ -101,8 +102,7 @@ export function Solutions({ onOpenDemo }) {
                           });
                         }
                       } else {
-                        const pricing = document.getElementById('pricing');
-                        pricing?.scrollIntoView({ behavior: 'smooth' });
+                        smoothScrollService.scrollTo('#pricing', { offset: -70, duration: 1.5 });
                       }
                     }}
                   >

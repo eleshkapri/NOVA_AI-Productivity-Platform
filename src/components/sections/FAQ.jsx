@@ -3,6 +3,7 @@ import { SectionHeader } from '../common/SectionHeader';
 import { MotionReveal } from '../common/MotionReveal';
 import { faqData } from '../../data/faq';
 import { ChevronDown } from 'lucide-react';
+import { smoothScrollService } from '../../services/SmoothScrollService';
 
 export function FAQ({ onOpenDemo }) {
   const [openIndex, setOpenIndex] = useState(0);
@@ -12,7 +13,7 @@ export function FAQ({ onOpenDemo }) {
   };
 
   return (
-    <section id="faq" className="py-12 md:py-16 bg-orange-500/[0.015] dark:bg-zinc-950/40 relative backdrop-blur-xs">
+    <section id="faq" className="py-16 md:py-20 bg-orange-500/[0.015] dark:bg-zinc-950/40 relative backdrop-blur-xs">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <MotionReveal animation="fade-up">
           <SectionHeader
@@ -44,7 +45,7 @@ export function FAQ({ onOpenDemo }) {
                       {item.question}
                     </span>
                     <div
-                      className={`p-2 rounded-full bg-slate-100 dark:bg-zinc-950 text-orange-500 border border-slate-200 dark:border-orange-500/30 group-hover:scale-110 group-hover:border-orange-500 transition-all duration-300 shrink-0 ${
+                      className={`p-2 rounded-full bg-slate-100 dark:bg-zinc-950 text-orange-600 dark:text-orange-500 border border-slate-300 dark:border-orange-500/30 group-hover:scale-110 group-hover:border-orange-500 transition-all duration-300 shrink-0 shadow-2xs ${
                         isOpen ? 'rotate-180 bg-[#FF5500] text-black border-transparent' : ''
                       }`}
                     >
@@ -76,7 +77,7 @@ export function FAQ({ onOpenDemo }) {
           <div className="mt-14 text-center text-sm text-slate-500 dark:text-zinc-400">
             Have an inquiry not answered here?{' '}
             <button
-              onClick={() => onOpenDemo ? onOpenDemo('contact') : document.getElementById('footer')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => onOpenDemo ? onOpenDemo('contact') : smoothScrollService.scrollTo('#footer', { duration: 1.5 })}
               className="text-orange-600 dark:text-orange-400 font-semibold underline hover:text-orange-500 dark:hover:text-orange-300 hover:scale-105 inline-block transition-transform cursor-pointer"
             >
               Connect with our engineering specialists &rarr;

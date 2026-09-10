@@ -5,6 +5,7 @@ import { MotionReveal } from '../common/MotionReveal';
 import { Calculator, ArrowRight, TrendingUp, Clock, DollarSign } from 'lucide-react';
 import { VelocityHealthQuiz } from './roi/VelocityHealthQuiz';
 import { soundService } from '../../services/SoundService';
+import { smoothScrollService } from '../../services/SmoothScrollService';
 
 export function RoiCalculator({ onOpenDemo }) {
   const [activeMode, setActiveMode] = useState('calculator'); // 'calculator' | 'quiz'
@@ -48,7 +49,7 @@ export function RoiCalculator({ onOpenDemo }) {
   const annualSavings = Math.round(weeklyHoursSaved * 48 * hourlyRate * 0.42);
 
   return (
-    <section id="roi-calculator" className="pt-6 pb-14 md:pt-8 md:pb-18 bg-orange-500/[0.015] dark:bg-zinc-950/40 relative overflow-hidden backdrop-blur-xs">
+    <section id="roi-calculator" className="py-16 md:py-20 bg-orange-500/[0.015] dark:bg-zinc-950/40 relative overflow-hidden backdrop-blur-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <MotionReveal animation="fade-up">
           <SectionHeader
@@ -64,7 +65,7 @@ export function RoiCalculator({ onOpenDemo }) {
           <div className="max-w-5xl mx-auto bg-white/95 dark:bg-zinc-900/40 rounded-[2.5rem] p-8 sm:p-12 border border-slate-200/90 dark:border-white/10 shadow-xl dark:shadow-2xl backdrop-blur-2xl ring-1 ring-inset ring-white/5">
             {/* Mode Switcher Tabs */}
             <div className="flex items-center justify-center mb-8 pb-6 border-b border-slate-200 dark:border-white/10">
-              <div className="inline-flex p-1 rounded-full bg-slate-100 dark:bg-zinc-950 border border-slate-200 dark:border-white/10">
+              <div className="inline-flex p-1 rounded-full bg-slate-100 dark:bg-zinc-950 border border-slate-300 dark:border-white/10 shadow-xs">
                 <button
                   type="button"
                   onClick={() => {
@@ -74,7 +75,7 @@ export function RoiCalculator({ onOpenDemo }) {
                   className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
                     activeMode === 'calculator'
                       ? 'bg-[#FF5500] text-black shadow-sm font-extrabold'
-                      : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white'
+                      : 'text-slate-700 dark:text-zinc-400 font-bold hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
                   <Calculator className="w-3.5 h-3.5" />
@@ -90,7 +91,7 @@ export function RoiCalculator({ onOpenDemo }) {
                   className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
                     activeMode === 'quiz'
                       ? 'bg-[#FF5500] text-black shadow-sm font-extrabold'
-                      : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white'
+                      : 'text-slate-700 dark:text-zinc-400 font-bold hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
                   <TrendingUp className="w-3.5 h-3.5" />
@@ -219,7 +220,7 @@ export function RoiCalculator({ onOpenDemo }) {
                   icon={ArrowRight}
                   iconPosition="right"
                   className="w-full justify-center text-sm flex-1 shadow-lg shadow-[#FF5500]/25"
-                  onClick={() => onOpenDemo ? onOpenDemo('trial', { plan: 'pro' }) : document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
+                  onClick={() => onOpenDemo ? onOpenDemo('trial', { plan: 'pro' }) : smoothScrollService.scrollTo('#pricing', { offset: -70, duration: 1.5 })}
                 >
                   Capture This ROI with Pro
                 </Button>
