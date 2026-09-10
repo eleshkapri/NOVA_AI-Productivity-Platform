@@ -97,13 +97,13 @@ export function Hero({ onOpenDemo }) {
   };
 
   return (
-    <section className="relative pt-36 pb-24 md:pt-44 md:pb-32 overflow-hidden">
+    <section className="relative pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden">
       {/* Ambient Atmospheric Glow */}
       <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[550px] pointer-events-none opacity-40 dark:opacity-25 blur-3xl -z-10"
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[500px] pointer-events-none opacity-40 dark:opacity-20 blur-3xl -z-10"
         style={{
           background:
-            'radial-gradient(ellipse at center, rgba(124, 58, 237, 0.08) 0%, rgba(217, 119, 6, 0.08) 35%, transparent 70%)',
+            'radial-gradient(ellipse at center, rgba(124, 58, 237, 0.08) 0%, rgba(216, 180, 82, 0.06) 35%, transparent 70%)',
         }}
       />
 
@@ -183,23 +183,27 @@ export function Hero({ onOpenDemo }) {
           </div>
         </div>
 
-        {/* Interactive Platform Mockup (Orchid Cyber Console) */}
-        <div className="mt-16 md:mt-22 max-w-5xl mx-auto animate-float-subtle relative">
-          {/* Orchid-style Atmospheric Gradient Orb directly behind the Console */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] sm:w-[900px] h-[500px] rounded-full bg-gradient-to-tr from-[#6833FF]/30 via-[#8E6FFF]/20 to-[#D8B452]/15 blur-[120px] pointer-events-none -z-10 orchid-ambient-orb" />
+        {/* Interactive Platform Mockup (Razor-Sharp Developer Mission Control Console) */}
+        <div className="mt-12 md:mt-16 max-w-5xl mx-auto animate-float-subtle relative">
+          {/* Subtle Ambient Depth Glow */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[850px] h-[400px] rounded-full bg-gradient-to-tr from-[#6833FF]/20 via-[#8E6FFF]/15 to-[#D8B452]/10 blur-[100px] pointer-events-none -z-10" />
 
-          <div className="relative rounded-3xl p-2 sm:p-3 bg-gradient-to-b from-[#6833FF]/25 via-[#0b0c33]/90 to-[#050614] shadow-2xl shadow-[#6833FF]/20 border border-[#8E6FFF]/35 backdrop-blur-2xl orchid-card">
+          <div className="relative rounded-2xl bg-[#050614] shadow-2xl shadow-black/80 border border-slate-200/20 dark:border-white/10 backdrop-blur-2xl overflow-hidden">
             {/* Top Mockup Title Bar */}
-            <div className="bg-[#0b0c33] rounded-t-2xl px-3 sm:px-5 py-2.5 sm:py-3.5 flex flex-col md:flex-row items-stretch md:items-center justify-between border-b border-white/10 gap-2.5">
-              <div className="flex items-center justify-between md:justify-start gap-2 shrink-0">
+            <div className="bg-[#0b0c33]/90 px-3.5 sm:px-5 py-3 flex flex-col md:flex-row items-stretch md:items-center justify-between border-b border-white/10 gap-2.5">
+              <div className="flex items-center justify-between md:justify-start gap-3 shrink-0">
                 <div className="flex items-center gap-2">
                   <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-rose-500/80 inline-block" />
                   <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-amber-500/80 inline-block" />
                   <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-emerald-500/80 inline-block" />
                 </div>
-                <span className="ml-1 sm:ml-3 text-[11px] sm:text-xs font-semibold tracking-wider text-slate-300 flex items-center gap-1.5 truncate">
+                <span className="ml-1 text-[11px] sm:text-xs font-mono font-bold tracking-wider text-slate-300 flex items-center gap-2 truncate">
                   <Bot className="w-3.5 h-3.5 text-[#D8B452] shrink-0" />
-                  <span className="truncate">nova-command-center</span>
+                  <span className="truncate">nova-kernel // sprint-burndown.ast</span>
+                  <span className="hidden sm:inline-flex items-center gap-1 text-[10px] text-emerald-400 font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    LIVE TELEMETRY
+                  </span>
                 </span>
               </div>
 
@@ -211,7 +215,7 @@ export function Hero({ onOpenDemo }) {
                     soundService.playChime('actionClick');
                     setActiveTab('sprint');
                   }}
-                  className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
+                  className={`px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
                     activeTab === 'sprint'
                       ? 'bg-[#D8B452] text-black shadow-xs font-extrabold'
                       : 'text-slate-400 hover:text-white hover:bg-white/5'
@@ -227,7 +231,7 @@ export function Hero({ onOpenDemo }) {
                     soundService.playChime('actionClick');
                     setActiveTab('diff');
                   }}
-                  className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
+                  className={`px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
                     activeTab === 'diff'
                       ? 'bg-[#D8B452] text-black shadow-xs font-extrabold'
                       : 'text-slate-400 hover:text-white hover:bg-white/5'
@@ -246,7 +250,7 @@ export function Hero({ onOpenDemo }) {
                     soundService.playChime('actionClick');
                     setActiveTab('terminal');
                   }}
-                  className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
+                  className={`px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
                     activeTab === 'terminal'
                       ? 'bg-[#D8B452] text-black shadow-xs font-extrabold'
                       : 'text-slate-400 hover:text-white hover:bg-white/5'
@@ -268,7 +272,7 @@ export function Hero({ onOpenDemo }) {
             </div>
 
             {/* Mockup Dashboard Content */}
-            <div className="bg-[#07081e] p-4 sm:p-6 rounded-b-2xl overflow-hidden">
+            <div className="bg-[#050614] p-4 sm:p-6 overflow-hidden">
               {activeTab === 'sprint' && (
                 <HeroKanban
                   tasks={tasks}
