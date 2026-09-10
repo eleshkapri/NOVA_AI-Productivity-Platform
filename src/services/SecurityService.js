@@ -11,9 +11,9 @@ export class SecurityService {
   #allowedProtocols;
 
   constructor() {
-    this.#xssPattern = Object.freeze(/<[^>]*>|javascript:|data:|vbscript:|on\w+\s*=/gi);
-    this.#emailPattern = Object.freeze(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/);
-    this.#workspaceSlugPattern = Object.freeze(/^[a-zA-Z0-9_-]{2,60}$/);
+    this.#xssPattern = /<[^>]*>|javascript:|data:|vbscript:|on\w+\s*=/gi;
+    this.#emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    this.#workspaceSlugPattern = /^[a-zA-Z0-9_-]{2,60}$/;
     this.#allowedProtocols = Object.freeze(new Set(['http:', 'https:', 'mailto:']));
   }
 

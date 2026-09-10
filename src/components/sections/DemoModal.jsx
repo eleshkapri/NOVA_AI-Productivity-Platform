@@ -23,6 +23,7 @@ import {
   ArrowRight,
   CheckCircle2,
   Layers,
+  Loader2,
 } from 'lucide-react';
 
 import { soundService } from '../../services/SoundService';
@@ -59,7 +60,18 @@ function DemoModalContent({ isOpen, onClose, initialTab, selectedPlan, selectedT
   const [selectedHost, setSelectedHost] = useState('github');
   const [activePlan, setActivePlan] = useState(selectedPlan);
   const [isDeploying, setIsDeploying] = useState(false);
+  const [deployStep, setDeployStep] = useState(0);
   const [deploySuccess, setDeploySuccess] = useState(false);
+  const deployTimersRef = useRef([]);
+
+  const clearDeployTimers = () => {
+    deployTimersRef.current.forEach((t) => clearTimeout(t));
+    deployTimersRef.current = [];
+  };
+
+  useEffect(() => {
+    return () => clearDeployTimers();
+  }, []);
 
   // Consultation state
   const [contactForm, setContactForm] = useState({ name: '', email: '', teamSize: '25-50', message: '' });
@@ -208,18 +220,40 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
   };
 
   const handleLaunchTrial = (e) => {
-    e.preventDefault();
-    const cleanWorkspace = securityService.sanitizeString(workspaceName, 50);
-    setWorkspaceName(cleanWorkspace || 'nova-demo-workspace');
+    e?.preventDefault?.();
+    if (isDeploying) return;
+
+    playChime('actionClick');
+    const rawName = workspaceName && workspaceName.trim() ? workspaceName.trim() : 'nova-demo-workspace';
+    const cleanWorkspace = securityService.sanitizeString(rawName, 50) || 'nova-demo-workspace';
+    setWorkspaceName(cleanWorkspace);
     setIsDeploying(true);
-    setTimeout(() => {
+    setDeployStep(1);
+
+    clearDeployTimers();
+
+    const t1 = setTimeout(() => {
+      setDeployStep(2);
+      playChime('stepAdvance');
+    }, 550);
+
+    const t2 = setTimeout(() => {
+      setDeployStep(3);
+      playChime('stepAdvance');
+    }, 1100);
+
+    const t3 = setTimeout(() => {
       setIsDeploying(false);
       setDeploySuccess(true);
-    }, 1200);
+      playChime('goldChord');
+    }, 1700);
+
+    deployTimersRef.current = [t1, t2, t3];
   };
 
   const handleContactSubmit = (e) => {
-    e.preventDefault();
+    e?.preventDefault?.();
+    playChime('actionClick');
     const cleanContact = securityService.sanitizePayload(contactForm);
     setContactForm(cleanContact);
     setContactSubmitted(true);
@@ -705,20 +739,43 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                 <div className="max-w-md mx-auto p-3.5 bg-black/80 rounded-xl border border-white/10 flex items-center justify-between text-xs font-mono text-[#D8B452]">
                   <span>TOKEN: nova_live_9f82d1c7a8</span>
                   <button
+                    type="button"
                     onClick={() => handleCopyCode('nova_live_9f82d1c7a8')}
                     className="p-1.5 rounded hover:bg-white/10 text-white cursor-pointer"
+                    title="Copy Token"
                   >
                     {copiedCode ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
                   </button>
                 </div>
                 <div className="pt-2 flex justify-center gap-3">
-                  <Button variant="primary" size="sm" onClick={onClose}>
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    icon={Rocket}
+                    iconPosition="right"
+                    onClick={() => {
+                      playChime('actionClick');
+                      onClose();
+                    }}
+                  >
                     Enter Dashboard
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      playChime('actionClick');
+                      setDeploySuccess(false);
+                      setIsDeploying(false);
+                      setDeployStep(0);
+                    }}
+                  >
+                    Configure Another
                   </Button>
                 </div>
               </div>
             ) : (
-              <form onSubmit={handleLaunchTrial} className="space-y-5">
+              <form onSubmit={handleLaunchTrial} noValidate className="space-y-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-2">
@@ -726,7 +783,6 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                     </label>
                     <input
                       type="text"
-                      required
                       value={workspaceName}
                       onChange={(e) => setWorkspaceName(e.target.value)}
                       placeholder="e.g. acme-engineering"
@@ -758,7 +814,10 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                     {['starter', 'pro', 'enterprise'].map((p) => (
                       <div
                         key={p}
-                        onClick={() => setActivePlan(p)}
+                        onClick={() => {
+                          playChime('actionClick');
+                          setActivePlan(p);
+                        }}
                         className={`p-3 rounded-xl border text-center cursor-pointer transition-all ${
                           activePlan === p
                             ? 'border-[#D8B452] bg-[#D8B452]/10 font-bold text-slate-900 dark:text-white scale-102 shadow-xs'
@@ -779,13 +838,39 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                   <span className="font-bold text-[#a1741a] dark:text-[#D8B452]">SOC2 Compliant</span>
                 </div>
 
+                {isDeploying && (
+                  <div className="p-4 rounded-xl bg-slate-950 dark:bg-[#050614] border border-[#D8B452]/40 space-y-2.5 animate-fade-in font-mono text-xs shadow-inner">
+                    <div className="flex items-center justify-between text-[#D8B452]">
+                      <span className="flex items-center gap-2 font-bold text-[12px]">
+                        <Loader2 className="w-4 h-4 animate-spin text-[#D8B452]" />
+                        Cloud Provisioning Sequence Active
+                      </span>
+                      <span className="text-[11px] text-slate-400">
+                        Step {deployStep} of 3
+                      </span>
+                    </div>
+                    <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-gradient-to-r from-[#D8B452] to-[#B88A23] transition-all duration-500 rounded-full"
+                        style={{ width: `${(deployStep / 3) * 100}%` }}
+                      />
+                    </div>
+                    <p className="text-slate-300 text-[11px] leading-relaxed">
+                      {deployStep === 1 && `> Provisioning isolated sandbox container in us-east-1 for ${workspaceName || 'nova-demo-workspace'}...`}
+                      {deployStep === 2 && `> Linking ${selectedHost === 'github' ? 'GitHub Organization' : selectedHost === 'gitlab' ? 'GitLab Cloud' : 'Bitbucket Cloud'} webhooks & telemetry edge...`}
+                      {deployStep === 3 && `> Finalizing zero-trust API credentials & ${activePlan.toUpperCase()} tier sandbox...`}
+                    </p>
+                  </div>
+                )}
+
                 <Button
                   type="submit"
+                  onClick={handleLaunchTrial}
                   variant="primary"
                   size="lg"
-                  icon={Rocket}
+                  icon={isDeploying ? Loader2 : Rocket}
                   iconPosition="right"
-                  className="w-full justify-center"
+                  className={`w-full justify-center ${isDeploying ? 'cursor-wait' : ''}`}
                   disabled={isDeploying}
                 >
                   {isDeploying ? 'Configuring Cloud Environment...' : 'Launch Instant Trial Workspace'}
@@ -930,7 +1015,15 @@ Team Morale Index: Optimal (Low Overtime Risk).`,
                   />
                 </div>
 
-                <Button type="submit" variant="primary" size="md" icon={Send} iconPosition="right" className="w-full justify-center">
+                <Button
+                  type="submit"
+                  onClick={handleContactSubmit}
+                  variant="primary"
+                  size="md"
+                  icon={Send}
+                  iconPosition="right"
+                  className="w-full justify-center"
+                >
                   Request Executive Architecture Briefing
                 </Button>
               </form>
