@@ -28,6 +28,7 @@ import {
 } from './components/sections';
 import { Keyboard } from 'lucide-react';
 import { soundService } from './services/SoundService';
+import { Analytics } from '@vercel/analytics/react';
 
 const WorkspaceDashboard = React.lazy(() => import('./components/dashboard'));
 
@@ -486,6 +487,9 @@ export function App() {
           <BackToTop show={showBackToTop} onScrollToTop={scrollToTop} />
         </div>
       )}
+
+      {/* Vercel Web Analytics */}
+      <Analytics />
     </div>
   );
 }
