@@ -282,7 +282,7 @@ Visit https://nova.internal to activate your 14-day full trial.
                 </span>
               </div>
 
-              <h3 className="text-2xl sm:text-3xl font-black font-serif italic text-gold-gradient">
+              <h3 className="text-2xl sm:text-3xl font-black italic text-gold-gradient tracking-tight">
                 {totalScore} / 100 Health Index
               </h3>
               <p className="text-xs text-slate-300 max-w-xl leading-relaxed">

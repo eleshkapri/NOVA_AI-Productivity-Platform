@@ -174,7 +174,7 @@ export function RoiCalculator({ onOpenDemo }) {
               <div>
                 <div className="flex items-baseline gap-2">
                   <DollarSign className="w-8 h-8 text-[#D8B452]" />
-                  <span className="text-5xl sm:text-6xl font-black text-white font-serif italic text-gold-gradient tracking-tight">
+                  <span className="text-5xl sm:text-6xl font-black text-white italic text-gold-gradient tracking-tighter">
                     {annualSavings.toLocaleString()}
                   </span>
                 </div>

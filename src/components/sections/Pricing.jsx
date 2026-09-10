@@ -113,7 +113,7 @@ export function Pricing({ onOpenDemo }) {
 
                   {/* Price with Gold Accents */}
                   <div className="flex items-baseline gap-2 mb-8 pb-8 border-b border-slate-100 dark:border-white/10">
-                    <span className="text-5xl sm:text-6xl font-black tracking-tight font-serif italic text-gold-gradient">
+                    <span className="text-5xl sm:text-6xl font-black tracking-tighter text-gold-gradient">
                       ${price}
                     </span>
                     <span className="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400">

@@ -161,7 +161,7 @@ export function Preloader({ isDark }) {
           <h1 className="text-3xl sm:text-4xl font-black tracking-[0.3em] uppercase text-slate-900 dark:text-white">
             NOVA
           </h1>
-          <p className="text-xs tracking-[0.25em] uppercase text-amber-700 dark:text-[#D8B452] mt-2 font-serif italic font-medium">
+          <p className="text-xs tracking-[0.25em] uppercase text-amber-700 dark:text-[#D8B452] mt-2 font-mono font-bold">
             Build Better &bull; Work Smarter
           </p>
         </div>

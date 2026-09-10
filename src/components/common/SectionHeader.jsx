@@ -28,7 +28,7 @@ export function SectionHeader({
       <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.12]">
         {title}{' '}
         {titleHighlight && (
-          <span className="text-gold-gradient font-serif italic font-normal">
+          <span className="text-gold-gradient italic font-extrabold">
             {titleHighlight}
           </span>
         )}

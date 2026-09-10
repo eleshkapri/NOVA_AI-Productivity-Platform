@@ -23,7 +23,7 @@ export function FinalCTA({ onOpenDemo }) {
             {/* Headline with Grand Editorial Typography */}
             <h2 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-white leading-[1.12] mb-8">
               Ready to Accelerate Sprint Velocity by{' '}
-              <span className="text-gold-gradient font-serif italic font-normal">
+              <span className="text-gold-gradient italic font-black">
                 4.2x?
               </span>
             </h2>

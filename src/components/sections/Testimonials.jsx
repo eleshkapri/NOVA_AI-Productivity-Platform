@@ -66,7 +66,7 @@ export function Testimonials() {
             </div>
 
             {/* Quote Body with Editorial Typography */}
-            <p className="text-xl sm:text-2xl md:text-3xl font-normal text-slate-800 dark:text-slate-100 leading-relaxed min-h-[110px] mb-10 font-serif italic">
+            <p className="text-xl sm:text-2xl md:text-3xl font-medium text-slate-800 dark:text-slate-100 leading-relaxed min-h-[110px] mb-10 tracking-tight">
               "{current.quote}"
             </p>
 

@@ -130,7 +130,7 @@ export function Hero({ onOpenDemo }) {
           {/* Main H1 Headline with Grand Editorial Typography */}
           <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-slate-900 dark:text-white leading-[1.08] mb-8">
             Build Better.{' '}
-            <span className="text-gold-gradient font-serif italic font-normal">
+            <span className="text-gold-gradient italic font-black">
               Work Smarter.
             </span>
           </h1>
