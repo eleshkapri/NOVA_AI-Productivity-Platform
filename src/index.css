@@ -597,4 +597,26 @@ html.theme-transitioning *::after {
   animation: soundBarPulse4 1.05s ease-in-out infinite 0.1s;
 }
 
+/* 8. Emil Kowalski Spring-Calibrated Modal Entrance */
+@keyframes modalPopIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
 
+.animate-modal-pop {
+  animation: modalPopIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-modal-pop {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

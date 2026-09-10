@@ -38,7 +38,7 @@ export function Modal({ isOpen, onClose, title, children, maxWidth = 'max-w-3xl'
 
       {/* Modal Card */}
       <div
-        className={`relative w-full ${maxWidth} bg-white dark:bg-[#0b0c33] rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-200 dark:border-[#D8B452]/40 overflow-hidden z-10 max-h-[94vh] sm:max-h-[90vh] flex flex-col`}
+        className={`relative w-full ${maxWidth} bg-white dark:bg-[#0b0c33] rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-200 dark:border-[#D8B452]/40 overflow-hidden z-10 max-h-[94vh] sm:max-h-[90vh] flex flex-col animate-modal-pop`}
       >
         {/* Header */}
         <div className="flex items-center justify-between px-4 sm:px-6 py-3.5 sm:py-4 border-b border-slate-200 dark:border-white/10">
@@ -47,7 +47,7 @@ export function Modal({ isOpen, onClose, title, children, maxWidth = 'max-w-3xl'
           </h3>
           <button
             onClick={onClose}
-            className="p-1.5 sm:p-2 rounded-full text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-[#D8B452] hover:bg-slate-100 dark:hover:bg-white/10 hover:scale-115 active:scale-90 transition-all cursor-pointer shrink-0"
+            className="p-1.5 sm:p-2 rounded-full text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-[#D8B452] hover:bg-slate-100 dark:hover:bg-white/10 active:scale-90 transition-[transform,background-color,color] duration-150 ease-out cursor-pointer shrink-0"
             aria-label="Close dialog"
           >
             <X className="w-5 h-5" />
