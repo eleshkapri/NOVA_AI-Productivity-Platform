@@ -15,16 +15,105 @@ import {
 import { HeroKanban } from './hero/HeroKanban';
 import { HeroCodeDiff } from './hero/HeroCodeDiff';
 import { HeroTerminal } from './hero/HeroTerminal';
+import { Hero3dCutaway } from './hero/Hero3dCutaway';
 import { soundService } from '../../services/SoundService';
 import { smoothScrollService } from '../../services/SmoothScrollService';
+import { VelocityRhythmModel, SprintTaskModel } from '../../models';
 
-const VELOCITY_MODES = [
-  { id: 'hyperscale', label: 'Hyperscale Sprint', icon: Zap, statusText: '4.2x Burndown' },
-  { id: 'zerotrust', label: 'Zero-Trust Hardened', icon: ShieldCheck, statusText: 'SOC2 Verified' },
-  { id: 'autopilot', label: 'Autonomous AI Pilot', icon: Cpu, statusText: 'Full AST Copilot' },
+const RAW_VELOCITY_MODES = [
+  {
+    id: 'hyperscale',
+    label: 'Hyperscale',
+    fullLabel: 'Hyperscale Sprint',
+    icon: Zap,
+    statusText: '4.2x Burndown Active',
+    badgeSymbol: '★',
+    badgeText: 'DORA Elite // 4.2x Burndown',
+    badgeColor: 'text-[#FF5500]',
+    metrics: [
+      { id: 'm1', value: '10x', label: 'Burndown Rate', accent: 'text-slate-900 dark:text-white', sub: '+340% velocity' },
+      { id: 'm2', value: '8ms', label: 'AST Analysis', accent: 'text-[#FF5500]', sub: 'Real-time AST parse' },
+      { id: 'm3', value: '99.9%', label: 'Test Accuracy', accent: 'text-emerald-500', sub: 'CI test matrix' },
+    ],
+  },
+  {
+    id: 'zerotrust',
+    label: 'Zero-Trust',
+    fullLabel: 'Zero-Trust Hardened',
+    icon: ShieldCheck,
+    statusText: 'SOC2 Type II Verified',
+    badgeSymbol: '▲',
+    badgeText: 'SOC2 Type II // Zero Trust',
+    badgeColor: 'text-emerald-500',
+    metrics: [
+      { id: 'm1', value: '0 CVE', label: 'Security Surface', accent: 'text-emerald-500', sub: 'Zero known exploits' },
+      { id: 'm2', value: 'AES-256', label: 'Payload Cipher', accent: 'text-[#FF5500]', sub: 'AES-GCM signed' },
+      { id: 'm3', value: '100%', label: 'Audit Trail', accent: 'text-sky-500 dark:text-sky-400', sub: 'Cryptographic chain' },
+    ],
+  },
+  {
+    id: 'autopilot',
+    label: 'AI Pilot',
+    fullLabel: 'Autonomous AI Pilot',
+    icon: Cpu,
+    statusText: 'Full AST Copilot Active',
+    badgeSymbol: '●',
+    badgeText: 'Autonomous Copilot // 12x Burndown',
+    badgeColor: 'text-[#FF5500]',
+    metrics: [
+      { id: 'm1', value: '12x', label: 'Velocity Cadence', accent: 'text-slate-900 dark:text-white', sub: 'Autonomous burndown' },
+      { id: 'm2', value: '0.4ms', label: 'Inference Latency', accent: 'text-[#FF5500]', sub: 'Sub-ms AST engine' },
+      { id: 'm3', value: '99.99%', label: 'Self-Healing CI', accent: 'text-emerald-500', sub: 'Auto test synthesis' },
+    ],
+  },
 ];
 
-const INITIAL_TASKS = [
+const VELOCITY_MODES = Object.freeze(
+  RAW_VELOCITY_MODES.map((config) => new VelocityRhythmModel(config))
+);
+
+/**
+ * AnimatedLetters: Wraps each word and letter into an overflow-hidden mask
+ * with staggered animeLetterRise animation matching https://text-animations-anime-js.webflow.io/
+ */
+function AnimatedLetters({
+  text,
+  startDelay = 0.08,
+  stagger = 0.024,
+  className = '',
+  letterClassName = '',
+}) {
+  const words = text.split(' ');
+  let runningDelay = startDelay;
+
+  return (
+    <span className={`inline-block ${className}`}>
+      {words.map((word, wordIdx) => {
+        const letters = Array.from(word);
+        return (
+          <span key={`w-${wordIdx}`} className="inline-block whitespace-nowrap mr-[0.22em] last:mr-0">
+            {letters.map((char, charIdx) => {
+              const delay = runningDelay;
+              runningDelay += stagger;
+              return (
+                <span key={`c-${charIdx}`} className="anime-letter-mask">
+                  <span
+                    className={`anime-letter select-none font-extrabold cursor-default ${letterClassName}`}
+                    style={{ '--delay': `${delay.toFixed(3)}s` }}
+                  >
+                    {char}
+                  </span>
+                </span>
+              );
+            })}
+          </span>
+        );
+      })}
+    </span>
+  );
+}
+
+const RAW_INITIAL_TASKS = [
   {
     id: 'NOV-249',
     title: 'Refactor OAuth token rotation for multi-region failover',
@@ -82,9 +171,15 @@ const INITIAL_TASKS = [
   },
 ];
 
+const INITIAL_TASKS = Object.freeze(
+  RAW_INITIAL_TASKS.map((t) => new SprintTaskModel(t))
+);
+
 export function Hero({ onOpenDemo }) {
   const [activeTab, setActiveTab] = useState('sprint'); // 'sprint' | 'diff' | 'terminal'
   const [velocityMode, setVelocityMode] = useState('hyperscale');
+  const currentVelocityMode =
+    VELOCITY_MODES.find((m) => m.id === velocityMode) || VELOCITY_MODES[0];
   const [tasks, setTasks] = useState(INITIAL_TASKS);
   const [isPrMerged, setIsPrMerged] = useState(false);
   const [isRevealed, setIsRevealed] = useState(false);
@@ -103,7 +198,7 @@ export function Hero({ onOpenDemo }) {
 
   const handleMoveTask = (taskId, targetStatus) => {
     setTasks((prev) =>
-      prev.map((t) => (t.id === taskId ? { ...t, status: targetStatus } : t))
+      prev.map((t) => (t.id === taskId ? (t instanceof SprintTaskModel ? t.withStatus(targetStatus) : { ...t, status: targetStatus }) : t))
     );
   };
 
@@ -115,7 +210,7 @@ export function Hero({ onOpenDemo }) {
   const handleMergePr = () => {
     setIsPrMerged(true);
     setTasks((prev) =>
-      prev.map((t) => (t.id === 'NOV-244' ? { ...t, status: 'done' } : t))
+      prev.map((t) => (t.id === 'NOV-244' ? (t instanceof SprintTaskModel ? t.withStatus('done') : { ...t, status: 'done' }) : t))
     );
     soundService.playChime('stepAdvance');
   };
@@ -123,7 +218,7 @@ export function Hero({ onOpenDemo }) {
   return (
     <section
       id="hero"
-      className={`relative pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden ${isRevealed ? 'hero-revealed' : ''}`}
+      className={`relative pt-36 pb-16 md:pt-44 lg:pt-48 md:pb-24 overflow-hidden ${isRevealed ? 'hero-revealed' : ''}`}
     >
       {/* Ambient Atmospheric Orange Glow */}
       <div
@@ -194,47 +289,61 @@ export function Hero({ onOpenDemo }) {
         </div>
 
         {/* Rapidkert Signature Asymmetric Display Headline with Line Masking */}
-        <div className="mb-10 sm:mb-12 select-none">
-          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[5.75rem] font-extrabold tracking-[-0.04em] text-slate-900 dark:text-white leading-[0.93] uppercase">
+        <div className="mb-4 sm:mb-6 select-none">
+          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[5.75rem] font-extrabold tracking-[-0.04em] text-slate-900 dark:text-white leading-[0.93] uppercase">
             {/* Line 1: Flush Left (matches 'THE GOOD GARDEN') */}
-            <span className="rapid-line-mask">
-              <b className="rapid-line-content font-extrabold" style={{ '--d': '0.12s' }}>
-                THE AUTONOMOUS SPRINT
-              </b>
-            </span>
-
-            {/* Line 2: Asymmetric Right Shift (matches 'NOT ON THE SURFACE') */}
-            <span className="rapid-line-mask rapid-indent-1 mt-1 sm:mt-2">
-              <b className="rapid-line-content font-extrabold text-slate-700 dark:text-zinc-300" style={{ '--d': '0.26s' }}>
-                NOT ON THE SURFACE
-              </b>
-            </span>
-
-            {/* Datum Horizon Line & Label (matches 'SURFACE' above 'BEGINS.') */}
-            <div className="rapid-indent-1 flex items-center gap-3 mt-4 sm:mt-6 mb-1">
-              <span className="text-[10px] sm:text-xs font-mono font-bold tracking-[0.22em] uppercase text-slate-500 dark:text-zinc-400">
-                EXECUTION
-              </span>
-              <div className="h-px w-14 sm:w-24 bg-slate-300 dark:bg-white/20" />
-              <span className="text-[10px] sm:text-xs font-mono font-bold tracking-widest text-[#FF5500]">0.00 MS</span>
+            <div className="rapid-line-mask">
+              <AnimatedLetters
+                text="THE AUTONOMOUS SPRINT"
+                startDelay={0.08}
+                stagger={0.024}
+                letterClassName="text-slate-900 dark:text-white"
+              />
             </div>
-
-            {/* Line 3: Deep Indent & Radiant Accent (matches 'BEGINS.') */}
-            <span className="rapid-line-mask rapid-indent-2">
-              <b className="rapid-line-content font-extrabold text-[#FF5500]" style={{ '--d': '0.40s' }}>
-                BEGINS.
-              </b>
-            </span>
           </h1>
         </div>
 
-        {/* Two-Column Editorial Narrative & Telemetry Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end mb-12">
-          {/* Left Column (7 cols): Editorial Lede Narrative & Dual CTAs */}
+        {/* Dynamic Two-Column Stage: Lines 2 & 3 + Narrative Lede on Left vs 3D Cutaway + Telemetry on Right */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start mb-2 sm:mb-4">
+          {/* Left Column (7 cols): Lines 2 & 3, Datum Line, Narrative Lede, CTAs & Badges */}
           <div className="lg:col-span-7 space-y-6">
+            <div className="select-none">
+              <div className="text-3xl sm:text-5xl md:text-6xl lg:text-[4.5rem] xl:text-[5rem] font-extrabold tracking-[-0.04em] text-slate-900 dark:text-white leading-[0.93] uppercase">
+                {/* Line 2: Asymmetric Right Shift (matches 'NOT ON THE SURFACE') */}
+                <div className="rapid-line-mask rapid-indent-1">
+                  <AnimatedLetters
+                    text="NOT ON THE SURFACE"
+                    startDelay={0.34}
+                    stagger={0.024}
+                    letterClassName="text-slate-700 dark:text-zinc-300"
+                  />
+                </div>
+
+                {/* Datum Horizon Line & Label (matches 'SURFACE' above 'BEGINS.') */}
+                <div className="rapid-indent-1 flex items-center gap-3 mt-3 sm:mt-5 mb-2">
+                  <span className="text-[10px] sm:text-xs font-mono font-bold tracking-[0.22em] uppercase text-slate-500 dark:text-zinc-400">
+                    EXECUTION
+                  </span>
+                  <div className="h-px w-14 sm:w-24 bg-slate-300 dark:bg-white/20" />
+                  <span className="text-[10px] sm:text-xs font-mono font-bold tracking-widest text-[#FF5500]">0.00 MS</span>
+                </div>
+
+                {/* Line 3: Deep Indent & Radiant Accent (matches 'BEGINS.') */}
+                <div className="rapid-line-mask rapid-indent-2">
+                  <AnimatedLetters
+                    text="BEGINS."
+                    startDelay={0.62}
+                    stagger={0.032}
+                    letterClassName="text-[#FF5500]"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Editorial Lede Narrative */}
             <p
-              className="rapid-fade-up text-base sm:text-lg md:text-xl text-slate-700 dark:text-zinc-400 leading-relaxed font-normal text-pretty max-w-[48ch]"
-              style={{ '--d': '0.54s' }}
+              className="rapid-fade-up text-base sm:text-lg md:text-xl text-slate-700 dark:text-zinc-400 leading-relaxed font-normal text-pretty max-w-[50ch] pt-2"
+              style={{ '--d': '0.82s' }}
             >
               The finished pull request is just the visible layer. Continuous AST parsing, test synthesis, and autonomous sprint burndown decide whether your engineering squad will ship at 10x velocity &mdash; and we orchestrate all of it, from ticket to production.
             </p>
@@ -242,7 +351,7 @@ export function Hero({ onOpenDemo }) {
             {/* Dual CTAs in Rapidkert High-Contrast Pill Style */}
             <div
               className="rapid-fade-up flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2"
-              style={{ '--d': '0.66s' }}
+              style={{ '--d': '0.92s' }}
             >
               <Button
                 variant="orange"
@@ -271,7 +380,7 @@ export function Hero({ onOpenDemo }) {
             {/* Trust & Compliance Badges */}
             <div
               className="rapid-fade-up flex flex-wrap items-center gap-x-6 gap-y-2 text-[11px] sm:text-xs font-semibold tracking-wider uppercase text-slate-500 dark:text-zinc-400 pt-1"
-              style={{ '--d': '0.74s' }}
+              style={{ '--d': '1.02s' }}
             >
               <span className="flex items-center gap-1.5 hover:text-slate-900 dark:hover:text-white transition-colors cursor-default">
                 <Check className="w-3.5 h-3.5 text-[#FF5500]" /> No credit card required
@@ -285,55 +394,72 @@ export function Hero({ onOpenDemo }) {
             </div>
           </div>
 
-          {/* Right Column (5 cols): Rapidkert-style Quick Metrics & Velocity Selector */}
-          <div className="lg:col-span-5 space-y-4">
-            {/* Micro Stats Card (matching Rapidkert's foot stats) */}
-            <div
-              className="rapid-fade-up grid grid-cols-3 gap-3 p-4 rounded-2xl bg-white/70 dark:bg-zinc-900/60 border border-slate-200/80 dark:border-white/10 backdrop-blur-md shadow-sm"
-              style={{ '--d': '0.60s' }}
-            >
-              <div>
-                <div className="text-xl sm:text-2xl font-mono font-extrabold text-slate-900 dark:text-white">10x</div>
-                <div className="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-zinc-400">Burndown Rate</div>
-              </div>
-              <div>
-                <div className="text-xl sm:text-2xl font-mono font-extrabold text-[#FF5500]">8ms</div>
-                <div className="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-zinc-400">AST Analysis</div>
-              </div>
-              <div>
-                <div className="text-xl sm:text-2xl font-mono font-extrabold text-emerald-500">99.9%</div>
-                <div className="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-zinc-400">Test Accuracy</div>
-              </div>
-            </div>
+          {/* Right Column (5 cols): 3D Model + Telemetry Cockpit Deck */}
+          <div className="lg:col-span-5 space-y-4 sm:space-y-5">
+            {/* 3D Isometric Strata Model (Reacts to velocityMode) */}
+            <Hero3dCutaway velocityMode={velocityMode} />
 
-            {/* Velocity Mode Selector Pill */}
+            {/* Unified Telemetry & Execution Rhythm Deck (Below card placed in immediate close range) */}
             <div
-              className="rapid-fade-up p-1.5 rounded-2xl bg-slate-100/90 dark:bg-zinc-900/80 border border-slate-300/80 dark:border-white/10 backdrop-blur-xl"
-              style={{ '--d': '0.72s' }}
+              className="rapid-fade-up rounded-2xl bg-white/85 dark:bg-zinc-900/85 border border-slate-200/80 dark:border-white/10 backdrop-blur-xl shadow-lg shadow-black/5 overflow-hidden transition-all duration-300"
+              style={{ '--d': '0.70s' }}
             >
-              <div className="text-[10px] font-mono font-bold tracking-widest uppercase text-slate-500 dark:text-zinc-400 px-3 py-1">
-                Execution Rhythm:
-              </div>
-              <div className="flex flex-wrap gap-1.5">
-                {VELOCITY_MODES.map((mode) => {
-                  const isSelected = velocityMode === mode.id;
-                  const Icon = mode.icon;
-                  return (
-                    <button
-                      key={mode.id}
-                      type="button"
-                      onClick={() => handleSelectVelocityMode(mode.id)}
-                      className={`flex-1 px-3 py-1.5 rounded-xl text-xs font-bold transition-all duration-300 flex items-center justify-center gap-1.5 cursor-pointer outline-none select-none ${
-                        isSelected
-                          ? 'bg-[#FF5500] text-black shadow-md shadow-[#FF5500]/30 font-extrabold'
-                          : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-white/5'
-                      }`}
+              {/* Upper Tier: Live Responsive Telemetry Metrics */}
+              <div className="grid grid-cols-3 gap-2 sm:gap-3 p-3.5 sm:p-4">
+                {currentVelocityMode.metrics.map((metric) => (
+                  <div key={metric.id} className="transition-all duration-300">
+                    <div
+                      key={`${velocityMode}-${metric.value}`}
+                      className={`text-xl sm:text-2xl font-mono font-extrabold transition-all duration-300 ${metric.accent}`}
                     >
-                      <Icon className="w-3.5 h-3.5 shrink-0" />
-                      <span>{mode.label}</span>
-                    </button>
-                  );
-                })}
+                      {metric.value}
+                    </div>
+                    <div className="text-[10px] font-mono uppercase tracking-wider text-slate-600 dark:text-zinc-400 truncate">
+                      {metric.label}
+                    </div>
+                    <div className="text-[9px] font-mono text-slate-400 dark:text-zinc-500 mt-0.5 truncate hidden sm:block">
+                      {metric.sub}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Seamless Live Cadence Bar Divider */}
+              <div className="px-3.5 sm:px-4 py-1.5 bg-slate-50/90 dark:bg-black/40 border-t border-b border-slate-200/60 dark:border-white/5 flex items-center justify-between">
+                <div className="flex items-center gap-1.5">
+                  <span className="flex h-1.5 w-1.5 rounded-full bg-[#FF5500] shadow-[0_0_6px_#FF5500] animate-pulse" />
+                  <span className="text-[10px] font-mono font-bold tracking-widest uppercase text-slate-500 dark:text-zinc-400">
+                    EXECUTION RHYTHM // {currentVelocityMode.label}
+                  </span>
+                </div>
+                <span className="text-[10px] font-mono text-[#FF5500] font-bold tracking-wider">
+                  {currentVelocityMode.statusText}
+                </span>
+              </div>
+
+              {/* Lower Tier: Execution Rhythm Selector (Placed in immediate close range!) */}
+              <div className="p-2 sm:p-2.5 bg-slate-100/60 dark:bg-zinc-950/40">
+                <div className="grid grid-cols-3 gap-1.5">
+                  {VELOCITY_MODES.map((mode) => {
+                    const isSelected = velocityMode === mode.id;
+                    const Icon = mode.icon;
+                    return (
+                      <button
+                        key={mode.id}
+                        type="button"
+                        onClick={() => handleSelectVelocityMode(mode.id)}
+                        className={`px-2 py-2 rounded-xl text-xs font-bold transition-all duration-300 flex items-center justify-center gap-1.5 cursor-pointer outline-none select-none ${
+                          isSelected
+                            ? 'bg-[#FF5500] text-black shadow-md shadow-[#FF5500]/30 font-extrabold scale-[1.02]'
+                            : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-white/5'
+                        }`}
+                      >
+                        <Icon className="w-3.5 h-3.5 shrink-0" />
+                        <span className="truncate">{mode.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>
@@ -341,7 +467,7 @@ export function Hero({ onOpenDemo }) {
 
         {/* Interactive Platform Mockup (Floria-Style Ultra-Rounded Glass Window) */}
         <div
-          className="rapid-fade-up mt-8 md:mt-12 max-w-5xl mx-auto animate-float-subtle relative"
+          className="rapid-fade-up mt-1 sm:mt-2 max-w-5xl mx-auto animate-float-subtle relative"
           style={{ '--d': '0.82s' }}
         >
           {/* Floating Physics Badges (Crency Agency style) */}
@@ -354,8 +480,8 @@ export function Hero({ onOpenDemo }) {
 
           <div className="hidden md:flex absolute -top-5 -right-6 z-20 animate-float-sway-2 pointer-events-auto">
             <div className="px-3.5 py-1.5 rounded-2xl bg-white/95 dark:bg-zinc-900/90 border border-slate-300 dark:border-white/15 backdrop-blur-xl shadow-xl flex items-center gap-2 text-xs font-mono font-bold text-slate-800 dark:text-slate-200 hover:border-[#FF5500] hover:scale-105 transition-all">
-              <span className="text-[#FF5500]">★</span>
-              <span>DORA Elite // 4.2x Burndown</span>
+              <span className={currentVelocityMode.badgeColor}>{currentVelocityMode.badgeSymbol}</span>
+              <span>{currentVelocityMode.badgeText}</span>
             </div>
           </div>
 
