@@ -9,20 +9,17 @@ export function FinalCTA({ onOpenDemo }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <MotionReveal animation="zoom-in" duration={800}>
           <div className="relative rounded-[2.5rem] sm:rounded-[3rem] overflow-hidden bg-zinc-950 text-white p-10 sm:p-16 md:p-20 shadow-2xl border border-white/10 hover:border-[#FF5500]/50 transition-all duration-500 group ring-1 ring-inset ring-white/10">
-            {/* Horizon Arc Background Artwork (cta_horizon.jpg) */}
-            <div className="absolute inset-0 pointer-events-none opacity-40 group-hover:opacity-50 transition-opacity duration-700">
-              <img
-                src="/images/nova_sections/cta_horizon.jpg"
-                alt="NOVA Infinite Horizon Launch Arc"
-                className="w-full h-full object-cover object-center scale-105 group-hover:scale-100 transition-transform duration-1000 ease-out"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/80 to-zinc-950/40" />
+            {/* Luminous Cyber-Orange Horizon Arc Background (Zero-Text, Hardware-Accelerated) */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+              {/* Radial glow bloom */}
+              <div className="absolute -bottom-48 left-1/2 -translate-x-1/2 w-[800px] sm:w-[1200px] h-[500px] rounded-[100%] bg-gradient-to-t from-[#FF5500]/30 via-[#FF7700]/15 to-transparent blur-3xl group-hover:from-[#FF5500]/40 transition-colors duration-700" />
+              {/* Luminous Horizon Laser Arc */}
+              <div className="absolute -bottom-24 left-1/2 -translate-x-1/2 w-[700px] sm:w-[1000px] h-[300px] rounded-[100%] border-t-2 border-[#FF5500]/60 shadow-[0_0_60px_rgba(255,85,0,0.5)]" />
+              <div className="absolute -bottom-16 left-1/2 -translate-x-1/2 w-[500px] sm:w-[800px] h-[200px] rounded-[100%] border-t border-amber-400/40 shadow-[0_0_40px_rgba(255,180,0,0.3)]" />
+              {/* Subtle Atmospheric Top Corner Glows */}
+              <div className="absolute top-0 right-0 -mr-24 -mt-24 w-96 h-96 rounded-full bg-[#FF5500]/20 blur-3xl pointer-events-none" />
+              <div className="absolute bottom-0 left-0 -ml-24 -mb-24 w-96 h-96 rounded-full bg-[#FF7700]/15 blur-3xl pointer-events-none" />
             </div>
-
-            {/* Ambient Cyber-Orange Glow */}
-            <div className="absolute top-0 right-0 -mr-24 -mt-24 w-96 h-96 rounded-full bg-[#FF5500]/25 blur-3xl pointer-events-none group-hover:opacity-100 transition-opacity duration-700" />
-            <div className="absolute bottom-0 left-0 -ml-24 -mb-24 w-96 h-96 rounded-full bg-[#FF7700]/15 blur-3xl pointer-events-none group-hover:opacity-100 transition-opacity duration-700" />
 
             <div className="relative z-10 max-w-3xl mx-auto text-center">
               {/* Top Pill with Orange Glow */}

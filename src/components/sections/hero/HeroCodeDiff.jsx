@@ -96,14 +96,14 @@ export function HeroCodeDiff({ isPrMerged, onMergePr, onOpenDemo }) {
   return (
     <div className="space-y-4">
       {/* Top PR Header Bar */}
-      <div className="bg-[#0b0c33]/80 rounded-xl p-3 sm:p-4 border border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+      <div className="bg-zinc-900/60 rounded-xl p-3 sm:p-4 border border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-[#6833FF]/20 border border-[#8E6FFF]/30 text-[#A78BFA]">
+          <div className="p-2 rounded-lg bg-[#FF5500]/15 border border-[#FF5500]/30 text-[#FF5500]">
             <GitPullRequest className="w-4 h-4" />
           </div>
           <div>
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="font-mono text-xs font-bold text-[#D8B452]">PR #142</span>
+              <span className="font-mono text-xs font-bold text-[#FF5500]">PR #142</span>
               <span className="text-xs font-bold text-white">
                 feat(auth): zero-trust token rotation & multi-region failover
               </span>
@@ -111,7 +111,7 @@ export function HeroCodeDiff({ isPrMerged, onMergePr, onOpenDemo }) {
                 className={`text-[10px] px-2 py-0.5 rounded-full font-bold flex items-center gap-1 ${
                   isPrMerged
                     ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                    : 'bg-[#D8B452]/20 text-[#D8B452] border border-[#D8B452]/30'
+                    : 'bg-[#FF5500]/15 text-[#FF5500] border border-[#FF5500]/30'
                 }`}
               >
                 {isPrMerged ? (
@@ -120,14 +120,14 @@ export function HeroCodeDiff({ isPrMerged, onMergePr, onOpenDemo }) {
                   </>
                 ) : (
                   <>
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#D8B452] animate-pulse" /> Open for Review
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#FF5500] animate-pulse" /> Open for Review
                   </>
                 )}
               </span>
             </div>
             <p className="text-[11px] text-slate-400 mt-0.5">
               Authored by <span className="text-slate-300 font-mono">nova-copilot-bot</span> &bull; Branch{' '}
-              <span className="text-[#8E6FFF] font-mono">feat/pr-summarizer</span> &rarr;{' '}
+              <span className="text-orange-400 font-mono">feat/pr-summarizer</span> &rarr;{' '}
               <span className="text-emerald-400 font-mono">main</span>
             </p>
           </div>
@@ -140,7 +140,7 @@ export function HeroCodeDiff({ isPrMerged, onMergePr, onOpenDemo }) {
             <button
               onClick={() => setViewMode('split')}
               className={`px-2.5 py-1 rounded text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer ${
-                viewMode === 'split' ? 'bg-[#D8B452] text-black font-bold' : 'text-slate-300 hover:text-white'
+                viewMode === 'split' ? 'bg-[#FF5500] text-black font-bold' : 'text-slate-300 hover:text-white'
               }`}
               title="Side-by-side comparison"
             >
@@ -150,7 +150,7 @@ export function HeroCodeDiff({ isPrMerged, onMergePr, onOpenDemo }) {
             <button
               onClick={() => setViewMode('unified')}
               className={`px-2.5 py-1 rounded text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer ${
-                viewMode === 'unified' ? 'bg-[#D8B452] text-black font-bold' : 'text-slate-300 hover:text-white'
+                viewMode === 'unified' ? 'bg-[#FF5500] text-black font-bold' : 'text-slate-300 hover:text-white'
               }`}
               title="Unified inline diff"
             >
@@ -172,16 +172,16 @@ export function HeroCodeDiff({ isPrMerged, onMergePr, onOpenDemo }) {
       </div>
 
       {/* Interactive Action Ribbon */}
-      <div className="bg-[#0b0c33]/60 rounded-xl p-3 border border-white/5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+      <div className="bg-zinc-900/60 rounded-xl p-3 border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div className="flex items-center gap-2 text-xs">
           {ciStatus === 'idle' && (
             <span className="text-slate-400 flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-[#D8B452]" /> CI Matrix: Ready to verify (18 tests pending)
+              <ShieldCheck className="w-4 h-4 text-[#FF5500]" /> CI Matrix: Ready to verify (18 tests pending)
             </span>
           )}
           {ciStatus === 'running' && (
-            <span className="text-[#8E6FFF] flex items-center gap-1.5 animate-pulse">
-              <Sparkles className="w-4 h-4 text-[#8E6FFF] animate-spin" /> Running test suite across 4 edge replicas...
+            <span className="text-[#FF5500] flex items-center gap-1.5 animate-pulse">
+              <Sparkles className="w-4 h-4 text-[#FF5500] animate-spin" /> Running test suite across 4 edge replicas...
             </span>
           )}
           {ciStatus === 'passed' && (
@@ -198,7 +198,7 @@ export function HeroCodeDiff({ isPrMerged, onMergePr, onOpenDemo }) {
             disabled={ciStatus === 'running'}
             className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-white/10 hover:bg-white/15 text-white border border-white/10 transition-all cursor-pointer flex items-center gap-1.5"
           >
-            <Play className="w-3 h-3 text-[#D8B452] fill-current" />
+            <Play className="w-3 h-3 text-[#FF5500] fill-current" />
             <span>{ciStatus === 'passed' ? 'Re-run CI' : 'Run CI Tests'}</span>
           </button>
 
@@ -208,7 +208,7 @@ export function HeroCodeDiff({ isPrMerged, onMergePr, onOpenDemo }) {
             className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm ${
               isPrMerged
                 ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 cursor-default'
-                : 'bg-gradient-to-r from-[#D8B452] to-[#B38722] hover:scale-105 active:scale-95 text-black'
+                : 'bg-[#FF5500] hover:bg-[#ff6a1a] hover:scale-105 active:scale-95 text-black'
             }`}
           >
             <Check className="w-3.5 h-3.5" />
@@ -236,7 +236,7 @@ export function HeroCodeDiff({ isPrMerged, onMergePr, onOpenDemo }) {
       )}
 
       {/* Code Diff Display Container */}
-      <div className="rounded-xl border border-white/10 bg-[#050614] overflow-hidden shadow-inner font-mono text-xs">
+      <div className="rounded-xl border border-white/10 bg-zinc-950/90 overflow-hidden shadow-inner font-mono text-xs">
         {viewMode === 'split' ? (
           /* Split View */
           <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-white/10">

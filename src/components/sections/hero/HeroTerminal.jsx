@@ -73,21 +73,21 @@ export function HeroTerminal({ onOpenDemo }) {
       if (trimmed === 'nova demo' || trimmed === 'demo' || trimmed === 'studio') {
         outputLines = [
           { tag: 'LAUNCH', color: 'text-emerald-400', text: 'Opening NOVA Interactive Demo Studio...' },
-          { tag: 'SUCCESS', color: 'text-[#D8B452]', text: 'Interactive walkthrough initialized.' },
+          { tag: 'SUCCESS', color: 'text-[#FF5500]', text: 'Interactive walkthrough initialized.' },
         ];
         onOpenDemo('walkthrough');
       } else if (trimmed === 'nova sprint triage') {
         outputLines = [
           { tag: 'INFO', color: 'text-blue-400', text: 'Ingesting repository metadata across 14 connected services...' },
-          { tag: 'AI-TRIAGE', color: 'text-[#D8B452]', text: 'Analyzed 6 active backlog items against historical squad velocity.' },
-          { tag: 'ESTIMATION', color: 'text-purple-400', text: 'Fibonacci calibrated: NOV-249 (3 pts), NOV-251 (5 pts), NOV-246 (8 pts).' },
+          { tag: 'AI-TRIAGE', color: 'text-[#FF5500]', text: 'Analyzed 6 active backlog items against historical squad velocity.' },
+          { tag: 'ESTIMATION', color: 'text-orange-400', text: 'Fibonacci calibrated: NOV-249 (3 pts), NOV-251 (5 pts), NOV-246 (8 pts).' },
           { tag: 'SUCCESS', color: 'text-emerald-400', text: 'Sprint 48 backlog balanced. 0 circular blocking dependencies detected.' },
         ];
       } else if (trimmed === 'nova copilot diff #142') {
         outputLines = [
-          { tag: 'COPILOT', color: 'text-[#8E6FFF]', text: 'Inspecting AST semantic diff for PR #142 (feat/pr-summarizer)...' },
+          { tag: 'COPILOT', color: 'text-[#FF5500]', text: 'Inspecting AST semantic diff for PR #142 (feat/pr-summarizer)...' },
           { tag: 'SECURITY', color: 'text-emerald-400', text: 'AES-GCM signed token rotation verified. Replay attack resistance: 100%.' },
-          { tag: 'PERFORMANCE', color: 'text-[#D8B452]', text: 'Projected latency reduction: -64% (210ms -> 75ms) via edge geoRouter.' },
+          { tag: 'PERFORMANCE', color: 'text-[#FF5500]', text: 'Projected latency reduction: -64% (210ms -> 75ms) via edge geoRouter.' },
           { tag: 'SUCCESS', color: 'text-emerald-400', text: 'Passed all static security audits. Safe for zero-downtime deployment.' },
         ];
       } else if (trimmed === 'nova test --coverage') {
@@ -95,7 +95,7 @@ export function HeroTerminal({ onOpenDemo }) {
           { tag: 'TEST-RUNNER', color: 'text-blue-400', text: 'Dispatching test matrix to 4 edge execution sandboxes...' },
           { tag: 'UNIT', color: 'text-emerald-400', text: '42 / 42 Unit Tests Passed (142ms).' },
           { tag: 'INTEGRATION', color: 'text-emerald-400', text: '16 / 16 Integration Flows Verified (218ms).' },
-          { tag: 'COVERAGE', color: 'text-[#D8B452]', text: 'Code Coverage: 98.4% (Threshold: >= 95.0%).' },
+          { tag: 'COVERAGE', color: 'text-[#FF5500]', text: 'Code Coverage: 98.4% (Threshold: >= 95.0%).' },
           { tag: 'SUCCESS', color: 'text-emerald-400', text: 'Zero regressions detected. Production deployment gate unlocked.' },
         ];
       } else if (trimmed === 'nova status --mesh') {
@@ -107,8 +107,8 @@ export function HeroTerminal({ onOpenDemo }) {
         ];
       } else {
         outputLines = [
-          { tag: 'CLI-EXEC', color: 'text-[#8E6FFF]', text: `Executing custom query: "${trimmed}"` },
-          { tag: 'AI-REASON', color: 'text-[#D8B452]', text: 'Contextual code repository index consulted. Zero anomalies detected.' },
+          { tag: 'CLI-EXEC', color: 'text-[#FF5500]', text: `Executing custom query: "${trimmed}"` },
+          { tag: 'AI-REASON', color: 'text-orange-400', text: 'Contextual code repository index consulted. Zero anomalies detected.' },
           { tag: 'COMPLETED', color: 'text-emerald-400', text: 'Command processed cleanly with exit code 0.' },
         ];
       }
@@ -165,7 +165,7 @@ export function HeroTerminal({ onOpenDemo }) {
             className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors cursor-pointer"
             title="Launch full interactive demo studio"
           >
-            <Play className="w-3 h-3 text-[#D8B452] fill-current" />
+            <Play className="w-3 h-3 text-[#FF5500] fill-current" />
             <span className="hidden xs:inline">Studio Demo</span>
           </button>
           <button
@@ -190,10 +190,10 @@ export function HeroTerminal({ onOpenDemo }) {
               key={preset.cmd}
               onClick={() => executeCommand(preset.cmd)}
               disabled={isExecuting}
-              className="px-2.5 py-1.5 rounded-lg bg-[#0b0c33] hover:bg-[#6833FF]/20 border border-white/10 hover:border-[#D8B452]/40 text-slate-300 hover:text-white transition-all text-xs font-mono shrink-0 flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+              className="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#FF5500]/50 text-slate-300 hover:text-white transition-all text-xs font-mono shrink-0 flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
               title={preset.desc}
             >
-              <Icon className="w-3 h-3 text-[#D8B452]" />
+              <Icon className="w-3 h-3 text-[#FF5500]" />
               <span>{preset.cmd}</span>
             </button>
           );
@@ -203,7 +203,7 @@ export function HeroTerminal({ onOpenDemo }) {
       {/* Terminal Screen */}
       <div
         onClick={() => inputRef.current?.focus()}
-        className="rounded-xl border border-white/10 bg-[#040510] p-4 font-mono text-xs shadow-inner h-80 overflow-y-auto space-y-3 cursor-text"
+        className="rounded-xl border border-white/10 bg-zinc-950 p-4 font-mono text-xs shadow-inner h-80 overflow-y-auto space-y-3 cursor-text"
       >
         {logs.map((entry, idx) => {
           if (entry.type === 'banner') {
@@ -219,7 +219,7 @@ export function HeroTerminal({ onOpenDemo }) {
           if (entry.type === 'command') {
             return (
               <div key={idx} className="flex items-center gap-2 text-white pt-1">
-                <span className="text-[#D8B452] font-bold select-none">&gt;</span>
+                <span className="text-[#FF5500] font-bold select-none">&gt;</span>
                 <span className="text-white font-semibold">{entry.text}</span>
                 <span className="text-[10px] text-slate-500 ml-auto select-none">{entry.time}</span>
               </div>
@@ -228,7 +228,7 @@ export function HeroTerminal({ onOpenDemo }) {
 
           if (entry.type === 'output') {
             return (
-              <div key={idx} className="space-y-1.5 pl-3 border-l-2 border-[#8E6FFF]/30 my-2">
+              <div key={idx} className="space-y-1.5 pl-3 border-l-2 border-[#FF5500]/30 my-2">
                 {entry.lines.map((line, lIdx) => (
                   <div key={lIdx} className="flex items-start gap-2 text-[11px] leading-relaxed">
                     <span className={`font-bold shrink-0 ${line.color}`}>[{line.tag}]</span>
@@ -236,7 +236,7 @@ export function HeroTerminal({ onOpenDemo }) {
                   </div>
                 ))}
                 <div className="text-[10px] text-slate-500 pt-0.5">
-                  &bull; Executed in <span className="text-[#D8B452]">{entry.duration}</span>
+                  &bull; Executed in <span className="text-[#FF5500]">{entry.duration}</span>
                 </div>
               </div>
             );
@@ -246,8 +246,8 @@ export function HeroTerminal({ onOpenDemo }) {
         })}
 
         {isExecuting && (
-          <div className="flex items-center gap-2 text-xs text-[#8E6FFF] animate-pulse pl-3">
-            <span className="w-2 h-2 rounded-full bg-[#8E6FFF] animate-ping" />
+          <div className="flex items-center gap-2 text-xs text-[#FF5500] animate-pulse pl-3">
+            <span className="w-2 h-2 rounded-full bg-[#FF5500] animate-ping" />
             <span>Processing command with AI reasoning engine...</span>
           </div>
         )}
@@ -257,7 +257,7 @@ export function HeroTerminal({ onOpenDemo }) {
 
       {/* Command Input Prompt Form */}
       <form onSubmit={handleSubmit} className="relative flex items-center">
-        <span className="absolute left-3.5 text-xs font-mono font-bold text-[#D8B452] select-none">
+        <span className="absolute left-3.5 text-xs font-mono font-bold text-[#FF5500] select-none">
           $
         </span>
         <input
@@ -267,12 +267,12 @@ export function HeroTerminal({ onOpenDemo }) {
           onChange={(e) => setInputVal(e.target.value)}
           placeholder="Try typing: nova sprint triage  or  nova test --coverage"
           disabled={isExecuting}
-          className="w-full pl-8 pr-12 py-2.5 rounded-xl bg-[#07081e] border border-white/15 focus:border-[#D8B452] text-xs font-mono text-white placeholder:text-slate-500 outline-none transition-colors"
+          className="w-full pl-8 pr-12 py-2.5 rounded-xl bg-zinc-900 border border-white/15 focus:border-[#FF5500] text-xs font-mono text-white placeholder:text-slate-500 outline-none transition-colors"
         />
         <button
           type="submit"
           disabled={!inputVal.trim() || isExecuting}
-          className="absolute right-2 px-2.5 py-1.5 rounded-lg bg-[#D8B452] text-black disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#b5953f] transition-all cursor-pointer"
+          className="absolute right-2 px-2.5 py-1.5 rounded-lg bg-[#FF5500] text-black disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#ff6a1a] transition-all cursor-pointer font-bold"
           title="Run command"
         >
           <Send className="w-3 h-3" />
