@@ -22,7 +22,7 @@ export function Pricing({ onOpenDemo }) {
   const proSavings = proPlan.getAnnualSavingsPercent() || 20;
 
   return (
-    <section id="pricing" className="py-16 md:py-24 relative overflow-hidden bg-noise">
+    <section id="pricing" className="pt-6 pb-14 md:pt-8 md:pb-18 relative overflow-hidden bg-noise">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* 1. Section Header */}
         <MotionReveal animation="fade-up">

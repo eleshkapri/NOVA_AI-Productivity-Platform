@@ -16,7 +16,7 @@ export function SectionHeader({
   };
 
   return (
-    <div className={`flex flex-col max-w-3xl mb-16 md:mb-20 ${alignClasses[align]} ${className}`}>
+    <div className={`flex flex-col max-w-3xl mb-8 md:mb-12 ${alignClasses[align]} ${className}`}>
       {eyebrow && (
         <div className="mb-5">
           <Badge variant={eyebrowVariant} dot className="shadow-sm">

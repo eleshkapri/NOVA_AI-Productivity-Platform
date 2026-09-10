@@ -5,7 +5,7 @@ import { ArrowRight, Play, Sparkles, CheckCircle2, Shield } from 'lucide-react';
 
 export function FinalCTA({ onOpenDemo }) {
   return (
-    <section className="py-16 md:py-24 relative overflow-hidden bg-noise">
+    <section className="py-12 md:py-16 relative overflow-hidden bg-noise">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <MotionReveal animation="zoom-in" duration={800}>
           <div className="relative rounded-[2.5rem] sm:rounded-[3rem] overflow-hidden bg-zinc-950 text-white p-10 sm:p-16 md:p-20 shadow-2xl border border-white/10 hover:border-[#FF5500]/50 transition-all duration-500 group ring-1 ring-inset ring-white/10">

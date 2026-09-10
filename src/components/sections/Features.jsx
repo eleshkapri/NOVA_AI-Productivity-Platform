@@ -28,7 +28,7 @@ const featureModels = featuresData.map((data, index) => new FeatureModel({ ...da
 
 export function Features({ onOpenDemo }) {
   return (
-    <section id="features" className="py-16 md:py-24 relative">
+    <section id="features" className="pt-12 md:pt-16 pb-4 md:pb-6 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <MotionReveal animation="fade-up">
           <SectionHeader
@@ -101,11 +101,6 @@ export function Features({ onOpenDemo }) {
               </MotionReveal>
             );
           })}
-        </div>
-
-        {/* Floria Ambient Laser Divider */}
-        <div className="mt-20 max-w-4xl mx-auto flex items-center justify-center">
-          <div className="w-full h-px bg-gradient-to-r from-transparent via-[#FF5500]/40 to-transparent" />
         </div>
       </div>
     </section>

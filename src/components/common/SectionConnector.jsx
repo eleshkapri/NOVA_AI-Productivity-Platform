@@ -18,7 +18,7 @@ export function SectionConnector({
   const Icon = iconMap[icon] || Cpu;
 
   return (
-    <div className={`relative py-6 md:py-8 flex items-center justify-center overflow-hidden pointer-events-none select-none ${className}`}>
+    <div className={`relative py-3 md:py-4 flex items-center justify-center overflow-hidden pointer-events-none select-none ${className}`}>
       {/* Horizontal Ambient Laser Beam */}
       <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-px bg-gradient-to-r from-transparent via-[#FF5500]/30 to-transparent" />
       <div className="absolute inset-x-1/4 top-1/2 -translate-y-1/2 h-px bg-gradient-to-r from-transparent via-[#FF7700]/50 to-transparent blur-[1px]" />
