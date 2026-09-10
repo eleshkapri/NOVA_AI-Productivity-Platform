@@ -275,8 +275,30 @@ export function CommandPalette({ isOpen, onClose, onToggleTheme, isDark, onOpenD
         {/* Results List */}
         <div className="p-2 max-h-72 overflow-y-auto space-y-1">
           {filtered.length === 0 ? (
-            <div className="p-6 text-center text-xs text-slate-400">
-              No matching commands or sections found.
+            <div className="p-8 text-center space-y-3">
+              <div className="w-10 h-10 mx-auto rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-[#D8B452]">
+                <Search className="w-5 h-5 opacity-80" />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-slate-200">
+                  No matching telemetry or commands found for &quot;{query}&quot;
+                </p>
+                <p className="text-[11px] text-slate-400 mt-0.5">
+                  Try searching for features, pricing, status, or keyboard shortcuts.
+                </p>
+              </div>
+              <div className="flex items-center justify-center gap-1.5 flex-wrap pt-1">
+                {['Pricing', 'Status', 'ROI', 'Features', 'Changelog'].map((tag) => (
+                  <button
+                    key={tag}
+                    type="button"
+                    onClick={() => setQuery(tag.toLowerCase())}
+                    className="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-white/5 hover:bg-[#D8B452]/20 text-slate-300 hover:text-[#D8B452] border border-white/10 hover:border-[#D8B452]/40 transition-all cursor-pointer"
+                  >
+                    #{tag}
+                  </button>
+                ))}
+              </div>
             </div>
           ) : (
             filtered.map((item, index) => {

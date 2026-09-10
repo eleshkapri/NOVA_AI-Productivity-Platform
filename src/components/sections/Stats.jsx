@@ -50,7 +50,7 @@ export function Stats() {
         {/* 4 Animated Count-up Cards with Tactile Hover Lift */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {statisticsData.map((stat, idx) => (
-            <MotionReveal key={idx} animation="fade-up" delay={idx * 100} className="h-full">
+            <MotionReveal key={stat.id} animation="fade-up" delay={idx * 100} className="h-full">
               <StatCard stat={stat} />
             </MotionReveal>
           ))}

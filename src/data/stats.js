@@ -1,5 +1,6 @@
 export const statisticsData = [
   {
+    id: 'stat-uptime',
     value: 99.99,
     decimals: 2,
     suffix: '%',
@@ -7,6 +8,7 @@ export const statisticsData = [
     description: 'Guaranteed 24/7 high availability with multi-region failover.',
   },
   {
+    id: 'stat-tasks',
     value: 10,
     decimals: 0,
     suffix: 'M+',
@@ -14,6 +16,7 @@ export const statisticsData = [
     description: 'Repetitive backlog and PR actions resolved autonomously.',
   },
   {
+    id: 'stat-velocity',
     value: 4.2,
     decimals: 1,
     suffix: 'x',
@@ -21,6 +24,7 @@ export const statisticsData = [
     description: 'Median improvement in sprint delivery cycle speeds.',
   },
   {
+    id: 'stat-teams',
     value: 500,
     decimals: 0,
     suffix: '+',

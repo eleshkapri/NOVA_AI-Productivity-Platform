@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useTheme, useScrollPosition } from './hooks';
+import { useTheme, useScrollPosition, useDocumentTitle } from './hooks';
 import {
   CustomCursor,
   ProgressBar,
@@ -26,9 +26,10 @@ import {
   FinalCTA,
   DemoModal,
 } from './components/sections';
-import { WorkspaceDashboard } from './components/dashboard';
 import { Keyboard } from 'lucide-react';
 import { soundService } from './services/SoundService';
+
+const WorkspaceDashboard = React.lazy(() => import('./components/dashboard'));
 
 const isValidWorkspace = (ws) => {
   return Boolean(
@@ -62,6 +63,12 @@ export function App() {
   });
 
   const hasActiveWorkspace = isValidWorkspace(activeWorkspace);
+
+  const pageTitle =
+    currentView === 'dashboard'
+      ? `NOVA — Workspace: ${activeWorkspace?.name || 'Sandbox'}`
+      : 'NOVA — Autonomous AI Productivity Platform | Build Better. Work Smarter.';
+  useDocumentTitle(pageTitle);
 
   const [modalConfig, setModalConfig] = useState({
     isOpen: false,
@@ -293,6 +300,14 @@ export function App() {
 
   return (
     <div className="min-h-screen flex flex-col text-[#0f172a] dark:text-[#f1f2f6] transition-colors duration-300 font-sans selection:bg-[#D8B452] selection:text-black relative">
+      {/* 0. Accessible Skip to Main Content Landmark */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:rounded-xl focus:bg-[#D8B452] focus:text-black focus:font-extrabold focus:text-xs focus:shadow-2xl focus:ring-2 focus:ring-black dark:focus:ring-white transition-all cursor-pointer"
+      >
+        Skip to main content &darr;
+      </a>
+
       {/* Luxury Custom Mouse Cursor */}
       <CustomCursor />
 
@@ -350,33 +365,46 @@ export function App() {
 
       {/* Main Content Area: Landing Page vs Workspace Dashboard */}
       {currentView === 'dashboard' ? (
-        <main className="flex-1 relative z-10">
-          <WorkspaceDashboard
-            workspace={activeWorkspace}
-            onExit={() => {
-              soundService.playChime('actionClick');
-              setCurrentView('landing');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            onResetWorkspace={() => {
-              soundService.playChime('actionClick');
-              setActiveWorkspace(null);
-              try {
-                localStorage.removeItem('nova_active_workspace');
-              } catch {
-                // storage non-blocking
-              }
-              setCurrentView('landing');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            isDark={isDark}
-            toggleTheme={toggleTheme}
-            onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
-          />
+        <main id="main-content" className="flex-1 relative z-10">
+          <React.Suspense
+            fallback={
+              <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#050614] flex flex-col items-center justify-center p-6 space-y-4">
+                <div className="w-12 h-12 rounded-2xl bg-[#D8B452]/15 border border-[#D8B452]/40 flex items-center justify-center animate-pulse">
+                  <span className="w-6 h-6 border-2 border-[#D8B452] border-t-transparent rounded-full animate-spin" />
+                </div>
+                <p className="text-xs font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                  Initializing Isolated Sandbox Environment...
+                </p>
+              </div>
+            }
+          >
+            <WorkspaceDashboard
+              workspace={activeWorkspace}
+              onExit={() => {
+                soundService.playChime('actionClick');
+                setCurrentView('landing');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              onResetWorkspace={() => {
+                soundService.playChime('actionClick');
+                setActiveWorkspace(null);
+                try {
+                  localStorage.removeItem('nova_active_workspace');
+                } catch {
+                  // storage non-blocking
+                }
+                setCurrentView('landing');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              isDark={isDark}
+              toggleTheme={toggleTheme}
+              onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
+            />
+          </React.Suspense>
         </main>
       ) : (
         <>
-          <main className="flex-1 relative z-10">
+          <main id="main-content" className="flex-1 relative z-10">
             {/* 1. Hero Section with Interactive Dashboard Console */}
             <Hero onOpenDemo={(tab, extra) => handleOpenModal(tab || 'backlog', extra)} />
 
