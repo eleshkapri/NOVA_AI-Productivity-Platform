@@ -141,41 +141,49 @@ npm run build
 
 ---
 
-### E. Visual Gallery & Screenshots
+### E. Visual Gallery & Real Website Screenshots
 
-#### 1. Interactive Hero Playground & Sprint Hologram
-![Hero Playground](./public/images/nova_sections/hero_prism.jpg)
-*Figure 1: Interactive Hero section featuring the live Kanban simulator, AST code diff engine, and interactive developer CLI.*
+> *All screenshots below were captured directly from the live production deployment at [https://nova-ai-kapri.vercel.app/](https://nova-ai-kapri.vercel.app/).*
 
----
-
-#### 2. Core Architecture & System Data Flow
-![System Architecture](./public/images/nova_architecture_mesh.jpg)
-*Figure 2: Modular React 19 architecture showing decoupled state layers, custom hooks, and isolated Rollup chunks.*
+#### 1. Real Production Hero Section & Navigation
+![Hero Viewport & Navigation](./public/images/real_hero_preview.png)
+*Figure 1: Real production Hero section with high-contrast typography, live activity toast notification, ambient particle sky, quick metrics, and dual-theme navigation.*
 
 ---
 
-#### 3. Feature Bento Grid
-![Features Bento](./public/images/nova_sections/features_bento.jpg)
-*Figure 3: Asymmetric bento grid showcasing real-time CI/CD pipelines, chaos engineering simulation, and autonomous agents.*
+#### 2. Real Interactive Sprint 48 Kanban & Velocity Console
+![Interactive Sprint 48 Velocity Console](./public/images/real_hero_console.png)
+*Figure 2: Real interactive developer console featuring Sprint 48 Kanban simulator, ideal vs. actual burndown curve, AST diff inspector, and developer terminal.*
 
 ---
 
-#### 4. DORA Velocity Assessment & Statistics Waveform
-![Velocity Stats](./public/images/nova_sections/stats_waveform.jpg)
-*Figure 4: Velocity health diagnostic calculating real-time DORA engineering metrics with mathematical count-up animations.*
+#### 3. Real Engineering Features Bento Grid
+![Engineering Features Bento Grid](./public/images/real_features.png)
+*Figure 3: Real bento grid displaying Autonomous Sprint Planning, Codebase-Aware Copilot, and Predictive Velocity Engine with tactile hover states.*
 
 ---
 
-#### 5. Pricing Tiers & Interactive ROI Calculator
-![Pricing Tiers](./public/images/nova_sections/pricing_tiers.jpg)
-*Figure 5: Transparent pricing matrix with monthly/annual billing toggles and interactive headcount ROI calculator.*
+#### 4. Real Headcount Economics & Productivity Dividend Calculator
+![Headcount Economics & Productivity Dividend Calculator](./public/images/real_roi_calculator.png)
+*Figure 4: Real interactive ROI calculator with dynamic sliders for engineering team size and compensation, calculating live annual dividend and velocity multiples.*
 
 ---
 
-#### 6. Enterprise Integrations & Security Conduits
-![Enterprise Security](./public/images/nova_sections/trust_conduit.jpg)
-*Figure 6: Enterprise integration showcase supporting GitHub, GitLab, Bitbucket, Jira, and Slack with SOC2 compliance indicators.*
+#### 5. Real 4-Step DORA Velocity Health Diagnostic Assessment
+![DORA Velocity Health Diagnostic Assessment](./public/images/real_velocity_quiz.png)
+*Figure 5: Real DORA diagnostic quiz calculating deployment cadence, PR latency, and team maturity score with 1-click executive PDF export.*
+
+---
+
+#### 6. Real Pricing Plans & Billing Commitment Matrix
+![Predictable Economics & Pricing Matrix](./public/images/real_pricing.png)
+*Figure 6: Real production pricing cards (Starter, Professional, Enterprise) with monthly/annual commitment toggle and full capability matrix.*
+
+---
+
+#### 7. Real Autonomous Command Center & Demo Studio Modal
+![Interactive Demo Studio & Autonomous Command Center](./public/images/real_workspace_modal.png)
+*Figure 7: Real interactive modal studio showcasing autonomous PRD architecture ingestion, story estimation, automated code review, and release telemetry.*
 
 ---
 
