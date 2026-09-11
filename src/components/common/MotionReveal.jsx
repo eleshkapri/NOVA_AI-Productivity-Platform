@@ -83,7 +83,9 @@ export function MotionReveal({
   return (
     <div
       ref={elementRef}
-      className={`transition-[transform,opacity] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[transform,opacity] ${getAnimationStyles()} ${className}`}
+      className={`transition-[transform,opacity] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        isVisible ? '' : 'will-change-[transform,opacity]'
+      } ${getAnimationStyles()} ${className}`}
       style={{
         transitionDuration: `${Math.min(duration, 380)}ms`,
         transitionDelay: `${Math.min(delay, 100)}ms`,

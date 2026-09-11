@@ -368,6 +368,21 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
     const clock = new THREE.Clock();
     let isVisible = true;
     let lastRenderTime = 0;
+    let isScrollingOnMobile = false;
+    let scrollDebounceTimer = null;
+
+    const handleScrollActivity = () => {
+      if (!isMobile) return;
+      isScrollingOnMobile = true;
+      if (scrollDebounceTimer) clearTimeout(scrollDebounceTimer);
+      scrollDebounceTimer = setTimeout(() => {
+        isScrollingOnMobile = false;
+      }, 100);
+    };
+
+    if (isMobile) {
+      window.addEventListener('scroll', handleScrollActivity, { passive: true });
+    }
 
     // IntersectionObserver to pause rendering when scrolled out of view
     const observer = new IntersectionObserver(
@@ -384,9 +399,10 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
       animFrameRef.current = requestAnimationFrame(animate);
       if (!isVisible) return;
 
-      // Throttle render loop on mobile to 30fps to keep touch scrolling 100% fluid
-      if (isMobile && timestamp) {
-        if (timestamp - lastRenderTime < 33) return;
+      // Yield rendering during active mobile scroll to ensure 100% fluid touch fling physics
+      if (isMobile) {
+        if (isScrollingOnMobile) return;
+        if (timestamp && timestamp - lastRenderTime < 33) return;
         lastRenderTime = timestamp;
       }
 
@@ -502,6 +518,10 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
     return () => {
       observer.disconnect();
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+      if (isMobile) {
+        window.removeEventListener('scroll', handleScrollActivity);
+        if (scrollDebounceTimer) clearTimeout(scrollDebounceTimer);
+      }
       window.removeEventListener('resize', handleResize);
       canvas.removeEventListener('pointerdown', handlePointerDown);
       canvas.removeEventListener('pointermove', handlePointerMove);

@@ -26,6 +26,12 @@ export function FlankTelemetryRails({
   const currentProgress = controlledProgress !== undefined ? controlledProgress : localProgress;
 
   useEffect(() => {
+    // Flank telemetry rails only exist on xl+ screens (hidden xl:flex)
+    // Completely skip 12-section observers and scroll listeners on smaller/mobile viewports
+    if (typeof window !== 'undefined' && window.innerWidth < 1280) {
+      return;
+    }
+
     if (activeSectionId !== undefined && controlledProgress !== undefined) {
       return; // controlled mode, skip duplicate observers
     }

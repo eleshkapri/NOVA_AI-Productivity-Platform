@@ -950,12 +950,20 @@ div[id="roi-calculator"] {
 }
 
 /* ========================================================
-   MOBILE PERFORMANCE OVERRIDES
-   Eliminate GPU-heavy effects on touch/mobile devices
-   Inspired by roamai-travel.vercel.app mobile patterns
+   MOBILE & TOUCH MOMENTUM SCROLL ENGINE CALIBRATION
+   Eliminates touch scroll fighting and GPU-heavy effects
    ======================================================== */
-@media (max-width: 768px) {
-  /* Kill backdrop-filter entirely on mobile — single biggest GPU win */
+@media (max-width: 768px), (pointer: coarse) {
+  html,
+  body {
+    /* Critical: Disables CSS smooth scroll fighting native touch momentum physics */
+    scroll-behavior: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y !important;
+    overflow-x: clip;
+  }
+
+  /* Kill backdrop-filter entirely on mobile — eliminates massive GPU compositing lag */
   .backdrop-blur-xl,
   .backdrop-blur-lg,
   .backdrop-blur-md,
@@ -965,7 +973,12 @@ div[id="roi-calculator"] {
     -webkit-backdrop-filter: none !important;
   }
 
-  /* Disable hover transforms on touch — prevents accidental sticky states */
+  /* Kill heavy full-viewport SVG turbulence noise filter during mobile scrolling */
+  .bg-noise {
+    display: none !important;
+  }
+
+  /* Disable hover transforms on touch — prevents accidental sticky states & reflows */
   .floria-card:hover,
   [class*="hover:scale"]:hover,
   [class*="hover:-translate"]:hover {
@@ -989,9 +1002,21 @@ div[id="roi-calculator"] {
     animation: none !important;
   }
 
-  /* Reduce will-change pressure — fewer compositing layers on mobile */
-  .anime-letter {
-    will-change: auto;
+  /* Eliminate layer explosion — let mobile browser manage layers naturally */
+  *,
+  *::before,
+  *::after {
+    will-change: auto !important;
+  }
+
+  /* Soften extreme blurs on mobile to reduce GPU fill-rate pressure */
+  .blur-\[110px\],
+  .blur-\[120px\],
+  .blur-\[130px\],
+  .blur-\[140px\],
+  .blur-\[150px\],
+  .blur-\[160px\] {
+    filter: blur(24px) !important;
   }
 }
 
