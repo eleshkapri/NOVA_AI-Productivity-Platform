@@ -213,13 +213,13 @@ export function Hero({ onOpenDemo }) {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsHeadingVisible(true);
-        } else {
+        } else if (entry.intersectionRatio === 0) {
           setIsHeadingVisible(false);
         }
       },
       {
-        threshold: 0.1,
-        rootMargin: typeof window !== 'undefined' && window.innerWidth < 768 ? '0px 0px -20px 0px' : '0px 0px -40px 0px',
+        threshold: [0, 0.15],
+        rootMargin: '0px',
       }
     );
 

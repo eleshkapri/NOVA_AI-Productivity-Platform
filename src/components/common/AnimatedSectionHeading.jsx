@@ -33,13 +33,13 @@ export function AnimatedSectionHeading({
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-        } else {
+        } else if (entry.intersectionRatio === 0) {
           setIsVisible(false);
         }
       },
       {
-        threshold: 0.12,
-        rootMargin: typeof window !== 'undefined' && window.innerWidth < 768 ? '0px 0px -20px 0px' : '0px 0px -40px 0px',
+        threshold: [0, 0.15],
+        rootMargin: '0px',
       }
     );
 
