@@ -68,7 +68,6 @@ export function AnimatedSectionHeading({
               opacity: isVisible ? 1 : 0,
               transitionDuration: `${durationMs}ms`,
               transitionDelay: `${i * staggerMs}ms`,
-              willChange: isVisible ? 'auto' : 'transform, opacity',
             }}
           >
             {word}
@@ -91,7 +90,6 @@ export function AnimatedSectionHeading({
                     opacity: isVisible ? 1 : 0,
                     transitionDuration: `${durationMs}ms`,
                     transitionDelay: `${delay}ms`,
-                    willChange: isVisible ? 'auto' : 'transform, opacity',
                   }}
                 >
                   {word}

@@ -77,7 +77,7 @@ export function Footer({ onOpenModal }) {
   };
 
   return (
-    <footer id="footer" className="bg-slate-50/70 dark:bg-[#05060A] backdrop-blur-2xl border-t border-slate-200/80 dark:border-white/10 pt-16 pb-8 text-slate-800 dark:text-white transition-colors relative z-10 overflow-hidden">
+    <footer id="footer" className="bg-slate-50/95 dark:bg-[#05060A] border-t border-slate-200/80 dark:border-white/10 pt-16 pb-8 text-slate-800 dark:text-white transition-colors relative z-10 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Content Grid: Brand (4 cols) + Navigation Columns (8 cols) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 pb-12">

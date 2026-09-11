@@ -37,21 +37,26 @@ export function CustomCursor() {
       }
     };
 
+    let lastTargetCheck = 0;
     const handleMouseMove = (e) => {
       mousePos.current = { x: e.clientX, y: e.clientY };
 
       setIsVisible((prev) => (!prev ? true : prev));
       startAnimation();
 
-      // Check if hovering over clickable element (only trigger state change if value actually changed)
-      const target = e.target;
-      if (target) {
-        const isInteractive = Boolean(
-          target.closest(
-            'a, button, [role="button"], [role="switch"], [role="tab"], .cursor-pointer, [data-cursor="pointer"], label, select, summary'
-          )
-        );
-        setIsHovering((prev) => (prev !== isInteractive ? isInteractive : prev));
+      // Check if hovering over clickable element (throttled to 40ms to avoid DOM traversal thrashing)
+      const now = performance.now();
+      if (now - lastTargetCheck > 40) {
+        lastTargetCheck = now;
+        const target = e.target;
+        if (target) {
+          const isInteractive = Boolean(
+            target.closest(
+              'a, button, [role="button"], [role="switch"], [role="tab"], .cursor-pointer, [data-cursor="pointer"], label, select, summary'
+            )
+          );
+          setIsHovering((prev) => (prev !== isInteractive ? isInteractive : prev));
+        }
       }
     };
 

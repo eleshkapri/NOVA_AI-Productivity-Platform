@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useCallback } from 'react';
 
 function checkReducedMotion() {
   if (typeof window === 'undefined') return false;
@@ -29,13 +29,9 @@ export function TiltCard({
   ...props
 }) {
   const cardRef = useRef(null);
-  const [transform, setTransform] = useState(
-    'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)'
-  );
-  const [glarePosition, setGlarePosition] = useState({ x: 50, y: 50 });
-  const [isHovered, setIsHovered] = useState(false);
-  const [reducedMotion] = useState(checkReducedMotion);
-  const [isTouch] = useState(checkIsTouchDevice);
+  const glareRef = useRef(null);
+  const reducedMotion = checkReducedMotion();
+  const isTouch = checkIsTouchDevice();
   const tiltDisabled = reducedMotion || isTouch;
   const rafRef = useRef(null);
 
@@ -59,16 +55,14 @@ export function TiltCard({
         const rotateX = -((y - centerY) / centerY) * maxTilt;
         const rotateY = ((x - centerX) / centerX) * maxTilt;
 
-        setTransform(
-          `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(
-            2
-          )}deg) scale3d(${scale}, ${scale}, ${scale})`
-        );
+        cardRef.current.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(
+          2
+        )}deg) scale3d(${scale}, ${scale}, ${scale})`;
 
-        if (glare) {
+        if (glare && glareRef.current) {
           const glareX = (x / rect.width) * 100;
           const glareY = (y / rect.height) * 100;
-          setGlarePosition({ x: glareX, y: glareY });
+          glareRef.current.style.background = `radial-gradient(circle 320px at ${glareX.toFixed(1)}% ${glareY.toFixed(1)}%, rgba(216, 180, 82, 0.16), rgba(104, 51, 255, 0.08) 45%, transparent 75%)`;
         }
       });
     },
@@ -76,17 +70,25 @@ export function TiltCard({
   );
 
   const handleMouseEnter = () => {
-    if (tiltDisabled) return;
-    setIsHovered(true);
+    if (tiltDisabled || !cardRef.current) return;
+    cardRef.current.style.willChange = 'transform';
+    cardRef.current.style.transition = 'transform 0.08s ease-out';
+    if (glare && glareRef.current) {
+      glareRef.current.style.opacity = '1';
+    }
   };
 
   const handleMouseLeave = () => {
-    if (tiltDisabled) return;
+    if (tiltDisabled || !cardRef.current) return;
     if (rafRef.current) {
       cancelAnimationFrame(rafRef.current);
     }
-    setIsHovered(false);
-    setTransform('perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)');
+    cardRef.current.style.transition = 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+    cardRef.current.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+    cardRef.current.style.willChange = 'auto';
+    if (glare && glareRef.current) {
+      glareRef.current.style.opacity = '0';
+    }
   };
 
   return (
@@ -98,12 +100,9 @@ export function TiltCard({
       onClick={onClick}
       title={title}
       style={{
-        transform: reducedMotion ? undefined : transform,
+        transform: reducedMotion ? undefined : 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)',
         transformStyle: 'preserve-3d',
-        transition: isHovered
-          ? 'transform 0.08s ease-out'
-          : 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
-        willChange: reducedMotion ? 'auto' : 'transform',
+        transition: 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
       }}
       className={`relative active:scale-[0.98] active:transition-transform active:duration-150 ${className}`}
       {...props}
@@ -111,11 +110,12 @@ export function TiltCard({
       {/* Moving Specular Holographic Glare Layer */}
       {glare && !tiltDisabled && (
         <div
+          ref={glareRef}
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 rounded-[inherit] overflow-hidden transition-opacity duration-300 z-20"
+          className="pointer-events-none absolute inset-0 rounded-[inherit] overflow-hidden transition-opacity duration-300 z-20 opacity-0"
           style={{
-            opacity: isHovered ? 1 : 0,
-            background: `radial-gradient(circle 320px at ${glarePosition.x}% ${glarePosition.y}%, rgba(216, 180, 82, 0.16), rgba(104, 51, 255, 0.08) 45%, transparent 75%)`,
+            background:
+              'radial-gradient(circle 320px at 50% 50%, rgba(216, 180, 82, 0.16), rgba(104, 51, 255, 0.08) 45%, transparent 75%)',
           }}
         />
       )}
@@ -124,3 +124,5 @@ export function TiltCard({
     </div>
   );
 }
+
+export default TiltCard;

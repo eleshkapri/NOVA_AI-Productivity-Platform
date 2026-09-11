@@ -8,7 +8,7 @@ export function TrustedBy() {
   const marqueeItems = [...trustedCompanies, ...trustedCompanies];
 
   return (
-    <section id="trusted-by" className="py-8 md:py-12 border-y border-slate-200/50 dark:border-white/5 bg-white/40 dark:bg-[#05060A]/80 backdrop-blur-md transition-colors overflow-hidden relative">
+    <section id="trusted-by" className="py-8 md:py-12 border-y border-slate-200/50 dark:border-white/5 bg-white/40 dark:bg-[#05060A]/80 transition-colors overflow-hidden relative">
       {/* Ambient Cyber-Orange Glow behind the conduit */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#FF5500]/40 to-transparent" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#FF5500]/30 to-transparent" />

@@ -499,6 +499,7 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
     };
 
     const handlePointerMove = (e) => {
+      if (!isVisible) return;
       if (isInteractingRef.current) {
         const deltaX = (e.clientX - startX) * 0.009;
         const deltaY = (e.clientY - startY) * 0.009;

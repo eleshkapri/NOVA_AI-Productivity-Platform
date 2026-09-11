@@ -13,7 +13,7 @@ export function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="py-10 md:py-14 bg-amber-50/15 dark:bg-zinc-950/40 relative overflow-hidden backdrop-blur-xs"
+      className="py-10 md:py-14 bg-amber-50/15 dark:bg-zinc-950/40 relative overflow-hidden"
     >
 
       {/* Ambient Cyber-Orange Glow behind the conduit */}

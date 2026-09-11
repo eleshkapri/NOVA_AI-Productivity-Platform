@@ -216,9 +216,25 @@ export function AmbientBackground() {
       ctx.restore();
     }
 
+    let isScrolling = false;
+    let scrollTimeout = null;
+    const handleCanvasScroll = () => {
+      isScrolling = true;
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        isScrolling = false;
+      }, 100);
+    };
+    window.addEventListener('scroll', handleCanvasScroll, { passive: true });
+
     // Main animation loop calibrated at 30-36 FPS for butter-smooth background visuals with 0% scroll drag
     function animate(timestamp) {
       if (!animRunning) return;
+
+      if (isScrolling) {
+        animId = requestAnimationFrame(animate);
+        return;
+      }
 
       if (timestamp && timestamp - lastFrameTime < 28) {
         animId = requestAnimationFrame(animate);
@@ -595,6 +611,8 @@ export function AmbientBackground() {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleCanvasMouseMove);
       window.removeEventListener('mouseleave', handleCanvasMouseLeave);
+      window.removeEventListener('scroll', handleCanvasScroll);
+      if (scrollTimeout) clearTimeout(scrollTimeout);
       document.removeEventListener('visibilitychange', handleVisibility);
       if (animId) cancelAnimationFrame(animId);
     };
@@ -606,17 +624,17 @@ export function AmbientBackground() {
       <div className="absolute inset-0 bg-grid-pattern opacity-25 dark:opacity-25" />
 
       {/* 2. Primary Luminous Auroras (Hardware-accelerated with balanced blur) */}
-      <div className="absolute -top-40 left-1/4 w-[450px] md:w-[750px] h-[700px] md:h-[1200px] bg-gradient-to-b from-[#7C3AED]/14 via-[#A78BFA]/10 to-transparent dark:from-[#6833FF]/20 dark:via-[#8E6FFF]/10 blur-3xl animate-aurora-beam pointer-events-none" />
-      <div className="hidden md:block absolute -top-60 right-1/4 w-[650px] h-[1100px] bg-gradient-to-b from-[#EA580C]/12 via-orange-300/10 to-transparent dark:from-[#FF5500]/15 dark:via-orange-950/20 blur-3xl animate-aurora-beam pointer-events-none [animation-delay:4s]" />
-      <div className="hidden md:block absolute top-1/4 left-1/3 w-[600px] h-[1000px] bg-gradient-to-b from-[#0284C7]/12 via-[#38BDF8]/8 to-transparent dark:from-[#0284C7]/15 dark:via-cyan-600/10 blur-3xl animate-aurora-beam pointer-events-none [animation-delay:8s]" />
+      <div className="absolute -top-40 left-1/4 w-[450px] md:w-[750px] h-[700px] md:h-[1200px] bg-gradient-to-b from-[#7C3AED]/14 via-[#A78BFA]/10 to-transparent dark:from-[#6833FF]/20 dark:via-[#8E6FFF]/10 blur-3xl pointer-events-none" />
+      <div className="hidden md:block absolute -top-60 right-1/4 w-[650px] h-[1100px] bg-gradient-to-b from-[#EA580C]/12 via-orange-300/10 to-transparent dark:from-[#FF5500]/15 dark:via-orange-950/20 blur-3xl pointer-events-none" />
+      <div className="hidden md:block absolute top-1/4 left-1/3 w-[600px] h-[1000px] bg-gradient-to-b from-[#0284C7]/12 via-[#38BDF8]/8 to-transparent dark:from-[#0284C7]/15 dark:via-cyan-600/10 blur-3xl pointer-events-none" />
 
-      {/* 3. Fluid Animated Ambient Gradient Orbs (Streamlined with blur-3xl for zero GPU bottleneck) */}
-      <div className="absolute -top-32 -left-32 w-[400px] md:w-[720px] h-[400px] md:h-[720px] rounded-full bg-gradient-to-br from-[#7C3AED]/10 via-[#DDD6FE]/14 to-transparent dark:from-[#6833FF]/25 dark:via-[#8E6FFF]/10 blur-3xl animate-mesh-1" />
+      {/* 3. Fluid Static Ambient Gradient Orbs (Streamlined with blur-3xl for zero GPU bottleneck) */}
+      <div className="absolute -top-32 -left-32 w-[400px] md:w-[720px] h-[400px] md:h-[720px] rounded-full bg-gradient-to-br from-[#7C3AED]/10 via-[#DDD6FE]/14 to-transparent dark:from-[#6833FF]/25 dark:via-[#8E6FFF]/10 blur-3xl pointer-events-none" />
       <div className="hidden md:block absolute top-1/4 left-1/2 -translate-x-1/2 w-[850px] h-[850px] rounded-full bg-gradient-to-tr from-[#7C3AED]/9 via-[#EDE9FE]/14 to-transparent dark:from-[#6833FF]/20 dark:via-[#4E29D4]/15 blur-3xl pointer-events-none orchid-ambient-orb" />
-      <div className="hidden md:block absolute top-1/3 -right-44 w-[780px] h-[780px] rounded-full bg-gradient-to-bl from-amber-400/12 via-amber-200/10 to-transparent dark:from-indigo-600/25 dark:via-zinc-950/70 blur-3xl animate-mesh-2" />
-      <div className="hidden md:block absolute bottom-1/4 -left-20 w-[620px] h-[620px] rounded-full bg-gradient-to-tr from-[#0284C7]/10 via-[#BAE6FD]/12 to-transparent dark:from-[#0284C7]/20 dark:via-[#0369a1]/10 blur-3xl animate-mesh-2" />
-      <div className="absolute top-2/3 left-1/5 w-[380px] md:w-[620px] h-[380px] md:h-[620px] rounded-full bg-gradient-to-tr from-[#EA580C]/10 via-[#FFEDD5]/14 to-transparent dark:from-[#FF5500]/12 dark:via-orange-950/20 blur-3xl animate-mesh-3" />
-      <div className="hidden md:block absolute -bottom-40 right-1/3 w-[700px] h-[700px] rounded-full bg-gradient-to-tl from-[#7C3AED]/9 via-[#EDE9FE]/12 to-transparent dark:from-[#6833FF]/20 dark:via-zinc-950/65 blur-3xl animate-mesh-1" />
+      <div className="hidden md:block absolute top-1/3 -right-44 w-[780px] h-[780px] rounded-full bg-gradient-to-bl from-amber-400/12 via-amber-200/10 to-transparent dark:from-indigo-600/25 dark:via-zinc-950/70 blur-3xl pointer-events-none" />
+      <div className="hidden md:block absolute bottom-1/4 -left-20 w-[620px] h-[620px] rounded-full bg-gradient-to-tr from-[#0284C7]/10 via-[#BAE6FD]/12 to-transparent dark:from-[#0284C7]/20 dark:via-[#0369a1]/10 blur-3xl pointer-events-none" />
+      <div className="absolute top-2/3 left-1/5 w-[380px] md:w-[620px] h-[380px] md:h-[620px] rounded-full bg-gradient-to-tr from-[#EA580C]/10 via-[#FFEDD5]/14 to-transparent dark:from-[#FF5500]/12 dark:via-orange-950/20 blur-3xl pointer-events-none" />
+      <div className="hidden md:block absolute -bottom-40 right-1/3 w-[700px] h-[700px] rounded-full bg-gradient-to-tl from-[#7C3AED]/9 via-[#EDE9FE]/12 to-transparent dark:from-[#6833FF]/20 dark:via-zinc-950/65 blur-3xl pointer-events-none" />
 
       {/* 4. Floating Multi-Chromatic Jewel Energy Motes (Desktop only for max mobile performance) */}
       <div className="hidden md:block absolute inset-0 pointer-events-none">

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useTheme, useScrollPosition, useDocumentTitle } from './hooks';
+import { useTheme, useDocumentTitle } from './hooks';
 import {
   CustomCursor,
   ProgressBar,
@@ -58,7 +58,6 @@ const isValidWorkspace = (ws) => {
 
 export function App() {
   const { toggleTheme, isDark } = useTheme();
-  const { showBackToTop, scrollToTop } = useScrollPosition();
   const [currentView, setCurrentView] = useState('landing'); // 'landing' | 'dashboard'
   const [activeWorkspace, setActiveWorkspace] = useState(() => {
     try {
@@ -626,7 +625,7 @@ export function App() {
             <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-white/10 text-[10px] text-[#FF5500] font-bold border border-slate-200 dark:border-white/10">/</kbd>
           </button>
 
-          <BackToTop show={showBackToTop} onScrollToTop={scrollToTop} />
+          <BackToTop />
         </div>
       )}
 

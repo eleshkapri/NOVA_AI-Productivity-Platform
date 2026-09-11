@@ -141,7 +141,6 @@ function AnimatedHeroLine({
               opacity: isVisible ? 1 : 0,
               transitionDuration: `${durationMs}ms`,
               transitionDelay: `${startDelay + i * staggerMs}ms`,
-              willChange: isVisible ? 'auto' : 'transform, opacity',
             }}
           >
             {word}
