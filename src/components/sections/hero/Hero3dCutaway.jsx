@@ -456,11 +456,15 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
 
     animate();
 
-    // 11. Cached Layout Rect & Resize handler (eliminates getBoundingClientRect reflows during mousemove)
-    let cachedRect = container.getBoundingClientRect();
+    // 11. Cached Layout Rect & Resize handler (zero-reflow architecture)
+    let cachedRect = { width: container.clientWidth || 600, height: container.clientHeight || 500, left: 0, top: 0 };
     const updateCachedRect = () => {
-      if (container) cachedRect = container.getBoundingClientRect();
+      if (container) {
+        const rect = container.getBoundingClientRect();
+        cachedRect = { width: rect.width || 600, height: rect.height || 500, left: rect.left, top: rect.top };
+      }
     };
+    updateCachedRect();
 
     const handleResize = () => {
       if (!container || !renderer) return;
@@ -475,7 +479,6 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
     };
 
     window.addEventListener('resize', handleResize, { passive: true });
-    window.addEventListener('scroll', updateCachedRect, { passive: true });
 
     // 12. Ultra-Responsive Mouse & Drag Interaction
     let startX = 0;
@@ -483,6 +486,7 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
     const hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
     const handlePointerDown = (e) => {
+      updateCachedRect();
       isInteractingRef.current = true;
       startX = e.clientX;
       startY = e.clientY;
@@ -500,9 +504,9 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
         startX = e.clientX;
         startY = e.clientY;
       } else if (hasFinePointer) {
-        // Perspective parallax tilt using zero-reflow cached rect
-        const width = cachedRect.width || 1;
-        const height = cachedRect.height || 1;
+        // Perspective parallax tilt using cached dimensions with zero scroll thrashing
+        const width = cachedRect.width || 600;
+        const height = cachedRect.height || 500;
         const normX = Math.max(-1.5, Math.min(1.5, ((e.clientX - cachedRect.left) / width - 0.5) * 2));
         const normY = Math.max(-1.5, Math.min(1.5, ((e.clientY - cachedRect.top) / height - 0.5) * 2));
         targetRotationRef.current.y = -0.68 + normX * 0.35;
@@ -531,7 +535,6 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
         if (scrollDebounceTimer) clearTimeout(scrollDebounceTimer);
       }
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('scroll', updateCachedRect);
       canvas.removeEventListener('pointerdown', handlePointerDown);
       canvas.removeEventListener('pointermove', handlePointerMove);
       window.removeEventListener('pointermove', handlePointerMove);

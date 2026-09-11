@@ -27,14 +27,14 @@ export function FinalCTA({ onOpenDemo }) {
               {/* Top Pill with Orange Glow */}
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-500/15 border border-orange-500/30 text-orange-400 text-xs font-mono font-bold tracking-wider uppercase mb-8 shadow-sm">
                 <Sparkles className="w-3.5 h-3.5 text-orange-400" />
-                <TextReveal3 text="Elevate Your Engineering Cadence" delay={40} stagger={14} />
+                <TextReveal3 text="Elevate Your Engineering Cadence" delay={20} stagger={8} duration={240} />
               </div>
 
               {/* Headline with Grand Editorial Typography */}
               <h2 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-white leading-[1.12] mb-6">
-                <TextReveal3 text="Ready to Accelerate Sprint Velocity by" delay={100} stagger={16} />{' '}
+                <TextReveal3 text="Ready to Accelerate Sprint Velocity by" delay={40} stagger={10} duration={280} />{' '}
                 <span className="text-orange-gradient italic font-black inline-block">
-                  <TextReveal3 text="4.2x?" delay={650} stagger={16} />
+                  <TextReveal3 text="4.2x?" delay={140} stagger={10} duration={280} />
                 </span>
               </h2>
 
@@ -42,11 +42,13 @@ export function FinalCTA({ onOpenDemo }) {
               <p className="text-base sm:text-xl text-zinc-300 leading-relaxed mb-10 max-w-2xl mx-auto font-light">
                 <TextReveal3
                   text="Join 500+ forward-thinking engineering organizations achieving predictable delivery, reduced meeting fatigue, and supreme code quality."
-                  delay={240}
-                  stagger={6}
-                  offsetDistance={16}
+                  delay={80}
+                  stagger={5}
+                  duration={240}
+                  offsetDistance={12}
                 />
               </p>
+
 
 
               {/* Dual CTAs */}

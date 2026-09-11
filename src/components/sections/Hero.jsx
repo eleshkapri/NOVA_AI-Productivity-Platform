@@ -82,8 +82,8 @@ const VELOCITY_MODES = Object.freeze(
  */
 function AnimatedLetters({
   text,
-  startDelay = 0.08,
-  stagger = 0.024,
+  startDelay = 0.04,
+  stagger = 0.012,
   className = '',
   letterClassName = '',
 }) {
@@ -92,14 +92,15 @@ function AnimatedLetters({
       text={text}
       delay={Math.round(startDelay * 1000)}
       stagger={Math.round(stagger * 1000)}
-      duration={850}
-      offsetDistance={35}
+      duration={300}
+      offsetDistance={18}
       once={false}
       className={className}
       letterClassName={letterClassName}
     />
   );
 }
+
 
 
 const RAW_INITIAL_TASKS = [
@@ -264,10 +265,10 @@ export function Hero({ onOpenDemo }) {
             <span className="text-[11px] sm:text-xs font-mono font-bold tracking-[0.2em] uppercase text-slate-700 dark:text-zinc-300">
               <TextReveal3
                 text="NOVA PLATFORM — AUTONOMOUS AI SPRINT ORCHESTRATION"
-                delay={60}
-                stagger={14}
-                duration={700}
-                offsetDistance={20}
+                delay={20}
+                stagger={8}
+                duration={260}
+                offsetDistance={14}
               />
             </span>
           </div>
@@ -290,8 +291,8 @@ export function Hero({ onOpenDemo }) {
             <div className="rapid-line-mask">
               <AnimatedLetters
                 text="THE AUTONOMOUS SPRINT"
-                startDelay={0.08}
-                stagger={0.024}
+                startDelay={0.02}
+                stagger={0.012}
                 letterClassName="text-slate-900 dark:text-white"
               />
             </div>
@@ -308,8 +309,8 @@ export function Hero({ onOpenDemo }) {
                 <div className="rapid-line-mask rapid-indent-1">
                   <AnimatedLetters
                     text="NOT ON THE SURFACE"
-                    startDelay={0.34}
-                    stagger={0.024}
+                    startDelay={0.12}
+                    stagger={0.012}
                     letterClassName="text-slate-700 dark:text-zinc-300"
                   />
                 </div>
@@ -327,8 +328,8 @@ export function Hero({ onOpenDemo }) {
                 <div className="rapid-line-mask rapid-indent-2">
                   <AnimatedLetters
                     text="BEGINS."
-                    startDelay={0.62}
-                    stagger={0.032}
+                    startDelay={0.22}
+                    stagger={0.016}
                     letterClassName="text-[#FF5500]"
                   />
                 </div>
@@ -338,16 +339,17 @@ export function Hero({ onOpenDemo }) {
             {/* Editorial Lede Narrative */}
             <div
               className="rapid-fade-up text-base sm:text-lg md:text-xl text-slate-700 dark:text-zinc-400 leading-relaxed font-normal text-pretty max-w-[50ch] pt-2"
-              style={{ '--d': '0.82s' }}
+              style={{ '--d': '0.3s' }}
             >
               <TextReveal3
                 text="The finished pull request is just the visible layer. Continuous AST parsing, test synthesis, and autonomous sprint burndown decide whether your engineering squad will ship at 10x velocity — and we orchestrate all of it, from ticket to production."
-                delay={300}
-                stagger={8}
-                duration={700}
-                offsetDistance={16}
+                delay={60}
+                stagger={6}
+                duration={260}
+                offsetDistance={14}
               />
             </div>
+
 
 
             {/* Dual CTAs in High-Contrast Pill Style */}

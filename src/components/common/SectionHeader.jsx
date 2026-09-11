@@ -22,7 +22,7 @@ export function SectionHeader({
       {eyebrow && (
         <div className="mb-5">
           <Badge variant={eyebrowVariant} dot className="shadow-sm">
-            {disableAnimation ? eyebrow : <TextReveal3 text={eyebrow} delay={40} stagger={18} />}
+            {disableAnimation ? eyebrow : <TextReveal3 text={eyebrow} delay={20} stagger={10} duration={240} />}
           </Badge>
         </div>
       )}
@@ -39,14 +39,14 @@ export function SectionHeader({
           </>
         ) : (
           <>
-            {title && <TextReveal3 text={title} delay={100} stagger={18} duration={850} />}{' '}
+            {title && <TextReveal3 text={title} delay={40} stagger={10} duration={280} />}{' '}
             {titleHighlight && (
               <span className="text-orange-gradient italic font-extrabold inline-block">
                 <TextReveal3
                   text={titleHighlight}
-                  delay={100 + (title ? title.length * 18 : 0)}
-                  stagger={18}
-                  duration={850}
+                  delay={80}
+                  stagger={10}
+                  duration={280}
                 />
               </span>
             )}
@@ -61,10 +61,10 @@ export function SectionHeader({
           ) : (
             <TextReveal3
               text={description}
-              delay={220}
-              stagger={10}
-              duration={750}
-              offsetDistance={20}
+              delay={80}
+              stagger={6}
+              duration={260}
+              offsetDistance={14}
             />
           )}
         </p>
@@ -72,4 +72,5 @@ export function SectionHeader({
     </div>
   );
 }
+
 

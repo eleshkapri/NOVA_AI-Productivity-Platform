@@ -98,25 +98,25 @@ export function AmbientBackground() {
 
 
     // 1. Neural Code Graph Nodes (Orchid Violet, Amber Gold, and Electric Cyan)
-    const nodeCount = isMobile ? 12 : 46;
+    const nodeCount = isMobile ? 10 : 26;
     const nodes = [];
     for (let i = 0; i < nodeCount; i++) {
       const typeChoice = i % 3 === 0 ? 'orchid' : i % 3 === 1 ? 'cyan' : 'gold';
       nodes.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * (isMobile ? 0.2 : 0.3),
-        vy: (Math.random() - 0.5) * (isMobile ? 0.2 : 0.3),
+        vx: (Math.random() - 0.5) * (isMobile ? 0.2 : 0.28),
+        vy: (Math.random() - 0.5) * (isMobile ? 0.2 : 0.28),
         radius: Math.random() * 2 + 1.8,
         pulseSpeed: Math.random() * 0.012 + 0.006,
         phase: Math.random() * Math.PI * 2,
-        isCore: i % 5 === 0, // Core hub nodes with glowing halo
+        isCore: i % 5 === 0,
         type: typeChoice,
       });
     }
 
-    // 2. High-Speed Synaptic Data Packets (Pulsing code commits / telemetry in 3 complementary colors)
-    const packetCount = isMobile ? 4 : 18;
+    // 2. High-Speed Synaptic Data Packets
+    const packetCount = isMobile ? 3 : 10;
     const packets = [];
     for (let i = 0; i < packetCount; i++) {
       const typeChoice = i % 3 === 0 ? 'orchid' : i % 3 === 1 ? 'cyan' : 'gold';
@@ -131,7 +131,7 @@ export function AmbientBackground() {
     }
 
     // 3. Floating Developer & AI Syntax Tokens ({ }, </>, git, AI, λ, fn(), ✦)
-    const tokenCount = isMobile ? 3 : 12;
+    const tokenCount = isMobile ? 2 : 8;
     const tokens = [];
     for (let i = 0; i < tokenCount; i++) {
       const typeChoice = i % 3 === 0 ? 'orchid' : i % 3 === 1 ? 'cyan' : 'gold';
@@ -140,7 +140,7 @@ export function AmbientBackground() {
         x: Math.random() * width,
         y: Math.random() * height,
         vx: (Math.random() - 0.5) * 0.14,
-        vy: -Math.random() * 0.16 - 0.06, // Gently ascends calmly
+        vy: -Math.random() * 0.16 - 0.06,
         rot: (Math.random() - 0.5) * 0.2,
         vRot: (Math.random() - 0.5) * 0.0025,
         size: Math.random() * 3 + 12,
@@ -150,12 +150,12 @@ export function AmbientBackground() {
       });
     }
 
-    // 4. Rotating AI AST Radar Scanners (Analyzing repository syntax tree / CI/CD pipelines)
+    // 4. Rotating AI AST Radar Scanners
     const scanners = [
       {
         rx: 0.1,
         ry: 0.24,
-        baseRadius: isMobile ? 55 : 85,
+        baseRadius: isMobile ? 50 : 75,
         angle: 0,
         rotSpeed: 0.004,
         pulse: 0,
@@ -164,7 +164,7 @@ export function AmbientBackground() {
       {
         rx: 0.9,
         ry: 0.72,
-        baseRadius: isMobile ? 65 : 95,
+        baseRadius: isMobile ? 55 : 85,
         angle: Math.PI * 0.75,
         rotSpeed: -0.0035,
         pulse: 0.5,
@@ -173,7 +173,7 @@ export function AmbientBackground() {
       {
         rx: 0.85,
         ry: 0.22,
-        baseRadius: isMobile ? 50 : 70,
+        baseRadius: isMobile ? 45 : 65,
         angle: Math.PI * 0.3,
         rotSpeed: 0.0038,
         pulse: 0.2,
@@ -184,21 +184,18 @@ export function AmbientBackground() {
     let animRunning = true;
     let animId = null;
     let lastFrameTime = 0;
-    let isScrollingOnMobile = false;
+    let isActivelyScrolling = false;
     let scrollDebounceTimer = null;
 
     const handleScrollActivity = () => {
-      if (!isMobile) return;
-      isScrollingOnMobile = true;
+      isActivelyScrolling = true;
       if (scrollDebounceTimer) clearTimeout(scrollDebounceTimer);
       scrollDebounceTimer = setTimeout(() => {
-        isScrollingOnMobile = false;
-      }, 100);
+        isActivelyScrolling = false;
+      }, 70);
     };
 
-    if (isMobile) {
-      window.addEventListener('scroll', handleScrollActivity, { passive: true });
-    }
+    window.addEventListener('scroll', handleScrollActivity, { passive: true });
 
     const handleVisibility = () => {
       animRunning = !document.hidden;
@@ -231,16 +228,17 @@ export function AmbientBackground() {
       ctx.restore();
     }
 
-    // Main animation loop (throttled to ~30fps on mobile & yields during active scroll)
+    // Main animation loop (yields during active scroll for 120Hz/60Hz native compositor smoothness)
     function animate(timestamp) {
       if (!animRunning) return;
 
-      // During active mobile scroll, yield 100% of GPU/CPU to smooth 120Hz/60Hz touch scrolling
+      // During active scroll, yield canvas work to maintain 120fps scrolling
+      if (isActivelyScrolling) {
+        animId = requestAnimationFrame(animate);
+        return;
+      }
+
       if (isMobile) {
-        if (isScrollingOnMobile) {
-          animId = requestAnimationFrame(animate);
-          return;
-        }
         if (timestamp && timestamp - lastFrameTime < 33) {
           animId = requestAnimationFrame(animate);
           return;

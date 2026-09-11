@@ -14,9 +14,9 @@ export function TextReveal3({
   text = '',
   as: Component = 'span',
   delay = 0,
-  stagger = 18,
-  duration = 650,
-  offsetDistance = 24,
+  stagger = 10,
+  duration = 280,
+  offsetDistance = 16,
   once = false,
   mode = 'auto', // 'auto' | 'words' | 'chars'
   className = '',
@@ -51,8 +51,8 @@ export function TextReveal3({
         }
       },
       {
-        threshold: 0.08,
-        rootMargin: '0px 0px -15px 0px',
+        threshold: 0.02,
+        rootMargin: '0px 0px 40px 0px',
       }
     );
 
@@ -62,6 +62,7 @@ export function TextReveal3({
       observer.unobserve(currentEl);
     };
   }, [once]);
+
 
   const rawString = typeof text === 'string' || typeof text === 'number' ? String(text) : '';
 

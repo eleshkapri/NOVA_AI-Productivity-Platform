@@ -21,15 +21,16 @@ export function TrustedBy() {
         {/* Eyebrow */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 dark:bg-orange-500/10 border border-orange-300 dark:border-orange-500/20 text-orange-950 dark:text-orange-400 text-[11px] font-mono font-extrabold tracking-[0.2em] uppercase mb-4 shadow-xs">
           <span className="w-1.5 h-1.5 rounded-full bg-[#FF5500] animate-pulse" />
-          <TextReveal3 text="CONDUIT OF TRUST // ENTERPRISE VALIDATION" delay={40} stagger={14} />
+          <TextReveal3 text="CONDUIT OF TRUST // ENTERPRISE VALIDATION" delay={20} stagger={8} duration={240} />
         </div>
 
         <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-          <TextReveal3 text="Powering Autonomous Sprints at" delay={80} stagger={16} />{' '}
+          <TextReveal3 text="Powering Autonomous Sprints at" delay={30} stagger={10} duration={280} />{' '}
           <span className="text-orange-gradient italic inline-block">
-            <TextReveal3 text="High-Velocity Scale" delay={420} stagger={16} />
+            <TextReveal3 text="High-Velocity Scale" delay={120} stagger={10} duration={280} />
           </span>
         </h3>
+
 
 
         {/* 3 Telemetry Counters */}

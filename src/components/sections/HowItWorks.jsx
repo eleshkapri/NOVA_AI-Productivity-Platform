@@ -29,24 +29,26 @@ export function HowItWorks() {
           <div className="lg:col-span-5 lg:sticky lg:top-20 xl:top-24 self-start space-y-3.5 sm:space-y-4">
             <MotionReveal animation="fade-up">
               <Badge variant="orange" dot className="mb-2.5">
-                <TextReveal3 text="The 4-Step Journey" delay={40} stagger={16} />
+                <TextReveal3 text="The 4-Step Journey" delay={20} stagger={8} duration={240} />
               </Badge>
 
               <h2 className="text-2xl sm:text-3xl lg:text-[2.15rem] font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.18]">
-                <TextReveal3 text="From Initial Integration to" delay={80} stagger={16} />{' '}
+                <TextReveal3 text="From Initial Integration to" delay={40} stagger={10} duration={280} />{' '}
                 <span className="text-orange-gradient italic inline-block">
-                  <TextReveal3 text="Autonomous Mastery" delay={450} stagger={16} />
+                  <TextReveal3 text="Autonomous Mastery" delay={120} stagger={10} duration={280} />
                 </span>
               </h2>
 
               <p className="mt-2 text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed font-normal">
                 <TextReveal3
                   text="Seamlessly onboard your entire engineering organization in under three minutes without disrupting active sprints or altering existing git branches."
-                  delay={200}
-                  stagger={6}
-                  offsetDistance={16}
+                  delay={80}
+                  stagger={5}
+                  duration={240}
+                  offsetDistance={12}
                 />
               </p>
+
 
 
               {/* Workflow Pipeline Visual Showcase Card (workflow_cadence.jpg) */}

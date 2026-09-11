@@ -11,8 +11,8 @@ export function MotionReveal({
   className = '',
   animation = 'fade-up', // 'fade-up' | 'fade-in' | 'zoom-in' | 'slide-right'
   delay = 0,
-  duration = 350,
-  threshold = 0.12,
+  duration = 260,
+  threshold = 0.04,
   once = true,
 }) {
   const [isVisible, setIsVisible] = useState(() => {
@@ -41,8 +41,8 @@ export function MotionReveal({
         }
       },
       {
-        threshold: typeof window !== 'undefined' && window.innerWidth < 768 ? 0.05 : threshold,
-        rootMargin: typeof window !== 'undefined' && window.innerWidth < 768 ? '0px 0px 40px 0px' : '0px 0px -20px 0px',
+        threshold: typeof window !== 'undefined' && window.innerWidth < 768 ? 0.02 : threshold,
+        rootMargin: typeof window !== 'undefined' && window.innerWidth < 768 ? '0px 0px 60px 0px' : '0px 0px 40px 0px',
       }
     );
 
@@ -64,19 +64,19 @@ export function MotionReveal({
       case 'fade-up':
         return isVisible
           ? 'opacity-100 translate-y-0'
-          : 'opacity-0 translate-y-3';
+          : 'opacity-0 translate-y-2.5';
       case 'fade-in':
         return isVisible ? 'opacity-100' : 'opacity-0';
       case 'zoom-in':
         return isVisible
           ? 'opacity-100 scale-100'
-          : 'opacity-0 scale-[0.98]';
+          : 'opacity-0 scale-[0.99]';
       case 'slide-right':
         return isVisible
           ? 'opacity-100 translate-x-0'
-          : 'opacity-0 -translate-x-3';
+          : 'opacity-0 -translate-x-2.5';
       default:
-        return isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3';
+        return isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2.5';
     }
   };
 
@@ -87,11 +87,12 @@ export function MotionReveal({
         isVisible ? '' : 'will-change-[transform,opacity]'
       } ${getAnimationStyles()} ${className}`}
       style={{
-        transitionDuration: `${Math.min(duration, 380)}ms`,
-        transitionDelay: `${Math.min(delay, 100)}ms`,
+        transitionDuration: `${Math.min(duration, 280)}ms`,
+        transitionDelay: `${Math.min(delay, 60)}ms`,
       }}
     >
       {children}
     </div>
   );
 }
+
