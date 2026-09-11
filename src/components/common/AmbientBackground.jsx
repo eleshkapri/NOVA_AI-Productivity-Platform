@@ -51,13 +51,12 @@ export function AmbientBackground() {
     let width = window.innerWidth;
     let height = window.innerHeight;
     const isMobile = width < 768;
-    // Cap DPR at 1 on mobile (was 2) — halves pixel fill rate on Retina phones
-    let dpr = isMobile ? Math.min(window.devicePixelRatio || 1, 1) : Math.min(window.devicePixelRatio || 1, 2);
+    // Cap DPR at 1.0 for ambient background to maximize GPU fill-rate & eliminate scroll lag
+    const dpr = 1.0;
 
     const setupCanvasSize = () => {
       width = window.innerWidth;
       height = window.innerHeight;
-      dpr = isMobile ? Math.min(window.devicePixelRatio || 1, 1) : Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = width * dpr;
       canvas.height = height * dpr;
       canvas.style.width = `${width}px`;
@@ -98,7 +97,7 @@ export function AmbientBackground() {
 
 
     // 1. Neural Code Graph Nodes (Orchid Violet, Amber Gold, and Electric Cyan)
-    const nodeCount = isMobile ? 10 : 26;
+    const nodeCount = isMobile ? 8 : 16;
     const nodes = [];
     for (let i = 0; i < nodeCount; i++) {
       const typeChoice = i % 3 === 0 ? 'orchid' : i % 3 === 1 ? 'cyan' : 'gold';
@@ -116,7 +115,7 @@ export function AmbientBackground() {
     }
 
     // 2. High-Speed Synaptic Data Packets
-    const packetCount = isMobile ? 3 : 10;
+    const packetCount = isMobile ? 3 : 6;
     const packets = [];
     for (let i = 0; i < packetCount; i++) {
       const typeChoice = i % 3 === 0 ? 'orchid' : i % 3 === 1 ? 'cyan' : 'gold';
@@ -131,7 +130,7 @@ export function AmbientBackground() {
     }
 
     // 3. Floating Developer & AI Syntax Tokens ({ }, </>, git, AI, λ, fn(), ✦)
-    const tokenCount = isMobile ? 2 : 8;
+    const tokenCount = isMobile ? 2 : 5;
     const tokens = [];
     for (let i = 0; i < tokenCount; i++) {
       const typeChoice = i % 3 === 0 ? 'orchid' : i % 3 === 1 ? 'cyan' : 'gold';
@@ -184,18 +183,6 @@ export function AmbientBackground() {
     let animRunning = true;
     let animId = null;
     let lastFrameTime = 0;
-    let isActivelyScrolling = false;
-    let scrollDebounceTimer = null;
-
-    const handleScrollActivity = () => {
-      isActivelyScrolling = true;
-      if (scrollDebounceTimer) clearTimeout(scrollDebounceTimer);
-      scrollDebounceTimer = setTimeout(() => {
-        isActivelyScrolling = false;
-      }, 70);
-    };
-
-    window.addEventListener('scroll', handleScrollActivity, { passive: true });
 
     const handleVisibility = () => {
       animRunning = !document.hidden;
@@ -203,6 +190,7 @@ export function AmbientBackground() {
         animId = requestAnimationFrame(animate);
       } else if (animId) {
         cancelAnimationFrame(animId);
+        animId = null;
       }
     };
     document.addEventListener('visibilitychange', handleVisibility);
@@ -228,23 +216,15 @@ export function AmbientBackground() {
       ctx.restore();
     }
 
-    // Main animation loop (yields during active scroll for 120Hz/60Hz native compositor smoothness)
+    // Main animation loop calibrated at 30-36 FPS for butter-smooth background visuals with 0% scroll drag
     function animate(timestamp) {
       if (!animRunning) return;
 
-      // During active scroll, yield canvas work to maintain 120fps scrolling
-      if (isActivelyScrolling) {
+      if (timestamp && timestamp - lastFrameTime < 28) {
         animId = requestAnimationFrame(animate);
         return;
       }
-
-      if (isMobile) {
-        if (timestamp && timestamp - lastFrameTime < 33) {
-          animId = requestAnimationFrame(animate);
-          return;
-        }
-        lastFrameTime = timestamp;
-      }
+      lastFrameTime = timestamp;
 
       const isLight = !document.documentElement.classList.contains('dark');
 
@@ -612,10 +592,6 @@ export function AmbientBackground() {
     animId = requestAnimationFrame(animate);
 
     return () => {
-      if (isMobile) {
-        window.removeEventListener('scroll', handleScrollActivity);
-        if (scrollDebounceTimer) clearTimeout(scrollDebounceTimer);
-      }
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleCanvasMouseMove);
       window.removeEventListener('mouseleave', handleCanvasMouseLeave);
@@ -629,18 +605,18 @@ export function AmbientBackground() {
       {/* 1. Subtle Engineering Matrix Grid */}
       <div className="absolute inset-0 bg-grid-pattern opacity-25 dark:opacity-25" />
 
-      {/* 2. Primary Luminous Auroras (Desktop full suite, lightweight single wash on mobile) */}
-      <div className="absolute -top-40 left-1/4 w-[450px] md:w-[750px] h-[700px] md:h-[1200px] bg-gradient-to-b from-[#7C3AED]/14 via-[#A78BFA]/10 to-transparent dark:from-[#6833FF]/20 dark:via-[#8E6FFF]/10 blur-[120px] animate-aurora-beam pointer-events-none" />
-      <div className="hidden md:block absolute -top-60 right-1/4 w-[650px] h-[1100px] bg-gradient-to-b from-[#EA580C]/12 via-orange-300/10 to-transparent dark:from-[#FF5500]/15 dark:via-orange-950/20 blur-[110px] animate-aurora-beam pointer-events-none [animation-delay:4s]" />
-      <div className="hidden md:block absolute top-1/4 left-1/3 w-[600px] h-[1000px] bg-gradient-to-b from-[#0284C7]/12 via-[#38BDF8]/8 to-transparent dark:from-[#0284C7]/15 dark:via-cyan-600/10 blur-[120px] animate-aurora-beam pointer-events-none [animation-delay:8s]" />
+      {/* 2. Primary Luminous Auroras (Hardware-accelerated with balanced blur) */}
+      <div className="absolute -top-40 left-1/4 w-[450px] md:w-[750px] h-[700px] md:h-[1200px] bg-gradient-to-b from-[#7C3AED]/14 via-[#A78BFA]/10 to-transparent dark:from-[#6833FF]/20 dark:via-[#8E6FFF]/10 blur-3xl animate-aurora-beam pointer-events-none" />
+      <div className="hidden md:block absolute -top-60 right-1/4 w-[650px] h-[1100px] bg-gradient-to-b from-[#EA580C]/12 via-orange-300/10 to-transparent dark:from-[#FF5500]/15 dark:via-orange-950/20 blur-3xl animate-aurora-beam pointer-events-none [animation-delay:4s]" />
+      <div className="hidden md:block absolute top-1/4 left-1/3 w-[600px] h-[1000px] bg-gradient-to-b from-[#0284C7]/12 via-[#38BDF8]/8 to-transparent dark:from-[#0284C7]/15 dark:via-cyan-600/10 blur-3xl animate-aurora-beam pointer-events-none [animation-delay:8s]" />
 
-      {/* 3. Fluid Animated Ambient Gradient Orbs (Streamlined on mobile for zero scroll jank) */}
-      <div className="absolute -top-32 -left-32 w-[400px] md:w-[720px] h-[400px] md:h-[720px] rounded-full bg-gradient-to-br from-[#7C3AED]/10 via-[#DDD6FE]/14 to-transparent dark:from-[#6833FF]/25 dark:via-[#8E6FFF]/10 blur-[140px] animate-mesh-1" />
-      <div className="hidden md:block absolute top-1/4 left-1/2 -translate-x-1/2 w-[850px] h-[850px] rounded-full bg-gradient-to-tr from-[#7C3AED]/9 via-[#EDE9FE]/14 to-transparent dark:from-[#6833FF]/20 dark:via-[#4E29D4]/15 blur-[160px] pointer-events-none orchid-ambient-orb" />
-      <div className="hidden md:block absolute top-1/3 -right-44 w-[780px] h-[780px] rounded-full bg-gradient-to-bl from-amber-400/12 via-amber-200/10 to-transparent dark:from-indigo-600/25 dark:via-zinc-950/70 blur-[150px] animate-mesh-2" />
-      <div className="hidden md:block absolute bottom-1/4 -left-20 w-[620px] h-[620px] rounded-full bg-gradient-to-tr from-[#0284C7]/10 via-[#BAE6FD]/12 to-transparent dark:from-[#0284C7]/20 dark:via-[#0369a1]/10 blur-[140px] animate-mesh-2" />
-      <div className="absolute top-2/3 left-1/5 w-[380px] md:w-[620px] h-[380px] md:h-[620px] rounded-full bg-gradient-to-tr from-[#EA580C]/10 via-[#FFEDD5]/14 to-transparent dark:from-[#FF5500]/12 dark:via-orange-950/20 blur-[130px] animate-mesh-3" />
-      <div className="hidden md:block absolute -bottom-40 right-1/3 w-[700px] h-[700px] rounded-full bg-gradient-to-tl from-[#7C3AED]/9 via-[#EDE9FE]/12 to-transparent dark:from-[#6833FF]/20 dark:via-zinc-950/65 blur-[140px] animate-mesh-1" />
+      {/* 3. Fluid Animated Ambient Gradient Orbs (Streamlined with blur-3xl for zero GPU bottleneck) */}
+      <div className="absolute -top-32 -left-32 w-[400px] md:w-[720px] h-[400px] md:h-[720px] rounded-full bg-gradient-to-br from-[#7C3AED]/10 via-[#DDD6FE]/14 to-transparent dark:from-[#6833FF]/25 dark:via-[#8E6FFF]/10 blur-3xl animate-mesh-1" />
+      <div className="hidden md:block absolute top-1/4 left-1/2 -translate-x-1/2 w-[850px] h-[850px] rounded-full bg-gradient-to-tr from-[#7C3AED]/9 via-[#EDE9FE]/14 to-transparent dark:from-[#6833FF]/20 dark:via-[#4E29D4]/15 blur-3xl pointer-events-none orchid-ambient-orb" />
+      <div className="hidden md:block absolute top-1/3 -right-44 w-[780px] h-[780px] rounded-full bg-gradient-to-bl from-amber-400/12 via-amber-200/10 to-transparent dark:from-indigo-600/25 dark:via-zinc-950/70 blur-3xl animate-mesh-2" />
+      <div className="hidden md:block absolute bottom-1/4 -left-20 w-[620px] h-[620px] rounded-full bg-gradient-to-tr from-[#0284C7]/10 via-[#BAE6FD]/12 to-transparent dark:from-[#0284C7]/20 dark:via-[#0369a1]/10 blur-3xl animate-mesh-2" />
+      <div className="absolute top-2/3 left-1/5 w-[380px] md:w-[620px] h-[380px] md:h-[620px] rounded-full bg-gradient-to-tr from-[#EA580C]/10 via-[#FFEDD5]/14 to-transparent dark:from-[#FF5500]/12 dark:via-orange-950/20 blur-3xl animate-mesh-3" />
+      <div className="hidden md:block absolute -bottom-40 right-1/3 w-[700px] h-[700px] rounded-full bg-gradient-to-tl from-[#7C3AED]/9 via-[#EDE9FE]/12 to-transparent dark:from-[#6833FF]/20 dark:via-zinc-950/65 blur-3xl animate-mesh-1" />
 
       {/* 4. Floating Multi-Chromatic Jewel Energy Motes (Desktop only for max mobile performance) */}
       <div className="hidden md:block absolute inset-0 pointer-events-none">
@@ -684,9 +660,6 @@ export function AmbientBackground() {
             'radial-gradient(650px circle at -200px -200px, rgba(124, 58, 237, 0.12), rgba(217, 119, 6, 0.08), transparent 75%)',
         }}
       />
-
-      {/* 7. Subtle High-End Filmic Noise Texture */}
-      <div className="absolute inset-0 bg-noise opacity-15 dark:opacity-30 pointer-events-none" />
     </div>
   );
 }

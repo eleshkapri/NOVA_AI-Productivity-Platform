@@ -22,19 +22,20 @@ export function Navbar({ isDark, toggleTheme, onOpenDemo, onOpenTrial, onOpenCom
       if (!ticking) {
         window.requestAnimationFrame(() => {
           const currentScrollY = window.scrollY;
-          setIsScrolled(currentScrollY > 20);
+          const scrolled = currentScrollY > 20;
+          setIsScrolled((prev) => (prev !== scrolled ? scrolled : prev));
 
           if (currentScrollY > 60) {
             if (currentScrollY > lastScrollY + scrollThreshold) {
               // Scrolling down the page -> hide navbar with smooth slide up
-              setIsVisible(false);
+              setIsVisible((prev) => (prev ? false : prev));
             } else if (currentScrollY < lastScrollY - scrollThreshold) {
               // Scrolling up the page -> reveal navbar with smooth slide down
-              setIsVisible(true);
+              setIsVisible((prev) => (!prev ? true : prev));
             }
           } else {
             // At the top of the page -> always visible
-            setIsVisible(true);
+            setIsVisible((prev) => (!prev ? true : prev));
           }
 
           lastScrollY = Math.max(0, currentScrollY);

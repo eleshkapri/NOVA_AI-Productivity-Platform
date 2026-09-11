@@ -20,10 +20,10 @@ export function FlankTelemetryRails({
   onSnapJump: controlledSnapJump,
 }) {
   const [localActiveSection, setLocalActiveSection] = useState('hero');
-  const [localProgress, setLocalProgress] = useState(0);
+  const fillLineRef = React.useRef(null);
+  const percentLabelRef = React.useRef(null);
 
   const activeSection = activeSectionId || localActiveSection;
-  const currentProgress = controlledProgress !== undefined ? controlledProgress : localProgress;
 
   useEffect(() => {
     // Flank telemetry rails only exist on xl+ screens (hidden xl:flex)
@@ -74,7 +74,12 @@ export function FlankTelemetryRails({
           if (cachedTotalHeight > 0) {
             const rawProgress = Math.min(100, Math.max(0, (window.scrollY / cachedTotalHeight) * 100));
             const roundedProgress = Math.round(rawProgress * 10) / 10;
-            setLocalProgress((prev) => (Math.abs(prev - roundedProgress) >= 0.5 ? roundedProgress : prev));
+            if (fillLineRef.current) {
+              fillLineRef.current.style.transform = `scaleY(${rawProgress / 100}) translateZ(0)`;
+            }
+            if (percentLabelRef.current) {
+              percentLabelRef.current.textContent = `${Math.round(roundedProgress)}%`;
+            }
           }
           ticking = false;
         });
@@ -171,8 +176,8 @@ export function FlankTelemetryRails({
           <div className="w-6 h-6 rounded-full bg-white/90 dark:bg-zinc-950/90 border border-slate-300 dark:border-[#FF5500]/40 flex items-center justify-center shadow-xs backdrop-blur-md">
             <Activity className="w-3 h-3 text-[#FF5500]" />
           </div>
-          <span className="text-[8px] font-bold tracking-widest text-slate-600 dark:text-zinc-400">
-            {Math.round(currentProgress)}%
+          <span ref={percentLabelRef} className="text-[8px] font-bold tracking-widest text-slate-600 dark:text-zinc-400">
+            0%
           </span>
         </div>
 
@@ -181,10 +186,11 @@ export function FlankTelemetryRails({
           {/* Background Wire */}
           <div className="absolute top-0 bottom-0 w-px bg-slate-200 dark:bg-white/10" />
 
-          {/* Active Fill Line */}
+          {/* Active Fill Line with hardware-accelerated scaleY */}
           <div
-            className="absolute top-0 w-px bg-[#FF5500] transition-all duration-300 ease-out shadow-[0_0_8px_#FF5500]"
-            style={{ height: `${currentProgress}%` }}
+            ref={fillLineRef}
+            className="absolute top-0 bottom-0 w-px bg-[#FF5500] origin-top shadow-[0_0_8px_#FF5500] will-change-transform"
+            style={{ transform: 'scaleY(0) translateZ(0)' }}
           />
 
           {/* 8 Snap Nodes */}

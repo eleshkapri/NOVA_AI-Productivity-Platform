@@ -34,10 +34,11 @@ export function ProgressBar() {
       const diff = targetProgress.current - currentProgress.current;
 
       // Silky smooth dampening factor
-      currentProgress.current += diff * 0.085;
+      currentProgress.current += diff * 0.1;
 
+      const progressRatio = Math.max(0, Math.min(1, currentProgress.current / 100));
       if (barRef.current) {
-        barRef.current.style.width = `${currentProgress.current}%`;
+        barRef.current.style.transform = `scaleX(${progressRatio}) translateZ(0)`;
       }
       if (containerRef.current) {
         containerRef.current.style.opacity = currentProgress.current > 0.2 ? '1' : '0';
@@ -48,8 +49,9 @@ export function ProgressBar() {
         animId.current = requestAnimationFrame(animate);
       } else {
         currentProgress.current = targetProgress.current;
+        const finalRatio = Math.max(0, Math.min(1, currentProgress.current / 100));
         if (barRef.current) {
-          barRef.current.style.width = `${currentProgress.current}%`;
+          barRef.current.style.transform = `scaleX(${finalRatio}) translateZ(0)`;
         }
         if (containerRef.current) {
           containerRef.current.style.opacity = currentProgress.current > 0.2 ? '1' : '0';
@@ -72,8 +74,9 @@ export function ProgressBar() {
     const initial = calculateProgress();
     targetProgress.current = initial;
     currentProgress.current = initial;
+    const initialRatio = Math.max(0, Math.min(1, initial / 100));
     if (barRef.current) {
-      barRef.current.style.width = `${initial}%`;
+      barRef.current.style.transform = `scaleX(${initialRatio}) translateZ(0)`;
     }
     if (containerRef.current) {
       containerRef.current.style.opacity = initial > 0.2 ? '1' : '0';
@@ -94,8 +97,8 @@ export function ProgressBar() {
     >
       <div
         ref={barRef}
-        className="h-full bg-gradient-to-r from-[#EA580C] via-[#FF5500] to-[#FF7700] shadow-[0_0_14px_rgba(255,85,0,0.85)] will-change-[width] relative rounded-r-full"
-        style={{ width: '0%' }}
+        className="w-full h-full bg-gradient-to-r from-[#EA580C] via-[#FF5500] to-[#FF7700] shadow-[0_0_14px_rgba(255,85,0,0.85)] will-change-transform relative rounded-r-full origin-left"
+        style={{ transform: 'scaleX(0) translateZ(0)' }}
       >
         {/* Sleek Pure Cyber-Orange Leading Glow */}
         <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-2 h-2 rounded-full bg-[#FF5500] shadow-[0_0_8px_#FF5500,0_0_14px_#FF7700]" />

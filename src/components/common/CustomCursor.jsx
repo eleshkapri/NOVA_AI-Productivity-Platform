@@ -28,10 +28,20 @@ export function CustomCursor() {
 
     if (isTouchDevice) return;
 
+    let isRunning = false;
+
+    const startAnimation = () => {
+      if (!isRunning) {
+        isRunning = true;
+        animFrameId.current = requestAnimationFrame(animate);
+      }
+    };
+
     const handleMouseMove = (e) => {
       mousePos.current = { x: e.clientX, y: e.clientY };
 
       setIsVisible((prev) => (!prev ? true : prev));
+      startAnimation();
 
       // Check if hovering over clickable element (only trigger state change if value actually changed)
       const target = e.target;
@@ -45,7 +55,6 @@ export function CustomCursor() {
       }
     };
 
-
     const handleMouseDown = () => setIsClicking(true);
     const handleMouseUp = () => setIsClicking(false);
     const handleMouseLeave = () => setIsVisible(false);
@@ -57,14 +66,26 @@ export function CustomCursor() {
     document.addEventListener('mouseleave', handleMouseLeave);
     document.addEventListener('mouseenter', handleMouseEnter);
 
-    // Smooth Lerp loop for fluid trailing behind the cursor
+    // Smooth Lerp loop for fluid trailing behind the cursor (pauses automatically when idle)
     const animate = () => {
       const targetX = mousePos.current.x;
       const targetY = mousePos.current.y;
+      const dx = targetX - reticlePos.current.x;
+      const dy = targetY - reticlePos.current.y;
 
-      // Smooth trailing interpolation
-      reticlePos.current.x += (targetX - reticlePos.current.x) * 0.22;
-      reticlePos.current.y += (targetY - reticlePos.current.y) * 0.22;
+      if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) {
+        reticlePos.current.x = targetX;
+        reticlePos.current.y = targetY;
+        if (reticleRef.current) {
+          reticleRef.current.style.transform = `translate3d(${targetX}px, ${targetY}px, 0) translate(-50%, -50%)`;
+        }
+        isRunning = false;
+        animFrameId.current = null;
+        return;
+      }
+
+      reticlePos.current.x += dx * 0.25;
+      reticlePos.current.y += dy * 0.25;
 
       if (reticleRef.current) {
         reticleRef.current.style.transform = `translate3d(${reticlePos.current.x}px, ${reticlePos.current.y}px, 0) translate(-50%, -50%)`;
@@ -73,7 +94,7 @@ export function CustomCursor() {
       animFrameId.current = requestAnimationFrame(animate);
     };
 
-    animFrameId.current = requestAnimationFrame(animate);
+    startAnimation();
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);

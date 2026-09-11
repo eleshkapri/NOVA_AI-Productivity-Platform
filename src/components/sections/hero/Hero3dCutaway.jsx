@@ -367,36 +367,44 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
     const clock = new THREE.Clock();
     let isVisible = true;
     let lastRenderTime = 0;
-    let isActivelyScrolling = false;
-    let scrollDebounceTimer = null;
 
-    const handleScrollActivity = () => {
-      isActivelyScrolling = true;
-      if (scrollDebounceTimer) clearTimeout(scrollDebounceTimer);
-      scrollDebounceTimer = setTimeout(() => {
-        isActivelyScrolling = false;
-      }, 70);
+    const startRenderLoop = () => {
+      if (!animFrameRef.current) {
+        clock.start();
+        animFrameRef.current = requestAnimationFrame(animate);
+      }
     };
 
-    window.addEventListener('scroll', handleScrollActivity, { passive: true });
+    const stopRenderLoop = () => {
+      if (animFrameRef.current) {
+        cancelAnimationFrame(animFrameRef.current);
+        animFrameRef.current = null;
+      }
+    };
 
-    // IntersectionObserver to pause rendering when scrolled out of view
+    // IntersectionObserver to pause rendering completely when scrolled out of view
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           isVisible = entry.isIntersecting;
+          if (isVisible) {
+            startRenderLoop();
+          } else {
+            stopRenderLoop();
+          }
         });
       },
-      { threshold: 0.05 }
+      { threshold: 0.02 }
     );
     observer.observe(container);
 
     const animate = (timestamp) => {
-      animFrameRef.current = requestAnimationFrame(animate);
-      if (!isVisible) return;
+      if (!isVisible) {
+        animFrameRef.current = null;
+        return;
+      }
 
-      // Yield rendering during active scroll to ensure 100% fluid compositor frame rates
-      if (isActivelyScrolling) return;
+      animFrameRef.current = requestAnimationFrame(animate);
 
       if (isMobile) {
         if (timestamp && timestamp - lastRenderTime < 33) return;
@@ -473,7 +481,7 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
-      renderer.setPixelRatio(isMobileNow ? 1 : Math.min(window.devicePixelRatio || 1, 1.5));
+      renderer.setPixelRatio(isMobileNow ? 1 : Math.min(window.devicePixelRatio || 1, 1.25));
     };
 
     window.addEventListener('resize', handleResize, { passive: true });
@@ -527,9 +535,7 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
     // 13. Cleanup
     return () => {
       observer.disconnect();
-      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
-      window.removeEventListener('scroll', handleScrollActivity);
-      if (scrollDebounceTimer) clearTimeout(scrollDebounceTimer);
+      stopRenderLoop();
       window.removeEventListener('resize', handleResize);
 
       canvas.removeEventListener('pointerdown', handlePointerDown);
