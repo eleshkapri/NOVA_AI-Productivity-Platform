@@ -8,7 +8,7 @@ export function TrustedBy() {
   const marqueeItems = [...trustedCompanies, ...trustedCompanies];
 
   return (
-    <section id="trusted-by" className="py-12 md:py-16 border-y border-slate-200/50 dark:border-white/5 bg-white/40 dark:bg-[#05060A]/80 backdrop-blur-md transition-colors overflow-hidden relative">
+    <section id="trusted-by" className="py-8 md:py-12 border-y border-slate-200/50 dark:border-white/5 bg-white/40 dark:bg-[#05060A]/80 backdrop-blur-md transition-colors overflow-hidden relative">
       {/* Ambient Cyber-Orange Glow behind the conduit */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#FF5500]/40 to-transparent" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#FF5500]/30 to-transparent" />
@@ -17,7 +17,7 @@ export function TrustedBy() {
       <div className="pointer-events-none absolute inset-y-0 left-0 w-24 sm:w-40 bg-gradient-to-r from-[#F8FAFC] dark:from-[#05060A] to-transparent z-10" />
       <div className="pointer-events-none absolute inset-y-0 right-0 w-24 sm:w-40 bg-gradient-to-l from-[#F8FAFC] dark:from-[#05060A] to-transparent z-10" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 text-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 text-center">
         {/* Eyebrow */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 dark:bg-orange-500/10 border border-orange-300 dark:border-orange-500/20 text-orange-950 dark:text-orange-400 text-[11px] font-mono font-extrabold tracking-[0.2em] uppercase mb-4 shadow-xs">
           <span className="w-1.5 h-1.5 rounded-full bg-[#FF5500] animate-pulse" />

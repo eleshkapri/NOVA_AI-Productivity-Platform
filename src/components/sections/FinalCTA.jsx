@@ -7,10 +7,10 @@ import { smoothScrollService } from '../../services/SmoothScrollService';
 
 export function FinalCTA({ onOpenDemo }) {
   return (
-    <section id="final-cta" className="py-16 md:py-20 relative overflow-hidden bg-noise">
+    <section id="final-cta" className="py-10 md:py-14 relative overflow-hidden bg-noise">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <MotionReveal animation="zoom-in" duration={800}>
-          <div className="relative rounded-[2.5rem] sm:rounded-[3rem] overflow-hidden bg-zinc-950 text-white p-10 sm:p-16 md:p-20 shadow-2xl border border-white/10 hover:border-[#FF5500]/50 transition-all duration-500 group ring-1 ring-inset ring-white/10">
+          <div className="relative rounded-[2.5rem] sm:rounded-[3rem] overflow-hidden bg-zinc-950 text-white p-8 sm:p-12 md:p-16 shadow-2xl border border-white/10 hover:border-[#FF5500]/50 transition-all duration-500 group ring-1 ring-inset ring-white/10">
             {/* Luminous Cyber-Orange Horizon Arc Background (Zero-Text, Hardware-Accelerated) */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
               {/* Radial glow bloom */}

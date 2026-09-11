@@ -18,9 +18,9 @@ export function SectionHeader({
   };
 
   return (
-    <div className={`flex flex-col max-w-3xl mb-8 md:mb-12 ${alignClasses[align]} ${className}`}>
+    <div className={`flex flex-col max-w-3xl mb-5 md:mb-8 ${alignClasses[align]} ${className}`}>
       {eyebrow && (
-        <div className="mb-5">
+        <div className="mb-3 sm:mb-4">
           <Badge variant={eyebrowVariant} dot className="shadow-sm">
             {disableAnimation ? eyebrow : <TextReveal3 text={eyebrow} delay={20} stagger={10} duration={240} />}
           </Badge>
@@ -55,7 +55,7 @@ export function SectionHeader({
       </h2>
 
       {description && (
-        <p className="mt-5 text-base sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed font-normal max-w-2xl">
+        <p className="mt-3 sm:mt-4 text-base sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed font-normal max-w-2xl">
           {disableAnimation ? (
             description
           ) : (
@@ -72,5 +72,6 @@ export function SectionHeader({
     </div>
   );
 }
+
 
 

@@ -21,7 +21,7 @@ export function HowItWorks() {
   ];
 
   return (
-    <section id="how-it-works" className="py-16 md:py-20 relative">
+    <section id="how-it-works" className="py-10 md:py-14 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Floria 2-Column Sticky Timeline Structure */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">

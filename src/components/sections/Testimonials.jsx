@@ -13,8 +13,9 @@ export function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="py-16 md:py-20 bg-amber-50/15 dark:bg-zinc-950/40 relative overflow-hidden backdrop-blur-xs"
+      className="py-10 md:py-14 bg-amber-50/15 dark:bg-zinc-950/40 relative overflow-hidden backdrop-blur-xs"
     >
+
       {/* Ambient Cyber-Orange Glow behind the conduit */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#FF5500]/30 to-transparent" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#FF5500]/20 to-transparent" />

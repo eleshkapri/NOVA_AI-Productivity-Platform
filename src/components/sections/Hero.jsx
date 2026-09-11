@@ -208,8 +208,9 @@ export function Hero({ onOpenDemo }) {
   return (
     <section
       id="hero"
-      className={`relative pt-36 pb-16 md:pt-44 lg:pt-48 md:pb-24 overflow-hidden ${isRevealed ? 'hero-revealed' : ''}`}
+      className={`relative pt-24 sm:pt-28 md:pt-32 pb-8 sm:pb-12 md:pb-14 overflow-hidden ${isRevealed ? 'hero-revealed' : ''}`}
     >
+
       {/* Ambient Atmospheric Orange Glow */}
       <div
         className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[500px] pointer-events-none opacity-30 dark:opacity-20 blur-3xl -z-10"

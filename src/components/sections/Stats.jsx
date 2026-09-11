@@ -262,7 +262,7 @@ function StatCard({ stat }) {
 
 export function Stats() {
   return (
-    <section id="stats" className="py-16 md:py-20 relative">
+    <section id="stats" className="py-10 md:py-14 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <MotionReveal animation="fade-up">
           <SectionHeader

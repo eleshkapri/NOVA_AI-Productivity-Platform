@@ -64,19 +64,18 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
     camera.lookAt(0, 0.1, 0);
 
     // 3. WebGL Renderer with Alpha Transparency (Completely Clear Background)
-    // On mobile: disable antialias & cap pixel ratio to 1 for silky lag-free rendering
     const renderer = new THREE.WebGLRenderer({
       canvas,
       alpha: true,
       antialias: !isMobile,
       powerPreference: 'high-performance',
       precision: isMobile ? 'mediump' : 'highp',
+      depth: true,
+      stencil: false,
     });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 2));
-    renderer.setClearColor(0x000000, 0); // 100% transparent
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.25;
+    renderer.setPixelRatio(isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.25));
+    renderer.setClearColor(0x000000, 0);
     rendererRef.current = renderer;
 
     // 4. High-End Studio Lighting System (Optimized for both light & dark site aesthetic)
@@ -368,21 +367,18 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
     const clock = new THREE.Clock();
     let isVisible = true;
     let lastRenderTime = 0;
-    let isScrollingOnMobile = false;
+    let isActivelyScrolling = false;
     let scrollDebounceTimer = null;
 
     const handleScrollActivity = () => {
-      if (!isMobile) return;
-      isScrollingOnMobile = true;
+      isActivelyScrolling = true;
       if (scrollDebounceTimer) clearTimeout(scrollDebounceTimer);
       scrollDebounceTimer = setTimeout(() => {
-        isScrollingOnMobile = false;
-      }, 100);
+        isActivelyScrolling = false;
+      }, 70);
     };
 
-    if (isMobile) {
-      window.addEventListener('scroll', handleScrollActivity, { passive: true });
-    }
+    window.addEventListener('scroll', handleScrollActivity, { passive: true });
 
     // IntersectionObserver to pause rendering when scrolled out of view
     const observer = new IntersectionObserver(
@@ -399,21 +395,23 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
       animFrameRef.current = requestAnimationFrame(animate);
       if (!isVisible) return;
 
-      // Yield rendering during active mobile scroll to ensure 100% fluid touch fling physics
+      // Yield rendering during active scroll to ensure 100% fluid compositor frame rates
+      if (isActivelyScrolling) return;
+
       if (isMobile) {
-        if (isScrollingOnMobile) return;
         if (timestamp && timestamp - lastRenderTime < 33) return;
         lastRenderTime = timestamp;
       }
 
       const elapsedTime = clock.getElapsedTime();
 
-      // Snappy, silky-smooth lerp tracking with zero delay / lag
-      const damp = isInteractingRef.current ? 0.40 : 0.18;
+      // Snappy, silky-smooth physical tracking with zero lag
+      const damp = isInteractingRef.current ? 0.55 : 0.28;
       currentRotationRef.current.x +=
         (targetRotationRef.current.x - currentRotationRef.current.x) * damp;
       currentRotationRef.current.y +=
         (targetRotationRef.current.y - currentRotationRef.current.y) * damp;
+
 
       // Gentle floating physics
       const idleFloat = Math.sin(elapsedTime * 1.4) * 0.04;
@@ -530,11 +528,10 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
     return () => {
       observer.disconnect();
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
-      if (isMobile) {
-        window.removeEventListener('scroll', handleScrollActivity);
-        if (scrollDebounceTimer) clearTimeout(scrollDebounceTimer);
-      }
+      window.removeEventListener('scroll', handleScrollActivity);
+      if (scrollDebounceTimer) clearTimeout(scrollDebounceTimer);
       window.removeEventListener('resize', handleResize);
+
       canvas.removeEventListener('pointerdown', handlePointerDown);
       canvas.removeEventListener('pointermove', handlePointerMove);
       window.removeEventListener('pointermove', handlePointerMove);

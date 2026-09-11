@@ -28,7 +28,7 @@ const featureModels = featuresData.map((data, index) => new FeatureModel({ ...da
 
 export function Features({ onOpenDemo }) {
   return (
-    <section id="features" className="py-16 md:py-20 relative">
+    <section id="features" className="py-10 md:py-14 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <MotionReveal animation="fade-up">
           <SectionHeader
