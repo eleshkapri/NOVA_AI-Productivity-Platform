@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '../common/Button';
 import {
   ArrowRight,
@@ -77,43 +77,41 @@ const VELOCITY_MODES = Object.freeze(
 );
 
 /**
- * AnimatedLetters: Wraps each word and letter with staggered Animation 3
- * horizontal slide entrance with exact physical typography spacing.
+ * AnimatedHeroWords: Wraps each word in an overflow-masked container with
+ * pure compositor-accelerated translate3d + opacity slide-up (Animation 3).
  */
-function AnimatedLetters({
+function AnimatedHeroWords({
   text,
-  startDelay = 0.04,
-  stagger = 0.015,
+  isVisible,
+  startDelay = 0,
+  staggerMs = 45,
+  durationMs = 550,
   className = '',
-  letterClassName = '',
+  wordClassName = '',
 }) {
-  const words = text.split(' ');
-  let runningDelay = startDelay;
+  const words = text ? text.trim().split(/\s+/).filter(Boolean) : [];
 
   return (
     <span className={`inline-block ${className}`}>
-      {words.map((word, wordIdx) => {
-        const letters = Array.from(word);
-        return (
-          <span key={`w-${wordIdx}`} className="inline-block whitespace-nowrap mr-[0.24em] last:mr-0">
-            {letters.map((char, charIdx) => {
-              const delay = runningDelay;
-              runningDelay += stagger;
-              return (
-                <span
-                  key={`c-${charIdx}`}
-                  className={`inline-block select-none font-extrabold cursor-default ${letterClassName}`}
-                  style={{
-                    animation: `heroLetterSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) ${delay.toFixed(3)}s backwards`,
-                  }}
-                >
-                  {char}
-                </span>
-              );
-            })}
+      {words.map((word, i) => (
+        <span
+          key={`hw-${i}`}
+          className="inline-block overflow-hidden align-top mr-[0.24em] last:mr-0 pb-[0.08em]"
+        >
+          <span
+            className={`inline-block select-none font-extrabold cursor-default transition-[transform,opacity] ease-[cubic-bezier(0.16,1,0.3,1)] ${wordClassName}`}
+            style={{
+              transform: isVisible ? 'translate3d(0, 0, 0)' : 'translate3d(0, 110%, 0)',
+              opacity: isVisible ? 1 : 0,
+              transitionDuration: `${durationMs}ms`,
+              transitionDelay: `${startDelay + i * staggerMs}ms`,
+              willChange: isVisible ? 'auto' : 'transform, opacity',
+            }}
+          >
+            {word}
           </span>
-        );
-      })}
+        </span>
+      ))}
     </span>
   );
 }
@@ -191,12 +189,46 @@ export function Hero({ onOpenDemo }) {
   const [tasks, setTasks] = useState(INITIAL_TASKS);
   const [isPrMerged, setIsPrMerged] = useState(false);
   const [isRevealed, setIsRevealed] = useState(false);
+  const [isHeadingVisible, setIsHeadingVisible] = useState(() => {
+    if (typeof window !== 'undefined' && window.matchMedia) {
+      return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    }
+    return false;
+  });
+  const headingContainerRef = useRef(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsRevealed(true);
     }, 40);
     return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsHeadingVisible(true);
+        } else {
+          setIsHeadingVisible(false);
+        }
+      },
+      {
+        threshold: 0.1,
+        rootMargin: typeof window !== 'undefined' && window.innerWidth < 768 ? '0px 0px -20px 0px' : '0px 0px -40px 0px',
+      }
+    );
+
+    const el = headingContainerRef.current;
+    if (el) observer.observe(el);
+
+    return () => {
+      if (el) observer.unobserve(el);
+    };
   }, []);
 
   const handleSelectVelocityMode = (modeId) => {
@@ -298,15 +330,16 @@ export function Hero({ onOpenDemo }) {
         </div>
 
         {/* Asymmetric Display Headline with Line Masking */}
-        <div className="mb-4 sm:mb-6 select-none">
+        <div ref={headingContainerRef} className="mb-4 sm:mb-6 select-none">
           <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[5.75rem] font-extrabold tracking-[-0.04em] text-slate-900 dark:text-white leading-[0.93] uppercase">
             {/* Line 1: Flush Left */}
             <div className="rapid-line-mask">
-              <AnimatedLetters
+              <AnimatedHeroWords
                 text="THE AUTONOMOUS SPRINT"
-                startDelay={0.02}
-                stagger={0.015}
-                letterClassName="text-slate-900 dark:text-white"
+                isVisible={isHeadingVisible}
+                startDelay={30}
+                staggerMs={50}
+                wordClassName="text-slate-900 dark:text-white"
               />
             </div>
           </h1>
@@ -320,16 +353,22 @@ export function Hero({ onOpenDemo }) {
               <div className="text-3xl sm:text-5xl md:text-6xl lg:text-[4.5rem] xl:text-[5rem] font-extrabold tracking-[-0.04em] text-slate-900 dark:text-white leading-[0.93] uppercase">
                 {/* Line 2: Asymmetric Right Shift */}
                 <div className="rapid-line-mask rapid-indent-1">
-                  <AnimatedLetters
+                  <AnimatedHeroWords
                     text="NOT ON THE SURFACE"
-                    startDelay={0.12}
-                    stagger={0.015}
-                    letterClassName="text-slate-700 dark:text-zinc-300"
+                    isVisible={isHeadingVisible}
+                    startDelay={180}
+                    staggerMs={45}
+                    wordClassName="text-slate-700 dark:text-zinc-300"
                   />
                 </div>
 
                 {/* Datum Horizon Line & Label */}
-                <div className="rapid-indent-1 flex items-center gap-3 mt-3 sm:mt-5 mb-2">
+                <div
+                  className={`rapid-indent-1 flex items-center gap-3 mt-3 sm:mt-5 mb-2 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                    isHeadingVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
+                  }`}
+                  style={{ transitionDelay: '360ms' }}
+                >
                   <span className="text-[10px] sm:text-xs font-mono font-bold tracking-[0.22em] uppercase text-slate-500 dark:text-zinc-400">
                     EXECUTION
                   </span>
@@ -339,11 +378,12 @@ export function Hero({ onOpenDemo }) {
 
                 {/* Line 3: Deep Indent & Radiant Accent */}
                 <div className="rapid-line-mask rapid-indent-2">
-                  <AnimatedLetters
+                  <AnimatedHeroWords
                     text="BEGINS."
-                    startDelay={0.22}
-                    stagger={0.018}
-                    letterClassName="text-[#FF5500]"
+                    isVisible={isHeadingVisible}
+                    startDelay={420}
+                    staggerMs={45}
+                    wordClassName="text-[#FF5500]"
                   />
                 </div>
               </div>
