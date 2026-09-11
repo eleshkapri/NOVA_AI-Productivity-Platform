@@ -77,22 +77,58 @@ const VELOCITY_MODES = Object.freeze(
 );
 
 /**
- * AnimatedHeroWords: Wraps each word in an overflow-masked container with
- * pure compositor-accelerated translate3d + opacity slide-up (Animation 3).
+ * AnimatedHeroLine: Self-observing Animation 3 line reveal.
+ * Tracks its own viewport intersection so it never disappears when neighboring lines scroll off,
+ * and only resets when 100% off screen.
  */
-function AnimatedHeroWords({
+function AnimatedHeroLine({
   text,
-  isVisible,
+  as: Component = 'div',
+  className = '',
+  wordClassName = '',
   startDelay = 0,
   staggerMs = 45,
   durationMs = 550,
-  className = '',
-  wordClassName = '',
 }) {
+  const [isVisible, setIsVisible] = useState(() => {
+    if (typeof window !== 'undefined' && window.matchMedia) {
+      return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    }
+    return false;
+  });
+  const lineRef = useRef(null);
+
+  useEffect(() => {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        } else if (entry.intersectionRatio === 0) {
+          setIsVisible(false);
+        }
+      },
+      {
+        threshold: [0, 0.1],
+        rootMargin: '0px',
+      }
+    );
+
+    const el = lineRef.current;
+    if (el) observer.observe(el);
+
+    return () => {
+      if (el) observer.unobserve(el);
+    };
+  }, []);
+
   const words = text ? text.trim().split(/\s+/).filter(Boolean) : [];
 
   return (
-    <span className={`inline-block ${className}`}>
+    <Component ref={lineRef} className={className}>
       {words.map((word, i) => (
         <span
           key={`hw-${i}`}
@@ -112,7 +148,7 @@ function AnimatedHeroWords({
           </span>
         </span>
       ))}
-    </span>
+    </Component>
   );
 }
 
@@ -189,46 +225,12 @@ export function Hero({ onOpenDemo }) {
   const [tasks, setTasks] = useState(INITIAL_TASKS);
   const [isPrMerged, setIsPrMerged] = useState(false);
   const [isRevealed, setIsRevealed] = useState(false);
-  const [isHeadingVisible, setIsHeadingVisible] = useState(() => {
-    if (typeof window !== 'undefined' && window.matchMedia) {
-      return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    }
-    return false;
-  });
-  const headingContainerRef = useRef(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsRevealed(true);
     }, 40);
     return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsHeadingVisible(true);
-        } else if (entry.intersectionRatio === 0) {
-          setIsHeadingVisible(false);
-        }
-      },
-      {
-        threshold: [0, 0.15],
-        rootMargin: '0px',
-      }
-    );
-
-    const el = headingContainerRef.current;
-    if (el) observer.observe(el);
-
-    return () => {
-      if (el) observer.unobserve(el);
-    };
   }, []);
 
   const handleSelectVelocityMode = (modeId) => {
@@ -330,18 +332,16 @@ export function Hero({ onOpenDemo }) {
         </div>
 
         {/* Asymmetric Display Headline with Line Masking */}
-        <div ref={headingContainerRef} className="mb-4 sm:mb-6 select-none">
+        <div className="mb-4 sm:mb-6 select-none">
           <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[5.75rem] font-extrabold tracking-[-0.04em] text-slate-900 dark:text-white leading-[0.93] uppercase">
             {/* Line 1: Flush Left */}
-            <div className="rapid-line-mask">
-              <AnimatedHeroWords
-                text="THE AUTONOMOUS SPRINT"
-                isVisible={isHeadingVisible}
-                startDelay={30}
-                staggerMs={50}
-                wordClassName="text-slate-900 dark:text-white"
-              />
-            </div>
+            <AnimatedHeroLine
+              text="THE AUTONOMOUS SPRINT"
+              className="rapid-line-mask"
+              startDelay={20}
+              staggerMs={45}
+              wordClassName="text-slate-900 dark:text-white"
+            />
           </h1>
         </div>
 
@@ -352,23 +352,16 @@ export function Hero({ onOpenDemo }) {
             <div className="select-none">
               <div className="text-3xl sm:text-5xl md:text-6xl lg:text-[4.5rem] xl:text-[5rem] font-extrabold tracking-[-0.04em] text-slate-900 dark:text-white leading-[0.93] uppercase">
                 {/* Line 2: Asymmetric Right Shift */}
-                <div className="rapid-line-mask rapid-indent-1">
-                  <AnimatedHeroWords
-                    text="NOT ON THE SURFACE"
-                    isVisible={isHeadingVisible}
-                    startDelay={180}
-                    staggerMs={45}
-                    wordClassName="text-slate-700 dark:text-zinc-300"
-                  />
-                </div>
+                <AnimatedHeroLine
+                  text="NOT ON THE SURFACE"
+                  className="rapid-line-mask rapid-indent-1"
+                  startDelay={30}
+                  staggerMs={45}
+                  wordClassName="text-slate-700 dark:text-zinc-300"
+                />
 
                 {/* Datum Horizon Line & Label */}
-                <div
-                  className={`rapid-indent-1 flex items-center gap-3 mt-3 sm:mt-5 mb-2 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                    isHeadingVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
-                  }`}
-                  style={{ transitionDelay: '360ms' }}
-                >
+                <div className="rapid-indent-1 flex items-center gap-3 mt-3 sm:mt-5 mb-2">
                   <span className="text-[10px] sm:text-xs font-mono font-bold tracking-[0.22em] uppercase text-slate-500 dark:text-zinc-400">
                     EXECUTION
                   </span>
@@ -377,15 +370,13 @@ export function Hero({ onOpenDemo }) {
                 </div>
 
                 {/* Line 3: Deep Indent & Radiant Accent */}
-                <div className="rapid-line-mask rapid-indent-2">
-                  <AnimatedHeroWords
-                    text="BEGINS."
-                    isVisible={isHeadingVisible}
-                    startDelay={420}
-                    staggerMs={45}
-                    wordClassName="text-[#FF5500]"
-                  />
-                </div>
+                <AnimatedHeroLine
+                  text="BEGINS."
+                  className="rapid-line-mask rapid-indent-2"
+                  startDelay={30}
+                  staggerMs={45}
+                  wordClassName="text-[#FF5500]"
+                />
               </div>
             </div>
 
