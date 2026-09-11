@@ -12,3 +12,4 @@ export { SectionHeader } from './SectionHeader';
 export { SoundToggle } from './SoundToggle';
 export { TiltCard } from './TiltCard';
 export { SectionConnector } from './SectionConnector';
+export { TextReveal3 } from './TextReveal3';

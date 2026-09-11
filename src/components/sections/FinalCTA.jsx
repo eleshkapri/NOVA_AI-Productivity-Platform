@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from '../common/Button';
 import { MotionReveal } from '../common/MotionReveal';
+import { TextReveal3 } from '../common/TextReveal3';
 import { ArrowRight, Play, Sparkles, CheckCircle2, Shield } from 'lucide-react';
 import { smoothScrollService } from '../../services/SmoothScrollService';
 
@@ -26,21 +27,27 @@ export function FinalCTA({ onOpenDemo }) {
               {/* Top Pill with Orange Glow */}
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-500/15 border border-orange-500/30 text-orange-400 text-xs font-mono font-bold tracking-wider uppercase mb-8 shadow-sm">
                 <Sparkles className="w-3.5 h-3.5 text-orange-400" />
-                <span>Elevate Your Engineering Cadence</span>
+                <TextReveal3 text="Elevate Your Engineering Cadence" delay={40} stagger={14} />
               </div>
 
               {/* Headline with Grand Editorial Typography */}
               <h2 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-white leading-[1.12] mb-6">
-                Ready to Accelerate Sprint Velocity by{' '}
-                <span className="text-orange-gradient italic font-black">
-                  4.2x?
+                <TextReveal3 text="Ready to Accelerate Sprint Velocity by" delay={100} stagger={16} />{' '}
+                <span className="text-orange-gradient italic font-black inline-block">
+                  <TextReveal3 text="4.2x?" delay={650} stagger={16} />
                 </span>
               </h2>
 
               {/* Subtitle */}
               <p className="text-base sm:text-xl text-zinc-300 leading-relaxed mb-10 max-w-2xl mx-auto font-light">
-                Join 500+ forward-thinking engineering organizations achieving predictable delivery, reduced meeting fatigue, and supreme code quality.
+                <TextReveal3
+                  text="Join 500+ forward-thinking engineering organizations achieving predictable delivery, reduced meeting fatigue, and supreme code quality."
+                  delay={240}
+                  stagger={6}
+                  offsetDistance={16}
+                />
               </p>
+
 
               {/* Dual CTAs */}
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">

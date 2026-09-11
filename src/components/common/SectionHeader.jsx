@@ -1,5 +1,6 @@
 import React from 'react';
 import { Badge } from './Badge';
+import { TextReveal3 } from './TextReveal3';
 
 export function SectionHeader({
   eyebrow,
@@ -9,6 +10,7 @@ export function SectionHeader({
   description,
   align = 'center',
   className = '',
+  disableAnimation = false,
 }) {
   const alignClasses = {
     center: 'text-center mx-auto items-center',
@@ -20,25 +22,54 @@ export function SectionHeader({
       {eyebrow && (
         <div className="mb-5">
           <Badge variant={eyebrowVariant} dot className="shadow-sm">
-            {eyebrow}
+            {disableAnimation ? eyebrow : <TextReveal3 text={eyebrow} delay={40} stagger={18} />}
           </Badge>
         </div>
       )}
 
       <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.12]">
-        {title}{' '}
-        {titleHighlight && (
-          <span className="text-orange-gradient italic font-extrabold">
-            {titleHighlight}
-          </span>
+        {disableAnimation ? (
+          <>
+            {title}{' '}
+            {titleHighlight && (
+              <span className="text-orange-gradient italic font-extrabold">
+                {titleHighlight}
+              </span>
+            )}
+          </>
+        ) : (
+          <>
+            {title && <TextReveal3 text={title} delay={100} stagger={18} duration={850} />}{' '}
+            {titleHighlight && (
+              <span className="text-orange-gradient italic font-extrabold inline-block">
+                <TextReveal3
+                  text={titleHighlight}
+                  delay={100 + (title ? title.length * 18 : 0)}
+                  stagger={18}
+                  duration={850}
+                />
+              </span>
+            )}
+          </>
         )}
       </h2>
 
       {description && (
         <p className="mt-5 text-base sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed font-normal max-w-2xl">
-          {description}
+          {disableAnimation ? (
+            description
+          ) : (
+            <TextReveal3
+              text={description}
+              delay={220}
+              stagger={10}
+              duration={750}
+              offsetDistance={20}
+            />
+          )}
         </p>
       )}
     </div>
   );
 }
+

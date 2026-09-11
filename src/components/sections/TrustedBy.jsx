@@ -1,6 +1,7 @@
 import React from 'react';
 import { trustedCompanies } from '../../data/logos';
 import { ShieldCheck, Zap, Rocket } from 'lucide-react';
+import { TextReveal3 } from '../common/TextReveal3';
 import { smoothScrollService } from '../../services/SmoothScrollService';
 
 export function TrustedBy() {
@@ -20,13 +21,16 @@ export function TrustedBy() {
         {/* Eyebrow */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 dark:bg-orange-500/10 border border-orange-300 dark:border-orange-500/20 text-orange-950 dark:text-orange-400 text-[11px] font-mono font-extrabold tracking-[0.2em] uppercase mb-4 shadow-xs">
           <span className="w-1.5 h-1.5 rounded-full bg-[#FF5500] animate-pulse" />
-          <span>CONDUIT OF TRUST // ENTERPRISE VALIDATION</span>
+          <TextReveal3 text="CONDUIT OF TRUST // ENTERPRISE VALIDATION" delay={40} stagger={14} />
         </div>
 
         <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-          Powering Autonomous Sprints at{' '}
-          <span className="text-orange-gradient italic">High-Velocity Scale</span>
+          <TextReveal3 text="Powering Autonomous Sprints at" delay={80} stagger={16} />{' '}
+          <span className="text-orange-gradient italic inline-block">
+            <TextReveal3 text="High-Velocity Scale" delay={420} stagger={16} />
+          </span>
         </h3>
+
 
         {/* 3 Telemetry Counters */}
         <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto">

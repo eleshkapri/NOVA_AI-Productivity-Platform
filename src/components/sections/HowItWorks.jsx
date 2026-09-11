@@ -1,6 +1,7 @@
 import React from 'react';
 import { Badge } from '../common/Badge';
 import { MotionReveal } from '../common/MotionReveal';
+import { TextReveal3 } from '../common/TextReveal3';
 import { howItWorksSteps } from '../../data/howItWorks';
 import { Link2, Cpu, Sparkles, Rocket, CheckCircle2 } from 'lucide-react';
 
@@ -28,19 +29,25 @@ export function HowItWorks() {
           <div className="lg:col-span-5 lg:sticky lg:top-20 xl:top-24 self-start space-y-3.5 sm:space-y-4">
             <MotionReveal animation="fade-up">
               <Badge variant="orange" dot className="mb-2.5">
-                The 4-Step Journey
+                <TextReveal3 text="The 4-Step Journey" delay={40} stagger={16} />
               </Badge>
 
               <h2 className="text-2xl sm:text-3xl lg:text-[2.15rem] font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.18]">
-                From Initial Integration to{' '}
-                <span className="text-orange-gradient italic">
-                  Autonomous Mastery
+                <TextReveal3 text="From Initial Integration to" delay={80} stagger={16} />{' '}
+                <span className="text-orange-gradient italic inline-block">
+                  <TextReveal3 text="Autonomous Mastery" delay={450} stagger={16} />
                 </span>
               </h2>
 
               <p className="mt-2 text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed font-normal">
-                Seamlessly onboard your entire engineering organization in under three minutes without disrupting active sprints or altering existing git branches.
+                <TextReveal3
+                  text="Seamlessly onboard your entire engineering organization in under three minutes without disrupting active sprints or altering existing git branches."
+                  delay={200}
+                  stagger={6}
+                  offsetDistance={16}
+                />
               </p>
+
 
               {/* Workflow Pipeline Visual Showcase Card (workflow_cadence.jpg) */}
               <div className="mt-4 sm:mt-5 relative rounded-2xl sm:rounded-3xl overflow-hidden bg-slate-950 border border-slate-300 dark:border-white/10 hover:border-[#FF5500]/50 transition-all duration-300 shadow-xl dark:shadow-2xl group">

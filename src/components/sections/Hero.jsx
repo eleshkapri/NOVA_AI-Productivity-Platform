@@ -15,6 +15,7 @@ import {
 import { HeroKanban } from './hero/HeroKanban';
 import { HeroCodeDiff } from './hero/HeroCodeDiff';
 import { HeroTerminal } from './hero/HeroTerminal';
+import { TextReveal3 } from '../common/TextReveal3';
 import { soundService } from '../../services/SoundService';
 import { smoothScrollService } from '../../services/SmoothScrollService';
 import { VelocityRhythmModel, SprintTaskModel } from '../../models';
@@ -77,7 +78,7 @@ const VELOCITY_MODES = Object.freeze(
 
 /**
  * AnimatedLetters: Wraps each word and letter into an overflow-hidden mask
- * with staggered letter rise animations.
+ * with staggered Animation 3 letter animations on bi-directional scroll.
  */
 function AnimatedLetters({
   text,
@@ -86,35 +87,20 @@ function AnimatedLetters({
   className = '',
   letterClassName = '',
 }) {
-  const words = text.split(' ');
-  let runningDelay = startDelay;
-
   return (
-    <span className={`inline-block ${className}`}>
-      {words.map((word, wordIdx) => {
-        const letters = Array.from(word);
-        return (
-          <span key={`w-${wordIdx}`} className="inline-block whitespace-nowrap mr-[0.22em] last:mr-0">
-            {letters.map((char, charIdx) => {
-              const delay = runningDelay;
-              runningDelay += stagger;
-              return (
-                <span key={`c-${charIdx}`} className="anime-letter-mask">
-                  <span
-                    className={`anime-letter select-none font-extrabold cursor-default ${letterClassName}`}
-                    style={{ '--delay': `${delay.toFixed(3)}s` }}
-                  >
-                    {char}
-                  </span>
-                </span>
-              );
-            })}
-          </span>
-        );
-      })}
-    </span>
+    <TextReveal3
+      text={text}
+      delay={Math.round(startDelay * 1000)}
+      stagger={Math.round(stagger * 1000)}
+      duration={850}
+      offsetDistance={35}
+      once={false}
+      className={className}
+      letterClassName={letterClassName}
+    />
   );
 }
+
 
 const RAW_INITIAL_TASKS = [
   {
@@ -276,7 +262,13 @@ export function Hero({ onOpenDemo }) {
           <div className="flex items-center gap-2.5">
             <span className="flex h-2 w-2 rounded-full bg-[#FF5500] shadow-[0_0_8px_#FF5500] animate-ping" />
             <span className="text-[11px] sm:text-xs font-mono font-bold tracking-[0.2em] uppercase text-slate-700 dark:text-zinc-300">
-              NOVA PLATFORM &mdash; AUTONOMOUS AI SPRINT ORCHESTRATION
+              <TextReveal3
+                text="NOVA PLATFORM — AUTONOMOUS AI SPRINT ORCHESTRATION"
+                delay={60}
+                stagger={14}
+                duration={700}
+                offsetDistance={20}
+              />
             </span>
           </div>
           <button
@@ -344,12 +336,19 @@ export function Hero({ onOpenDemo }) {
             </div>
 
             {/* Editorial Lede Narrative */}
-            <p
+            <div
               className="rapid-fade-up text-base sm:text-lg md:text-xl text-slate-700 dark:text-zinc-400 leading-relaxed font-normal text-pretty max-w-[50ch] pt-2"
               style={{ '--d': '0.82s' }}
             >
-              The finished pull request is just the visible layer. Continuous AST parsing, test synthesis, and autonomous sprint burndown decide whether your engineering squad will ship at 10x velocity &mdash; and we orchestrate all of it, from ticket to production.
-            </p>
+              <TextReveal3
+                text="The finished pull request is just the visible layer. Continuous AST parsing, test synthesis, and autonomous sprint burndown decide whether your engineering squad will ship at 10x velocity — and we orchestrate all of it, from ticket to production."
+                delay={300}
+                stagger={8}
+                duration={700}
+                offsetDistance={16}
+              />
+            </div>
+
 
             {/* Dual CTAs in High-Contrast Pill Style */}
             <div
