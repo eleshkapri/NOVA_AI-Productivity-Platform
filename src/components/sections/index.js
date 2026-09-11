@@ -1,5 +1,4 @@
 export { About } from './About';
-export { DemoModal } from './DemoModal';
 export { FAQ } from './FAQ';
 export { Features } from './Features';
 export { FinalCTA } from './FinalCTA';

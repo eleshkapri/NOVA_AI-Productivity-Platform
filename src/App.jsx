@@ -5,10 +5,8 @@ import {
   ProgressBar,
   Preloader,
   SoundToggle,
-  CommandPalette,
   LiveActivityToast,
   AmbientBackground,
-  ShortcutsHudModal,
   SectionConnector,
 } from './components/common';
 import {
@@ -30,15 +28,22 @@ import {
   Pricing,
   FAQ,
   FinalCTA,
-  DemoModal,
 } from './components/sections';
 import { Keyboard } from 'lucide-react';
 import { soundService } from './services/SoundService';
 import { smoothScrollService } from './services/SmoothScrollService';
 import { Analytics } from '@vercel/analytics/react';
 
-
 const WorkspaceDashboard = React.lazy(() => import('./components/dashboard'));
+const DemoModal = React.lazy(() =>
+  import('./components/sections/DemoModal').then((m) => ({ default: m.DemoModal }))
+);
+const CommandPalette = React.lazy(() =>
+  import('./components/common/CommandPalette').then((m) => ({ default: m.CommandPalette }))
+);
+const ShortcutsHudModal = React.lazy(() =>
+  import('./components/common/ShortcutsHudModal').then((m) => ({ default: m.ShortcutsHudModal }))
+);
 
 const isValidWorkspace = (ws) => {
   return Boolean(
@@ -440,25 +445,29 @@ export function App() {
       {/* 5. Live Engineering Activity Toast */}
       <LiveActivityToast onOpenDemo={(tab, extra) => handleOpenModal(tab, extra)} />
 
-      {/* 6. Command Palette / Quick Search (⌘K) */}
-      <CommandPalette
-        isOpen={isCommandPaletteOpen}
-        onClose={() => setIsCommandPaletteOpen(false)}
-        onToggleTheme={toggleTheme}
-        isDark={isDark}
-        onOpenDemo={(tab, extra) => handleOpenModal(tab || 'backlog', extra)}
-        currentView={currentView}
-        onGoToDashboard={hasActiveWorkspace ? () => {
-          soundService.playChime('actionClick');
-          setCurrentView('dashboard');
-          smoothScrollService.scrollTo(0, { immediate: true });
-        } : undefined}
-        onExitDashboard={() => {
-          soundService.playChime('actionClick');
-          setCurrentView('landing');
-          smoothScrollService.scrollTo(0, { immediate: true });
-        }}
-      />
+      {/* 6. Command Palette / Quick Search (⌘K) — Lazy loaded on demand */}
+      {isCommandPaletteOpen && (
+        <React.Suspense fallback={null}>
+          <CommandPalette
+            isOpen={isCommandPaletteOpen}
+            onClose={() => setIsCommandPaletteOpen(false)}
+            onToggleTheme={toggleTheme}
+            isDark={isDark}
+            onOpenDemo={(tab, extra) => handleOpenModal(tab || 'backlog', extra)}
+            currentView={currentView}
+            onGoToDashboard={hasActiveWorkspace ? () => {
+              soundService.playChime('actionClick');
+              setCurrentView('dashboard');
+              smoothScrollService.scrollTo(0, { immediate: true });
+            } : undefined}
+            onExitDashboard={() => {
+              soundService.playChime('actionClick');
+              setCurrentView('landing');
+              smoothScrollService.scrollTo(0, { immediate: true });
+            }}
+          />
+        </React.Suspense>
+      )}
 
       {/* 7. Navigation Bar */}
       {currentView === 'landing' && (
@@ -573,23 +582,31 @@ export function App() {
         </>
       )}
 
-      {/* Interactive Demo & Workspace Modal */}
-      <DemoModal
-        isOpen={modalConfig.isOpen}
-        onClose={handleCloseModal}
-        onEnterDashboard={handleEnterDashboard}
-        initialTab={modalConfig.tab}
-        selectedPlan={modalConfig.plan}
-        selectedTask={modalConfig.task}
-        initialStage={modalConfig.stage || 0}
-      />
+      {/* Interactive Demo & Workspace Modal — Lazy loaded on demand */}
+      {modalConfig.isOpen && (
+        <React.Suspense fallback={null}>
+          <DemoModal
+            isOpen={modalConfig.isOpen}
+            onClose={handleCloseModal}
+            onEnterDashboard={handleEnterDashboard}
+            initialTab={modalConfig.tab}
+            selectedPlan={modalConfig.plan}
+            selectedTask={modalConfig.task}
+            initialStage={modalConfig.stage || 0}
+          />
+        </React.Suspense>
+      )}
 
-      {/* Power-User Keyboard Shortcuts HUD Modal */}
-      <ShortcutsHudModal
-        isOpen={isShortcutsHudOpen}
-        onClose={() => setIsShortcutsHudOpen(false)}
-        onExecuteAction={handleExecuteShortcutAction}
-      />
+      {/* Power-User Keyboard Shortcuts HUD Modal — Lazy loaded on demand */}
+      {isShortcutsHudOpen && (
+        <React.Suspense fallback={null}>
+          <ShortcutsHudModal
+            isOpen={isShortcutsHudOpen}
+            onClose={() => setIsShortcutsHudOpen(false)}
+            onExecuteAction={handleExecuteShortcutAction}
+          />
+        </React.Suspense>
+      )}
 
       {/* Bottom-Right Floating Action Dock (Shortcuts + BackToTop) */}
       {currentView === 'landing' && (

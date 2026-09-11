@@ -15,10 +15,13 @@ import {
 import { HeroKanban } from './hero/HeroKanban';
 import { HeroCodeDiff } from './hero/HeroCodeDiff';
 import { HeroTerminal } from './hero/HeroTerminal';
-import { Hero3dCutaway } from './hero/Hero3dCutaway';
 import { soundService } from '../../services/SoundService';
 import { smoothScrollService } from '../../services/SmoothScrollService';
 import { VelocityRhythmModel, SprintTaskModel } from '../../models';
+
+const Hero3dCutaway = React.lazy(() =>
+  import('./hero/Hero3dCutaway').then((m) => ({ default: m.Hero3dCutaway }))
+);
 
 const RAW_VELOCITY_MODES = [
   {
@@ -396,8 +399,19 @@ export function Hero({ onOpenDemo }) {
 
           {/* Right Column (5 cols): 3D Model + Telemetry Cockpit Deck */}
           <div className="lg:col-span-5 space-y-4 sm:space-y-5">
-            {/* 3D Isometric Strata Model (Reacts to velocityMode) */}
-            <Hero3dCutaway velocityMode={velocityMode} />
+            {/* Center Stage: Interactive 3D Cutaway Architectural Model (Zero Card Background) */}
+            <React.Suspense
+              fallback={
+                <div className="w-full h-[320px] sm:h-[350px] flex flex-col items-center justify-center gap-3">
+                  <div className="w-9 h-9 rounded-full border-2 border-[#FF5500]/30 border-t-[#FF5500] animate-spin" />
+                  <span className="text-[10px] font-mono text-slate-400 dark:text-zinc-500 uppercase tracking-widest">
+                    INITIALIZING 3D ENGINE...
+                  </span>
+                </div>
+              }
+            >
+              <Hero3dCutaway velocityMode={velocityMode} />
+            </React.Suspense>
 
             {/* Unified Telemetry & Execution Rhythm Deck (Below card placed in immediate close range) */}
             <div

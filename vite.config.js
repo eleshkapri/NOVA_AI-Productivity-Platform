@@ -13,20 +13,17 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id) {
+          if (id.includes('node_modules/three')) {
+            return 'three-lib';
+          }
           if (id.includes('node_modules/jspdf')) {
             return 'jspdf-lib';
-          }
-          if (id.includes('node_modules/html2canvas')) {
-            return 'html2canvas-lib';
-          }
-          if (id.includes('node_modules/dompurify')) {
-            return 'dompurify-lib';
           }
           if (id.includes('node_modules/lucide-react')) {
             return 'icons';
           }
           if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
-            return 'vendor';
+            return 'vendor-react';
           }
         },
       },

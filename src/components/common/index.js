@@ -1,7 +1,6 @@
 export { AmbientBackground } from './AmbientBackground';
 export { Badge } from './Badge';
 export { Button } from './Button';
-export { CommandPalette } from './CommandPalette';
 export { CustomCursor } from './CustomCursor';
 export { ErrorBoundary } from './ErrorBoundary';
 export { LiveActivityToast } from './LiveActivityToast';
@@ -12,5 +11,4 @@ export { ProgressBar } from './ProgressBar';
 export { SectionHeader } from './SectionHeader';
 export { SoundToggle } from './SoundToggle';
 export { TiltCard } from './TiltCard';
-export { ShortcutsHudModal } from './ShortcutsHudModal';
 export { SectionConnector } from './SectionConnector';
