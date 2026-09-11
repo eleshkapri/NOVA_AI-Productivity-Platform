@@ -1,7 +1,6 @@
 /**
  * SmoothScrollService provides fast, hardware-accelerated native scrolling
- * matching https://nova-ai-kapri.vercel.app/ with zero wheel latency,
- * 1:1 input tracking, and smooth programmatic navigation.
+ * with zero wheel latency, 1:1 input tracking, and smooth programmatic navigation.
  */
 class SmoothScrollService {
   constructor() {

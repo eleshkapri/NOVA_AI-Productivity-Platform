@@ -77,7 +77,7 @@ const VELOCITY_MODES = Object.freeze(
 
 /**
  * AnimatedLetters: Wraps each word and letter into an overflow-hidden mask
- * with staggered animeLetterRise animation matching https://text-animations-anime-js.webflow.io/
+ * with staggered letter rise animations.
  */
 function AnimatedLetters({
   text,
@@ -232,7 +232,7 @@ export function Hero({ onOpenDemo }) {
         }}
       />
 
-      {/* Crency-Style Kinetic SVG Vector Energy Conduit */}
+      {/* NOVA Kinetic SVG Vector Energy Conduit */}
       <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden" aria-hidden="true">
         <svg
           viewBox="0 0 1440 800"
@@ -268,7 +268,7 @@ export function Hero({ onOpenDemo }) {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Rapidkert-Style Tracked Metadata Eyebrow */}
+        {/* Tracked Metadata Eyebrow */}
         <div
           className="rapid-fade-up flex items-center justify-between gap-4 mb-6 pb-3 border-b border-slate-200/80 dark:border-white/10"
           style={{ '--d': '0.05s' }}
@@ -291,10 +291,10 @@ export function Hero({ onOpenDemo }) {
           </button>
         </div>
 
-        {/* Rapidkert Signature Asymmetric Display Headline with Line Masking */}
+        {/* Asymmetric Display Headline with Line Masking */}
         <div className="mb-4 sm:mb-6 select-none">
           <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[5.75rem] font-extrabold tracking-[-0.04em] text-slate-900 dark:text-white leading-[0.93] uppercase">
-            {/* Line 1: Flush Left (matches 'THE GOOD GARDEN') */}
+            {/* Line 1: Flush Left */}
             <div className="rapid-line-mask">
               <AnimatedLetters
                 text="THE AUTONOMOUS SPRINT"
@@ -312,7 +312,7 @@ export function Hero({ onOpenDemo }) {
           <div className="lg:col-span-7 space-y-6">
             <div className="select-none">
               <div className="text-3xl sm:text-5xl md:text-6xl lg:text-[4.5rem] xl:text-[5rem] font-extrabold tracking-[-0.04em] text-slate-900 dark:text-white leading-[0.93] uppercase">
-                {/* Line 2: Asymmetric Right Shift (matches 'NOT ON THE SURFACE') */}
+                {/* Line 2: Asymmetric Right Shift */}
                 <div className="rapid-line-mask rapid-indent-1">
                   <AnimatedLetters
                     text="NOT ON THE SURFACE"
@@ -322,7 +322,7 @@ export function Hero({ onOpenDemo }) {
                   />
                 </div>
 
-                {/* Datum Horizon Line & Label (matches 'SURFACE' above 'BEGINS.') */}
+                {/* Datum Horizon Line & Label */}
                 <div className="rapid-indent-1 flex items-center gap-3 mt-3 sm:mt-5 mb-2">
                   <span className="text-[10px] sm:text-xs font-mono font-bold tracking-[0.22em] uppercase text-slate-500 dark:text-zinc-400">
                     EXECUTION
@@ -331,7 +331,7 @@ export function Hero({ onOpenDemo }) {
                   <span className="text-[10px] sm:text-xs font-mono font-bold tracking-widest text-[#FF5500]">0.00 MS</span>
                 </div>
 
-                {/* Line 3: Deep Indent & Radiant Accent (matches 'BEGINS.') */}
+                {/* Line 3: Deep Indent & Radiant Accent */}
                 <div className="rapid-line-mask rapid-indent-2">
                   <AnimatedLetters
                     text="BEGINS."
@@ -351,7 +351,7 @@ export function Hero({ onOpenDemo }) {
               The finished pull request is just the visible layer. Continuous AST parsing, test synthesis, and autonomous sprint burndown decide whether your engineering squad will ship at 10x velocity &mdash; and we orchestrate all of it, from ticket to production.
             </p>
 
-            {/* Dual CTAs in Rapidkert High-Contrast Pill Style */}
+            {/* Dual CTAs in High-Contrast Pill Style */}
             <div
               className="rapid-fade-up flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2"
               style={{ '--d': '0.92s' }}
@@ -363,37 +363,38 @@ export function Hero({ onOpenDemo }) {
                 iconPosition="right"
                 onClick={() => onOpenDemo('trial')}
                 menuRoll
-                className="text-base h-13 px-8 rounded-full shadow-lg shadow-[#FF5500]/25"
               >
-                Experience Free Trial
+                Start Autonomous Trial
               </Button>
+
               <Button
                 variant="orangeGhost"
                 size="lg"
                 icon={Play}
                 iconPosition="left"
                 onClick={() => onOpenDemo('walkthrough')}
-                menuRoll
-                className="text-base h-13 px-8 rounded-full border border-slate-300 dark:border-white/15 hover:border-[#FF5500]/60"
               >
                 Watch Interactive Demo
               </Button>
             </div>
 
-            {/* Trust & Compliance Badges */}
+            {/* Verification Proof Metric Badges */}
             <div
-              className="rapid-fade-up flex flex-wrap items-center gap-x-6 gap-y-2 text-[11px] sm:text-xs font-semibold tracking-wider uppercase text-slate-500 dark:text-zinc-400 pt-1"
+              className="rapid-fade-up pt-1 flex flex-wrap items-center gap-4 text-xs font-mono text-slate-600 dark:text-zinc-400"
               style={{ '--d': '1.02s' }}
             >
-              <span className="flex items-center gap-1.5 hover:text-slate-900 dark:hover:text-white transition-colors cursor-default">
-                <Check className="w-3.5 h-3.5 text-[#FF5500]" /> No credit card required
-              </span>
-              <span className="flex items-center gap-1.5 hover:text-slate-900 dark:hover:text-white transition-colors cursor-default">
-                <Check className="w-3.5 h-3.5 text-[#FF5500]" /> 60-second GitHub setup
-              </span>
-              <span className="flex items-center gap-1.5 hover:text-slate-900 dark:hover:text-white transition-colors cursor-default">
-                <Check className="w-3.5 h-3.5 text-[#FF5500]" /> SOC2 Type II Certified
-              </span>
+              <div className="flex items-center gap-1.5">
+                <Check className="w-3.5 h-3.5 text-[#FF5500]" />
+                <span>Zero Credit Card Required</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Check className="w-3.5 h-3.5 text-emerald-500" />
+                <span>SOC2 Type II Certified</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Check className="w-3.5 h-3.5 text-[#FF5500]" />
+                <span>Instant 3-Min GitHub Sync</span>
+              </div>
             </div>
           </div>
 
@@ -479,12 +480,12 @@ export function Hero({ onOpenDemo }) {
           </div>
         </div>
 
-        {/* Interactive Platform Mockup (Floria-Style Ultra-Rounded Glass Window) */}
+        {/* Interactive Platform Mockup */}
         <div
           className="rapid-fade-up mt-1 sm:mt-2 max-w-5xl mx-auto animate-float-subtle relative"
           style={{ '--d': '0.82s' }}
         >
-          {/* Floating Physics Badges (Crency Agency style) */}
+          {/* Floating Physics Badges */}
           <div className="hidden md:flex absolute -top-5 -left-6 z-20 animate-float-sway-1 pointer-events-auto">
             <div className="px-3.5 py-1.5 rounded-2xl bg-white/95 dark:bg-zinc-900/90 border border-slate-300 dark:border-white/15 backdrop-blur-xl shadow-xl flex items-center gap-2 text-xs font-mono font-bold text-slate-800 dark:text-slate-200 hover:border-[#FF5500] hover:scale-105 transition-all">
               <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_#10B981]" />

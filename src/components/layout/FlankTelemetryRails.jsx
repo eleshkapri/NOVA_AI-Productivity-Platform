@@ -159,7 +159,7 @@ export function FlankTelemetryRails({
       </aside>
 
       {/* ========================================================
-          RIGHT FLANK SNAP-SCROLL NAVIGATOR (Webflow Scroll-Snap Architecture)
+          RIGHT FLANK SNAP-SCROLL NAVIGATOR (Telemetry Scroll-Snap Architecture)
           Visible on xl+ screens, fully interactive with tooltips
           ======================================================== */}
       <aside
@@ -214,7 +214,7 @@ export function FlankTelemetryRails({
                   )}
                 </button>
 
-                {/* Floating Tooltip Pill (Crency / Webflow style) */}
+                {/* Floating Tooltip Pill */}
                 <div className="absolute right-7 pointer-events-none opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all duration-200 ease-out whitespace-nowrap z-50">
                   <div className="bg-slate-900/95 dark:bg-zinc-950/95 text-white text-[10px] font-mono font-bold px-2.5 py-1 rounded-md border border-slate-700 dark:border-white/10 shadow-xl flex items-center gap-1.5 backdrop-blur-md">
                     <span className="text-[#FF5500]">{sec.index}</span>

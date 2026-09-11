@@ -696,7 +696,7 @@ html.theme-transitioning *::after {
 }
 
 /* ========================================================
-   CRENCY-STYLE TWO-TIER SIGNATURE MENU ROLL
+   NOVA TWO-TIER SIGNATURE MENU ROLL
    ======================================================== */
 .menu-roll {
   display: inline-block;
@@ -727,7 +727,7 @@ button:hover .menu-roll-stack {
 }
 
 /* ========================================================
-   CRENCY KINETIC SVG ENERGY CONDUIT & PHOTON BEAD
+   NOVA KINETIC SVG ENERGY CONDUIT & PHOTON BEAD
    ======================================================== */
 @keyframes conduitDraw {
   0% {
@@ -761,7 +761,7 @@ button:hover .menu-roll-stack {
 }
 
 /* ========================================================
-   CRENCY-STYLE FLOATING PHYSICS SWAY BADGES
+   NOVA FLOATING PHYSICS SWAY BADGES
    ======================================================== */
 @keyframes floatSway1 {
   0%, 100% {
@@ -858,7 +858,7 @@ div[id="roi-calculator"] {
 }
 
 /* ========================================================
-   RAPIDKERT-INSPIRED LINE-MASKED TEXT COMING ANIMATION
+   NOVA LINE-MASKED DISPLAY TEXT ENTRANCE ANIMATION
    Calibrated with spring ease cubic-bezier(0.16, 1, 0.3, 1)
    ======================================================== */
 .rapid-line-mask {
@@ -905,8 +905,7 @@ div[id="roi-calculator"] {
 }
 
 /* ========================================================
-   WEBFLOWTIPS ANIME.JS LETTER-BY-LETTER WAVE ANIMATION
-   Matches https://text-animations-anime-js.webflow.io/
+   NOVA LETTER-BY-LETTER WAVE ANIMATION
    ======================================================== */
 .anime-letter-mask {
   display: inline-block;
@@ -955,8 +954,7 @@ div[id="roi-calculator"] {
 }
 
 /* ========================================================
-   ROAMAI-MATCHED MOBILE HARDWARE ACCELERATION ENGINE
-   https://roamai-travel.vercel.app/ mobile pattern calibration
+   NOVA MOBILE HARDWARE ACCELERATION ENGINE
    ======================================================== */
 @media (max-width: 768px), (pointer: coarse) {
   html,
