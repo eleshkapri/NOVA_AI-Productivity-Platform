@@ -1,30 +1,24 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 
 /**
- * TextReveal3 — Character-Level Staggered Slide Animation
+ * TextReveal3 — Ultra-Performant Staggered Slide Text Reveal
  * 
- * Implements horizontal staggered character reveal (translateX + opacity)
- * with easeOutExpo spring physics on bi-directional scroll (up & down).
- *
- * Parameters:
- * - text: string | number
- * - as: HTML tag (default: 'span')
- * - delay: base start delay in ms (default: 0)
- * - stagger: delay between each character in ms (default: 20)
- * - duration: duration per character transition in ms (default: 800)
- * - offsetDistance: starting X translation distance in px (default: 32)
- * - once: false (animates whenever entering viewport on scroll up & down)
- * - className: wrapper CSS class
- * - letterClassName: CSS class applied to individual letters
+ * Features:
+ * - Animation 3 horizontal slide-in (translateX: 24px -> 0px + opacity: 0 -> 1)
+ * - Bi-directional scroll triggering (up & down) via lightweight IntersectionObserver
+ * - Zero GPU compositor layer explosion (no permanent will-change on hundreds of spans)
+ * - Smart 'words' mode for paragraphs/subtitles and 'chars' mode for titles/eyebrows
+ * - Automatic mobile optimization and reduced-motion fallback
  */
 export function TextReveal3({
   text = '',
   as: Component = 'span',
   delay = 0,
-  stagger = 20,
-  duration = 800,
-  offsetDistance = 32,
+  stagger = 18,
+  duration = 650,
+  offsetDistance = 24,
   once = false,
+  mode = 'auto', // 'auto' | 'words' | 'chars'
   className = '',
   letterClassName = '',
   ...props
@@ -53,13 +47,12 @@ export function TextReveal3({
             observer.unobserve(currentEl);
           }
         } else if (!once) {
-          // Reset when scrolled out of viewport so it re-triggers when scrolling back (up or down)
           setIsVisible(false);
         }
       },
       {
-        threshold: 0.1,
-        rootMargin: '0px 0px -20px 0px',
+        threshold: 0.08,
+        rootMargin: '0px 0px -15px 0px',
       }
     );
 
@@ -72,22 +65,38 @@ export function TextReveal3({
 
   const rawString = typeof text === 'string' || typeof text === 'number' ? String(text) : '';
 
+  // Determine split strategy: if auto and string is long (>45 chars), use 'words' to prevent DOM bloat
+  const activeMode = useMemo(() => {
+    if (mode === 'auto') {
+      return rawString.length > 45 ? 'words' : 'chars';
+    }
+    return mode;
+  }, [mode, rawString.length]);
+
   const splitData = useMemo(() => {
     if (!rawString) return [];
-    const rawWords = rawString.split(' ');
+    const words = rawString.split(' ');
+
+    if (activeMode === 'words') {
+      return words.map((word, idx) => ({
+        word,
+        index: idx,
+      }));
+    }
+
+    // Char-level splitting
     let charCounter = 0;
-    return rawWords.map((word) => {
+    return words.map((word) => {
       const chars = Array.from(word).map((char) => {
         const idx = charCounter;
         charCounter += 1;
         return { char, index: idx };
       });
-      charCounter += 1; // space accounting
+      charCounter += 1;
       return { word, chars };
     });
-  }, [rawString]);
+  }, [rawString, activeMode]);
 
-  // If text is not a simple string, render as-is
   if (!rawString) {
     return (
       <Component ref={elementRef} className={className} {...props}>
@@ -104,39 +113,71 @@ export function TextReveal3({
       {...props}
     >
       <span aria-hidden="true" className="inline">
-        {splitData.map((item, wordIdx) => (
-          <span
-            key={`w-${wordIdx}-${item.word}`}
-            className="inline-block whitespace-nowrap"
-          >
-            {item.chars.map((charItem, charIdx) => {
-              const charDelay = delay + charItem.index * stagger;
-
-              return (
+        {activeMode === 'words' ? (
+          // Word-by-word reveal (Ultra lightweight for descriptions & long text)
+          splitData.map((item, wordIdx) => {
+            const wordDelay = delay + item.index * (stagger * 1.8);
+            return (
+              <span
+                key={`w-${wordIdx}-${item.word}`}
+                className="inline-block whitespace-nowrap"
+              >
                 <span
-                  key={`c-${charIdx}-${charItem.char}`}
-                  className={`inline-block transition-[transform,opacity] will-change-[transform,opacity] ${letterClassName}`}
+                  className={`inline-block transition-[transform,opacity] ${letterClassName}`}
                   style={{
                     transform: isVisible
                       ? 'translate3d(0, 0, 0)'
                       : `translate3d(${offsetDistance}px, 0, 0)`,
                     opacity: isVisible ? 1 : 0,
                     transitionDuration: `${duration}ms`,
-                    transitionDelay: `${charDelay}ms`,
+                    transitionDelay: `${wordDelay}ms`,
                     transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
                   }}
                 >
-                  {charItem.char}
+                  {item.word}
                 </span>
-              );
-            })}
-            {wordIdx < splitData.length - 1 && (
-              <span className="inline-block">&nbsp;</span>
-            )}
-          </span>
-        ))}
+                {wordIdx < splitData.length - 1 && (
+                  <span className="inline-block">&nbsp;</span>
+                )}
+              </span>
+            );
+          })
+        ) : (
+          // Char-by-char reveal (For titles, badges, and display headings)
+          splitData.map((item, wordIdx) => (
+            <span
+              key={`w-${wordIdx}-${item.word}`}
+              className="inline-block whitespace-nowrap"
+            >
+              {item.chars.map((charItem, charIdx) => {
+                const charDelay = delay + charItem.index * stagger;
+                return (
+                  <span
+                    key={`c-${charIdx}-${charItem.char}`}
+                    className={`inline-block transition-[transform,opacity] ${letterClassName}`}
+                    style={{
+                      transform: isVisible
+                        ? 'translate3d(0, 0, 0)'
+                        : `translate3d(${offsetDistance}px, 0, 0)`,
+                      opacity: isVisible ? 1 : 0,
+                      transitionDuration: `${duration}ms`,
+                      transitionDelay: `${charDelay}ms`,
+                      transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+                    }}
+                  >
+                    {charItem.char}
+                  </span>
+                );
+              })}
+              {wordIdx < splitData.length - 1 && (
+                <span className="inline-block">&nbsp;</span>
+              )}
+            </span>
+          ))
+        )}
       </span>
     </Component>
   );
 }
+
 

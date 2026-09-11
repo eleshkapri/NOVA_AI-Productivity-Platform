@@ -31,23 +31,20 @@ export function CustomCursor() {
     const handleMouseMove = (e) => {
       mousePos.current = { x: e.clientX, y: e.clientY };
 
-      setIsVisible((prev) => {
-        if (!prev) {
-          reticlePos.current = { x: e.clientX, y: e.clientY };
-          return true;
-        }
-        return prev;
-      });
+      setIsVisible((prev) => (!prev ? true : prev));
 
-      // Check if hovering over clickable element
+      // Check if hovering over clickable element (only trigger state change if value actually changed)
       const target = e.target;
       if (target) {
-        const isInteractive = target.closest(
-          'a, button, [role="button"], [role="switch"], [role="tab"], .cursor-pointer, [data-cursor="pointer"], label, select, summary'
+        const isInteractive = Boolean(
+          target.closest(
+            'a, button, [role="button"], [role="switch"], [role="tab"], .cursor-pointer, [data-cursor="pointer"], label, select, summary'
+          )
         );
-        setIsHovering(!!isInteractive);
+        setIsHovering((prev) => (prev !== isInteractive ? isInteractive : prev));
       }
     };
+
 
     const handleMouseDown = () => setIsClicking(true);
     const handleMouseUp = () => setIsClicking(false);
