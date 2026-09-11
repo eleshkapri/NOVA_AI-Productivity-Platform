@@ -949,9 +949,14 @@ div[id="roi-calculator"] {
   }
 }
 
+/* Universal instant tap responsiveness */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
 /* ========================================================
-   MOBILE & TOUCH MOMENTUM SCROLL ENGINE CALIBRATION
-   Eliminates touch scroll fighting and GPU-heavy effects
+   ROAMAI-MATCHED MOBILE HARDWARE ACCELERATION ENGINE
+   https://roamai-travel.vercel.app/ mobile pattern calibration
    ======================================================== */
 @media (max-width: 768px), (pointer: coarse) {
   html,
@@ -963,7 +968,16 @@ div[id="roi-calculator"] {
     overflow-x: clip;
   }
 
-  /* Kill backdrop-filter entirely on mobile — eliminates massive GPU compositing lag */
+  /* Force 3D hardware compositing on all canvas elements */
+  canvas,
+  #bgParticleCanvas {
+    transform: translate3d(0, 0, 0) !important;
+    -webkit-transform: translate3d(0, 0, 0) !important;
+  }
+
+  /* RoamAI Card Pattern: disable backdrop-filter & force translateZ(0) GPU plane */
+  .floria-card,
+  .glass-card,
   .backdrop-blur-xl,
   .backdrop-blur-lg,
   .backdrop-blur-md,
@@ -971,6 +985,30 @@ div[id="roi-calculator"] {
   .backdrop-blur {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
+    transform: translateZ(0) !important;
+    -webkit-transform: translateZ(0) !important;
+  }
+
+  /* High-contrast solid/semi-opaque card surfaces on mobile to avoid costly alpha blend */
+  .dark .floria-card,
+  .dark .glass-card {
+    background-color: rgba(14, 18, 28, 0.94) !important;
+  }
+
+  .floria-card,
+  .glass-card {
+    background-color: rgba(255, 255, 255, 0.96) !important;
+  }
+
+  /* Marquee tracks hardware composited with 3D transform */
+  .animate-marquee,
+  .animate-marquee-slow,
+  .animate-marquee-reverse {
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    perspective: 1000px;
   }
 
   /* Kill heavy full-viewport SVG turbulence noise filter during mobile scrolling */
@@ -980,6 +1018,7 @@ div[id="roi-calculator"] {
 
   /* Disable hover transforms on touch — prevents accidental sticky states & reflows */
   .floria-card:hover,
+  .glass-card:hover,
   [class*="hover:scale"]:hover,
   [class*="hover:-translate"]:hover {
     transform: none !important;
@@ -998,8 +1037,14 @@ div[id="roi-calculator"] {
   .animate-mesh-2,
   .animate-mesh-3,
   .animate-aurora-beam,
-  .animate-mote {
+  .animate-mote,
+  .orb-1,
+  .orb-2,
+  .orb-3 {
     animation: none !important;
+    filter: blur(20px) !important;
+    opacity: 0.16 !important;
+    transform: none !important;
   }
 
   /* Eliminate layer explosion — let mobile browser manage layers naturally */
@@ -1016,13 +1061,19 @@ div[id="roi-calculator"] {
   .blur-\[140px\],
   .blur-\[150px\],
   .blur-\[160px\] {
-    filter: blur(24px) !important;
+    filter: blur(20px) !important;
   }
 }
 
 @media (max-width: 640px) {
-  /* Speed up anime-letter on phones to reduce perceived jank */
+  /* On small phones, simplify anime-letter to prevent layout thrashing */
+  .anime-letter-mask {
+    overflow: visible;
+  }
   .anime-letter {
-    animation-duration: 0.7s !important;
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    will-change: auto !important;
   }
 }
