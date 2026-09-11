@@ -1,8 +1,8 @@
 import React from 'react';
 import { Badge } from '../common/Badge';
 import { MotionReveal } from '../common/MotionReveal';
-import { TextReveal3 } from '../common/TextReveal3';
 import { howItWorksSteps } from '../../data/howItWorks';
+
 import { Link2, Cpu, Sparkles, Rocket, CheckCircle2 } from 'lucide-react';
 
 const iconMap = {
@@ -29,25 +29,20 @@ export function HowItWorks() {
           <div className="lg:col-span-5 lg:sticky lg:top-20 xl:top-24 self-start space-y-3.5 sm:space-y-4">
             <MotionReveal animation="fade-up">
               <Badge variant="orange" dot className="mb-2.5">
-                <TextReveal3 text="The 4-Step Journey" delay={20} stagger={8} duration={240} />
+                The 4-Step Journey
               </Badge>
 
               <h2 className="text-2xl sm:text-3xl lg:text-[2.15rem] font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.18]">
-                <TextReveal3 text="From Initial Integration to" delay={40} stagger={10} duration={280} />{' '}
-                <span className="text-orange-gradient italic inline-block">
-                  <TextReveal3 text="Autonomous Mastery" delay={120} stagger={10} duration={280} />
+                From Initial Integration to{' '}
+                <span className="text-orange-gradient italic">
+                  Autonomous Mastery
                 </span>
               </h2>
 
               <p className="mt-2 text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed font-normal">
-                <TextReveal3
-                  text="Seamlessly onboard your entire engineering organization in under three minutes without disrupting active sprints or altering existing git branches."
-                  delay={80}
-                  stagger={5}
-                  duration={240}
-                  offsetDistance={12}
-                />
+                Seamlessly onboard your entire engineering organization in under three minutes without disrupting active sprints or altering existing git branches.
               </p>
+
 
 
 

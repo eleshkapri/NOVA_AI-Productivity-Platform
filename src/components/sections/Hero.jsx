@@ -15,8 +15,8 @@ import {
 import { HeroKanban } from './hero/HeroKanban';
 import { HeroCodeDiff } from './hero/HeroCodeDiff';
 import { HeroTerminal } from './hero/HeroTerminal';
-import { TextReveal3 } from '../common/TextReveal3';
 import { soundService } from '../../services/SoundService';
+
 import { smoothScrollService } from '../../services/SmoothScrollService';
 import { VelocityRhythmModel, SprintTaskModel } from '../../models';
 
@@ -77,29 +77,47 @@ const VELOCITY_MODES = Object.freeze(
 );
 
 /**
- * AnimatedLetters: Wraps each word and letter into an overflow-hidden mask
- * with staggered Animation 3 letter animations on bi-directional scroll.
+ * AnimatedLetters: Wraps each word and letter with staggered Animation 3
+ * horizontal slide entrance with exact physical typography spacing.
  */
 function AnimatedLetters({
   text,
   startDelay = 0.04,
-  stagger = 0.012,
+  stagger = 0.015,
   className = '',
   letterClassName = '',
 }) {
+  const words = text.split(' ');
+  let runningDelay = startDelay;
+
   return (
-    <TextReveal3
-      text={text}
-      delay={Math.round(startDelay * 1000)}
-      stagger={Math.round(stagger * 1000)}
-      duration={300}
-      offsetDistance={18}
-      once={false}
-      className={className}
-      letterClassName={letterClassName}
-    />
+    <span className={`inline-block ${className}`}>
+      {words.map((word, wordIdx) => {
+        const letters = Array.from(word);
+        return (
+          <span key={`w-${wordIdx}`} className="inline-block whitespace-nowrap mr-[0.24em] last:mr-0">
+            {letters.map((char, charIdx) => {
+              const delay = runningDelay;
+              runningDelay += stagger;
+              return (
+                <span
+                  key={`c-${charIdx}`}
+                  className={`inline-block select-none font-extrabold cursor-default ${letterClassName}`}
+                  style={{
+                    animation: `heroLetterSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) ${delay.toFixed(3)}s backwards`,
+                  }}
+                >
+                  {char}
+                </span>
+              );
+            })}
+          </span>
+        );
+      })}
+    </span>
   );
 }
+
 
 
 
@@ -258,19 +276,13 @@ export function Hero({ onOpenDemo }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Tracked Metadata Eyebrow */}
         <div
-          className="rapid-fade-up flex items-center justify-between gap-4 mb-6 pb-3 border-b border-slate-200/80 dark:border-white/10"
+          className="rapid-fade-up flex items-center justify-between gap-4 mb-4 sm:mb-6 pb-2.5 sm:pb-3 border-b border-slate-200/80 dark:border-white/10"
           style={{ '--d': '0.05s' }}
         >
           <div className="flex items-center gap-2.5">
             <span className="flex h-2 w-2 rounded-full bg-[#FF5500] shadow-[0_0_8px_#FF5500] animate-ping" />
             <span className="text-[11px] sm:text-xs font-mono font-bold tracking-[0.2em] uppercase text-slate-700 dark:text-zinc-300">
-              <TextReveal3
-                text="NOVA PLATFORM — AUTONOMOUS AI SPRINT ORCHESTRATION"
-                delay={20}
-                stagger={8}
-                duration={260}
-                offsetDistance={14}
-              />
+              NOVA PLATFORM &mdash; AUTONOMOUS AI SPRINT ORCHESTRATION
             </span>
           </div>
           <button
@@ -293,7 +305,7 @@ export function Hero({ onOpenDemo }) {
               <AnimatedLetters
                 text="THE AUTONOMOUS SPRINT"
                 startDelay={0.02}
-                stagger={0.012}
+                stagger={0.015}
                 letterClassName="text-slate-900 dark:text-white"
               />
             </div>
@@ -311,7 +323,7 @@ export function Hero({ onOpenDemo }) {
                   <AnimatedLetters
                     text="NOT ON THE SURFACE"
                     startDelay={0.12}
-                    stagger={0.012}
+                    stagger={0.015}
                     letterClassName="text-slate-700 dark:text-zinc-300"
                   />
                 </div>
@@ -330,7 +342,7 @@ export function Hero({ onOpenDemo }) {
                   <AnimatedLetters
                     text="BEGINS."
                     startDelay={0.22}
-                    stagger={0.016}
+                    stagger={0.018}
                     letterClassName="text-[#FF5500]"
                   />
                 </div>
@@ -338,18 +350,13 @@ export function Hero({ onOpenDemo }) {
             </div>
 
             {/* Editorial Lede Narrative */}
-            <div
+            <p
               className="rapid-fade-up text-base sm:text-lg md:text-xl text-slate-700 dark:text-zinc-400 leading-relaxed font-normal text-pretty max-w-[50ch] pt-2"
               style={{ '--d': '0.3s' }}
             >
-              <TextReveal3
-                text="The finished pull request is just the visible layer. Continuous AST parsing, test synthesis, and autonomous sprint burndown decide whether your engineering squad will ship at 10x velocity — and we orchestrate all of it, from ticket to production."
-                delay={60}
-                stagger={6}
-                duration={260}
-                offsetDistance={14}
-              />
-            </div>
+              The finished pull request is just the visible layer. Continuous AST parsing, test synthesis, and autonomous sprint burndown decide whether your engineering squad will ship at 10x velocity &mdash; and we orchestrate all of it, from ticket to production.
+            </p>
+
 
 
 

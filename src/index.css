@@ -172,6 +172,19 @@
   animation: floatOrb2 18s ease-in-out infinite;
 }
 
+/* Character-Level Horizontal Slide-In Animation (Animation 3) */
+@keyframes heroLetterSlideIn {
+  0% {
+    opacity: 0;
+    transform: translate3d(24px, 0, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+
 /* Luxury Totem Silky-Smooth Continuous Rotation with Hardware Acceleration */
 @keyframes totemSpinSmooth {
   from {
