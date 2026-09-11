@@ -1,5 +1,6 @@
 import React from 'react';
 import { Badge } from './Badge';
+import { AnimatedSectionHeading } from './AnimatedSectionHeading';
 
 export function SectionHeader({
   eyebrow,
@@ -25,14 +26,12 @@ export function SectionHeader({
         </div>
       )}
 
-      <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.12]">
-        {title}{' '}
-        {titleHighlight && (
-          <span className="text-orange-gradient italic font-extrabold">
-            {titleHighlight}
-          </span>
-        )}
-      </h2>
+      <AnimatedSectionHeading
+        title={title}
+        titleHighlight={titleHighlight}
+        className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.12]"
+        highlightClassName="text-orange-gradient italic font-extrabold"
+      />
 
       {description && (
         <p className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-400 leading-relaxed font-normal max-w-2xl">

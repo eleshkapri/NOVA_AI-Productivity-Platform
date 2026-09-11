@@ -9,6 +9,7 @@ export { MotionReveal } from './MotionReveal';
 export { Preloader } from './Preloader';
 export { ProgressBar } from './ProgressBar';
 export { SectionHeader } from './SectionHeader';
+export { AnimatedSectionHeading } from './AnimatedSectionHeading';
 export { SoundToggle } from './SoundToggle';
 export { TiltCard } from './TiltCard';
 export { SectionConnector } from './SectionConnector';

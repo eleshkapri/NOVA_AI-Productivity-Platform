@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from '../common/Button';
 import { MotionReveal } from '../common/MotionReveal';
+import { AnimatedSectionHeading } from '../common/AnimatedSectionHeading';
 import { ArrowRight, Play, Sparkles, CheckCircle2, Shield } from 'lucide-react';
 
 import { smoothScrollService } from '../../services/SmoothScrollService';
@@ -31,12 +32,12 @@ export function FinalCTA({ onOpenDemo }) {
               </div>
 
               {/* Headline with Grand Editorial Typography */}
-              <h2 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-white leading-[1.12] mb-6">
-                Ready to Accelerate Sprint Velocity by{' '}
-                <span className="text-orange-gradient italic font-black">
-                  4.2x?
-                </span>
-              </h2>
+              <AnimatedSectionHeading
+                title="Ready to Accelerate Sprint Velocity by"
+                titleHighlight="4.2x?"
+                className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-white leading-[1.12] mb-6"
+                highlightClassName="text-orange-gradient italic font-black"
+              />
 
               {/* Subtitle */}
               <p className="text-base sm:text-xl text-zinc-300 leading-relaxed mb-8 sm:mb-10 max-w-2xl mx-auto font-light">

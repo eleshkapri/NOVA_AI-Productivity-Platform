@@ -1,6 +1,7 @@
 import React from 'react';
 import { Badge } from '../common/Badge';
 import { MotionReveal } from '../common/MotionReveal';
+import { AnimatedSectionHeading } from '../common/AnimatedSectionHeading';
 import { howItWorksSteps } from '../../data/howItWorks';
 
 import { Link2, Cpu, Sparkles, Rocket, CheckCircle2 } from 'lucide-react';
@@ -32,12 +33,12 @@ export function HowItWorks() {
                 The 4-Step Journey
               </Badge>
 
-              <h2 className="text-2xl sm:text-3xl lg:text-[2.15rem] font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.18]">
-                From Initial Integration to{' '}
-                <span className="text-orange-gradient italic">
-                  Autonomous Mastery
-                </span>
-              </h2>
+              <AnimatedSectionHeading
+                title="From Initial Integration to"
+                titleHighlight="Autonomous Mastery"
+                className="text-2xl sm:text-3xl lg:text-[2.15rem] font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.18]"
+                highlightClassName="text-orange-gradient italic"
+              />
 
               <p className="mt-2 text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed font-normal">
                 Seamlessly onboard your entire engineering organization in under three minutes without disrupting active sprints or altering existing git branches.

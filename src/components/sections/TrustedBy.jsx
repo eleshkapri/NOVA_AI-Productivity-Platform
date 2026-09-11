@@ -2,7 +2,7 @@ import React from 'react';
 import { trustedCompanies } from '../../data/logos';
 import { ShieldCheck, Zap, Rocket } from 'lucide-react';
 import { smoothScrollService } from '../../services/SmoothScrollService';
-
+import { AnimatedSectionHeading } from '../common/AnimatedSectionHeading';
 
 export function TrustedBy() {
   const marqueeItems = [...trustedCompanies, ...trustedCompanies];
@@ -24,10 +24,13 @@ export function TrustedBy() {
           <span>CONDUIT OF TRUST // ENTERPRISE VALIDATION</span>
         </div>
 
-        <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-          Powering Autonomous Sprints at{' '}
-          <span className="text-orange-gradient italic">High-Velocity Scale</span>
-        </h3>
+        <AnimatedSectionHeading
+          as="h3"
+          title="Powering Autonomous Sprints at"
+          titleHighlight="High-Velocity Scale"
+          className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white"
+          highlightClassName="text-orange-gradient italic"
+        />
 
 
 
