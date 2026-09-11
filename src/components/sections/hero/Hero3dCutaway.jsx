@@ -408,8 +408,8 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
 
       const elapsedTime = clock.getElapsedTime();
 
-      // Smooth damped rotation towards target
-      const damp = isInteractingRef.current ? 0.14 : 0.04;
+      // Snappy, silky-smooth lerp tracking with zero delay / lag
+      const damp = isInteractingRef.current ? 0.40 : 0.18;
       currentRotationRef.current.x +=
         (targetRotationRef.current.x - currentRotationRef.current.x) * damp;
       currentRotationRef.current.y +=
@@ -456,21 +456,28 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
 
     animate();
 
-    // 11. Resize handler
+    // 11. Cached Layout Rect & Resize handler (eliminates getBoundingClientRect reflows during mousemove)
+    let cachedRect = container.getBoundingClientRect();
+    const updateCachedRect = () => {
+      if (container) cachedRect = container.getBoundingClientRect();
+    };
+
     const handleResize = () => {
       if (!container || !renderer) return;
+      updateCachedRect();
       const w = container.clientWidth;
       const h = container.clientHeight;
       const isMobileNow = w < 768;
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
-      renderer.setPixelRatio(isMobileNow ? 1 : Math.min(window.devicePixelRatio || 1, 2));
+      renderer.setPixelRatio(isMobileNow ? 1 : Math.min(window.devicePixelRatio || 1, 1.5));
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize, { passive: true });
+    window.addEventListener('scroll', updateCachedRect, { passive: true });
 
-    // 12. Mouse & Drag Interaction
+    // 12. Ultra-Responsive Mouse & Drag Interaction
     let startX = 0;
     let startY = 0;
     const hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -483,8 +490,8 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
 
     const handlePointerMove = (e) => {
       if (isInteractingRef.current) {
-        const deltaX = (e.clientX - startX) * 0.007;
-        const deltaY = (e.clientY - startY) * 0.007;
+        const deltaX = (e.clientX - startX) * 0.009;
+        const deltaY = (e.clientY - startY) * 0.009;
         targetRotationRef.current.y += deltaX;
         targetRotationRef.current.x = Math.max(
           -0.15,
@@ -493,10 +500,11 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
         startX = e.clientX;
         startY = e.clientY;
       } else if (hasFinePointer) {
-        // Perspective parallax tilt only for desktop cursor
-        const rect = container.getBoundingClientRect();
-        const normX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-        const normY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+        // Perspective parallax tilt using zero-reflow cached rect
+        const width = cachedRect.width || 1;
+        const height = cachedRect.height || 1;
+        const normX = Math.max(-1.5, Math.min(1.5, ((e.clientX - cachedRect.left) / width - 0.5) * 2));
+        const normY = Math.max(-1.5, Math.min(1.5, ((e.clientY - cachedRect.top) / height - 0.5) * 2));
         targetRotationRef.current.y = -0.68 + normX * 0.35;
         targetRotationRef.current.x = 0.32 + normY * 0.22;
       }
@@ -508,9 +516,9 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
 
     canvas.addEventListener('pointerdown', handlePointerDown);
     if (hasFinePointer) {
-      window.addEventListener('pointermove', handlePointerMove);
+      window.addEventListener('pointermove', handlePointerMove, { passive: true });
     } else {
-      canvas.addEventListener('pointermove', handlePointerMove);
+      canvas.addEventListener('pointermove', handlePointerMove, { passive: true });
     }
     window.addEventListener('pointerup', handlePointerUp);
 
@@ -523,6 +531,7 @@ export function Hero3dCutaway({ velocityMode = 'hyperscale' }) {
         if (scrollDebounceTimer) clearTimeout(scrollDebounceTimer);
       }
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('scroll', updateCachedRect);
       canvas.removeEventListener('pointerdown', handlePointerDown);
       canvas.removeEventListener('pointermove', handlePointerMove);
       window.removeEventListener('pointermove', handlePointerMove);
